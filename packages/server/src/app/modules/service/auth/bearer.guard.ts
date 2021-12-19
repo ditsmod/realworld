@@ -21,7 +21,7 @@ export class BearerGuard implements CanActivate {
 
   async canActivate() {
     const authValue = this.req.nodeReq.headers.authorization?.split(' ');
-    if (authValue?.[0] != 'Bearer') {
+    if (authValue?.[0] != 'Token') {
       return false;
     }
 

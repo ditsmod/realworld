@@ -7,18 +7,15 @@ export const oasObject: XOasObject = {
   info: { title: 'Your description here', version: '1.0.0' },
   tags: [
     {
+      name: 'users',
+      description: 'users for https://github.com/gothinkster/realworld ',
+    },
+    {
       name: 'NonOasRoutes',
       description:
         'Routes that used `@Route()` decorator. If you want to change this description, ' +
         '[use tags](https://swagger.io/docs/specification/grouping-operations-with-tags/) ' +
         'for `@OasRoute()` imported from @ditsmod/openapi.',
-    },
-    {
-      name: 'demo',
-      description:
-        'OpenAPI specefication routes. This routes used `@OasRoute()` decorator ' +
-        'imported from @ditsmod/openapi. Setting for this routes you can find in ' +
-        '`packages/server/src/app/modules/service/openapi-with-params/oas-object.ts`.',
     },
     {
       name: 'OasDocs',

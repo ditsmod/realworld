@@ -67,7 +67,6 @@ export class ValidationInterceptor implements HttpInterceptor {
       const args = schema[VALIDATION_ARGS] || [];
       const required = schema[IS_REQUIRED] || false;
       const value = this.req.body[prop];
-
       this.checkParamsOrBody('body', schema, prop, value, required, args);
     }
   }
@@ -112,6 +111,20 @@ export class ValidationInterceptor implements HttpInterceptor {
 
       if (value !== undefined) {
         this.coerceType(paramIn, propertyName, this.assert.convertToBool(value));
+      }
+    } else if (schema.type == 'object') {
+      if (required) {
+        this.assert.object(propertyName, value, ...args);
+      } else {
+        this.assert.optionalObject(propertyName, value, ...args);
+      }
+      
+      for(const propertyName2 in schema.properties) {
+        const schema2 = schema.properties[propertyName2];
+        const value2 = value[propertyName2];
+        const required2 = schema2[IS_REQUIRED];
+        const args2 = schema2[VALIDATION_ARGS] || [];
+        this.checkParamsOrBody(paramIn, schema2, propertyName2, value2, required2, args2);
       }
     }
   }

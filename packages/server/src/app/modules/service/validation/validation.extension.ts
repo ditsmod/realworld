@@ -1,10 +1,15 @@
 import { edk, HTTP_INTERCEPTORS } from '@ditsmod/core';
 import { BODY_PARSER_EXTENSIONS } from '@ditsmod/body-parser';
 import { isReferenceObject, OasRouteMeta } from '@ditsmod/openapi';
-import { Injectable, ReflectiveInjector } from '@ts-stack/di';
+import { Injectable, InjectionToken, ReflectiveInjector } from '@ts-stack/di';
 
 import { ValidationRouteMeta } from './types';
 import { ValidationInterceptor } from './validation.interceptor';
+
+/**
+ * A group of extensions that validates input request parameters.
+ */
+ export const VALIDATION_EXTENSIONS = new InjectionToken<edk.Extension<void>[]>('VALIDATION_EXTENSIONS');
 
 @Injectable()
 export class ValidationExtension implements edk.Extension<void> {
@@ -27,7 +32,7 @@ export class ValidationExtension implements edk.Extension<void> {
 
     metadataPerMod2Arr.forEach((metadataPerMod2) => {
       const { aControllersMetadata2, providersPerMod } = metadataPerMod2;
-      aControllersMetadata2.forEach(({ providersPerRou }) => {
+      aControllersMetadata2.forEach(({ providersPerRou, providersPerReq }) => {
         const injectorPerMod = this.injectorPerApp.resolveAndCreateChild(providersPerMod);
         const mergedPerRou = [...metadataPerMod2.providersPerRou, ...providersPerRou];
         const injectorPerRou = injectorPerMod.resolveAndCreateChild(mergedPerRou);
@@ -51,8 +56,8 @@ export class ValidationExtension implements edk.Extension<void> {
         }
 
         if (validationRouteMeta.parameters.length || validationRouteMeta.requestBodyProperties) {
-          metadataPerMod2.providersPerRou.push({ provide: ValidationRouteMeta, useExisting: edk.RouteMeta });
-          metadataPerMod2.providersPerReq.push({
+          providersPerRou.push({ provide: ValidationRouteMeta, useExisting: edk.RouteMeta });
+          providersPerReq.push({
             provide: HTTP_INTERCEPTORS,
             useClass: ValidationInterceptor,
             multi: true,

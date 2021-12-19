@@ -81,4 +81,8 @@ export class ServerMsg {
    * Missing request body
    */
    missingRequestBody = `Missing request body`;
+  /**
+   * Missing object in '%s' property
+   */
+   missingObjectProperty = `Missing object in '%s' property`;
 }
