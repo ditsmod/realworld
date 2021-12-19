@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "name": "shared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index",
+  "typings": "dist/index",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc -b -f"
+  },
+  "keywords": [],
+  "author": "",
+  "devDependencies": {
+    "@types/katex": "^0.11.0"
+  },
+  "dependencies": {
+    "@ts-stack/markdown": "^1.4.0",
+    "highlight.js": "^11.0.0",
+    "katex": "^0.13.11"
+  }
+}

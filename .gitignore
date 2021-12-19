@@ -1,0 +1,7 @@
+node_modules
+dist*
+*.tgz
+*.log
+tsconfig.tsbuildinfo
+.vscode/settings.json
+.env

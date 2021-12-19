@@ -1,0 +1,1 @@
+1. Rename `.env-example` to `.env` and fill in these fields
