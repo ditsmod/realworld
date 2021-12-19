@@ -124,6 +124,7 @@ export class ValidationInterceptor implements HttpInterceptor {
         const value2 = value[propertyName2];
         const required2 = schema2[IS_REQUIRED];
         const args2 = schema2[VALIDATION_ARGS] || [];
+        // @todo Check how it's works with circular refereces
         this.checkParamsOrBody(paramIn, schema2, propertyName2, value2, required2, args2);
       }
     }

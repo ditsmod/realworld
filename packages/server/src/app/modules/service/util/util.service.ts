@@ -22,6 +22,10 @@ export class UtilService {
     throw new CustomError({ msg1: this.serverMsg.pageNotFound, status: Status.NOT_FOUND, level: Level.trace });
   }
 
+  throw401Error() {
+    throw new CustomError({ msg1: this.serverMsg.authRequired, status: Status.UNAUTHORIZED, level: Level.trace });
+  }
+
   throw403Error() {
     throw new CustomError({ msg1: this.serverMsg.forbidden, status: Status.FORBIDDEN, level: Level.warn });
   }

@@ -11,6 +11,8 @@ yarn install
 yarn boot # This command actually call "lerna bootstrap"
 ```
 
+After that, rename `packages/server/.env-example` to `packages/server/.env` and fill this file.
+
 If you want to add, for example, an Angular application, you can do this:
 
 ```bash

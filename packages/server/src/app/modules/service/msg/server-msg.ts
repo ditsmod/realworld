@@ -52,6 +52,7 @@ export class ServerMsg {
    */
   invalidUserName = `Invalid user name`;
   pageNotFound = `Page not found`;
+  authRequired = `UNAUTHORIZED`;
   forbidden = `Forbidden`;
   /**
    * Invalid parameter '%s' with array

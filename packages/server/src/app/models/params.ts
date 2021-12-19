@@ -9,19 +9,26 @@ const serverMsg = new ServerMsg();
 
 export class Params {
   @Column({
-    minimum: config.minUserAge,
-    maximum: config.maxUserAge,
-    description: `Age should be between ${config.minUserAge} and ${config.maxUserAge} years.`,
-  })
-  userAge: number;
-
-  @Column({
     minLength: config.minUserName,
     maxLength: config.maxUserName,
     [VALIDATION_ARGS]: [serverMsg.invalidUserName],
     description: `User name should be between ${config.minUserName} and ${config.maxUserName} symbols.`,
   })
-  userName: string;
+  username: string;
+  @Column()
+  tag: string;
+  @Column()
+  author: string;
+  @Column()
+  favorited: string;
+  @Column()
+  limit: number;
+  @Column()
+  offset: number;
+  @Column()
+  slug: string;
+  @Column()
+  id: number;
 }
 
 export class RequestBody1 {

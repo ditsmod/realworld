@@ -2,6 +2,7 @@ import * as http from 'http';
 import { ControllerErrorHandler, Logger, LoggerConfig, RootModule } from '@ditsmod/core';
 import { RouterModule } from '@ditsmod/router';
 
+import { AppLoggerModule } from '@service/logger/app-logger.module';
 import { MysqlModule } from '@service/mysql/mysql.module';
 import { ValidationModule } from '@service/validation/validation.module';
 import { ErrorHandlerModule } from '@service/error-handler/error-handler.module';
@@ -11,8 +12,11 @@ import { ConfigModule } from '@service/app-config/config.module';
 import { MsgModule } from '@service/msg/msg.module';
 import { AuthModule } from '@service/auth/auth.module';
 import { openapiModuleWithParams } from '@service/openapi-with-params/openapi-with-params.module';
-import { DemoModule } from '@routed/demo/demo.module';
-import { AppLoggerModule } from '@service/logger/app-logger.module';
+import { UsersModule } from '@routed/users/users.module';
+import { UserModule } from '@routed/user/user.module';
+import { ProfilesModule } from '@routed/profiles/profiles.module';
+import { ArticlesModule } from '@routed/articles/articles.module';
+import { TagsModule } from '@routed/tags/tags.module';
 
 @RootModule({
   httpModule: http,
@@ -21,7 +25,11 @@ import { AppLoggerModule } from '@service/logger/app-logger.module';
   listenOptions: { port: 3000, host: 'localhost' },
   prefixPerApp: 'api',
   imports: [
-    { prefix: 'demo', module: DemoModule },
+    { prefix: 'users', module: UsersModule },
+    { prefix: 'user', module: UserModule },
+    { prefix: 'profiles', module: ProfilesModule },
+    { prefix: 'articles/:slug', module: ArticlesModule },
+    { prefix: 'tags', module: TagsModule },
     RouterModule,
     AuthModule,
     MysqlModule,
