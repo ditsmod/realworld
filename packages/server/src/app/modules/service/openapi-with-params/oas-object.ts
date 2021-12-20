@@ -8,31 +8,24 @@ export const oasObject: XOasObject = {
   tags: [
     {
       name: 'users',
-      description: 'users for https://github.com/gothinkster/realworld ',
     },
     {
       name: 'user',
-      description: 'user for https://github.com/gothinkster/realworld ',
     },
     {
       name: 'profiles',
-      description: 'profiles for https://github.com/gothinkster/realworld ',
     },
     {
       name: 'articles',
-      description: 'articles for https://github.com/gothinkster/realworld ',
     },
     {
       name: 'comments',
-      description: 'comments for https://github.com/gothinkster/realworld ',
     },
     {
       name: 'favorite',
-      description: 'favorite for https://github.com/gothinkster/realworld ',
     },
     {
       name: 'tags',
-      description: 'tags for https://github.com/gothinkster/realworld ',
     },
     {
       name: 'NonOasRoutes',
