@@ -41,10 +41,6 @@ export const oasObject: XOasObject = {
         '[use tags](https://swagger.io/docs/specification/grouping-operations-with-tags/) ' +
         'for `@OasRoute()` imported from @ditsmod/openapi.',
     },
-    {
-      name: 'OasDocs',
-      description: 'Routes used to service OpenAPI documentation',
-    },
   ],
   components: {
     responses: {

@@ -18,10 +18,10 @@
   },
   "dependencies": {
     "@ditsmod/body-parser": "^2.0.0-next.6",
-    "@ditsmod/core": "^2.0.0-next.6",
+    "@ditsmod/core": "^2.0.0-next.7",
     "@ditsmod/jwt": "^2.0.0-next.2",
     "@ditsmod/logger": "^0.0.0-alpha.5",
-    "@ditsmod/openapi": "^2.0.0-next.6",
+    "@ditsmod/openapi": "^2.0.0-next.8",
     "@ditsmod/router": "^2.0.0-next.0",
     "@ts-stack/chain-error": "^1.2.0",
     "@ts-stack/cookies": "^1.0.2",
