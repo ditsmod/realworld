@@ -13,7 +13,6 @@ import { MsgModule } from '@service/msg/msg.module';
 import { AuthModule } from '@service/auth/auth.module';
 import { openapiModuleWithParams } from '@service/openapi-with-params/openapi-with-params.module';
 import { UsersModule } from '@routed/users/users.module';
-import { UserModule } from '@routed/user/user.module';
 import { ProfilesModule } from '@routed/profiles/profiles.module';
 import { ArticlesModule } from '@routed/articles/articles.module';
 import { TagsModule } from '@routed/tags/tags.module';
@@ -25,8 +24,7 @@ import { TagsModule } from '@routed/tags/tags.module';
   listenOptions: { port: 3000, host: 'localhost' },
   prefixPerApp: 'api',
   imports: [
-    { prefix: 'users', module: UsersModule },
-    { prefix: 'user', module: UserModule },
+    UsersModule,
     { prefix: 'profiles', module: ProfilesModule },
     { prefix: 'articles/:slug', module: ArticlesModule },
     { prefix: 'tags', module: TagsModule },

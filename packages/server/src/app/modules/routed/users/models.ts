@@ -1,15 +1,20 @@
 import { Column } from '@ditsmod/openapi';
 
 import { IS_REQUIRED } from '@service/validation/types';
+import { AppConfigService } from '@service/app-config/config.service';
+import { ServerMsg } from '@service/msg/server-msg';
 
-export class LoginUser {
-  @Column({ [IS_REQUIRED]: true })
+const config = new AppConfigService();
+const serverMsg = new ServerMsg();
+
+export class LoginData {
+  @Column({ [IS_REQUIRED]: true, pattern: config.emailPattern.source })
   email: string;
-  @Column({ [IS_REQUIRED]: true })
+  @Column({ [IS_REQUIRED]: true, minLength: config.minLengthPassword, maxLength: config.maxLengthPassword })
   password: string;
 }
 
-export class SignUser extends LoginUser {
+export class SignUpData extends LoginData {
   @Column({ [IS_REQUIRED]: true })
   username: string;
 }
@@ -17,20 +22,20 @@ export class SignUser extends LoginUser {
 /**
  * Taken from https://gothinkster.github.io/realworld/docs/specs/backend-specs/endpoints#authentication
  */
-export class LoginData {
+export class LoginFormData {
   @Column({ [IS_REQUIRED]: true })
-  user: LoginUser;
+  user: LoginData;
 }
 
 /**
  * Taken from https://gothinkster.github.io/realworld/docs/specs/backend-specs/endpoints#registration
  */
-export class SignUpData {
+export class SignUpFormData {
   @Column({ [IS_REQUIRED]: true })
-  user: SignUser;
+  user: SignUpData;
 }
 
-export class User {
+export class UserSession {
   @Column()
   email: string = '';
   @Column()
@@ -46,7 +51,28 @@ export class User {
 /**
  * Taken from https://gothinkster.github.io/realworld/docs/specs/backend-specs/api-response-format/#users-for-authentication
  */
-export class UserForAuth {
+export class UserSessionData {
   @Column()
-  user: User = new User();
+  user: UserSession = new UserSession();
+}
+
+export class PutUser {
+  @Column()
+  email: string = '';
+  @Column()
+  username: string = '';
+  @Column()
+  password: string = '';
+  @Column()
+  image: string = '';
+  @Column()
+  bio: string = '';
+}
+
+/**
+ * Taken from https://gothinkster.github.io/realworld/docs/specs/backend-specs/endpoints#update-user
+ */
+export class PutUserData {
+  @Column()
+  user: PutUser;
 }

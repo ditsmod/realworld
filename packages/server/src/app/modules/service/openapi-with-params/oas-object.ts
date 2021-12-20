@@ -4,7 +4,7 @@ export const oasObject: XOasObject = {
   openapi: '3.0.0',
   // Here works the servers that are described using this OpenAPI documentation.
   servers: [{ url: 'http://localhost:3000' }],
-  info: { title: 'Your description here', version: '1.0.0' },
+  info: { title: 'RealWorld example using the Ditsmod application', version: '1.0.0' },
   tags: [
     {
       name: 'users',
