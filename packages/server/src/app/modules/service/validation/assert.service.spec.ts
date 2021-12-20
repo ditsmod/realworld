@@ -7,7 +7,7 @@ describe(`ParamsService`, () => {
   const serverMsg = new ServerMsg();
   const assert = new AssertService(new AppConfigService(), serverMsg);
 
-  describe(`checkId()`, () => {
+  describe(`id()`, () => {
     it(`case 1`, () => {
       expect(() => assert.id('idParam', '')).toThrowError(`${serverMsg.wrongNumericParam}`);
       expect(() => assert.id('idParam', '1d')).toThrowError(`${serverMsg.wrongNumericParam}`);
@@ -21,7 +21,7 @@ describe(`ParamsService`, () => {
     });
   });
 
-  describe(`checkNumber()`, () => {
+  describe(`number()`, () => {
     it(`case 1`, () => {
       expect(() => assert.number('numberParam', '', 1, 2)).toThrowError(`${serverMsg.wrongNumericParam}`);
       expect(() => assert.number('numberParam', '1d', 1, 2)).toThrowError(`${serverMsg.wrongNumericParam}`);
@@ -38,7 +38,7 @@ describe(`ParamsService`, () => {
     });
   });
 
-  describe(`checkText()`, () => {
+  describe(`string()`, () => {
     it(`case 1`, () => {
       expect(() => assert.string('stringParam', '', 1, 2)).toThrowError(`${serverMsg.wrongTextParam}`);
       expect(() => assert.string('stringParam', '111', 1, 2)).toThrowError(`${serverMsg.wrongTextParam}`);
@@ -57,7 +57,7 @@ describe(`ParamsService`, () => {
     });
   });
 
-  describe(`checkBoolean()`, () => {
+  describe(`boolean()`, () => {
     it(`case 1`, () => {
       expect(() => assert.boolean('booleanParam', '')).toThrowError(`${serverMsg.wrongBoolParam}`);
       expect(() => assert.boolean('booleanParam', '111')).toThrowError(`${serverMsg.wrongBoolParam}`);
@@ -78,7 +78,7 @@ describe(`ParamsService`, () => {
     });
   });
 
-  describe(`checkArray()`, () => {
+  describe(`array()`, () => {
     it(`case 1`, () => {
       expect(() => assert.array('arrayParam', '' as any)).toThrowError(`${serverMsg.wrongArrayParam}`);
       expect(() => assert.array('arrayParam', '111' as any)).toThrowError(`${serverMsg.wrongArrayParam}`);
@@ -89,6 +89,13 @@ describe(`ParamsService`, () => {
     it(`case 2`, () => {
       expect(() => assert.array('arrayParam', [])).not.toThrow();
       expect(() => assert.array('arrayParam', [1])).not.toThrow();
+    });
+  });
+
+  describe(`object()`, () => {
+    it('case 1', () => {
+      expect(() => assert.object('objectProperty', '{}' as any)).toThrow(`${serverMsg.missingObjectProperty}`);
+      expect(() => assert.object('objectProperty', {})).not.toThrow();
     });
   });
 
