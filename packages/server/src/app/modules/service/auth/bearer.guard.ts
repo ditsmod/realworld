@@ -21,6 +21,7 @@ export class BearerGuard implements CanActivate {
 
   async canActivate() {
     const authValue = this.req.nodeReq.headers.authorization?.split(' ');
+    // Here 'Token' instead 'Bearer' is used only because https://gothinkster.github.io/realworld/docs/specs/backend-specs/endpoints#authentication-header
     if (authValue?.[0] != 'Token') {
       return false;
     }
