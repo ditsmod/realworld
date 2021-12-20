@@ -23,7 +23,7 @@ export class AssertService {
 
     if (msg2) {
       throw new CustomError({
-        msg1: msg1 || this.serverMsg.wrongBoolParam,
+        msg1: msg1 || this.serverMsg.paramIsNotBool,
         args1: args1 || [name],
         msg2: msg2,
         params: value,
@@ -99,7 +99,7 @@ export class AssertService {
 
     if (msg2) {
       throw new CustomError({
-        msg1: msg1 || this.serverMsg.wrongArrayParam,
+        msg1: msg1 || this.serverMsg.paramIsNotArray,
         args1: args1 || [name],
         msg2: msg2,
         params: value,

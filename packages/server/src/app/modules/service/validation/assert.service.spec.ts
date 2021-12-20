@@ -59,11 +59,11 @@ describe(`ParamsService`, () => {
 
   describe(`boolean()`, () => {
     it(`case 1`, () => {
-      expect(() => assert.boolean('booleanParam', '')).toThrowError(`${serverMsg.wrongBoolParam}`);
-      expect(() => assert.boolean('booleanParam', '111')).toThrowError(`${serverMsg.wrongBoolParam}`);
-      expect(() => assert.boolean('booleanParam', 'aaa')).toThrowError(`${serverMsg.wrongBoolParam}`);
-      expect(() => assert.boolean('booleanParam', {} as any)).toThrowError(`${serverMsg.wrongBoolParam}`);
-      expect(() => assert.boolean('booleanParam', 11 as any)).toThrowError(`${serverMsg.wrongBoolParam}`);
+      expect(() => assert.boolean('booleanParam', '')).toThrowError(`${serverMsg.paramIsNotBool}`);
+      expect(() => assert.boolean('booleanParam', '111')).toThrowError(`${serverMsg.paramIsNotBool}`);
+      expect(() => assert.boolean('booleanParam', 'aaa')).toThrowError(`${serverMsg.paramIsNotBool}`);
+      expect(() => assert.boolean('booleanParam', {} as any)).toThrowError(`${serverMsg.paramIsNotBool}`);
+      expect(() => assert.boolean('booleanParam', 11 as any)).toThrowError(`${serverMsg.paramIsNotBool}`);
     });
 
     it(`case 2`, () => {
@@ -80,10 +80,10 @@ describe(`ParamsService`, () => {
 
   describe(`array()`, () => {
     it(`case 1`, () => {
-      expect(() => assert.array('arrayParam', '' as any)).toThrowError(`${serverMsg.wrongArrayParam}`);
-      expect(() => assert.array('arrayParam', '111' as any)).toThrowError(`${serverMsg.wrongArrayParam}`);
-      expect(() => assert.array('arrayParam', {} as any)).toThrowError(`${serverMsg.wrongArrayParam}`);
-      expect(() => assert.array('arrayParam', 11 as any)).toThrowError(`${serverMsg.wrongArrayParam}`);
+      expect(() => assert.array('arrayParam', '' as any)).toThrowError(`${serverMsg.paramIsNotArray}`);
+      expect(() => assert.array('arrayParam', '111' as any)).toThrowError(`${serverMsg.paramIsNotArray}`);
+      expect(() => assert.array('arrayParam', {} as any)).toThrowError(`${serverMsg.paramIsNotArray}`);
+      expect(() => assert.array('arrayParam', 11 as any)).toThrowError(`${serverMsg.paramIsNotArray}`);
     });
 
     it(`case 2`, () => {

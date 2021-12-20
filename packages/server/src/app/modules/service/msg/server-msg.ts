@@ -8,45 +8,41 @@ export class ServerMsg {
    */
   mysqlQuery = 'Database connect error';
   /**
-   * Invalid numeric parameter '%s': number must be between %s and %s (actual %s)
+   * Number must be between %s and %s (actual %s)
    */
-  wrongNumericParam = `Invalid numeric parameter '%s': number must be between %s and %s (actual %s)`;
+  wrongNumericParam = `Number must be between %s and %s (actual %s)`;
   /**
-   * Param '%s' is not number
+   * Must be a number
    */
-  paramIsNotNumber = `Param '%s' is not number`;
+  paramIsNotNumber = `Must be a number`;
   /**
-   * The parameter '%s' is too small
+   * Too small
    */
-  numberIsTooSmall = `The parameter '%s' is too small`;
+  numberIsTooSmall = `Too small`;
   /**
-   * The parameter '%s' is too large
+   * Too large
    */
-  numberIsTooLarge = `The parameter '%s' is too large`;
+  numberIsTooLarge = `Too large`;
   /**
-   * Invalid text parameter '%s': text must be between %s and %s characters (actual %s)
+   * Text must be between %s and %s characters (actual %s)
    */
-  wrongTextParam = `Invalid text parameter '%s': text must be between %s and %s characters (actual %s)`;
+  wrongTextParam = `Text must be between %s and %s characters (actual %s)`;
   /**
-   * The text parameter '%s' is too short
+   * Too short
    */
-  textIsTooShort = `The text parameter '%s' is too short`;
+  textIsTooShort = `Too short`;
   /**
-   * The text parameter '%s' is too long
+   * Too long
    */
-  textIsTooLong = `The text parameter '%s' is too long`;
+  textIsTooLong = `Too long`;
   /**
-   * The parameter '%s' is not a text
+   * Is not a text
    */
-  paramIsNotString = `The parameter '%s' is not a text`;
+  paramIsNotString = `Is not a text`;
   /**
-   * The parameter '%s' is not a boolean
+   * Is not a boolean
    */
-  paramIsNotBool = `The parameter '%s' is not a boolean`;
-  /**
-   * Invalid boolean parameter '%s'
-   */
-  wrongBoolParam = `Invalid boolean parameter '%s'`;
+  paramIsNotBool = `Is not a boolean`;
   /**
    * Invalid user name
    */
@@ -55,35 +51,31 @@ export class ServerMsg {
   authRequired = `UNAUTHORIZED`;
   forbidden = `Forbidden`;
   /**
-   * Invalid parameter '%s' with array
+   * Is not an array
    */
-  wrongArrayParam = `Invalid parameter '%s' with array`;
+  paramIsNotArray = `Is not an array`;
   /**
-   * The parameter '%s' is not an array
+   * Array is too short
    */
-  paramIsNotArray = `The parameter '%s' is not an array`;
+  arrayIsTooShort = `Array is too short`;
   /**
-   * '%s' array is too short
+   * Array is too long
    */
-  arrayIsTooShort = `'%s' array is too short`;
-  /**
-   * '%s' array is too long
-   */
-  arrayIsTooLong = `'%s' array is too long`;
+  arrayIsTooLong = `Array is too long`;
   /**
    * An error occurred during the Mysql transaction commit
    */
   errMysqlCommit = `An error occurred during the Mysql transaction commit`;
   /**
-   * The parameter '%s' does not match the pattern
+   * This parameter does not match the pattern
    */
-  wrongPatternParam = `The parameter '%s' does not match the pattern`;
+  wrongPatternParam = `This parameter does not match the pattern`;
   /**
    * Missing request body
    */
    missingRequestBody = `Missing request body`;
   /**
-   * Missing object in '%s' property
+   * Missing object in this property
    */
-   missingObjectProperty = `Missing object in '%s' property`;
+   missingObjectProperty = `Missing object in this property`;
 }

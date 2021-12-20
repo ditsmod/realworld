@@ -1,17 +1,19 @@
 import { format } from 'util';
 import { Injectable } from '@ts-stack/di';
-import { Logger, LoggerMethod, Status, Req, Res, ControllerErrorHandler, getStatusText } from '@ditsmod/core';
+import { Logger, Status, Req, Res, ControllerErrorHandler } from '@ditsmod/core';
 import { ChainError } from '@ts-stack/chain-error';
 import { Level, LevelNames } from '@ditsmod/logger';
 
-import { ApiResponse } from '@shared';
 import { ErrorOpts } from './custom-error';
 
+/**
+ * Error handling, for more info see https://gothinkster.github.io/realworld/docs/specs/backend-specs/error-handling#errors-and-status-codes
+ */
 @Injectable()
 export class ErrorHandler implements ControllerErrorHandler {
   constructor(
     private req: Req,
-    private res: Res<ApiResponse<any>>,
+    private res: Res,
     private log: Logger
   ) {}
 
@@ -19,19 +21,21 @@ export class ErrorHandler implements ControllerErrorHandler {
     const req = this.req;
     let message = err.message;
     if (err instanceof ChainError) {
-      const template = err.info.msg1 || '';
+      const template = err.info.msg1!;
+      const paramName = err.info.args1![0];
+      const restArgs1 = err.info.args1!.slice(1);
       if (template.includes('%s')){
-        message = format(template, ...(err.info.args1 || []));
+        message = format(template, ...restArgs1);
       } else {
         message = format(template);
       }
-      err.message = message;
+      err.message = `Parameter '${paramName}': ${message}`;
       const { level, status } = err.info;
       const levelName = Level[level!] as LevelNames;
       delete err.info.level;
-      (this.log[levelName] as LoggerMethod)({ err, req, ...err.info });
+      this.log[levelName]({ err, req, ...err.info });
       if (!this.res.nodeRes.headersSent) {
-        this.res.sendJson({ error: { message } }, status);
+        this.res.sendJson({ errors: { [paramName]: [message] } }, status);
       }
     } else {
       this.log.error({ err, req });

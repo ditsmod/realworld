@@ -10,7 +10,7 @@ export class ErrorOpts {
   /**
    * Arguments for `msg1`.
    */
-  args1?: any[];
+  args1?: any[] = [];
   /**
    * Message for a logger.
    */
@@ -18,7 +18,7 @@ export class ErrorOpts {
   /**
    * Arguments for `msg2`.
    */
-  args2?: any[];
+  args2?: any[] = [];
   /**
    * Log level.
    */
@@ -28,7 +28,7 @@ export class ErrorOpts {
    */
   status?: Status = Status.BAD_REQUEST;
   /**
-   * HTTP client input params.
+   * Parameters available in the current HTTP request.
    */
   params?: any;
 
