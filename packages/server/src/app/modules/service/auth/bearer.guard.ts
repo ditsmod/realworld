@@ -2,6 +2,9 @@ import { CanActivate, Req, Status } from '@ditsmod/core';
 import { JwtService, VerifyErrors } from '@ditsmod/jwt';
 import { OasGuard } from '@ditsmod/openapi';
 
+/**
+ * If user successfully passed this guard, you can use `this.req.jwtPayload`.
+ */
 @OasGuard({
   securitySchemeObject: {
     type: 'http',

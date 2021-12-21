@@ -86,4 +86,8 @@ export class ServerMsg {
    * Bad password or email
    */
    badPasswordOrEmail = `Bad password or email`;
+  /**
+   * INTERNAL SERVER ERROR
+   */
+   internalError = `INTERNAL SERVER ERROR`;
 }

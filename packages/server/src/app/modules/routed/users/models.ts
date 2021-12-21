@@ -52,8 +52,13 @@ export class UserSession {
  * Taken from https://gothinkster.github.io/realworld/docs/specs/backend-specs/api-response-format/#users-for-authentication
  */
 export class UserSessionData {
+  constructor(userSession?: Partial<UserSession>) {
+    this.user = { ...new UserSession(), ...(userSession || {}) };
+    delete (this.user as any).user_id;
+  }
+
   @Column()
-  user: UserSession = new UserSession();
+  user: UserSession;
 }
 
 export class PutUser {
