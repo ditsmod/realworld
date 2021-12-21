@@ -9,7 +9,7 @@
   "scripts": {
     "test": "jest",
     "start": "nodemon -e ts --exec ts-node -r tsconfig-paths/register packages/server/src/main.ts --project=packages/server/tsconfig.json",
-    "start-prod": "nodemon -e ts --exec ts-node -r tsconfig-paths/register packages/server/dist/main.js --project=packages/server/tsconfig.json",
+    "start-prod": "node -r tsconfig-paths/register packages/server/dist/main.js",
     "boot": "lerna bootstrap",
     "pub": "lerna publish from-package",
     "build": "yarn clean && tsc -b -f packages",

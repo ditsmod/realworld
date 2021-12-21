@@ -17,7 +17,19 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "removeComments": false,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+
+    // Used only by tsconfig-paths
+    "baseUrl": ".",
+    "paths": {
+      "@classes/*": ["./packages/server/dist/app/classes/*"],
+      "@service/*": ["./packages/server/dist/app/modules/service/*"],
+      "@routed/*": ["./packages/server/dist/app/modules/routed/*"],
+      "@services-per-app/*": ["./packages/server/dist/app/services-per-app/*"],
+      "@models/*": ["./packages/server/dist/app/models/*"],
+      "@shared": ["./packages/shared/dist/server"],
+      "@shared/*": ["./packages/shared/dist/server/*"],
+    }
   },
   "exclude": [ "**/node_modules/*"]
 }

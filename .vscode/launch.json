@@ -7,6 +7,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "command": "yarn start",
+      "name": "Run yarn start",
+      "request": "launch",
+      "type": "node-terminal",
+      "diagnosticLogging": true
+    },
+    {
       "name": "Attach by Process ID",
       "processId": "${command:PickProcess}",
       "request": "attach",
