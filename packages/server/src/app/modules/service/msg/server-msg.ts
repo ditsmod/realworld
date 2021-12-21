@@ -78,4 +78,8 @@ export class ServerMsg {
    * Missing object in this property
    */
    missingObjectProperty = `Missing object in this property`;
+  /**
+   * A user with this email or username is already registered
+   */
+   usernameOrEmailAlreadyExists = `A user with this email or username is already registered`;
 }

@@ -3,11 +3,12 @@ import { JwtService } from '@ditsmod/jwt';
 import { getContent, OasRoute } from '@ditsmod/openapi';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
+import { DbService } from './db.service';
 import { LoginFormData, PutUser, SignUpFormData, UserSessionData } from './models';
 
 @Controller()
 export class UsersController {
-  constructor(private req: Req, private res: Res, private jwtService: JwtService) {}
+  constructor(private req: Req, private res: Res, private db: DbService, private jwtService: JwtService) {}
 
   @OasRoute('POST', 'users', [], {
     description: 'User registration.',
@@ -25,10 +26,11 @@ export class UsersController {
   })
   async addUser() {
     const signUpFormData = this.req.body as SignUpFormData;
+    const userId = await this.db.signUpUser(signUpFormData);
     const userSessionData = new UserSessionData();
     userSessionData.user.email = signUpFormData.user.email;
     userSessionData.user.username = signUpFormData.user.username;
-    userSessionData.user.token = await this.jwtService.signWithSecret({ email: userSessionData.user.email });
+    userSessionData.user.token = await this.jwtService.signWithSecret({ userId });
     this.res.sendJson(userSessionData);
   }
 

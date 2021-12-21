@@ -29,7 +29,7 @@ export class ErrorHandler implements ControllerErrorHandler {
       } else {
         message = format(template);
       }
-      err.message = `Parameter '${paramName}': ${message}`;
+      err.message = paramName ? `Parameter '${paramName}': ${message}` : message;
       const { level, status } = err.info;
       const levelName = Level[level!] as LevelNames;
       delete err.info.level;
