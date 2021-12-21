@@ -82,4 +82,8 @@ export class ServerMsg {
    * A user with this email or username is already registered
    */
    usernameOrEmailAlreadyExists = `A user with this email or username is already registered`;
+  /**
+   * Bad password or email
+   */
+   badPasswordOrEmail = `Bad password or email`;
 }

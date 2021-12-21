@@ -22,11 +22,11 @@ export class ErrorOpts {
   /**
    * Log level.
    */
-  level?: Level = Level.debug;
+  level?: Level = Level.trace;
   /**
    * HTTP response status.
    */
-  status?: Status = Status.BAD_REQUEST;
+  status?: Status = Status.UNPROCESSABLE_ENTRY;
   /**
    * Parameters available in the current HTTP request.
    */

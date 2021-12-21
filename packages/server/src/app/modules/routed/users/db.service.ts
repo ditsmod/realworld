@@ -6,8 +6,8 @@ import { MysqlService } from '@service/mysql/mysql.service';
 import { CustomError } from '@service/error-handler/custom-error';
 import { ServerMsg } from '@service/msg/server-msg';
 import { CryptoService } from '@service/auth/crypto.service';
-import { EmailOrUsername } from './types';
-import { SignUpFormData } from './models';
+import { DbUser, EmailOrUsername } from './types';
+import { LoginData, SignUpFormData } from './models';
 
 @Injectable()
 export class DbService {
@@ -35,5 +35,24 @@ export class DbService {
         level: Level.trace,
       });
     }
+  }
+
+  /**
+   * Returns user ID or throw an error about user exists.
+   */
+  async loginUser({ email, password }: LoginData): Promise<DbUser> {
+    const params: any[] = [email, this.cryptoService.getCryptedPassword(password)];
+    const sql = `
+    select
+      user_id,
+      username,
+      email,
+      bio,
+      image
+    from cur_users
+    where email = ?
+      and password = ?;`;
+    const { rows } = await this.mysql.query(sql, params);
+    return (rows as DbUser[])[0];
   }
 }
