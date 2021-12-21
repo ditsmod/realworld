@@ -1,4 +1,4 @@
-import { Column, getContent } from '@ditsmod/openapi';
+import { Column } from '@ditsmod/openapi';
 
 export class ErrorField {
   @Column({}, String)
@@ -8,11 +8,4 @@ export class ErrorField {
 export class ErrorTemplate {
   @Column()
   errors: ErrorField;
-}
-
-export function getErrorTemplate() {
-  return {
-    description: 'If fail.',
-    content: getContent({ mediaType: 'application/json', model: ErrorTemplate }),
-  }
 }

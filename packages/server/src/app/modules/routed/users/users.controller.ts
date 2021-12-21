@@ -1,11 +1,11 @@
 import { Controller, Req, Res, Status } from '@ditsmod/core';
 import { JwtService } from '@ditsmod/jwt';
-import { getContent, OasRoute } from '@ditsmod/openapi';
+import { OasRoute } from '@ditsmod/openapi';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { CustomError } from '@service/error-handler/custom-error';
 import { ServerMsg } from '@service/msg/server-msg';
-import { getErrorTemplate } from '@models/errors';
+import { getRequestBody, getResponses } from '@models/oas-helpers';
 import { DbService } from './db.service';
 import { LoginFormData, PutUser, SignUpFormData, UserSessionData } from './models';
 
@@ -22,17 +22,8 @@ export class UsersController {
   @OasRoute('POST', 'users', [], {
     description: 'User registration.',
     tags: ['users'],
-    requestBody: {
-      description: 'Data that a user should send for registration.',
-      content: getContent({ mediaType: 'application/json', model: SignUpFormData }),
-    },
-    responses: {
-      [Status.CREATED]: {
-        description: 'After successful user registration, this data is sent to the client.',
-        content: getContent({ mediaType: 'application/json', model: UserSessionData }),
-      },
-      [Status.UNPROCESSABLE_ENTRY]: getErrorTemplate(),
-    },
+    ...getRequestBody(SignUpFormData, 'Data that a user should send for registration.'),
+    ...getResponses(UserSessionData, 'After registration, this data is sent to the client.', Status.CREATED),
   })
   async addUser() {
     const signUpFormData = this.req.body as SignUpFormData;
@@ -47,17 +38,8 @@ export class UsersController {
   @OasRoute('POST', 'users/login', [], {
     description: 'User login.',
     tags: ['users'],
-    requestBody: {
-      description: 'Data that a user should send for loggining.',
-      content: getContent({ mediaType: 'application/json', model: LoginFormData }),
-    },
-    responses: {
-      [Status.OK]: {
-        description: 'After successful user login, this data is sent to the client.',
-        content: getContent({ mediaType: 'application/json', model: UserSessionData }),
-      },
-      [Status.UNPROCESSABLE_ENTRY]: getErrorTemplate(),
-    },
+    ...getRequestBody(LoginFormData, 'Data that a user should send for loggining.'),
+    ...getResponses(UserSessionData, 'After login, this data is sent to the client.'),
   })
   async loginUser() {
     const { user } = this.req.body as LoginFormData;
@@ -79,13 +61,9 @@ export class UsersController {
   }
 
   @OasRoute('GET', 'user', [BearerGuard], {
+    description: 'Info about current user.',
     tags: ['user'],
-    responses: {
-      [Status.OK]: {
-        description: 'Description for response content',
-        content: getContent({ mediaType: 'application/json', model: UserSessionData }),
-      },
-    },
+    ...getResponses(UserSessionData, 'Description for response content.'),
   })
   async getCurrentUser() {
     const form = new UserSessionData();
@@ -95,10 +73,7 @@ export class UsersController {
 
   @OasRoute('PUT', 'user', [BearerGuard], {
     tags: ['user'],
-    requestBody: {
-      description: 'Description for requestBody',
-      content: getContent({ mediaType: 'application/json', model: PutUser }),
-    },
+    ...getRequestBody(PutUser, 'Description for requestBody.'),
   })
   async updateCurrentUser() {
     const form = new UserSessionData();
