@@ -5,6 +5,7 @@ import { getContent, OasRoute } from '@ditsmod/openapi';
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { CustomError } from '@service/error-handler/custom-error';
 import { ServerMsg } from '@service/msg/server-msg';
+import { getErrorTemplate } from '@models/errors';
 import { DbService } from './db.service';
 import { LoginFormData, PutUser, SignUpFormData, UserSessionData } from './models';
 
@@ -30,6 +31,7 @@ export class UsersController {
         description: 'After successful user registration, this data is sent to the client.',
         content: getContent({ mediaType: 'application/json', model: UserSessionData }),
       },
+      [Status.UNPROCESSABLE_ENTRY]: getErrorTemplate(),
     },
   })
   async addUser() {
@@ -54,6 +56,7 @@ export class UsersController {
         description: 'After successful user login, this data is sent to the client.',
         content: getContent({ mediaType: 'application/json', model: UserSessionData }),
       },
+      [Status.UNPROCESSABLE_ENTRY]: getErrorTemplate(),
     },
   })
   async loginUser() {
