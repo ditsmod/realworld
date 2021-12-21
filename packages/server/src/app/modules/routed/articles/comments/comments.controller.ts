@@ -1,8 +1,9 @@
 import { Controller, Req, Res, Status } from '@ditsmod/core';
-import { getContent, getParams, OasRoute } from '@ditsmod/openapi';
+import { getParams, OasRoute } from '@ditsmod/openapi';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
-import { Params } from '../../../../models/params';
+import { getNoContent, getRequestBody, getResponses } from '@models/oas-helpers';
+import { Params } from '@models/params';
 import { CommentData, CommentPostData, CommentsData } from './models';
 
 @Controller()
@@ -10,35 +11,23 @@ export class CommentsController {
   constructor(private req: Req, private res: Res) {}
 
   @OasRoute('POST', '', [BearerGuard], {
-    requestBody: {
-      description: 'Description for requestBody',
-      content: getContent({ mediaType: 'application/json', model: CommentPostData }),
-    },
-    responses: {
-      [Status.OK]: {
-        description: 'Description for response content',
-        content: getContent({ mediaType: 'application/json', model: CommentData }),
-      },
-    },
+    ...getRequestBody(CommentPostData, 'Description for requestBody.'),
+    ...getResponses(CommentData, 'Description for response content.', Status.CREATED),
   })
   async postComment() {
     this.res.sendJson(new CommentPostData());
   }
 
   @OasRoute('GET', '', [], {
-    responses: {
-      [Status.OK]: {
-        description: 'Description for response content',
-        content: getContent({ mediaType: 'application/json', model: CommentsData }),
-      },
-    },
+    ...getResponses(CommentData, 'Description for response content.', Status.OK, false),
   })
   async getComments() {
     this.res.sendJson(new CommentsData());
   }
 
   @OasRoute('DELETE', ':id', [BearerGuard], {
-    parameters: getParams('path', true, Params, 'id')
+    parameters: getParams('path', true, Params, 'id'),
+    ...getNoContent(),
   })
   async deleteComment() {
     this.res.send('ok');

@@ -63,7 +63,7 @@ export class UsersController {
   @OasRoute('GET', 'user', [BearerGuard], {
     description: 'Info about current user.',
     tags: ['user'],
-    ...getResponses(UserSessionData, 'Description for response content.'),
+    ...getResponses(UserSessionData, 'Description for response content.', Status.OK, false),
   })
   async getCurrentUser() {
     const form = new UserSessionData();
@@ -74,6 +74,7 @@ export class UsersController {
   @OasRoute('PUT', 'user', [BearerGuard], {
     tags: ['user'],
     ...getRequestBody(PutUser, 'Description for requestBody.'),
+    ...getResponses(Boolean, 'Description for response content.', Status.NO_CONTENT, false),
   })
   async updateCurrentUser() {
     const form = new UserSessionData();

@@ -1,8 +1,9 @@
 import { Controller, Req, Res, Status } from '@ditsmod/core';
-import { getContent, getParams, OasRoute } from '@ditsmod/openapi';
+import { getParams, OasRoute } from '@ditsmod/openapi';
 import { Params } from '@models/params';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
+import { getNoContent, getResponses } from '@models/oas-helpers';
 import { ProfileData } from './models';
 
 @Controller()
@@ -11,12 +12,7 @@ export class ProfilesController {
 
   @OasRoute('GET', ':username', [], {
     parameters: getParams('path', true, Params, 'username'),
-    responses: {
-      [Status.OK]: {
-        description: 'Description for response content',
-        content: getContent({ mediaType: 'application/json', model: ProfileData }),
-      },
-    },
+    ...getResponses(ProfileData, 'Description for response content.', Status.OK, false),
   })
   async getCurrentUser() {
     const form = new ProfileData();
@@ -25,12 +21,7 @@ export class ProfilesController {
 
   @OasRoute('POST', ':username/follow', [BearerGuard], {
     parameters: getParams('path', true, Params, 'username'),
-    responses: {
-      [Status.OK]: {
-        description: 'Description for response content',
-        content: getContent({ mediaType: 'application/json', model: ProfileData }),
-      },
-    },
+    ...getResponses(ProfileData, 'Description for response content.', Status.OK, false),
   })
   async followUser() {
     const form = new ProfileData();
@@ -39,12 +30,7 @@ export class ProfilesController {
 
   @OasRoute('DELETE', ':username/follow', [BearerGuard], {
     parameters: getParams('path', true, Params, 'username'),
-    responses: {
-      [Status.OK]: {
-        description: 'Description for response content',
-        content: getContent({ mediaType: 'application/json', model: ProfileData }),
-      },
-    },
+    ...getNoContent(),
   })
   async deleteFollowUser() {
     const form = new ProfileData();

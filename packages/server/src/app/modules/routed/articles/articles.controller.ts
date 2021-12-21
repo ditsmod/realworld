@@ -3,6 +3,7 @@ import { Controller, Req, Res, Status } from '@ditsmod/core';
 import { getContent, getParams, OasRoute } from '@ditsmod/openapi';
 
 import { Params } from '@models/params';
+import { getNoContent, getRequestBody, getResponses } from '@models/oas-helpers';
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { UtilService } from '@service/util/util.service';
 import { Article, ArticleItem, ArticlePostData, Articles } from './models';
@@ -13,12 +14,7 @@ export class ArticlesController {
 
   @OasRoute('GET', '', [], {
     parameters: getParams('query', false, Params, 'tag', 'author', 'favorited', 'limit', 'offset'),
-    responses: {
-      [Status.OK]: {
-        description: 'Description for response content',
-        content: getContent({ mediaType: 'application/json', model: Articles }),
-      },
-    },
+    ...getResponses(Articles, 'Description for response content.', Status.OK),
   })
   async getArticles() {
     const form = new Articles();
@@ -29,12 +25,7 @@ export class ArticlesController {
 
   @OasRoute('GET', ':slug', [], {
     parameters: getParams('query', false, Params, 'tag', 'author', 'limit', 'offset'),
-    responses: {
-      [Status.OK]: {
-        description: 'Description for response content',
-        content: getContent({ mediaType: 'application/json', model: Articles }),
-      },
-    },
+    ...getResponses(Articles, 'Description for response content.', Status.OK),
   })
   async getArticlesSlug() {
     // This need only because parameter `:slug` conflict with parameter `feed`.
@@ -60,38 +51,24 @@ export class ArticlesController {
   }
 
   @OasRoute('POST', '', [BearerGuard], {
-    requestBody: {
-      description: 'Description for requestBody',
-      content: getContent({ mediaType: 'application/json', model: ArticlePostData }),
-    },
-    responses: {
-      [Status.OK]: {
-        description: 'Description for response content',
-        content: getContent({ mediaType: 'application/json', model: ArticleItem }),
-      },
-    },
+    ...getRequestBody(ArticlePostData, 'Description for requestBody.'),
+    ...getResponses(ArticleItem, 'Description for response content.', Status.CREATED),
   })
   async postArticles() {
     this.res.sendJson(new ArticleItem());
   }
 
   @OasRoute('PUT', ':slug', [BearerGuard], {
-    requestBody: {
-      description: 'Description for requestBody',
-      content: getContent({ mediaType: 'application/json', model: ArticlePostData }),
-    },
-    responses: {
-      [Status.OK]: {
-        description: 'Description for response content',
-        content: getContent({ mediaType: 'application/json', model: ArticleItem }),
-      },
-    },
+    ...getRequestBody(ArticlePostData, 'Description for requestBody.'),
+    ...getResponses(ArticleItem, 'Description for response content.', Status.OK),
   })
   async putArticlesSlug() {
     this.res.sendJson(new ArticleItem());
   }
 
-  @OasRoute('DELETE', ':slug', [BearerGuard])
+  @OasRoute('DELETE', ':slug', [BearerGuard], {
+    ...getNoContent(),
+  })
   async delArticlesSlug() {
     this.res.sendJson(new ArticleItem());
   }

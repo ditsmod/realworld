@@ -27,11 +27,14 @@ export function getRequestBody(model: Type<edk.AnyObj>, description: string = ''
   return operationObject;
 }
 
+/**
+ * @param showStatusErr Default - true
+ */
 export function getResponses(
   model: Type<edk.AnyObj>,
   description: string = '',
   status: Status = Status.OK,
-  statusErr: boolean = true
+  showStatusErr: boolean = true
 ) {
   const operationObject: XOperationObject = {
     responses: {
@@ -42,9 +45,17 @@ export function getResponses(
     },
   };
 
-  if (statusErr) {
+  if (showStatusErr) {
     operationObject.responses![Status.UNPROCESSABLE_ENTRY] = getErrorTemplate();
   }
 
   return operationObject;
+}
+
+export function getNoContent(): XOperationObject {
+  return {
+    responses: {
+      [Status.NO_CONTENT]: { description: 'No Content.' },
+    },
+  };
 }
