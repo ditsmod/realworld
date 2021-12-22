@@ -28,10 +28,10 @@ export class ProfilesController {
       .setUnprocessableEnryResponse()
       .getNotFoundResponse('A profile with the specified username was not found.'),
   })
-  async getProfileOfTargetUser() {
+  async getProfileOfTargetUser(currentUserId?: number) {
     const targetUserName = this.req.pathParams.username as string;
-    const currentUserId = await this.getCurrentUserId();
-    const profile = await this.db.getProfile(currentUserId, targetUserName);
+    currentUserId = currentUserId || await this.getCurrentUserId();
+    const profile = await this.db.getProfile(currentUserId!, targetUserName);
     if (!profile) {
       this.util.throw404Error('username', 'A profile with the specified username was not found.');
     }
@@ -42,7 +42,7 @@ export class ProfilesController {
   }
 
   /**
-   * In real world spec auth is optional https://gothinkster.github.io/realworld/docs/specs/backend-specs/endpoints/#get-profile
+   * In real world spec, auth is optional https://gothinkster.github.io/realworld/docs/specs/backend-specs/endpoints/#get-profile
    *
    * So, if current user pass auth, we have jwtPayload.
    */
@@ -58,8 +58,10 @@ export class ProfilesController {
       .getNotFoundResponse('A profile with the specified username was not found.'),
   })
   async followUser() {
-    const form = new ProfileData();
-    this.res.sendJson(form);
+    const currentUserId = this.req.jwtPayload?.userId;
+    const targetUserName = this.req.pathParams.username as string;
+    await this.db.followUser(currentUserId, targetUserName);
+    await this.getProfileOfTargetUser(currentUserId);
   }
 
   @OasRoute('DELETE', ':username/follow', [BearerGuard], {
@@ -69,7 +71,9 @@ export class ProfilesController {
       .getNotFoundResponse('A profile with the specified username was not found.'),
   })
   async deleteFollowUser() {
-    const form = new ProfileData();
-    this.res.sendJson(form);
+    const currentUserId = this.req.jwtPayload?.userId;
+    const targetUserName = this.req.pathParams.username as string;
+    await this.db.unfollowUser(currentUserId, targetUserName);
+    await this.getProfileOfTargetUser(currentUserId);
   }
 }
