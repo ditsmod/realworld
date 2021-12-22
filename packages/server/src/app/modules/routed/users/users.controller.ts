@@ -6,7 +6,7 @@ import { Level } from '@ditsmod/logger';
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { CustomError } from '@service/error-handler/custom-error';
 import { ServerMsg } from '@service/msg/server-msg';
-import { getRequestBody, getResponseWithModel } from '@models/oas-helpers';
+import { getRequestBody, Responses } from '@models/oas-helpers';
 import { DbService } from './db.service';
 import { LoginFormData, PutUser, PutUserData, SignUpFormData, UserSessionData } from './models';
 
@@ -24,7 +24,8 @@ export class UsersController {
     description: 'User registration.',
     tags: ['users'],
     ...getRequestBody(SignUpFormData, 'Data that a user should send for registration.'),
-    ...getResponseWithModel(UserSessionData, 'After registration, this data is sent to the client.', Status.CREATED),
+    ...new Responses(UserSessionData, 'After registration, this data is sent to the client.', Status.CREATED)
+      .getUnprocessableEnryResponse(),
   })
   async signUpUser() {
     const signUpFormData = this.req.body as SignUpFormData;
@@ -38,7 +39,8 @@ export class UsersController {
     description: 'User login.',
     tags: ['users'],
     ...getRequestBody(LoginFormData, 'Data that a user should send for loggining.'),
-    ...getResponseWithModel(UserSessionData, 'After login, this data is sent to the client.'),
+    ...new Responses(UserSessionData, 'After login, this data is sent to the client.')
+      .getUnprocessableEnryResponse(),
   })
   async signInUser() {
     const { user } = this.req.body as LoginFormData;
@@ -58,7 +60,7 @@ export class UsersController {
   @OasRoute('GET', 'user', [BearerGuard], {
     description: 'Info about current user.',
     tags: ['user'],
-    ...getResponseWithModel(UserSessionData, 'Description for response content.'),
+    ...new Responses(UserSessionData, 'Description for response content.').getNotFoundResponse('User not found.'),
   })
   async getCurrentUser() {
     const userId = this.req.jwtPayload.userId as number;
@@ -80,7 +82,9 @@ export class UsersController {
     description: 'Update current user.',
     tags: ['user'],
     ...getRequestBody(PutUserData, 'Any of this properties are required.'),
-    ...getResponseWithModel(UserSessionData, 'Returns the User.'),
+    ...new Responses(UserSessionData, 'Returns the User.')
+      .setNotFoundResponse()
+      .getUnprocessableEnryResponse(),
   })
   async updateCurrentUser() {
     const userId = this.req.jwtPayload.userId as number;

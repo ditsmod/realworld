@@ -4,7 +4,7 @@ import { getParams, OasRoute } from '@ditsmod/openapi';
 
 import { Params } from '@models/params';
 import { BearerGuard } from '@service/auth/bearer.guard';
-import { getNoContentResponse, getNotFoundResponse, getResponseWithModel, getUnprocessableEnryResponse } from '@models/oas-helpers';
+import { Responses } from '@models/oas-helpers';
 import { UtilService } from '@service/util/util.service';
 import { AssertService } from '@service/validation/assert.service';
 import { ProfileData } from './models';
@@ -24,11 +24,9 @@ export class ProfilesController {
   @OasRoute('GET', ':username', [], {
     description: 'Returns a profile for target user.',
     parameters: getParams('path', true, Params, 'username'),
-    responses: {
-      ...getResponseWithModel(ProfileData, 'Show profile for target username.'),
-      ...getUnprocessableEnryResponse(),
-      ...getNotFoundResponse('A profile with the specified username was not found.'),
-    },
+    ...new Responses(ProfileData, 'Show profile for target username.')
+      .setUnprocessableEnryResponse()
+      .getNotFoundResponse('A profile with the specified username was not found.'),
   })
   async getProfileOfTargetUser() {
     const targetUserName = this.req.pathParams.username as string;
@@ -56,7 +54,8 @@ export class ProfilesController {
 
   @OasRoute('POST', ':username/follow', [BearerGuard], {
     parameters: getParams('path', true, Params, 'username'),
-    responses: { ...getResponseWithModel(ProfileData, 'Description for response content.') },
+    ...new Responses(ProfileData, 'Description for response content.')
+      .getNotFoundResponse('A profile with the specified username was not found.'),
   })
   async followUser() {
     const form = new ProfileData();
@@ -65,7 +64,9 @@ export class ProfilesController {
 
   @OasRoute('DELETE', ':username/follow', [BearerGuard], {
     parameters: getParams('path', true, Params, 'username'),
-    ...getNoContentResponse(),
+    ...new Responses()
+      .setNoContentResponse()
+      .getNotFoundResponse('A profile with the specified username was not found.'),
   })
   async deleteFollowUser() {
     const form = new ProfileData();

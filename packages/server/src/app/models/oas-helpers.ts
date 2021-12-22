@@ -1,53 +1,88 @@
 import { edk, Status } from '@ditsmod/core';
 import { getContent } from '@ditsmod/openapi';
 import { Type } from '@ts-stack/di';
-import { OperationObject, ResponsesObject } from '@ts-stack/openapi-spec';
+import { OperationObject, ResponseObject, ResponsesObject, RequestBodyObject } from '@ts-stack/openapi-spec';
 
 import { ErrorTemplate } from './errors';
 
 export type Model = Type<edk.AnyObj>;
 
-export function getJsonContent(model: Model, description: string = '') {
-  return { content: getContent({ mediaType: 'application/json', model }), description };
-}
-
 export function getRequestBody(model: Model, description: string = ''): OperationObject {
   return {
     requestBody: {
-      ...getJsonContent(model, description),
+      description,
+      content: getContent({ mediaType: 'application/json', model }),
     },
   };
 }
 
 /**
- * @param showStatusErr Default - true
+ * Helper to work with OpenAPI responses (ResponsesObject).
  */
-export function getResponseWithModel(model: Model, description: string = '', status?: Status): ResponsesObject {
-  return {
-    [status || Status.OK]: getJsonContent(model, description),
-  };
-}
+export class Responses {
+  private operationObject: OperationObject = { responses: {} };
 
-export function getUnprocessableEnryResponse(description: string = 'If fail.'): ResponsesObject {
-  return getResponseWithModel(ErrorTemplate, description, Status.UNPROCESSABLE_ENTRY);
-}
+  constructor(model?: Model, description: string = '', status?: Status) {
+    if (model) {
+      this.setResponse(model, description, status);
+    }
+  }
 
-export function getNoContentResponse(): ResponsesObject {
-  return {
-    [Status.NO_CONTENT]: { description: 'No Content.' },
-  };
-}
+  setResponse(model: Model, description: string = '', status?: Status) {
+    this.operationObject.responses![status || Status.OK] = this.getJsonContent(model, description);
+    return this;
+  }
 
-export function getNotFoundResponse(message?: string): ResponsesObject {
-  return {
-    [Status.NOT_FOUND]: { description: message || 'Not found.' },
-  };
-}
+  get(model?: Model, description: string = '', status?: Status) {
+    if (model) {
+      this.setResponse(model, description, status);
+    }
+    return this.operationObject;
+  }
 
-export function getUnauthorizedResponse(): ResponsesObject {
-  return {
-    [Status.UNAUTHORIZED]: {
+  protected getJsonContent(model: Model, description: string): ResponseObject {
+    return { content: getContent({ mediaType: 'application/json', model }), description };
+  }
+
+  setUnprocessableEnryResponse(description: string = 'If fail.') {
+    this.setResponse(ErrorTemplate, description, Status.UNPROCESSABLE_ENTRY);
+    return this;
+  }
+
+  getUnprocessableEnryResponse(description?: string) {
+    this.setUnprocessableEnryResponse(description);
+    return this.get();
+  }
+
+  setNotFoundResponse(description: string = 'Not found.') {
+    this.operationObject.responses![Status.NOT_FOUND] = { description };
+    return this;
+  }
+
+  getNotFoundResponse(description?: string) {
+    this.setNotFoundResponse(description);
+    return this.get();
+  }
+
+  setNoContentResponse(description: string = 'No Content.') {
+    this.operationObject.responses![Status.NO_CONTENT] = { description };
+    return this;
+  }
+
+  getNoContentResponse(description?: string) {
+    this.setNoContentResponse(description);
+    return this.get();
+  }
+
+  setUnauthorizedResponse() {
+    this.operationObject.responses![Status.UNAUTHORIZED] = {
       $ref: '#/components/responses/UnauthorizedError',
-    },
-  };
+    };
+    return this;
+  }
+
+  getUnauthorizedResponse() {
+    this.setUnauthorizedResponse();
+    return this.get();
+  }
 }

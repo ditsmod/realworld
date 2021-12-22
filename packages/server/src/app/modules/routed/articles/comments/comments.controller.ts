@@ -2,7 +2,7 @@ import { Controller, Req, Res, Status } from '@ditsmod/core';
 import { getParams, OasRoute } from '@ditsmod/openapi';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
-import { getNoContentResponse, getRequestBody, getResponseWithModel } from '@models/oas-helpers';
+import { getRequestBody, Responses } from '@models/oas-helpers';
 import { Params } from '@models/params';
 import { CommentData, CommentPostData, CommentsData } from './models';
 
@@ -12,14 +12,15 @@ export class CommentsController {
 
   @OasRoute('POST', '', [BearerGuard], {
     ...getRequestBody(CommentPostData, 'Description for requestBody.'),
-    responses: { ...getResponseWithModel(CommentData, 'Description for response content.', Status.CREATED) },
+    ...new Responses(CommentData, 'Description for response content.', Status.CREATED)
+      .getUnprocessableEnryResponse(),
   })
   async postComment() {
     this.res.sendJson(new CommentPostData());
   }
 
   @OasRoute('GET', '', [], {
-    responses: { ...getResponseWithModel(CommentData, 'Description for response content.') },
+    ...new Responses(CommentData, 'Description for response content.').get(),
   })
   async getComments() {
     this.res.sendJson(new CommentsData());
@@ -27,7 +28,10 @@ export class CommentsController {
 
   @OasRoute('DELETE', ':id', [BearerGuard], {
     parameters: getParams('path', true, Params, 'id'),
-    ...getNoContentResponse(),
+    ...new Responses()
+      .setNotFoundResponse('Comment nof found.')
+      .setUnprocessableEnryResponse()
+      .getNoContentResponse(),
   })
   async deleteComment() {
     this.res.send('ok');

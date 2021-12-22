@@ -1,15 +1,9 @@
 import { Injector } from '@ts-stack/di';
 import { Controller, Req, Res, Status } from '@ditsmod/core';
-import { getContent, getParams, OasRoute } from '@ditsmod/openapi';
+import { getParams, OasRoute } from '@ditsmod/openapi';
 
 import { Params } from '@models/params';
-import {
-  getNoContentResponse,
-  getRequestBody,
-  getResponseWithModel,
-  getUnauthorizedResponse,
-  getUnprocessableEnryResponse,
-} from '@models/oas-helpers';
+import { getRequestBody, Responses } from '@models/oas-helpers';
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { UtilService } from '@service/util/util.service';
 import { Article, ArticleItem, ArticlePostData, Articles } from './models';
@@ -20,10 +14,9 @@ export class ArticlesController {
 
   @OasRoute('GET', '', [], {
     parameters: getParams('query', false, Params, 'tag', 'author', 'favorited', 'limit', 'offset'),
-    responses: {
-      ...getResponseWithModel(Articles, 'Description for response content.', Status.OK),
-      ...getUnprocessableEnryResponse(),
-    },
+    ...new Responses(Articles, 'Description for response content.')
+      .setNotFoundResponse('The article not found.')
+      .getUnprocessableEnryResponse(),
   })
   async getArticles() {
     const form = new Articles();
@@ -34,11 +27,10 @@ export class ArticlesController {
 
   @OasRoute('GET', ':slug', [], {
     parameters: getParams('query', false, Params, 'tag', 'author', 'limit', 'offset'),
-    responses: {
-      ...getUnauthorizedResponse(),
-      ...getUnprocessableEnryResponse(),
-      ...getResponseWithModel(Articles, 'Description for response content.'),
-    },
+    ...new Responses(Articles, 'Description for response content.')
+      .setUnauthorizedResponse()
+      .setNotFoundResponse('The article not found.')
+      .getUnprocessableEnryResponse(),
   })
   async getArticlesSlug() {
     // This need only because parameter `:slug` conflict with parameter `feed`.
@@ -64,29 +56,25 @@ export class ArticlesController {
   }
 
   @OasRoute('POST', '', [BearerGuard], {
-    responses: {
-      ...getRequestBody(ArticlePostData, 'Description for requestBody.'),
-      ...getUnprocessableEnryResponse(),
-      ...getResponseWithModel(ArticleItem, 'Description for response content.', Status.CREATED),
-    },
+    ...getRequestBody(ArticlePostData, 'Description for requestBody.'),
+    ...new Responses(ArticlePostData, 'Description for response content.', Status.CREATED)
+      .getUnprocessableEnryResponse(),
   })
   async postArticles() {
     this.res.sendJson(new ArticleItem());
   }
 
   @OasRoute('PUT', ':slug', [BearerGuard], {
-    responses: {
-      ...getRequestBody(ArticlePostData, 'Description for requestBody.'),
-      ...getUnprocessableEnryResponse(),
-      ...getResponseWithModel(ArticleItem, 'Description for response content.', Status.OK),
-    },
+    ...getRequestBody(ArticlePostData, 'Description for requestBody.'),
+    ...new Responses(ArticleItem, 'Description for response content.')
+      .getUnprocessableEnryResponse(),
   })
   async putArticlesSlug() {
     this.res.sendJson(new ArticleItem());
   }
 
   @OasRoute('DELETE', ':slug', [BearerGuard], {
-    responses: { ...getNoContentResponse() },
+    ...new Responses().getNoContentResponse(),
   })
   async delArticlesSlug() {
     this.res.sendJson(new ArticleItem());

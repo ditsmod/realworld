@@ -2,7 +2,7 @@ import { Controller, Req, Res } from '@ditsmod/core';
 import { OasRoute } from '@ditsmod/openapi';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
-import { getNoContentResponse, getRequestBody, getResponseWithModel } from '@models/oas-helpers';
+import { getRequestBody, Responses } from '@models/oas-helpers';
 import { ArticleItem } from '../models';
 
 @Controller()
@@ -11,14 +11,18 @@ export class FavoriteController {
 
   @OasRoute('POST', '', [BearerGuard], {
     ...getRequestBody(Boolean, 'Description for requestBody.'),
-    responses: { ...getResponseWithModel(ArticleItem, 'Description for response content.') },
+    ...new Responses(ArticleItem, 'Description for response content.')
+      .getUnprocessableEnryResponse(),
   })
   async postFavorite() {
     this.res.sendJson(new ArticleItem());
   }
 
   @OasRoute('DELETE', '', [BearerGuard], {
-    ...getNoContentResponse(),
+    ...new Responses()
+      .setNotFoundResponse()
+      .setNoContentResponse()
+      .getUnprocessableEnryResponse(),
   })
   async Unfavorite() {
     this.res.sendJson(new ArticleItem());
