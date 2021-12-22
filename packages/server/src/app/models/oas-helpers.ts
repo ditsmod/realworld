@@ -1,61 +1,53 @@
 import { edk, Status } from '@ditsmod/core';
 import { getContent } from '@ditsmod/openapi';
 import { Type } from '@ts-stack/di';
-import { XOperationObject } from '@ts-stack/openapi-spec';
+import { OperationObject, ResponsesObject } from '@ts-stack/openapi-spec';
 
 import { ErrorTemplate } from './errors';
 
-export function getErrorTemplate() {
-  return {
-    description: 'If fail.',
-    content: getContent({ mediaType: 'application/json', model: ErrorTemplate }),
-  };
-}
+export type Model = Type<edk.AnyObj>;
 
-export function getJsonContent(model: Type<edk.AnyObj>, description: string = '') {
+export function getJsonContent(model: Model, description: string = '') {
   return { content: getContent({ mediaType: 'application/json', model }), description };
 }
 
-export function getRequestBody(model: Type<edk.AnyObj>, description: string = '') {
-  const operationObject: XOperationObject = {
+export function getRequestBody(model: Model, description: string = ''): OperationObject {
+  return {
     requestBody: {
-      description,
-      content: getContent({ mediaType: 'application/json', model }),
+      ...getJsonContent(model, description),
     },
   };
-
-  return operationObject;
 }
 
 /**
  * @param showStatusErr Default - true
  */
-export function getResponses(
-  model: Type<edk.AnyObj>,
-  description: string = '',
-  status: Status = Status.OK,
-  showStatusErr: boolean = true
-) {
-  const operationObject: XOperationObject = {
-    responses: {
-      [status]: {
-        description,
-        content: getContent({ mediaType: 'application/json', model }),
-      },
-    },
+export function getResponseWithModel(model: Model, description: string = '', status?: Status): ResponsesObject {
+  return {
+    [status || Status.OK]: getJsonContent(model, description),
   };
-
-  if (showStatusErr) {
-    operationObject.responses![Status.UNPROCESSABLE_ENTRY] = getErrorTemplate();
-  }
-
-  return operationObject;
 }
 
-export function getNoContent(): XOperationObject {
+export function getUnprocessableEnryResponse(description: string = 'If fail.'): ResponsesObject {
+  return getResponseWithModel(ErrorTemplate, description, Status.UNPROCESSABLE_ENTRY);
+}
+
+export function getNoContentResponse(): ResponsesObject {
   return {
-    responses: {
-      [Status.NO_CONTENT]: { description: 'No Content.' },
+    [Status.NO_CONTENT]: { description: 'No Content.' },
+  };
+}
+
+export function getNotFoundResponse(message?: string): ResponsesObject {
+  return {
+    [Status.NOT_FOUND]: { description: message || 'Not found.' },
+  };
+}
+
+export function getUnauthorizedResponse(): ResponsesObject {
+  return {
+    [Status.UNAUTHORIZED]: {
+      $ref: '#/components/responses/UnauthorizedError',
     },
   };
 }

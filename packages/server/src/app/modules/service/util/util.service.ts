@@ -18,15 +18,30 @@ export class UtilService {
     return createHash('md5').update(str.toLocaleLowerCase()).digest('hex');
   }
 
-  throw404Error() {
-    throw new CustomError({ msg1: this.serverMsg.pageNotFound, status: Status.NOT_FOUND, level: Level.trace });
+  throw404Error(paramName: string, message?: string) {
+    throw new CustomError({
+      msg1: message || this.serverMsg.pageNotFound,
+      args1: [paramName],
+      status: Status.NOT_FOUND,
+      level: Level.trace,
+    });
   }
 
-  throw401Error() {
-    throw new CustomError({ msg1: this.serverMsg.authRequired, status: Status.UNAUTHORIZED, level: Level.trace });
+  throw401Error(paramName: string, message?: string) {
+    throw new CustomError({
+      msg1: message || this.serverMsg.authRequired,
+      args1: [paramName],
+      status: Status.UNAUTHORIZED,
+      level: Level.trace,
+    });
   }
 
-  throw403Error() {
-    throw new CustomError({ msg1: this.serverMsg.forbidden, status: Status.FORBIDDEN, level: Level.warn });
+  throw403Error(paramName: string, message?: string) {
+    throw new CustomError({
+      msg1: message || this.serverMsg.forbidden,
+      args1: [paramName],
+      status: Status.FORBIDDEN,
+      level: Level.warn,
+    });
   }
 }

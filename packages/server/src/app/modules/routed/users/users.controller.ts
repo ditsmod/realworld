@@ -6,7 +6,7 @@ import { Level } from '@ditsmod/logger';
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { CustomError } from '@service/error-handler/custom-error';
 import { ServerMsg } from '@service/msg/server-msg';
-import { getRequestBody, getResponses } from '@models/oas-helpers';
+import { getRequestBody, getResponseWithModel } from '@models/oas-helpers';
 import { DbService } from './db.service';
 import { LoginFormData, PutUser, PutUserData, SignUpFormData, UserSessionData } from './models';
 
@@ -24,7 +24,7 @@ export class UsersController {
     description: 'User registration.',
     tags: ['users'],
     ...getRequestBody(SignUpFormData, 'Data that a user should send for registration.'),
-    ...getResponses(UserSessionData, 'After registration, this data is sent to the client.', Status.CREATED),
+    ...getResponseWithModel(UserSessionData, 'After registration, this data is sent to the client.', Status.CREATED),
   })
   async signUpUser() {
     const signUpFormData = this.req.body as SignUpFormData;
@@ -38,7 +38,7 @@ export class UsersController {
     description: 'User login.',
     tags: ['users'],
     ...getRequestBody(LoginFormData, 'Data that a user should send for loggining.'),
-    ...getResponses(UserSessionData, 'After login, this data is sent to the client.'),
+    ...getResponseWithModel(UserSessionData, 'After login, this data is sent to the client.'),
   })
   async signInUser() {
     const { user } = this.req.body as LoginFormData;
@@ -58,7 +58,7 @@ export class UsersController {
   @OasRoute('GET', 'user', [BearerGuard], {
     description: 'Info about current user.',
     tags: ['user'],
-    ...getResponses(UserSessionData, 'Description for response content.', Status.OK, false),
+    ...getResponseWithModel(UserSessionData, 'Description for response content.'),
   })
   async getCurrentUser() {
     const userId = this.req.jwtPayload.userId as number;
@@ -80,7 +80,7 @@ export class UsersController {
     description: 'Update current user.',
     tags: ['user'],
     ...getRequestBody(PutUserData, 'Any of this properties are required.'),
-    ...getResponses(UserSessionData, 'Returns the User.'),
+    ...getResponseWithModel(UserSessionData, 'Returns the User.'),
   })
   async updateCurrentUser() {
     const userId = this.req.jwtPayload.userId as number;
