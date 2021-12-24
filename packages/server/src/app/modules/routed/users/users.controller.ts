@@ -53,7 +53,7 @@ export class UsersController {
       });
     }
     const userSessionData = new UserSessionData(dbUser);
-    userSessionData.user.token = await this.jwtService.signWithSecret({ userId: dbUser.user_id });
+    userSessionData.user.token = await this.jwtService.signWithSecret({ userId: dbUser.userId });
     this.res.sendJson(userSessionData);
   }
 

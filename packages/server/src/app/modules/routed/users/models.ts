@@ -54,7 +54,7 @@ export class UserSession {
 export class UserSessionData {
   constructor(userSession?: Partial<UserSession>) {
     this.user = { ...new UserSession(), ...(userSession || {}) };
-    delete (this.user as any).user_id;
+    delete (this.user as any).userId;
   }
 
   @Column()

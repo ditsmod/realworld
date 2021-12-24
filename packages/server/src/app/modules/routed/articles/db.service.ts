@@ -13,7 +13,7 @@ export class DbService {
     const sql = `
     insert into cur_articles
     set
-      user_id = ?,
+      userId = ?,
       title = ?,
       slug = ?,
       description = ?,
@@ -43,9 +43,9 @@ export class DbService {
       if(f.follower_id is null, 0, 1) as following
     from cur_articles as a
     join cur_users as u
-      using(user_id)
+      using(userId)
     left join map_followers as f
-      on a.user_id = f.user_id
+      on a.userId = f.userId
         and f.follower_id = ?
     where article_id = ?
     ;`;

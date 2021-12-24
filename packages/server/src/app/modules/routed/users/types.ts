@@ -6,4 +6,4 @@ export interface EmailOrUsername {
 }
 
 
-export type DbUser = (Omit<UserSession, 'token'> & {user_id: number});
+export type DbUser = (Omit<UserSession, 'token'> & {userId: number});

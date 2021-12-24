@@ -44,7 +44,7 @@ export class DbService {
     const params: any[] = [email, this.cryptoService.getCryptedPassword(password)];
     const sql = `
     select
-      user_id,
+      userId,
       username,
       email,
       bio,
@@ -64,7 +64,7 @@ export class DbService {
       bio,
       image
     from cur_users
-    where user_id = ${userId};`;
+    where userId = ${userId};`;
     const { rows } = await this.mysql.query(sql);
     return (rows as Omit<UserSession, 'token'>[])[0];
   }
@@ -79,7 +79,7 @@ export class DbService {
       password = ifnull(?, password),
       image = ifnull(?, image),
       bio = ifnull(?, bio)
-    where user_id = ${userId};`;
+    where userId = ${userId};`;
     const { rows } = await this.mysql.query(sql, [email, username, password, image, bio]);
     return rows as OkPacket;
   }

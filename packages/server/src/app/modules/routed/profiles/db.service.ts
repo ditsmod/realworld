@@ -14,10 +14,10 @@ export class DbService {
       username,
       bio,
       image,
-      if(f.user_id is null, 0, 1) as following
+      if(f.userId is null, 0, 1) as following
     from cur_users as u
     left join map_followers as f
-      on u.user_id = f.user_id
+      on u.userId = f.userId
         and f.follower_id = ?
     where u.username = ?
     ;`;
@@ -27,9 +27,9 @@ export class DbService {
 
   async followUser(currentUserId: number, targetUserName: string) {
     const sql = `
-    insert ignore into map_followers (user_id, follower_id)
+    insert ignore into map_followers (userId, follower_id)
     select
-      user_id,
+      userId,
       ?
     from cur_users as u
     where username = ?
@@ -43,7 +43,7 @@ export class DbService {
     delete f 
     from map_followers as f
     join cur_users as u
-      using(user_id)
+      using(userId)
     where u.username = ?
       and f.follower_id = ?
     ;`;
