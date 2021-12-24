@@ -81,9 +81,17 @@ export class ArticlesController {
     }
   }
 
-  private async slug(slug?: string) {
-    slug = slug || this.req.pathParams.slug;
-    this.res.sendJson(new ArticleItem());
+  private async slug() {
+    const currentUserId = await this.authService.getCurrentUserId();
+    const slug = this.req.pathParams.slug;
+    const dbArticle = await this.db.getArticleBySlug(slug, currentUserId);
+    if (!dbArticle) {
+      this.utils.throw404Error('slug', 'The article not found.');
+    }
+    const article = this.transformToArticleItem(dbArticle);
+    const articleItem = new ArticleItem();
+    articleItem.article = article;
+    this.res.sendJson(articleItem);
   }
 
   @OasRoute('POST', '', [BearerGuard], {

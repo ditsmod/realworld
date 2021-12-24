@@ -56,6 +56,37 @@ export class DbService {
     return (rows as DbArticle[])[0];
   }
 
+  async getArticleBySlug(slug: string, currentUserId: number) {
+    const sql = `
+    select
+      a.slug,
+      a.title,
+      a.description,
+      a.body,
+      a.tagList,
+      a.createdAt,
+      a.updatedAt,
+      a.favoritesCount,
+      if(fav.userId is null, 0, 1) as favorited,
+      u.username,
+      u.bio,
+      u.image,
+      if(fol.followerId is null, 0, 1) as following
+    from cur_articles as a
+    join cur_users as u
+      using(userId)
+    left join map_followers as fol
+      on a.userId = fol.userId
+        and fol.followerId = ${currentUserId}
+    left join map_favorites as fav
+      on a.articleId = fav.articleId
+        and a.userId = ${currentUserId}
+    where a.slug = ?
+    ;`;
+    const { rows } = await this.mysql.query(sql, slug);
+    return (rows as DbArticle[])[0];
+  }
+
   async getArticlesByFeed(currentUserId: number, offset: number, perPage: number) {
     const sql = `
     select
