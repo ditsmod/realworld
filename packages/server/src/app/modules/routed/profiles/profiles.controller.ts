@@ -1,4 +1,3 @@
-import { Injector } from '@ts-stack/di';
 import { Controller, Req, Res } from '@ditsmod/core';
 import { getParams, OasRoute } from '@ditsmod/openapi';
 
@@ -7,6 +6,7 @@ import { BearerGuard } from '@service/auth/bearer.guard';
 import { Responses } from '@models/oas-helpers';
 import { UtilService } from '@service/util/util.service';
 import { AssertService } from '@service/validation/assert.service';
+import { AuthService } from '@service/auth/auth.service';
 import { ProfileData } from './models';
 import { DbService } from './db.service';
 
@@ -16,7 +16,7 @@ export class ProfilesController {
     private req: Req,
     private res: Res,
     private db: DbService,
-    private injector: Injector,
+    private authService: AuthService,
     private util: UtilService,
     private assert: AssertService
   ) {}
@@ -30,7 +30,7 @@ export class ProfilesController {
   })
   async getProfileOfTargetUser(currentUserId?: number) {
     const targetUserName = this.req.pathParams.username as string;
-    currentUserId = currentUserId || await this.getCurrentUserId();
+    currentUserId = currentUserId || await this.authService.getCurrentUserId();
     const profile = await this.db.getProfile(currentUserId!, targetUserName);
     if (!profile) {
       this.util.throw404Error('username', 'A profile with the specified username was not found.');
@@ -39,17 +39,6 @@ export class ProfilesController {
     const profileData = new ProfileData();
     profileData.profile = profile;
     this.res.sendJson(profileData);
-  }
-
-  /**
-   * In real world spec, auth is optional https://gothinkster.github.io/realworld/docs/specs/backend-specs/endpoints/#get-profile
-   *
-   * So, if current user pass auth, we have jwtPayload.
-   */
-  private async getCurrentUserId() {
-    const guard = this.injector.get(BearerGuard) as BearerGuard; // Lazy load auth.
-    await guard.canActivate();
-    return this.req.jwtPayload?.userId || 0;
   }
 
   @OasRoute('POST', ':username/follow', [BearerGuard], {
