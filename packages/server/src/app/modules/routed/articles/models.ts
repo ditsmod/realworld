@@ -1,21 +1,25 @@
 import { Column } from '@ditsmod/openapi';
+
 import { IS_REQUIRED } from '@service/validation/types';
+import { AppConfigService } from '@service/app-config/config.service';
+
+const config = new AppConfigService();
 
 export class Author {
   @Column()
-  username: string;
+  username: string = '';
   @Column()
-  bio: string;
+  bio: string = '';
   @Column()
-  image: string;
+  image: string = '';
   @Column()
-  following: boolean;
+  following: boolean = false;
 }
 
 export class Article {
   @Column()
   slug: string = '';
-  @Column()
+  @Column({ minLength: config.minLengthArticleTitle, maxLength: config.maxLengthArticleTitle })
   title: string = '';
   @Column()
   description: string = '';
@@ -49,13 +53,13 @@ export class ArticleItem {
 
 export class ArticlePost {
   @Column({ [IS_REQUIRED]: true })
-  title: string;
+  title: string = '';
   @Column({ [IS_REQUIRED]: true })
-  description: string;
+  description: string = '';
   @Column({ [IS_REQUIRED]: true })
-  body: string;
+  body: string = '';
   @Column({}, String)
-  tagList: string[];
+  tagList: string[] = [];
 }
 
 export class ArticlePostData {

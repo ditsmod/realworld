@@ -11,5 +11,7 @@ export class SharedConfig {
   maxUserName = 40;
   emailPattern = /^[^@]{1,255}@[^@]{1,255}\.[^@]{1,255}$/;
   minLengthPassword = 6;
-  maxLengthPassword = 100;
+  maxLengthPassword = 20;
+  minLengthArticleTitle = 6;
+  maxLengthArticleTitle = 100;
 }
