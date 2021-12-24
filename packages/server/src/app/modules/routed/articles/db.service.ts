@@ -47,7 +47,7 @@ export class DbService {
     left join map_followers as f
       on a.userId = f.userId
         and f.followerId = ?
-    where article_id = ?
+    where articleId = ?
     ;`;
     const { rows } = await this.mysql.query(sql, [currentUserId, articleId]);
     return (rows as DbArticle[])[0];
@@ -72,13 +72,13 @@ export class DbService {
 
     if (params.tag) {
       where = `
-      order by article_id desc
+      order by articleId desc
       limit offset, row_count
       ;`;
     }
 
     const limit = `
-    order by article_id desc
+    order by articleId desc
     limit offset, row_count
     ;`;
     const { rows } = await this.mysql.query(`${select}${where}${limit}`, [params.tag]);
