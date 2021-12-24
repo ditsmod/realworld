@@ -87,6 +87,10 @@ export class ServerMsg {
    */
    badPasswordOrEmail = `Bad password or email`;
   /**
+   * Article with this slug exists: '%s'
+   */
+   slugExists = `Article with this slug exists: '%s'`;
+  /**
    * INTERNAL SERVER ERROR
    */
    internalError = `INTERNAL SERVER ERROR`;

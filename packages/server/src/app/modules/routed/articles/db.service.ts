@@ -3,13 +3,13 @@ import { Injectable } from '@ts-stack/di';
 
 import { MysqlService } from '@service/mysql/mysql.service';
 import { ArticlesSelectParams, DbArticle } from './types';
-import { ArticlePost } from './models';
+import { ArticlePost, ArticlePut } from './models';
 
 @Injectable()
 export class DbService {
   constructor(private mysql: MysqlService) {}
 
-  async postArticles(userId: number, slug: string, { title, description, body, tagList }: ArticlePost) {
+  async postArticle(userId: number, slug: string, { title, description, body, tagList }: ArticlePost) {
     const sql = `
     insert into cur_articles
     set
@@ -22,6 +22,34 @@ export class DbService {
     ;`;
     const tags = JSON.stringify(tagList || []);
     const { rows } = await this.mysql.query(sql, [userId, title, slug, description, body, tags]);
+    return rows as OkPacket;
+  }
+
+  async putArticle(
+    userId: number,
+    hasPermissions: boolean,
+    oldSlug: string,
+    newSlug: string,
+    { title, description, body }: ArticlePut
+  ) {
+    let sql = `
+    update cur_articles
+    set
+      title = ifnull(?, title),
+      description = ifnull(?, description),
+      body = ifnull(?, body),
+      slug = ifnull(?, slug)
+    where slug = ?`;
+
+    const params: (string | number | undefined)[] = [title, description, body, newSlug, oldSlug];
+
+    if (!hasPermissions) {
+      // If no permissions, only owner can update the article.
+      sql += ` and userId = ?;`;
+      params.push(userId);
+    }
+
+    const { rows } = await this.mysql.query(sql, params);
     return rows as OkPacket;
   }
 

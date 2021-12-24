@@ -59,10 +59,24 @@ export class ArticlePost {
   @Column({ [IS_REQUIRED]: true })
   body: string = '';
   @Column({}, String)
-  tagList: string[] = [];
+  tagList?: string[] = [];
 }
 
 export class ArticlePostData {
   @Column()
   article: ArticlePost;
+}
+
+export class ArticlePut {
+  @Column()
+  title?: string = '';
+  @Column()
+  description?: string = '';
+  @Column()
+  body?: string = '';
+}
+
+export class ArticlePutData {
+  @Column()
+  article: ArticlePut;
 }

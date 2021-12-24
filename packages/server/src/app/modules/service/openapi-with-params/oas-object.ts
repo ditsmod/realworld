@@ -43,7 +43,7 @@ export const oasObject: XOasObject = {
           Unauthorized: {
             schema: { type: 'string' },
             description:
-              'Taken from [swagger.io](https://swagger.io/docs/specification/authentication/cookie-authentication/)',
+              'Taken from [swagger.io](https://swagger.io/docs/specification/authentication/bearer-authentication/)',
           },
         },
       },
