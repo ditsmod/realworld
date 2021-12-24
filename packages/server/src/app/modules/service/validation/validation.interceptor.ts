@@ -118,14 +118,38 @@ export class ValidationInterceptor implements HttpInterceptor {
       } else {
         this.assert.optionalObject(propertyName, value, ...args);
       }
-      
-      for(const propertyName2 in schema.properties) {
+
+      for (const propertyName2 in schema.properties) {
         const schema2 = schema.properties[propertyName2];
         const value2 = value[propertyName2];
         const required2 = schema2[IS_REQUIRED];
         const args2 = schema2[VALIDATION_ARGS] || [];
         // @todo Check how it's works with circular refereces
         this.checkParamsOrBody(paramIn, schema2, propertyName2, value2, required2, args2);
+      }
+    } else if (schema.type == 'array') {
+      if (required) {
+        this.assert.array(propertyName, value, schema.minItems, schema.maxItems, ...args);
+      } else {
+        this.assert.optionalArray(propertyName, value, schema.minItems, schema.maxItems, ...args);
+      }
+
+      if (Array.isArray(schema.items)) {
+        schema.items.forEach((schema2, i) => {
+          const value2 = value[i];
+          const required2 = schema2[IS_REQUIRED];
+          const args2 = schema2[VALIDATION_ARGS] || [];
+          // @todo Check how it's works with circular refereces
+          this.checkParamsOrBody(paramIn, schema2, `${propertyName}[${i}]`, value2, required2, args2);
+        });
+      } else if (typeof schema.items == 'object') {
+        const schema2 = schema.items;
+        ((value as any[]) || []).forEach((value2, i) => {
+          const required2 = schema2[IS_REQUIRED];
+          const args2 = schema2[VALIDATION_ARGS] || [];
+          // @todo Check how it's works with circular refereces
+          this.checkParamsOrBody(paramIn, schema2, `${propertyName}[${i}]`, value2, required2, args2);
+        });
       }
     }
   }
