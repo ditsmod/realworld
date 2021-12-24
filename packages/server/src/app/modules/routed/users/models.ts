@@ -2,10 +2,8 @@ import { Column } from '@ditsmod/openapi';
 
 import { IS_REQUIRED } from '@service/validation/types';
 import { AppConfigService } from '@service/app-config/config.service';
-import { ServerMsg } from '@service/msg/server-msg';
 
 const config = new AppConfigService();
-const serverMsg = new ServerMsg();
 
 export class LoginData {
   @Column({ [IS_REQUIRED]: true, pattern: config.emailPattern.source })
@@ -36,15 +34,15 @@ export class SignUpFormData {
 }
 
 export class UserSession {
-  @Column()
+  @Column({ pattern: config.emailPattern.source })
   email: string = '';
   @Column()
   token: string = '';
   @Column()
   username: string = '';
-  @Column()
+  @Column({ minLength: config.minLengthBio, maxLength: config.maxLengthBio })
   bio: string = '';
-  @Column()
+  @Column({ minLength: config.minLengthUrl, maxLength: config.maxLengthUrl })
   image: string = '';
 }
 
@@ -61,17 +59,9 @@ export class UserSessionData {
   user: UserSession;
 }
 
-export class PutUser {
-  @Column()
-  email: string = '';
-  @Column()
-  username: string = '';
-  @Column()
+export class PutUser extends UserSession {
+  @Column({ minLength: config.minLengthPassword, maxLength: config.maxLengthPassword })
   password: string = '';
-  @Column()
-  image: string = '';
-  @Column()
-  bio: string = '';
 }
 
 /**
