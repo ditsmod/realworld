@@ -33,17 +33,18 @@ export class ArticlesController {
     let favorited: string = queryParams.favorited || '';
     let offset: number = queryParams.offset || '';
     let limit: number = queryParams.limit || '';
-    await this.db.getArticles({
+    const userId = await this.authService.getCurrentUserId();
+    const { dbArticles, articlesCount } = await this.db.getArticles(userId, {
       tag,
       author,
       favorited,
       offset,
       limit,
     });
-    const form = new Articles();
-    form.articlesCount = 2;
-    form.articles = [new Article(), new Article()];
-    this.res.sendJson(form);
+    const articles = new Articles();
+    articles.articles = dbArticles.map((dbArticle) => this.transformToArticleItem(dbArticle));
+    articles.articlesCount = articlesCount;
+    this.res.sendJson(articles);
   }
 
   @OasRoute('GET', ':slug', [], {
@@ -78,31 +79,29 @@ export class ArticlesController {
 
   @OasRoute('POST', '', [BearerGuard], {
     ...getRequestBody(ArticlePostData, 'Description for requestBody.'),
-    ...new Responses(ArticleItem, 'Description for response content.', Status.CREATED)
-      .getUnprocessableEnryResponse(),
+    ...new Responses(ArticleItem, 'Description for response content.', Status.CREATED).getUnprocessableEnryResponse(),
   })
   async postArticles() {
     const userId = this.req.jwtPayload.userId as number;
-    const { article } = this.req.body as ArticlePostData;
-    const slug = this.getSlug(article.title);
-    const okPacket = await this.db.postArticles(userId, slug, article);
+    const { article: articlePostData } = this.req.body as ArticlePostData;
+    const slug = this.getSlug(articlePostData.title);
+    const okPacket = await this.db.postArticles(userId, slug, articlePostData);
     const currentUserId = await this.authService.getCurrentUserId();
     const dbArticle = await this.db.getArticleById(okPacket.insertId, currentUserId);
-    const articleItem = this.transformToArticleItem(dbArticle);
+    const article = this.transformToArticleItem(dbArticle);
+    const articleItem = new ArticleItem();
+    articleItem.article = article;
     this.res.sendJson(articleItem);
   }
 
-  protected transformToArticleItem(dbArticle: DbArticle): ArticleItem {
+  protected transformToArticleItem(dbArticle: DbArticle): Article {
     const author = edk.pickProperties(new Author(), dbArticle as Omit<DbArticle, 'following'>);
     author.following = dbArticle.following ? true : false;
-    
+
     const article = edk.pickProperties(new Article(), dbArticle as Omit<DbArticle, 'favorited'>);
     article.author = author;
     article.favorited = dbArticle.favorited ? true : false;
-
-    const articleItem = new ArticleItem();
-    articleItem.article = article;
-    return articleItem;
+    return article;
   }
 
   protected getSlug(title: string) {
