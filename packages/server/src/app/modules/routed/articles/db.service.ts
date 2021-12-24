@@ -22,7 +22,35 @@ export class DbService {
     ;`;
     const tags = JSON.stringify(tagList || []);
     const { rows } = await this.mysql.query(sql, [userId, title, slug, description, body, tags]);
-    return rows as OkPacket;
+    const result = rows as OkPacket;
+    if (tagList && tagList.length) {
+      await this.insertIntoDictTags(userId, tagList);
+      await this.insertIntoMapArticlesTags(result.insertId, tagList);
+    }
+    return result;
+  }
+
+  async insertIntoDictTags(userId: number, tagList: string[]) {
+    const params: string[] = [];
+    const values = tagList.map((tag) => {
+      params.push(tag);
+      return `(?, ${userId})`;
+    });
+    const sql1 = `
+    insert ignore into dict_tags (tagName, creatorId)
+    values ${values.join(', ')}`;
+    await this.mysql.query(sql1, params);
+  }
+
+  async insertIntoMapArticlesTags(articleId: number, tagList: string[]) {
+    for (const tagName of tagList) {
+      const sql = `
+      insert ignore into map_articles_tags (articleId, tagId)
+      select ${articleId} as articleId, tagId
+      from dict_tags as t
+      where t.tagName = ?`;
+      await this.mysql.query(sql, tagName);
+    }
   }
 
   async putArticle(
