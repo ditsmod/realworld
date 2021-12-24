@@ -18,7 +18,7 @@ export class DbService {
     from cur_users as u
     left join map_followers as f
       on u.userId = f.userId
-        and f.follower_id = ?
+        and f.followerId = ?
     where u.username = ?
     ;`;
     const { rows } = await this.mysql.query(sql, [currentUserId, targetUserName]);
@@ -27,7 +27,7 @@ export class DbService {
 
   async followUser(currentUserId: number, targetUserName: string) {
     const sql = `
-    insert ignore into map_followers (userId, follower_id)
+    insert ignore into map_followers (userId, followerId)
     select
       userId,
       ?
@@ -45,7 +45,7 @@ export class DbService {
     join cur_users as u
       using(userId)
     where u.username = ?
-      and f.follower_id = ?
+      and f.followerId = ?
     ;`;
     const { rows } = await this.mysql.query(sql, [targetUserName, currentUserId]);
     return (rows as OkPacket);

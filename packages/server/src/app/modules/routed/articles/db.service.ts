@@ -40,13 +40,13 @@ export class DbService {
       u.username,
       u.bio,
       u.image,
-      if(f.follower_id is null, 0, 1) as following
+      if(f.followerId is null, 0, 1) as following
     from cur_articles as a
     join cur_users as u
       using(userId)
     left join map_followers as f
       on a.userId = f.userId
-        and f.follower_id = ?
+        and f.followerId = ?
     where article_id = ?
     ;`;
     const { rows } = await this.mysql.query(sql, [currentUserId, articleId]);
