@@ -29,7 +29,7 @@ And fill this file.
 yarn start
 ```
 
-After this, see OpenAPI docs on [http://localhost:3000/api/openapi](http://localhost:3000/api/openapi)
+After that, see OpenAPI docs on [http://localhost:3000/api/openapi](http://localhost:3000/api/openapi)
 
 ## Start the web server in production mode
 
