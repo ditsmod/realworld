@@ -58,12 +58,19 @@ export class ArticlePost {
   description: string = '';
   @Column({ [IS_REQUIRED]: true })
   body: string = '';
-  @Column({}, String)
+  @Column(
+    {
+      type: 'array',
+      maxItems: config.maxItemsTags,
+      items: { type: 'string', minLength: config.minLengthTag, maxLength: config.maxLengthTag },
+    },
+    String
+  )
   tagList?: string[] = [];
 }
 
 export class ArticlePostData {
-  @Column()
+  @Column({ [IS_REQUIRED]: true })
   article: ArticlePost;
 }
 

@@ -14,8 +14,11 @@ export class SharedConfig {
   maxLengthPassword = 20;
   minLengthUrl = 6;
   maxLengthUrl = 200;
+  minLengthTag = 3;
+  maxLengthTag = 50;
   minLengthBio = 3;
   maxLengthBio = 2000;
   minLengthArticleTitle = 6;
   maxLengthArticleTitle = 100;
+  maxItemsTags = 5;
 }
