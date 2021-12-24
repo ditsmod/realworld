@@ -6,7 +6,7 @@ import { Level } from '@ditsmod/logger';
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { CustomError } from '@service/error-handler/custom-error';
 import { ServerMsg } from '@service/msg/server-msg';
-import { getRequestBody, Responses } from '@models/oas-helpers';
+import { getRequestBody, Responses } from '@utils/oas-helpers';
 import { DbService } from './db.service';
 import { LoginFormData, PutUser, PutUserData, SignUpFormData, UserSessionData } from './models';
 

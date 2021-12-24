@@ -11,6 +11,7 @@
       "@routed/*": ["./src/app/modules/routed/*"],
       "@services-per-app/*": ["./src/app/services-per-app/*"],
       "@models/*": ["./src/app/models/*"],
+      "@utils/*": ["./src/app/utils/*"],
       "@shared": ["../shared/src"],
       "@shared/*": ["../shared/src/*"],
     }

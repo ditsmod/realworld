@@ -27,6 +27,7 @@
       "@routed/*": ["./packages/server/dist/app/modules/routed/*"],
       "@services-per-app/*": ["./packages/server/dist/app/services-per-app/*"],
       "@models/*": ["./packages/server/dist/app/models/*"],
+      "@utils/*": ["./packages/server/dist/app/utils/*"],
       "@shared": ["./packages/shared/dist/server"],
       "@shared/*": ["./packages/shared/dist/server/*"],
     }

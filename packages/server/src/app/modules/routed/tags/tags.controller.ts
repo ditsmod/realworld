@@ -1,7 +1,7 @@
 import { Controller, Res } from '@ditsmod/core';
 import { OasRoute } from '@ditsmod/openapi';
 
-import { Responses } from '@models/oas-helpers';
+import { Responses } from '@utils/oas-helpers';
 import { Tags } from './models';
 
 @Controller()

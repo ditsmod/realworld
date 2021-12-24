@@ -3,7 +3,7 @@ import { getContent } from '@ditsmod/openapi';
 import { Type } from '@ts-stack/di';
 import { OperationObject, ResponseObject, ResponsesObject, RequestBodyObject } from '@ts-stack/openapi-spec';
 
-import { ErrorTemplate } from './errors';
+import { ErrorTemplate } from '@models/errors';
 
 export type Model = Type<edk.AnyObj>;
 

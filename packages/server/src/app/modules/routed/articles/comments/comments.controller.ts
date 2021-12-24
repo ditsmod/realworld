@@ -2,7 +2,7 @@ import { Controller, Req, Res, Status } from '@ditsmod/core';
 import { getParams, OasRoute } from '@ditsmod/openapi';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
-import { getRequestBody, Responses } from '@models/oas-helpers';
+import { getRequestBody, Responses } from '@utils/oas-helpers';
 import { Params } from '@models/params';
 import { CommentData, CommentPostData, CommentsData } from './models';
 

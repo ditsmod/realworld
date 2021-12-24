@@ -3,7 +3,7 @@ import { getParams, OasRoute } from '@ditsmod/openapi';
 
 import { Params } from '@models/params';
 import { BearerGuard } from '@service/auth/bearer.guard';
-import { Responses } from '@models/oas-helpers';
+import { Responses } from '@utils/oas-helpers';
 import { UtilService } from '@service/util/util.service';
 import { AssertService } from '@service/validation/assert.service';
 import { AuthService } from '@service/auth/auth.service';
