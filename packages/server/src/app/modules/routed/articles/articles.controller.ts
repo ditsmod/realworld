@@ -87,7 +87,7 @@ export class ArticlesController {
     const slug = this.getSlug(article.title);
     const okPacket = await this.db.postArticles(userId, slug, article);
     const currentUserId = await this.authService.getCurrentUserId();
-    const dbArticle = await this.db.getArticlesById(okPacket.insertId, currentUserId);
+    const dbArticle = await this.db.getArticleById(okPacket.insertId, currentUserId);
     const articleItem = this.transformToArticleItem(dbArticle);
     this.res.sendJson(articleItem);
   }

@@ -25,7 +25,7 @@ export class DbService {
     return (rows as OkPacket);
   }
 
-  async getArticlesById(articleId: number, currentUserId: number) {
+  async getArticleById(articleId: number, currentUserId: number) {
     const sql = `
     select
       a.slug,
