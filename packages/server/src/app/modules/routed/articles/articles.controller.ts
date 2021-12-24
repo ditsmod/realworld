@@ -6,6 +6,7 @@ import { getRequestBody, Responses } from '@utils/oas-helpers';
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { UtilService } from '@service/util/util.service';
 import { AuthService } from '@service/auth/auth.service';
+import { AppConfigService } from '@service/app-config/config.service';
 import { Article, ArticleItem, ArticlePostData, Articles, Author } from './models';
 import { DbService } from './db.service';
 import { DbArticle } from './types';
@@ -17,7 +18,8 @@ export class ArticlesController {
     private res: Res,
     private authService: AuthService,
     private utils: UtilService,
-    private db: DbService
+    private db: DbService,
+    private config: AppConfigService
   ) {}
 
   @OasRoute('GET', '', [], {
@@ -31,10 +33,10 @@ export class ArticlesController {
     let tag: string = queryParams.tag || '';
     let author: string = queryParams.author || '';
     let favorited: string = queryParams.favorited || '';
-    let offset: number = queryParams.offset || '';
-    let limit: number = queryParams.limit || '';
+    let offset: number = queryParams.offset || 0;
+    let limit: number = queryParams.limit || this.config.perPage;
     const userId = await this.authService.getCurrentUserId();
-    const { dbArticles, articlesCount } = await this.db.getArticles(userId, {
+    const { dbArticles, foundRows } = await this.db.getArticles(userId, {
       tag,
       author,
       favorited,
@@ -43,7 +45,7 @@ export class ArticlesController {
     });
     const articles = new Articles();
     articles.articles = dbArticles.map((dbArticle) => this.transformToArticleItem(dbArticle));
-    articles.articlesCount = articlesCount;
+    articles.articlesCount = foundRows;
     this.res.sendJson(articles);
   }
 
@@ -66,7 +68,14 @@ export class ArticlesController {
   private async fead() {
     const currentUserId = await this.authService.getCurrentUserId();
     if (currentUserId) {
-      this.res.sendJson([new Article(), new Article()]);
+      const { queryParams } = this.req;
+      let offset: number = queryParams.offset || 0;
+      let limit: number = queryParams.limit || this.config.perPage;
+      const { dbArticles, foundRows } = await this.db.getArticlesByFeed(currentUserId, offset, limit);
+      const articles = new Articles();
+      articles.articles = dbArticles.map((dbArticle) => this.transformToArticleItem(dbArticle));
+      articles.articlesCount = foundRows;
+      this.res.sendJson(articles);
     } else {
       this.utils.throw401Error('jwt-token');
     }

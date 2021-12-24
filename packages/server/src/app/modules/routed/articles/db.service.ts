@@ -2,13 +2,12 @@ import { OkPacket } from 'mysql';
 import { Injectable } from '@ts-stack/di';
 
 import { MysqlService } from '@service/mysql/mysql.service';
-import { AppConfigService } from '@service/app-config/config.service';
 import { ArticlesSelectParams, DbArticle } from './types';
 import { ArticlePost } from './models';
 
 @Injectable()
 export class DbService {
-  constructor(private mysql: MysqlService, private config: AppConfigService) {}
+  constructor(private mysql: MysqlService) {}
 
   async postArticles(userId: number, slug: string, { title, description, body, tagList }: ArticlePost) {
     const sql = `
@@ -47,14 +46,47 @@ export class DbService {
       using(userId)
     left join map_followers as fol
       on a.userId = fol.userId
-        and fol.followerId = ?
+        and fol.followerId = ${currentUserId}
     left join map_favorites as fav
       on a.articleId = fav.articleId
-        and a.userId = ?
-    where a.articleId = ?
+        and a.userId = ${currentUserId}
+    where a.articleId = ${articleId}
     ;`;
-    const { rows } = await this.mysql.query(sql, [currentUserId, currentUserId, articleId]);
+    const { rows } = await this.mysql.query(sql);
     return (rows as DbArticle[])[0];
+  }
+
+  async getArticlesByFeed(currentUserId: number, offset: number, perPage: number) {
+    const sql = `
+    select
+    SQL_CALC_FOUND_ROWS
+      a.slug,
+      a.title,
+      a.description,
+      a.body,
+      a.tagList,
+      a.createdAt,
+      a.updatedAt,
+      a.favoritesCount,
+      if(fav.userId is null, 0, 1) as favorited,
+      u.username,
+      u.bio,
+      u.image,
+      1 as following
+    from cur_articles as a
+    join cur_users as u
+      using(userId)
+    join map_followers as fol
+      on a.userId = fol.userId
+    left join map_favorites as fav
+      on a.articleId = fav.articleId
+        and a.userId = ${currentUserId}
+    where fol.followerId = ${currentUserId}
+    order by a.articleId desc
+    limit ${offset}, ${perPage}
+    ;`;
+    const { result, foundRows } = await this.mysql.queryWithFoundRows(sql);
+    return { dbArticles: result.rows as DbArticle[], foundRows };
   }
 
   async getArticles(currentUserId: number, params: ArticlesSelectParams) {
@@ -79,15 +111,15 @@ export class DbService {
       using(userId)
     left join map_followers as fol
       on a.userId = fol.userId
-        and fol.followerId = ?
+        and fol.followerId = ${currentUserId}
     left join map_favorites as fav
       on a.articleId = fav.articleId
-        and a.userId = ?
+        and a.userId = ${currentUserId}
     `;
 
     let join = '';
     let aWhere: string[] = [];
-    const dbParams: (string | number)[] = [currentUserId, currentUserId];
+    const dbParams: (string | number)[] = [];
 
     if (params.tag) {
       join += `
@@ -119,19 +151,12 @@ export class DbService {
 
     const orderAndLimit = `
     order by a.articleId desc
-    limit ${params.offset || 0}, ${params.limit || this.config.perPage}
+    limit ${params.offset}, ${params.limit}
     ;`;
 
     const where = aWhere.length ? `\nwhere ${aWhere.join(' and ')}` : '';
     const sql1 = `${select}${join}${where}${orderAndLimit}`;
-    const poolConnection = await this.mysql.startTransaction();
-    const { rows: rows1 } = await this.mysql.queryInTransaction(poolConnection, sql1, dbParams);
-
-    const sql2 = `select found_rows() as articlesCount;`;
-    const { rows: rows2 } = await this.mysql.queryInTransaction(poolConnection, sql2);
-    this.mysql.commit(poolConnection);
-    const articlesCount = (rows2 as { articlesCount: number }[])[0].articlesCount;
-
-    return { dbArticles: rows1 as DbArticle[], articlesCount };
+    const { result, foundRows } = await this.mysql.queryWithFoundRows(sql1, dbParams);
+    return { dbArticles: result.rows as DbArticle[], foundRows };
   }
 }
