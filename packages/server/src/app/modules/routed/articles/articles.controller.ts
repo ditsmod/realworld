@@ -96,8 +96,9 @@ export class ArticlesController {
     const author = edk.pickProperties(new Author(), dbArticle as Omit<DbArticle, 'following'>);
     author.following = dbArticle.following ? true : false;
     
-    const article = edk.pickProperties(new Article(), dbArticle);
+    const article = edk.pickProperties(new Article(), dbArticle as Omit<DbArticle, 'favorited'>);
     article.author = author;
+    article.favorited = dbArticle.favorited ? true : false;
 
     const articleItem = new ArticleItem();
     articleItem.article = article;

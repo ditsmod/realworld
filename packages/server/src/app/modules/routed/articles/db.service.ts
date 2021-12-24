@@ -36,20 +36,23 @@ export class DbService {
       a.createdAt,
       a.updatedAt,
       a.favoritesCount,
-      -- favorited,
+      if(fav.userId is null, 0, 1) as favorited,
       u.username,
       u.bio,
       u.image,
-      if(f.followerId is null, 0, 1) as following
+      if(fol.followerId is null, 0, 1) as following
     from cur_articles as a
     join cur_users as u
       using(userId)
-    left join map_followers as f
-      on a.userId = f.userId
-        and f.followerId = ?
-    where articleId = ?
+    left join map_followers as fol
+      on a.userId = fol.userId
+        and fol.followerId = ?
+    left join map_favorites as fav
+      on a.articleId = fav.articleId
+        and a.userId = ?
+    where a.articleId = ?
     ;`;
-    const { rows } = await this.mysql.query(sql, [currentUserId, articleId]);
+    const { rows } = await this.mysql.query(sql, [currentUserId, currentUserId, articleId]);
     return (rows as DbArticle[])[0];
   }
 
