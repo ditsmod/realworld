@@ -88,6 +88,20 @@ export class MysqlService {
     });
   }
 
+  /**
+   * If your select used `SQL_CALC_FOUND_ROWS`, you can use this method to get results for
+   * this select and select with `found_rows()` function.
+   */
+  async queryWithFoundRows(sql1: string, params?: any) {
+    const poolConnection = await this.startTransaction();
+    const result = await this.queryInTransaction(poolConnection, sql1, params);
+    const sql2 = `select found_rows() as foundRows;`;
+    const result2 = await this.queryInTransaction(poolConnection, sql2);
+    this.commit(poolConnection);
+    const foundRows = (result2.rows as { foundRows: number }[])[0].foundRows;
+    return { result, foundRows };
+  }
+
   protected handleErr(msg1: string, err: MysqlError, reject: (...args: any[]) => void) {
     let level: Level;
     if (err.fatal) {
