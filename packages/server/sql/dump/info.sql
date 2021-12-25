@@ -41,6 +41,26 @@ CREATE TABLE `cur_articles` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `cur_comments`
+--
+
+DROP TABLE IF EXISTS `cur_comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cur_comments` (
+  `commentId` int unsigned NOT NULL AUTO_INCREMENT,
+  `userId` int unsigned NOT NULL,
+  `articleId` int unsigned NOT NULL,
+  `createdAt` int unsigned NOT NULL DEFAULT (unix_timestamp()),
+  `updatedAt` int unsigned DEFAULT NULL,
+  `body` text NOT NULL,
+  PRIMARY KEY (`commentId`),
+  KEY `fk_cur_comments_1_idx` (`userId`),
+  CONSTRAINT `fk_cur_comments_1` FOREIGN KEY (`userId`) REFERENCES `cur_users` (`userId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `cur_users`
 --
 
@@ -75,7 +95,7 @@ CREATE TABLE `dict_tags` (
   PRIMARY KEY (`tagId`),
   UNIQUE KEY `tag_name_UNIQUE` (`tagName`),
   KEY `fk_dict_tags_1_idx` (`creatorId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,4 +157,4 @@ CREATE TABLE `map_followers` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-24 20:15:25
+-- Dump completed on 2021-12-25 16:57:08
