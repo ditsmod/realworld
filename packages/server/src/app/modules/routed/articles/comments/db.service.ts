@@ -36,8 +36,10 @@ export class DbService {
     return rows as OkPacket;
   }
 
-  async getComment(currentUserId: number, commentId: number) {
-    const sql = `
+  async getComments(currentUserId: number): Promise<DbComment[]>;
+  async getComments(currentUserId: number, commentId: number): Promise<DbComment>;
+  async getComments(currentUserId: number, commentId?: number) {
+    const select = `
     select
       c.commentId,
       c.createdAt,
@@ -52,10 +54,21 @@ export class DbService {
       using(userId)
     left join map_followers as f
       on c.userId = f.userId
-        and f.followerId = ${currentUserId}
-    where commentId = ?
-    ;`;
-    const { rows } = await this.mysql.query(sql, commentId);
-    return (rows as DbComment[])[0];
+        and f.followerId = ?
+    `;
+    const params = [currentUserId];
+    let where = '';
+    if (commentId) {
+      where = `where commentId = ?`;
+      params.push(commentId);
+    }
+    const sql = select + where;
+    const { rows } = await this.mysql.query(sql, params);
+
+    if (commentId) {
+      return (rows as DbComment[])[0];
+    } else {
+      return rows as DbComment[];
+    }
   }
 }

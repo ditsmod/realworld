@@ -32,7 +32,7 @@ export class CommentsController {
     const slug = this.req.pathParams.slug as string;
     const okPacket = await this.db.postComment(userId, slug, commentPostData.comment.body);
     const commentId = okPacket.insertId;
-    const dbComment = await this.db.getComment(userId, commentId);
+    const dbComment = await this.db.getComments(userId, commentId);
     const commentData = new CommentData();
     commentData.comment = this.transformToComment(dbComment);
     this.res.sendJson(commentData);
@@ -48,10 +48,14 @@ export class CommentsController {
   }
 
   @OasRoute('GET', '', [], {
-    ...new Responses(CommentData, 'Description for response content.').get(),
+    ...new Responses(CommentsData, 'Description for response content.').get(),
   })
   async getComments() {
-    this.res.sendJson(new CommentsData());
+    const currentUserId = await this.authService.getCurrentUserId();
+    const dbComments = await this.db.getComments(currentUserId);
+    const commentsData = new CommentsData();
+    commentsData.comments = dbComments.map(dbComment => this.transformToComment(dbComment));
+    this.res.sendJson(commentsData);
   }
 
   @OasRoute('DELETE', ':id', [BearerGuard], {
