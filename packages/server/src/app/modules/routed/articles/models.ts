@@ -40,8 +40,8 @@ export class Article {
 }
 
 export class Articles {
-  @Column({}, Article)
-  articles: Article[] = [new Article()];
+  @Column({ [IS_REQUIRED]: true }, Article)
+  articles: Article[] = [];
   @Column()
   articlesCount: number = 0;
 }

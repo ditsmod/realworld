@@ -81,6 +81,23 @@ export class DbService {
     return rows as OkPacket;
   }
 
+  async deleteArticle(userId: number, hasPermissions: boolean, slug: string) {
+    let sql = `
+    delete from cur_articles
+    where slug = ?`;
+
+    const params: (string | number | undefined)[] = [slug];
+
+    if (!hasPermissions) {
+      // If no permissions, only owner can delete the article.
+      sql += ` and userId = ?;`;
+      params.push(userId);
+    }
+
+    const { rows } = await this.mysql.query(sql, params);
+    return rows as OkPacket;
+  }
+
   async getArticleById(articleId: number, currentUserId: number) {
     const sql = `
     select

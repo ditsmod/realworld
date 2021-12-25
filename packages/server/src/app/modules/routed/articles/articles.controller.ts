@@ -12,7 +12,7 @@ import { CustomError } from '@service/error-handler/custom-error';
 import { ServerMsg } from '@service/msg/server-msg';
 import { Article, ArticleItem, ArticlePostData, ArticlePutData, Articles, Author } from './models';
 import { DbService } from './db.service';
-import { DbArticle } from './types';
+import { ArticlesSelectParams, DbArticle } from './types';
 
 @Controller()
 export class ArticlesController {
@@ -34,19 +34,15 @@ export class ArticlesController {
   })
   async getArticles() {
     const { queryParams } = this.req;
-    let tag: string = queryParams.tag || '';
-    let author: string = queryParams.author || '';
-    let favorited: string = queryParams.favorited || '';
-    let offset: number = queryParams.offset || 0;
-    let limit: number = queryParams.limit || this.config.perPage;
+    const articlesSelectParams: ArticlesSelectParams = {
+      tag: queryParams.tag || '',
+      author: queryParams.author || '',
+      favorited: queryParams.favorited || '',
+      offset: queryParams.offset || 0,
+      limit: queryParams.limit || this.config.perPage,
+    };
     const userId = await this.authService.getCurrentUserId();
-    const { dbArticles, foundRows } = await this.db.getArticles(userId, {
-      tag,
-      author,
-      favorited,
-      offset,
-      limit,
-    });
+    const { dbArticles, foundRows } = await this.db.getArticles(userId, articlesSelectParams);
     const articles = new Articles();
     articles.articles = dbArticles.map((dbArticle) => this.transformToArticleItem(dbArticle));
     articles.articlesCount = foundRows;
@@ -157,6 +153,14 @@ export class ArticlesController {
     ...new Responses().getNoContentResponse(),
   })
   async delArticlesSlug() {
-    this.res.sendJson(new ArticleItem());
+    const hasPermissions = await this.authService.hasPermissions([Permission.canEditAnyPost]);
+    const currentUserId = await this.authService.getCurrentUserId();
+    const slug = this.req.pathParams.slug as string;
+    const okPacket = await this.db.deleteArticle(currentUserId, hasPermissions, slug);
+    if (!okPacket.affectedRows) {
+      this.utils.throw403Error('permissions', `You don't have permission to delete this article.`);
+    }
+
+    this.res.sendJson({ ok: 1 });
   }
 }
