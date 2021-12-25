@@ -32,6 +32,6 @@ export class CommentPost {
 }
 
 export class CommentPostData {
-  @Column()
+  @Column({ [IS_REQUIRED]: true })
   comment: CommentPost;
 }
