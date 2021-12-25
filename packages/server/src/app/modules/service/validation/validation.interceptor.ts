@@ -121,7 +121,7 @@ export class ValidationInterceptor implements HttpInterceptor {
 
       for (const propertyName2 in schema.properties) {
         const schema2 = schema.properties[propertyName2];
-        const value2 = value[propertyName2];
+        const value2 = value?.[propertyName2];
         const required2 = schema2[IS_REQUIRED];
         const args2 = schema2[VALIDATION_ARGS] || [];
         // @todo Check how it's works with circular refereces
@@ -136,7 +136,7 @@ export class ValidationInterceptor implements HttpInterceptor {
 
       if (Array.isArray(schema.items)) {
         schema.items.forEach((schema2, i) => {
-          const value2 = value[i];
+          const value2 = value?.[i];
           const required2 = schema2[IS_REQUIRED];
           const args2 = schema2[VALIDATION_ARGS] || [];
           // @todo Check how it's works with circular refereces
