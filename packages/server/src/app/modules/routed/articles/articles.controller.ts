@@ -153,7 +153,7 @@ export class ArticlesController {
     ...new Responses().getNoContentResponse(),
   })
   async delArticlesSlug() {
-    const hasPermissions = await this.authService.hasPermissions([Permission.canEditAnyPost]);
+    const hasPermissions = await this.authService.hasPermissions([Permission.canDeleteAnyPost]);
     const currentUserId = await this.authService.getCurrentUserId();
     const slug = this.req.pathParams.slug as string;
     const okPacket = await this.db.deleteArticle(currentUserId, hasPermissions, slug);

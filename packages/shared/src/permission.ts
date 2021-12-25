@@ -19,4 +19,12 @@ export const enum Permission {
    * Can hide any post (is a moderator).
    */
   canHideAnyPost = 5,
+  /**
+   * Can change any post (is a moderator).
+   */
+  canDeleteAnyPost = 6,
+  /**
+   * Can delete any article's comment (is a moderator).
+   */
+  canDeleteAnyComments = 7,
 }

@@ -19,6 +19,23 @@ export class DbService {
     return rows as OkPacket;
   }
 
+  async deleteArticle(userId: number, hasPermissions: boolean, commentId: number) {
+    let sql = `
+    delete from cur_comments
+    where commentId = ?`;
+
+    const params: (string | number | undefined)[] = [commentId];
+
+    if (!hasPermissions) {
+      // If no permissions, only owner can delete the comment.
+      sql += ` and userId = ?;`;
+      params.push(userId);
+    }
+
+    const { rows } = await this.mysql.query(sql, params);
+    return rows as OkPacket;
+  }
+
   async getComment(currentUserId: number, commentId: number) {
     const sql = `
     select
