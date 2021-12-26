@@ -32,7 +32,7 @@ export class ArticlesController {
       .setNotFoundResponse('The article not found.')
       .getUnprocessableEnryResponse(),
   })
-  async getArticles() {
+  async getLastArticles() {
     const { queryParams } = this.req;
     const articlesSelectParams: ArticlesSelectParams = {
       tag: queryParams.tag || '',
@@ -56,12 +56,12 @@ export class ArticlesController {
       .setNotFoundResponse('The article not found.')
       .getUnprocessableEnryResponse(),
   })
-  async getArticlesSlug() {
+  async getArticle() {
     // This need only because parameter `:slug` conflict with parameter `feed`.
     if (this.req.pathParams.slug == 'feed') {
       await this.fead();
     } else {
-      await this.slug();
+      await this.getArticleBySlug();
     }
   }
 
@@ -81,7 +81,7 @@ export class ArticlesController {
     }
   }
 
-  private async slug(slug?: string) {
+  async getArticleBySlug(slug?: string) {
     const currentUserId = await this.authService.getCurrentUserId();
     slug = slug || this.req.pathParams.slug;
     const dbArticle = await this.db.getArticleBySlug(slug!, currentUserId);
@@ -146,7 +146,7 @@ export class ArticlesController {
       this.utils.throw403Error('permissions', `You don't have permission to change this article.`);
     }
 
-    await this.slug(newSlug);
+    await this.getArticleBySlug(newSlug);
   }
 
   @OasRoute('DELETE', ':slug', [BearerGuard], {
