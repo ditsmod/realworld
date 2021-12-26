@@ -28,7 +28,7 @@ cp packages/server/.env-example packages/server/.env-test
 
 And fill this file.
 
-3. Then execute `MySQL`-dump from `packages/server/sql/dump/info.sql`.
+3. Then execute `MySQL`-dump from [packages/server/sql/dump/info.sql](./packages/server/sql/dump/info.sql).
 
 ## Start the web server in develop mode
 
