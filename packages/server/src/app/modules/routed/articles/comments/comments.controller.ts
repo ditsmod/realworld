@@ -1,9 +1,9 @@
 import { Controller, edk, Req, Res, Status } from '@ditsmod/core';
-import { getParams, OasRoute } from '@ditsmod/openapi';
+import { OasRoute } from '@ditsmod/openapi';
 
 import { Permission } from '@shared';
 import { BearerGuard } from '@service/auth/bearer.guard';
-import { getRequestBody, Responses } from '@utils/oas-helpers';
+import { OasOperationObject } from '@utils/oas-helpers';
 import { Params } from '@models/params';
 import { AuthService } from '@service/auth/auth.service';
 import { UtilService } from '@service/util/util.service';
@@ -23,8 +23,9 @@ export class CommentsController {
   ) {}
 
   @OasRoute('POST', '', [BearerGuard], {
-    ...getRequestBody(CommentPostData, 'Description for requestBody.'),
-    ...new Responses(CommentData, 'Description for response content.', Status.CREATED).getUnprocessableEnryResponse(),
+    ...new OasOperationObject()
+      .setRequestBody(CommentPostData, 'Description for requestBody.')
+      .getResponse(CommentData, 'Description for response content.', Status.CREATED),
   })
   async postComment() {
     const userId = await this.authService.getCurrentUserId();
@@ -52,19 +53,21 @@ export class CommentsController {
   }
 
   @OasRoute('GET', '', [], {
-    ...new Responses(CommentsData, 'Description for response content.').get(),
+    ...new OasOperationObject().getResponse(CommentsData, 'Description for response content.'),
   })
   async getComments() {
     const currentUserId = await this.authService.getCurrentUserId();
     const dbComments = await this.db.getComments(currentUserId);
     const commentsData = new CommentsData();
-    commentsData.comments = dbComments.map(dbComment => this.transformToComment(dbComment));
+    commentsData.comments = dbComments.map((dbComment) => this.transformToComment(dbComment));
     this.res.sendJson(commentsData);
   }
 
   @OasRoute('DELETE', ':id', [BearerGuard], {
-    parameters: getParams('path', true, Params, 'id'),
-    ...new Responses().setNotFoundResponse('Comment nof found.').setUnprocessableEnryResponse().getNoContentResponse(),
+    ...new OasOperationObject()
+      .setRequiredParams('path', Params, 'id')
+      .setNotFoundResponse('Comment nof found.')
+      .getNoContentResponse(),
   })
   async deleteComment() {
     const currentUserId = await this.authService.getCurrentUserId();

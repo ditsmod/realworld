@@ -6,7 +6,7 @@ import { Level } from '@ditsmod/logger';
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { CustomError } from '@service/error-handler/custom-error';
 import { ServerMsg } from '@service/msg/server-msg';
-import { getRequestBody, Responses } from '@utils/oas-helpers';
+import { OasOperationObject } from '@utils/oas-helpers';
 import { DbService } from './db.service';
 import { LoginFormData, PutUser, PutUserData, SignUpFormData, UserSessionData } from './models';
 
@@ -23,9 +23,9 @@ export class UsersController {
   @OasRoute('POST', 'users', [], {
     description: 'User registration.',
     tags: ['users'],
-    ...getRequestBody(SignUpFormData, 'Data that a user should send for registration.'),
-    ...new Responses(UserSessionData, 'After registration, this data is sent to the client.', Status.CREATED)
-      .getUnprocessableEnryResponse(),
+    ...new OasOperationObject()
+      .setRequestBody(SignUpFormData, 'Data that a user should send for registration.')
+      .getResponse(UserSessionData, 'After registration, this data is sent to the client.', Status.CREATED),
   })
   async signUpUser() {
     const signUpFormData = this.req.body as SignUpFormData;
@@ -38,9 +38,9 @@ export class UsersController {
   @OasRoute('POST', 'users/login', [], {
     description: 'User login.',
     tags: ['users'],
-    ...getRequestBody(LoginFormData, 'Data that a user should send for loggining.'),
-    ...new Responses(UserSessionData, 'After login, this data is sent to the client.')
-      .getUnprocessableEnryResponse(),
+    ...new OasOperationObject()
+      .setRequestBody(LoginFormData, 'Data that a user should send for loggining.')
+      .getResponse(UserSessionData, 'After login, this data is sent to the client.'),
   })
   async signInUser() {
     const { user } = this.req.body as LoginFormData;
@@ -60,7 +60,9 @@ export class UsersController {
   @OasRoute('GET', 'user', [BearerGuard], {
     description: 'Info about current user.',
     tags: ['user'],
-    ...new Responses(UserSessionData, 'Description for response content.').getNotFoundResponse('User not found.'),
+    ...new OasOperationObject()
+      .setResponse(UserSessionData, 'Description for response content.')
+      .getNotFoundResponse('User not found.'),
   })
   async getCurrentUser() {
     const userId = this.req.jwtPayload.userId as number;
@@ -81,10 +83,9 @@ export class UsersController {
   @OasRoute('PUT', 'user', [BearerGuard], {
     description: 'Update current user.',
     tags: ['user'],
-    ...getRequestBody(PutUserData, 'Any of this properties are required.'),
-    ...new Responses(UserSessionData, 'Returns the User.')
-      .setNotFoundResponse()
-      .getUnprocessableEnryResponse(),
+    ...new OasOperationObject()
+      .setRequestBody(PutUserData, 'Any of this properties are required.')
+      .getResponse(UserSessionData, 'Returns the User.'),
   })
   async updateCurrentUser() {
     const userId = this.req.jwtPayload.userId as number;

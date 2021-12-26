@@ -1,7 +1,7 @@
 import { Controller, Res } from '@ditsmod/core';
 import { OasRoute } from '@ditsmod/openapi';
 
-import { Responses } from '@utils/oas-helpers';
+import { OasOperationObject } from '@utils/oas-helpers';
 import { DbService } from './db.service';
 import { Tags } from './models';
 
@@ -10,7 +10,7 @@ export class TagsController {
   constructor(private res: Res, private db: DbService) {}
 
   @OasRoute('GET', '', [], {
-    ...new Responses(Tags, 'Description for response content.').get(),
+    ...new OasOperationObject().getResponse(Tags, 'Description for response content.'),
   })
   async getTags() {
     const dbTags = await this.db.getTags();

@@ -1,8 +1,8 @@
 import { Controller, Req, Res, Status, edk } from '@ditsmod/core';
-import { getParams, OasRoute } from '@ditsmod/openapi';
+import { OasRoute } from '@ditsmod/openapi';
 
 import { Params } from '@models/params';
-import { getRequestBody, Responses } from '@utils/oas-helpers';
+import { OasOperationObject } from '@utils/oas-helpers';
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { UtilService } from '@service/util/util.service';
 import { AuthService } from '@service/auth/auth.service';
@@ -27,10 +27,10 @@ export class ArticlesController {
   ) {}
 
   @OasRoute('GET', '', [], {
-    parameters: getParams('query', false, Params, 'tag', 'author', 'favorited', 'limit', 'offset'),
-    ...new Responses(Articles, 'Description for response content.')
-      .setNotFoundResponse('The article not found.')
-      .getUnprocessableEnryResponse(),
+    ...new OasOperationObject()
+      .setOptionalParams('query', Params, 'tag', 'author', 'favorited', 'limit', 'offset')
+      .setResponse(Articles, 'Description for response content.')
+      .getNotFoundResponse('The article not found.'),
   })
   async getLastArticles() {
     const { queryParams } = this.req;
@@ -50,11 +50,11 @@ export class ArticlesController {
   }
 
   @OasRoute('GET', ':slug', [], {
-    parameters: getParams('query', false, Params, 'tag', 'author', 'limit', 'offset'),
-    ...new Responses(ArticleItem, 'Description for response content.')
+    ...new OasOperationObject()
+      .setOptionalParams('query', Params, 'tag', 'author', 'limit', 'offset')
+      .setResponse(ArticleItem, 'Description for response content.')
       .setUnauthorizedResponse()
-      .setNotFoundResponse('The article not found.')
-      .getUnprocessableEnryResponse(),
+      .getNotFoundResponse('The article not found.'),
   })
   async getArticle() {
     // This need only because parameter `:slug` conflict with parameter `feed`.
@@ -95,8 +95,9 @@ export class ArticlesController {
   }
 
   @OasRoute('POST', '', [BearerGuard], {
-    ...getRequestBody(ArticlePostData, 'Description for requestBody.'),
-    ...new Responses(ArticleItem, 'Description for response content.', Status.CREATED).getUnprocessableEnryResponse(),
+    ...new OasOperationObject()
+      .setRequestBody(ArticlePostData, 'Description for requestBody.')
+      .getResponse(ArticleItem, 'Description for response content.', Status.CREATED),
   })
   async postArticles() {
     const userId = this.req.jwtPayload.userId as number;
@@ -124,7 +125,10 @@ export class ArticlesController {
     const author = edk.pickProperties(new Author(), dbArticle as Omit<DbArticle, 'following'>);
     author.following = dbArticle.following ? true : false;
 
-    const article = edk.pickProperties(new Article(), dbArticle as Omit<DbArticle, 'favorited' | 'createdAt' | 'updatedAt'>);
+    const article = edk.pickProperties(
+      new Article(),
+      dbArticle as Omit<DbArticle, 'favorited' | 'createdAt' | 'updatedAt'>
+    );
     article.author = author;
     article.createdAt = new Date(article.createdAt).toISOString();
     article.updatedAt = new Date(article.updatedAt).toISOString();
@@ -137,8 +141,9 @@ export class ArticlesController {
   }
 
   @OasRoute('PUT', ':slug', [BearerGuard], {
-    ...getRequestBody(ArticlePutData, 'Description for requestBody.'),
-    ...new Responses(ArticleItem, 'Description for response content.').getUnprocessableEnryResponse(),
+    ...new OasOperationObject()
+      .setRequestBody(ArticlePutData, 'Description for requestBody.')
+      .getResponse(ArticleItem, 'Description for response content.'),
   })
   async putArticlesSlug() {
     const hasPermissions = await this.authService.hasPermissions([Permission.canEditAnyPost]);
@@ -155,7 +160,7 @@ export class ArticlesController {
   }
 
   @OasRoute('DELETE', ':slug', [BearerGuard], {
-    ...new Responses().getNoContentResponse(),
+    ...new OasOperationObject().setUnprocessableEnryResponse().getResponse(),
   })
   async delArticlesSlug() {
     const hasPermissions = await this.authService.hasPermissions([Permission.canDeleteAnyPost]);

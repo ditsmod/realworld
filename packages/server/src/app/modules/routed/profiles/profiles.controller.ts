@@ -1,9 +1,9 @@
 import { Controller, Req, Res } from '@ditsmod/core';
-import { getParams, OasRoute } from '@ditsmod/openapi';
+import { OasRoute } from '@ditsmod/openapi';
 
 import { Params } from '@models/params';
 import { BearerGuard } from '@service/auth/bearer.guard';
-import { Responses } from '@utils/oas-helpers';
+import { OasOperationObject } from '@utils/oas-helpers';
 import { UtilService } from '@service/util/util.service';
 import { AssertService } from '@service/validation/assert.service';
 import { AuthService } from '@service/auth/auth.service';
@@ -23,14 +23,14 @@ export class ProfilesController {
 
   @OasRoute('GET', ':username', [], {
     description: 'Returns a profile for target user.',
-    parameters: getParams('path', true, Params, 'username'),
-    ...new Responses(ProfileData, 'Show profile for target username.')
-      .setUnprocessableEnryResponse()
-      .getNotFoundResponse('A profile with the specified username was not found.'),
+    ...new OasOperationObject()
+      .setRequiredParams('path', Params, 'username')
+      .setNotFoundResponse('A profile with the specified username was not found.')
+      .getResponse(ProfileData, 'Show profile for target username.'),
   })
   async getProfileOfTargetUser(currentUserId?: number) {
     const targetUserName = this.req.pathParams.username as string;
-    currentUserId = currentUserId || await this.authService.getCurrentUserId();
+    currentUserId = currentUserId || (await this.authService.getCurrentUserId());
     const profile = await this.db.getProfile(currentUserId!, targetUserName);
     if (!profile) {
       this.util.throw404Error('username', 'A profile with the specified username was not found.');
@@ -42,9 +42,10 @@ export class ProfilesController {
   }
 
   @OasRoute('POST', ':username/follow', [BearerGuard], {
-    parameters: getParams('path', true, Params, 'username'),
-    ...new Responses(ProfileData, 'Description for response content.')
-      .getNotFoundResponse('A profile with the specified username was not found.'),
+    ...new OasOperationObject()
+      .setRequiredParams('path', Params, 'username')
+      .setNotFoundResponse('A profile with the specified username was not found.')
+      .getResponse(ProfileData, 'Description for response content.'),
   })
   async followUser() {
     const currentUserId = this.req.jwtPayload?.userId;
@@ -54,8 +55,8 @@ export class ProfilesController {
   }
 
   @OasRoute('DELETE', ':username/follow', [BearerGuard], {
-    parameters: getParams('path', true, Params, 'username'),
-    ...new Responses()
+    ...new OasOperationObject()
+      .setRequiredParams('path', Params, 'username')
       .setNoContentResponse()
       .getNotFoundResponse('A profile with the specified username was not found.'),
   })
