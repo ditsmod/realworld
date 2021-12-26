@@ -1,4 +1,11 @@
-## About the project
+# ![RealWorld Example App](logo.png)
+
+> ### Ditsmod codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
+
+
+This codebase was created to demonstrate a fully fledged fullstack application built with **Ditsmod** including CRUD operations, authentication, routing, pagination, and more.
+
+# Getting started
 
 This monorepository includes [Ditsmod](https://ditsmod.github.io/en/docs/intro) applications seed.
 
