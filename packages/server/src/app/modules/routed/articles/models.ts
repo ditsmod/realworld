@@ -61,7 +61,7 @@ export class ArticlePost {
   @Column(
     {
       type: 'array',
-      maxItems: config.maxItemsTags,
+      maxItems: config.maxItemsTagsPerArticle,
       items: { type: 'string', minLength: config.minLengthTag, maxLength: config.maxLengthTag },
     },
     String

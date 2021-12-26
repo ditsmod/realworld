@@ -20,5 +20,6 @@ export class SharedConfig {
   maxLengthBio = 2000;
   minLengthArticleTitle = 6;
   maxLengthArticleTitle = 100;
-  maxItemsTags = 5;
+  maxItemsTagsPerArticle = 5;
+  maxItemsTagsPerPage = 50;
 }
