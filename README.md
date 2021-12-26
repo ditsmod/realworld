@@ -56,7 +56,7 @@ After that execute:
 yarn test-postman
 ```
 
-Ro rerun the tests, first you need clear MySQL tables:
+To rerun the tests, first you need clear MySQL tables:
 
 ```sql
 delete from curr_articles where articleId > 0;
