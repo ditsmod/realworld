@@ -12,8 +12,8 @@ export interface DbArticle {
   description: string;
   body: string;
   tagList: string[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt: number;
+  updatedAt: number;
   favorited: 0 | 1;
   favoritesCount: number;
   username: string;

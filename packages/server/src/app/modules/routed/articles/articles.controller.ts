@@ -118,11 +118,16 @@ export class ArticlesController {
   }
 
   protected transformToArticleItem(dbArticle: DbArticle): Article {
+    dbArticle.createdAt = dbArticle.createdAt * 1000;
+    dbArticle.updatedAt = dbArticle.updatedAt * 1000;
+
     const author = edk.pickProperties(new Author(), dbArticle as Omit<DbArticle, 'following'>);
     author.following = dbArticle.following ? true : false;
 
-    const article = edk.pickProperties(new Article(), dbArticle as Omit<DbArticle, 'favorited'>);
+    const article = edk.pickProperties(new Article(), dbArticle as Omit<DbArticle, 'favorited' | 'createdAt' | 'updatedAt'>);
     article.author = author;
+    article.createdAt = new Date(article.createdAt).toISOString();
+    article.updatedAt = new Date(article.updatedAt).toISOString();
     article.favorited = dbArticle.favorited ? true : false;
     return article;
   }

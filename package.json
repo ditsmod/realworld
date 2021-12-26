@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "test": "jest",
+    "test-postman": "APIURL=http://localhost:3000/api ./packages/server/tests/run-api-tests.sh",
     "start": "nodemon -e ts --exec ts-node -r tsconfig-paths/register packages/server/src/main.ts --project=packages/server/tsconfig.json",
     "start-prod": "node -r tsconfig-paths/register packages/server/dist/main.js",
     "boot": "lerna bootstrap",
@@ -21,6 +22,7 @@
     "@types/node": "^17.0.0",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
+    "bunyan": "^1.8.15",
     "eslint": "^8.5.0",
     "jest": "^27.0.3",
     "lerna": "^4.0.0",

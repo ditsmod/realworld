@@ -39,8 +39,12 @@ export class CommentsController {
   }
 
   protected transformToComment(dbComment: DbComment): Comment {
-    const commentData = edk.pickProperties(new Comment(), dbComment);
+    dbComment.createdAt = dbComment.createdAt * 1000;
+    dbComment.updatedAt = dbComment.updatedAt * 1000;
+    const commentData = edk.pickProperties(new Comment(), dbComment as Omit<DbComment, 'createdAt' | 'updatedAt'>);
     commentData.id = dbComment.commentId;
+    commentData.createdAt = new Date(commentData.createdAt).toISOString();
+    commentData.updatedAt = new Date(commentData.updatedAt).toISOString();
     const author = edk.pickProperties(new Author(), dbComment as Omit<DbComment, 'following'>);
     author.following = author.following ? true : false;
     commentData.author = author;

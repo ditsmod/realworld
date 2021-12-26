@@ -94,4 +94,8 @@ export class ServerMsg {
    * INTERNAL SERVER ERROR
    */
    internalError = `INTERNAL SERVER ERROR`;
+  /**
+   * You have an outdated token
+   */
+   youHaveObsoleteЕoken = `You have an outdated token`;
 }
