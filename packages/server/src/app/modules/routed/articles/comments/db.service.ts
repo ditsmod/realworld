@@ -10,9 +10,9 @@ export class DbService {
 
   async postComment(userId: number, slug: string, body: string) {
     const sql = `
-    insert into cur_comments(userId, body, articleId)
+    insert into curr_comments(userId, body, articleId)
     select ? as userId, ? as body, articleId
-    from cur_articles as a
+    from curr_articles as a
     where a.slug = ?
     ;`;
     const { rows } = await this.mysql.query(sql, [userId, body, slug]);
@@ -21,7 +21,7 @@ export class DbService {
 
   async deleteArticle(userId: number, hasPermissions: boolean, commentId: number) {
     let sql = `
-    delete from cur_comments
+    delete from curr_comments
     where commentId = ?`;
 
     const params: (string | number | undefined)[] = [commentId];
@@ -49,8 +49,8 @@ export class DbService {
       u.bio,
       u.image,
       if(f.userId is null, 0, 1) as following
-    from cur_comments as c
-    join cur_users as u
+    from curr_comments as c
+    join curr_users as u
       using(userId)
     left join map_followers as f
       on c.userId = f.userId

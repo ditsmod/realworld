@@ -11,7 +11,7 @@ export class DbService {
 
   async postArticle(userId: number, slug: string, { title, description, body, tagList }: ArticlePost) {
     const sql = `
-    insert into cur_articles
+    insert into curr_articles
     set
       userId = ?,
       title = ?,
@@ -61,7 +61,7 @@ export class DbService {
     { title, description, body }: ArticlePut
   ) {
     let sql = `
-    update cur_articles
+    update curr_articles
     set
       title = ifnull(?, title),
       description = ifnull(?, description),
@@ -83,7 +83,7 @@ export class DbService {
 
   async deleteArticle(userId: number, hasPermissions: boolean, slug: string) {
     let sql = `
-    delete from cur_articles
+    delete from curr_articles
     where slug = ?`;
 
     const params: (string | number | undefined)[] = [slug];
@@ -114,8 +114,8 @@ export class DbService {
       u.bio,
       u.image,
       if(fol.followerId is null, 0, 1) as following
-    from cur_articles as a
-    join cur_users as u
+    from curr_articles as a
+    join curr_users as u
       using(userId)
     left join map_followers as fol
       on a.userId = fol.userId
@@ -145,8 +145,8 @@ export class DbService {
       u.bio,
       u.image,
       if(fol.followerId is null, 0, 1) as following
-    from cur_articles as a
-    join cur_users as u
+    from curr_articles as a
+    join curr_users as u
       using(userId)
     left join map_followers as fol
       on a.userId = fol.userId
@@ -177,8 +177,8 @@ export class DbService {
       u.bio,
       u.image,
       1 as following
-    from cur_articles as a
-    join cur_users as u
+    from curr_articles as a
+    join curr_users as u
       using(userId)
     join map_followers as fol
       on a.userId = fol.userId
@@ -210,8 +210,8 @@ export class DbService {
       u.bio,
       u.image,
       if(fol.followerId is null, 0, 1) as following
-    from cur_articles as a
-    join cur_users as u
+    from curr_articles as a
+    join curr_users as u
       using(userId)
     left join map_followers as fol
       on a.userId = fol.userId
@@ -245,7 +245,7 @@ export class DbService {
       join += `
       join map_favorites as fav2
         on a.articleId = fav2.articleId
-      join cur_users as u2
+      join curr_users as u2
         on fav2.userId = u2.userId
       `;
 

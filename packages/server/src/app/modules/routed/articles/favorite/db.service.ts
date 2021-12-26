@@ -10,7 +10,7 @@ export class DbService {
   async setArticleFaforite(userId: number, slug: string) {
     const sql = `insert ignore into map_favorites(articleId, userId)
     select articleId, ${userId} as userId
-    from cur_articles
+    from curr_articles
     where slug = ?`;
     const { rows } = await this.mysql.query(sql, slug);
     return (rows as OkPacket);
@@ -19,7 +19,7 @@ export class DbService {
   async deleteArticleFaforite(userId: number, slug: string) {
     const sql = `delete f
     from map_favorites as f
-    join cur_articles as a
+    join curr_articles as a
       on f.articleId = a.articleId
         and f.userId = ${userId}
     where a.slug = ?`;

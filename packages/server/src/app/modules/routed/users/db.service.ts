@@ -20,13 +20,13 @@ export class DbService {
     const { email, username, password } = signUpFormData.user;
     await this.checkUserExists({ email, username });
     const params: any[] = [email, username, this.cryptoService.getCryptedPassword(password)];
-    const sql = `insert into cur_users set email = ?, username = ?, password = ?;`;
+    const sql = `insert into curr_users set email = ?, username = ?, password = ?;`;
     const { rows } = await this.mysql.query(sql, params);
     return (rows as OkPacket).insertId;
   }
 
   async checkUserExists({ email, username }: EmailOrUsername) {
-    const sql = `select 1 as userExists from cur_users where email = ? or username = ?;`;
+    const sql = `select 1 as userExists from curr_users where email = ? or username = ?;`;
     const { rows } = await this.mysql.query(sql, [email, username]);
     if ((rows as any[]).length) {
       throw new CustomError({
@@ -49,7 +49,7 @@ export class DbService {
       email,
       bio,
       image
-    from cur_users
+    from curr_users
     where email = ?
       and password = ?;`;
     const { rows } = await this.mysql.query(sql, params);
@@ -63,7 +63,7 @@ export class DbService {
       email,
       bio,
       image
-    from cur_users
+    from curr_users
     where userId = ${userId};`;
     const { rows } = await this.mysql.query(sql);
     return (rows as Omit<UserSession, 'token'>[])[0];
@@ -72,7 +72,7 @@ export class DbService {
   async putCurrentUser(userId: number, pubUser: PutUser) {
     const { email, username, password, image, bio } = pubUser;
     const sql = `
-    update cur_users
+    update curr_users
     set
       email = ifnull(?, email),
       username = ifnull(?, username),

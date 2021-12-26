@@ -15,7 +15,7 @@ export class DbService {
       bio,
       image,
       if(f.userId is null, 0, 1) as following
-    from cur_users as u
+    from curr_users as u
     left join map_followers as f
       on u.userId = f.userId
         and f.followerId = ?
@@ -31,7 +31,7 @@ export class DbService {
     select
       userId,
       ?
-    from cur_users as u
+    from curr_users as u
     where username = ?
     ;`;
     const { rows } = await this.mysql.query(sql, [currentUserId, targetUserName]);
@@ -42,7 +42,7 @@ export class DbService {
     const sql = `
     delete f 
     from map_followers as f
-    join cur_users as u
+    join curr_users as u
       using(userId)
     where u.username = ?
       and f.followerId = ?
