@@ -23,7 +23,7 @@ yarn boot # This command actually call "lerna bootstrap"
 2. Copy `packages/server/.env-example` to `packages/server/.env`:
 
 ```bash
-cp packages/server/.env-example packages/server/.env-test
+cp packages/server/.env-example packages/server/.env
 ```
 
 And fill this file.
@@ -53,7 +53,7 @@ you need to go through the three steps described above and start the web server.
 After that execute:
 
 ```bash
-yarn test-postman
+yarn postman-test
 ```
 
 To rerun the tests, first you need clear MySQL tables:
