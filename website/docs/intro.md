@@ -7,6 +7,8 @@ sidebar_position: 1
 
 Даний сайт призначений для репозиторія [realworld][1], тут викладено пояснення до імплементації [RealWorld][2] специфікації у Ditsmod-застосунку.
 
+Щоб перевірити роботу даного застосунку, вам необхідно мати встановленими Node.js та MySQL.
+
 ## З чого почати
 
 1. Клонуйте репозиторій одним із цих способів:
@@ -34,15 +36,15 @@ cp packages/server/.env-example packages/server/.env
 
 4. Потім виконайте скрипт, що являє собою `MySQL`-dump, із файла `packages/server/sql/dump/info.sql`.
 
-## Веб-сервер у режимі розробки
+## Запуск веб-сервера у режимі розробки
 
 ```bash
 yarn start
 ```
 
-Після цього, можете проглянути OpenAPI документацію на [http://localhost:3000/api/openapi](http://localhost:3000/api/openapi)
+Після цього, можете проглянути OpenAPI документацію на [http://localhost:3000/api/openapi][3]
 
-## Веб-сервер у продуктовому режимі
+## Запуск веб-сервера у продуктовому режимі
 
 ```bash
 yarn build
@@ -51,8 +53,8 @@ yarn start-prod
 
 ## Postman тести
 
-Щоб запустити [postman тести](https://github.com/gothinkster/realworld/blob/main/api/Conduit.postman_collection.json),
-вам потрібно пройти усі 4 кроки, що описані вище, та запустити веб-сервер.
+Щоб запустити [postman тести][4],
+вам потрібно пройти усі 4 кроки, описані вище, та запустити веб-сервер.
 
 Після цього можна запускати:
 
@@ -73,3 +75,9 @@ delete from map_followers where userId > 0;
 ```
 
 Не для усіх таблиць можна робити `truncate`, бо деякі із них мають "Foreign Keys".
+
+
+[1]: https://github.com/ditsmod/realworld
+[2]: https://github.com/gothinkster/realworld
+[3]: http://localhost:3000/api/openapi
+[4]: https://github.com/gothinkster/realworld/blob/main/api/Conduit.postman_collection.json
