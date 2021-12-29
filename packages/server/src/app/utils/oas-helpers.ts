@@ -18,12 +18,6 @@ export class OasOperationObject {
   private operationObject: OperationObject = { responses: {} };
   private params = new Parameters();
 
-  constructor(model?: Model, description: string = '', status?: Status) {
-    if (model) {
-      this.setResponse(model, description, status);
-    }
-  }
-
   setRequiredParams<T extends Type<edk.AnyObj>>(paramsIn: RequiredParamsIn, model: T, ...params: KeysOf<T>): this {
     this.params.required(paramsIn, model, ...params);
     return this;

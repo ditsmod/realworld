@@ -8,7 +8,7 @@ import { OasOperationObject } from './oas-helpers';
 describe('oas-helpers', () => {
   describe('Responses', () => {
     it('should returns entered data', () => {
-      const operationObject = new OasOperationObject(UserSessionData, 'After registration, this data is sent to the client.', Status.CREATED).getResponse();
+      const operationObject = new OasOperationObject().getResponse(UserSessionData, 'After registration, this data is sent to the client.', Status.CREATED);
       const expectedOjb: OperationObject = {
         responses: {
           [Status.CREATED]: {
@@ -17,6 +17,6 @@ describe('oas-helpers', () => {
         }
       };
       expect(operationObject).toMatchObject(expectedOjb);
-    })
+    });
   });
 });
