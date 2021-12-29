@@ -32,7 +32,10 @@ const config = {
         docs: {
           routeBasePath: '/',
           // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: ({ version, versionDocsDirPath, docPath, locale }) =>
+          locale == 'en'
+            ? `https://github.com/ditsmod/realworld/edit/main/website/i18n/en/docusaurus-plugin-content-docs/${version}/${docPath}`
+            : `https://github.com/ditsmod/realworld/edit/main/website/${versionDocsDirPath}/${docPath}`,
         },
         blog: false,
         theme: {

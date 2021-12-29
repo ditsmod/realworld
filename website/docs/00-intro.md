@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Ознайомлення
 
-Даний сайт призначений для репозиторія [realworld][1], тут викладено пояснення до імплементації [RealWorld][2] специфікації у Ditsmod-застосунку.
+Даний сайт призначений для репозиторія [RealWorld][1], тут викладено пояснення до імплементації [RealWorld специфікації][2] у Ditsmod-застосунку.
 
 Щоб перевірити роботу даного застосунку, вам необхідно мати встановленими Node.js та MySQL.
 
@@ -34,7 +34,7 @@ cp packages/server/.env-example packages/server/.env
 
 Та заповніть усі змінні, указані в цьому файлі.
 
-4. Потім виконайте скрипт, що являє собою `MySQL`-dump, із файла `packages/server/sql/dump/info.sql`.
+4. Потім виконайте скрипт, що являє собою `MySQL`-dump, із файла [packages/server/sql/dump/info.sql][5].
 
 ## Запуск веб-сервера у режимі розробки
 
@@ -62,7 +62,7 @@ yarn start-prod
 yarn postman-test
 ```
 
-Повторий запуск даних тестів потребує очичення MySQL таблиць:
+Повторний запуск даних тестів потребує очищення MySQL таблиць:
 
 ```sql
 delete from curr_articles where articleId > 0;
@@ -81,3 +81,4 @@ delete from map_followers where userId > 0;
 [2]: https://github.com/gothinkster/realworld
 [3]: http://localhost:3000/api/openapi
 [4]: https://github.com/gothinkster/realworld/blob/main/api/Conduit.postman_collection.json
+[5]: https://github.com/ditsmod/realworld/blob/main/packages/server/sql/dump/info.sql

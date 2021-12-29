@@ -19,7 +19,7 @@
     "removeComments": false,
     "moduleResolution": "node",
 
-    // Used only by tsconfig-paths
+    // Used only by tsconfig-paths during call "yarn start-prod"
     "baseUrl": ".",
     "paths": {
       "@classes/*": ["./packages/server/dist/app/classes/*"],
