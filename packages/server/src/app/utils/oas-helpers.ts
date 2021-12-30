@@ -8,8 +8,8 @@ import { ErrorTemplate } from '@models/errors';
 export type Model = Type<edk.AnyObj>;
 type RequiredParamsIn = 'query' | 'header' | 'path' | 'cookie';
 type OptionalParamsIn = 'query' | 'header' | 'cookie';
-type KeyOf<T extends Type<edk.AnyObj>> = Extract<keyof T['prototype'], string>;
-type KeysOf<T extends Type<edk.AnyObj>> = [KeyOf<T>, ...KeyOf<T>[]];
+type KeyOf<T extends Model> = Extract<keyof T['prototype'], string>;
+type KeysOf<T extends Model> = [KeyOf<T>, ...KeyOf<T>[]];
 
 /**
  * Helper to work with OpenAPI OperationObject.
@@ -18,22 +18,22 @@ export class OasOperationObject {
   private operationObject: OperationObject = { responses: {} };
   private params = new Parameters();
 
-  setRequiredParams<T extends Type<edk.AnyObj>>(paramsIn: RequiredParamsIn, model: T, ...params: KeysOf<T>): this {
+  setRequiredParams<T extends Model>(paramsIn: RequiredParamsIn, model: T, ...params: KeysOf<T>): this {
     this.params.required(paramsIn, model, ...params);
     return this;
   }
 
-  getRequiredParams<T extends Type<edk.AnyObj>>(paramsIn: RequiredParamsIn, model: T, ...params: KeysOf<T>) {
+  getRequiredParams<T extends Model>(paramsIn: RequiredParamsIn, model: T, ...params: KeysOf<T>) {
     this.setRequiredParams(paramsIn, model, ...params);
     return this.getResponse();
   }
 
-  setOptionalParams<T extends Type<edk.AnyObj>>(paramsIn: OptionalParamsIn, model: T, ...params: KeysOf<T>): this {
+  setOptionalParams<T extends Model>(paramsIn: OptionalParamsIn, model: T, ...params: KeysOf<T>): this {
     this.params.optional(paramsIn, model, ...params);
     return this;
   }
 
-  getOptionalParams<T extends Type<edk.AnyObj>>(paramsIn: OptionalParamsIn, model: T, ...params: KeysOf<T>) {
+  getOptionalParams<T extends Model>(paramsIn: OptionalParamsIn, model: T, ...params: KeysOf<T>) {
     this.setOptionalParams(paramsIn, model, ...params);
     return this.getResponse();
   }
