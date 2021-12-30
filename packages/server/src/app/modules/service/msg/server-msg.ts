@@ -97,5 +97,5 @@ export class ServerMsg {
   /**
    * You have an outdated token
    */
-   youHaveObsoleteЕoken = `You have an outdated token`;
+   youHaveObsoleteToken = `You have an outdated token`;
 }

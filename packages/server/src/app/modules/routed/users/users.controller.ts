@@ -69,7 +69,7 @@ export class UsersController {
     const dbUser = await this.db.getCurrentUser(userId);
     if (!dbUser) {
       throw new CustomError({
-        msg1: this.serverMsg.youHaveObsoleteЕoken,
+        msg1: this.serverMsg.youHaveObsoleteToken,
         args1: ['auth-token'],
         status: Status.UNAUTHORIZED,
         level: Level.error,
@@ -93,7 +93,7 @@ export class UsersController {
     const okPacket = await this.db.putCurrentUser(userId, putUser);
     if (!okPacket.affectedRows) {
       throw new CustomError({
-        msg1: this.serverMsg.youHaveObsoleteЕoken,
+        msg1: this.serverMsg.youHaveObsoleteToken,
         args1: ['auth-token'],
         status: Status.UNAUTHORIZED,
         level: Level.error,

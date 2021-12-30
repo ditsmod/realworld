@@ -12,7 +12,7 @@ type KeyOf<T extends Type<edk.AnyObj>> = Extract<keyof T['prototype'], string>;
 type KeysOf<T extends Type<edk.AnyObj>> = [KeyOf<T>, ...KeyOf<T>[]];
 
 /**
- * Helper to work with OpenAPI responses (ResponsesObject).
+ * Helper to work with OpenAPI OperationObject.
  */
 export class OasOperationObject {
   private operationObject: OperationObject = { responses: {} };
