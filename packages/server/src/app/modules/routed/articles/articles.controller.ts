@@ -69,8 +69,8 @@ export class ArticlesController {
     const currentUserId = await this.authService.getCurrentUserId();
     if (currentUserId) {
       const { queryParams } = this.req;
-      let offset: number = queryParams.offset || 0;
-      let limit: number = queryParams.limit || this.config.perPage;
+      const offset: number = queryParams.offset || 0;
+      const limit: number = queryParams.limit || this.config.perPage;
       const { dbArticles, foundRows } = await this.db.getArticlesByFeed(currentUserId, offset, limit);
       const articles = new Articles();
       articles.articles = dbArticles.map((dbArticle) => this.transformToArticleItem(dbArticle));
