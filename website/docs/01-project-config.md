@@ -91,7 +91,7 @@ yarn start
 
 ```bash
 yarn build
-yarn start-prod # Продуктовий режим
+yarn start-prod
 ```
 
 використовується файл `./tsconfig.json`, у ньому аліаси вказують на скомпільовані файли в директорії `dist`:
@@ -117,6 +117,9 @@ yarn start-prod # Продуктовий режим
 ```
 
 І для режиму розробки, і для продуктового режиму використовується утиліта [tsconfig-paths][1].
+
+
+Окрім цього, аліаси прописані також у `packages/server/jest.config.ts` щоб при тестуванні `jest` знав де шукати файли.
 
 
 [1]: https://github.com/dividab/tsconfig-paths
