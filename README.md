@@ -7,8 +7,8 @@ This codebase was created to demonstrate a fully fledged fullstack application b
 
 See also:
 
-- [Documentation in English][https://ditsmod.github.io/realworld/en/]
-- [Documentation in Ukrainian][https://ditsmod.github.io/realworld/]
+- [Documentation in English](https://ditsmod.github.io/realworld/en/)
+- [Documentation in Ukrainian](https://ditsmod.github.io/realworld/)
 
 # Getting started
 
