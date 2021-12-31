@@ -1,3 +1,3 @@
-# Логування
+# Logs
 
-У файлі `packages/server/src/app/app.module.ts` закоментовано три рядки із `AppLoggerModule` для того, щоб логи писались у консоль. Після того, як ви вивчите проект, ці рядки можна розкоментувати, щоб логи писались в указаний вами файл (by default це `packages/server/logs/20-info.log`).
+In `packages/server/src/app/app.module.ts` file comments three lines that includes `AppLoggerModule`, so the logs are written to the console. After you study the project, these lines can be uncommented so that the logs are written to the file you specified (by default it is `packages/server/logs/20-info.log`).

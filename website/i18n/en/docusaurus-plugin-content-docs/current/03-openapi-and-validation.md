@@ -1,18 +1,18 @@
-# OpenAPI та валідація
+# OpenAPI and validation
 
-Валідація вхідних даних у запитах працює на основі метаданих, що передаються в `@OasRoute()` (OAS - це скорочення від "OpenAPI Specification"). Перед стартом веб-сервера, [ValidationExtension][1] аналізує ці метадані, і якщо в конкретному роуті задекларовано, що запит може приходити із параметрами чи тілом запиту, в цей роут додається [ValidationInterceptor][2].
+Validation of input data in HTTP requests is based on metadata transmitted to `@OasRoute()` (OAS is "OpenAPI Specification"). Before starting the web server, [ValidationExtension][1] analyzes this metadata, and if it is declared in a particular route that the request may come with parameters or the body, [ValidationInterceptor][2] is added to this route.
 
-Щоправда, не усі метадані, які приймаються у `@OasRoute()`, беруться до уваги для валідації. На даний момент перевіряється таке:
+However, not all metadata accepted in `@OasRoute()` is taken into account for validation. The following is currently being tested:
 
-1. `number`: наявність параметра, мінімальне та максимальне значення;
-2. `string`: наявність параметра, мінімальна та максимальна довжина;
-3. `boolean`: наявність параметра та допустимі значення (0, 1, true, false);
-4. `object`: наявність параметра; робиться рекурсивний прохід по кожній властивості з перевіркою, описаною в усіх пунктах цього списку (`number`, `string`, `boolean`, `object`, `array`);
-4. `array`: наявність параметра, мінімальна та максимальна кількість елементів, а також відбувається перевірка, описана в усіх пунктах цього списку (`number`, `string`, `boolean`, `object`, `array`) для кожного елемента.
+1. `number`: availability of parameter, minimum and maximum value;
+2. `string`: availability of parameter, minimum and maximum length;
+3. `boolean`: availability of parameter and valid values (0, 1, true, false);
+4. `object`: availability of parameter; a recursive pass is made for each property with the check described in all items of this list (`number`, `string`, `boolean`, `object`, `array`);
+4. `array`: availability of parameter, the minimum and maximum number of items, as well as the check described in all items of this list (`number`, `string`, `boolean`, `object`, `array`) for each items.
 
 ## OasOperationObject
 
-Для спрощення передачі метаданих до `@OasRoute()`, створено хелпер [OasOperationObject][3]. Кожен метод цього класа має префікс `set*` або `get*`. Кожен із методів з префіксом `set*` повертає референс на інстанс `OasOperationObject`, через що можна викликати декілька методів підряд:
+To facilitate the transfer of metadata to `@OasRoute()`, a helper [OasOperationObject][3] has been created. Each method in this class is prefixed with `set*` or `get*`. Each of the methods with the prefix `set*` returns a reference to the instance of `OasOperationObject`, so you can call several methods in a chain:
 
 ```ts
 @OasRoute('GET', ':slug', [], {
@@ -27,9 +27,9 @@ async getArticle() {
 }
 ```
 
-Як бачите, тут тричі викликаються методи з префіксом `set*` і в самому кінці - один раз з префіксом `get*`. Це важливий момент: "Кожне використання інстансу `OasOperationObject` повинно завершуватись викликом методу з префіксом `get*`".
+As you can see, methods with the prefix `set*` are called three times and at the very end - once with the prefix `get*`. This is an important point: "Each use of the `OasOperationObject` instance must end with a method call with the prefix `get*`".
 
-Зверніть увагу, що тут `Params` та `ArticleItem` - це класи, що виступають тут у якості моделей даних, з яких хелпер `OasOperationObject` зчитує метадані. Для закріплення метаданих за кожною моделлю, використовується декоратор `@Column()`:
+Note that `Params` and `ArticleItem` here are the classes that act here as data models from which the `OasOperationObject` helper reads metadata. To pin metadata for each model, use the `@Column()` decorator:
 
 ```ts
 import { Column } from '@ditsmod/openapi';

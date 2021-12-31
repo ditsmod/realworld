@@ -1,9 +1,9 @@
-# Гарди
+# Guards
 
-У проекті є два гарди:
+The project has two guards:
 
-- [BearerGuard][1] - для перевірки автентифікації у користувача; він перевіряє чи має користувач валідний Json Web Token;
-- [PermissionsGuard][2] - для перевірки авторизації у користувача; він перевіряє чи користувач має право доступу до конкретного ресурсу (ця інформація теж витягається із Json Web Token).
+- [BearerGuard][1] - to verify user authentication; it checks if the user has a valid Json Web Token;
+- [PermissionsGuard][2] - to check the authorization of the user; it checks whether the user has the permissions to access a specific resource (this information is also extracted from the Json Web Token).
 
 
 [1]: https://github.com/ditsmod/realworld/blob/main/packages/server/src/app/modules/service/auth/bearer.guard.ts
