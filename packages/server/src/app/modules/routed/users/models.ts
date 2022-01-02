@@ -17,17 +17,11 @@ export class SignUpData extends LoginData {
   username: string;
 }
 
-/**
- * Taken from https://gothinkster.github.io/realworld/docs/specs/backend-specs/endpoints#authentication
- */
 export class LoginFormData {
   @Column({ [IS_REQUIRED]: true })
   user: LoginData;
 }
 
-/**
- * Taken from https://gothinkster.github.io/realworld/docs/specs/backend-specs/endpoints#registration
- */
 export class SignUpFormData {
   @Column({ [IS_REQUIRED]: true })
   user: SignUpData;
@@ -46,9 +40,6 @@ export class UserSession {
   image: string = '';
 }
 
-/**
- * Taken from https://gothinkster.github.io/realworld/docs/specs/backend-specs/api-response-format/#users-for-authentication
- */
 export class UserSessionData {
   constructor(userSession?: Partial<UserSession>) {
     this.user = { ...new UserSession(), ...(userSession || {}) };
@@ -64,9 +55,6 @@ export class PutUser extends UserSession {
   password: string = '';
 }
 
-/**
- * Taken from https://gothinkster.github.io/realworld/docs/specs/backend-specs/endpoints#update-user
- */
 export class PutUserData {
   @Column()
   user: PutUser;

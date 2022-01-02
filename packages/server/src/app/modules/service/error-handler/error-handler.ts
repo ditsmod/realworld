@@ -6,9 +6,6 @@ import { Level, LevelNames } from '@ditsmod/logger';
 
 import { ErrorOpts } from './custom-error';
 
-/**
- * Error handling, for more info see https://gothinkster.github.io/realworld/docs/specs/backend-specs/error-handling#errors-and-status-codes
- */
 @Injectable()
 export class ErrorHandler implements ControllerErrorHandler {
   constructor(
