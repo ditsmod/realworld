@@ -18,14 +18,21 @@ All packages are located in `packages/*` and are serviced by [lerna](https://git
 
 From start you need:
 
-1. Bootstrap the projects
+1. Clone the projects
+
+```bash
+git clone https://github.com/ditsmod/realworld.git my-app
+cd my-app
+```
+
+2. Bootstrap the projects
 
 ```bash
 yarn install
 yarn boot # This command actually call "lerna bootstrap"
 ```
 
-2. Copy `packages/server/.env-example` to `packages/server/.env`:
+3. Copy `packages/server/.env-example` to `packages/server/.env`:
 
 ```bash
 cp packages/server/.env-example packages/server/.env
@@ -33,7 +40,7 @@ cp packages/server/.env-example packages/server/.env
 
 And fill this file.
 
-3. Then execute `MySQL`-dump from [packages/server/sql/dump/info.sql](./packages/server/sql/dump/info.sql).
+4. Then create database (for example `real_world`), grant access permissions for this database, and execute `MySQL`-dump from [packages/server/sql/dump/info.sql](./packages/server/sql/dump/info.sql).
 
 ## Start the web server in develop mode
 
