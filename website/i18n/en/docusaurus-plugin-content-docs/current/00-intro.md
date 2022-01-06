@@ -11,11 +11,9 @@ To work with this application, you need to have Node.js and MySQL installed.
 
 ## Getting started
 
-1. Clone the repository in one of the following ways:
+1. Clone the repository:
 
 ```bash
-git clone git@github.com:ditsmod/realworld.git
-# OR
 git clone https://github.com/ditsmod/realworld.git
 ```
 
@@ -34,7 +32,7 @@ cp packages/server/.env-example packages/server/.env
 
 And fill this file.
 
-4. Then run the script, which is `MySQL`-dump, from [packages/server/sql/dump/info.sql][5].
+4. Then create database (for example `real_world`), grant access permissions for this database, and execute `MySQL`-dump from [packages/server/sql/dump/info.sql][5].
 
 ## Start the web server in develop mode
 

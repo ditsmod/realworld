@@ -11,11 +11,9 @@ sidebar_position: 1
 
 ## З чого почати
 
-1. Клонуйте репозиторій одним із цих способів:
+1. Клонуйте репозиторій:
 
 ```bash
-git clone git@github.com:ditsmod/realworld.git
-# АБО
 git clone https://github.com/ditsmod/realworld.git
 ```
 
@@ -34,7 +32,7 @@ cp packages/server/.env-example packages/server/.env
 
 Та заповніть усі змінні, указані в цьому файлі.
 
-4. Потім виконайте скрипт, що являє собою `MySQL`-dump, із файла [packages/server/sql/dump/info.sql][5].
+4. Створіть базу даних (наприклад `real_world`) в MySQL, надайте права для неї, а потім виконайте скрипт, що являє собою `MySQL`-dump, із файла [packages/server/sql/dump/info.sql][5].
 
 ## Запуск веб-сервера у режимі розробки
 
