@@ -52,7 +52,7 @@ yarn start-prod
 ## Postman tests
 
 To run [postman tests][4],
-you need to go through the three steps described above and start the web server.
+you need to go through steps described above and start the web server.
 
 After that execute:
 
