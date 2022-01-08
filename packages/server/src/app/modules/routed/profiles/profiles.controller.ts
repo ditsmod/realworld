@@ -21,7 +21,7 @@ export class ProfilesController {
     private assert: AssertService
   ) {}
 
-  @OasRoute('GET', ':username', [], {
+  @OasRoute('GET', ':username', {
     description: 'Returns a profile for target user.',
     ...new OasOperationObject()
       .setRequiredParams('path', Params, 'username')

@@ -52,7 +52,7 @@ export class CommentsController {
     return commentData;
   }
 
-  @OasRoute('GET', '', [], {
+  @OasRoute('GET', '', {
     ...new OasOperationObject().getResponse(CommentsData, 'Description for response content.'),
   })
   async getComments() {

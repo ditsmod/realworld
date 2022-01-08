@@ -20,7 +20,7 @@ export class UsersController {
     private serverMsg: ServerMsg
   ) {}
 
-  @OasRoute('POST', 'users', [], {
+  @OasRoute('POST', 'users', {
     description: 'User registration.',
     tags: ['users'],
     ...new OasOperationObject()
@@ -35,7 +35,7 @@ export class UsersController {
     this.res.sendJson(userSessionData, Status.CREATED);
   }
 
-  @OasRoute('POST', 'users/login', [], {
+  @OasRoute('POST', 'users/login', {
     description: 'User login.',
     tags: ['users'],
     ...new OasOperationObject()

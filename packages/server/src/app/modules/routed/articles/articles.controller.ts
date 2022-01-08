@@ -26,7 +26,7 @@ export class ArticlesController {
     private serverMsg: ServerMsg
   ) {}
 
-  @OasRoute('GET', '', [], {
+  @OasRoute('GET', '', {
     ...new OasOperationObject()
       .setOptionalParams('query', Params, 'tag', 'author', 'favorited', 'limit', 'offset')
       .setResponse(Articles, 'Description for response content.')
@@ -49,7 +49,7 @@ export class ArticlesController {
     this.res.sendJson(articles);
   }
 
-  @OasRoute('GET', ':slug', [], {
+  @OasRoute('GET', ':slug', {
     ...new OasOperationObject()
       .setOptionalParams('query', Params, 'tag', 'author', 'limit', 'offset')
       .setResponse(ArticleItem, 'Description for response content.')

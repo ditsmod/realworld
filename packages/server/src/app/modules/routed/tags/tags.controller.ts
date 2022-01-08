@@ -9,7 +9,7 @@ import { Tags } from './models';
 export class TagsController {
   constructor(private res: Res, private db: DbService) {}
 
-  @OasRoute('GET', '', [], {
+  @OasRoute('GET', '', {
     ...new OasOperationObject().getResponse(Tags, 'Description for response content.'),
   })
   async getTags() {
