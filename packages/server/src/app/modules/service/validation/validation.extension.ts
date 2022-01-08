@@ -1,4 +1,4 @@
-import { edk, HTTP_INTERCEPTORS } from '@ditsmod/core';
+import { Extension, ExtensionsManager, HTTP_INTERCEPTORS, RouteMeta, ROUTES_EXTENSIONS } from '@ditsmod/core';
 import { BODY_PARSER_EXTENSIONS } from '@ditsmod/body-parser';
 import { isReferenceObject, OasRouteMeta } from '@ditsmod/openapi';
 import { Injectable, InjectionToken, ReflectiveInjector } from '@ts-stack/di';
@@ -9,13 +9,13 @@ import { ValidationInterceptor } from './validation.interceptor';
 /**
  * A group of extensions that validates input request parameters.
  */
- export const VALIDATION_EXTENSIONS = new InjectionToken<edk.Extension<void>[]>('VALIDATION_EXTENSIONS');
+export const VALIDATION_EXTENSIONS = new InjectionToken<Extension<void>[]>('VALIDATION_EXTENSIONS');
 
 @Injectable()
-export class ValidationExtension implements edk.Extension<void> {
+export class ValidationExtension implements Extension<void> {
   private inited: boolean;
 
-  constructor(private injectorPerApp: ReflectiveInjector, private extensionsManager: edk.ExtensionsManager) {}
+  constructor(private injectorPerApp: ReflectiveInjector, private extensionsManager: ExtensionsManager) {}
 
   async init() {
     if (this.inited) {
@@ -28,7 +28,7 @@ export class ValidationExtension implements edk.Extension<void> {
   }
 
   protected async filterParameters() {
-    const metadataPerMod2Arr = await this.extensionsManager.init(edk.ROUTES_EXTENSIONS);
+    const metadataPerMod2Arr = await this.extensionsManager.init(ROUTES_EXTENSIONS);
 
     metadataPerMod2Arr.forEach((metadataPerMod2) => {
       const { aControllersMetadata2, providersPerMod } = metadataPerMod2;
@@ -56,7 +56,7 @@ export class ValidationExtension implements edk.Extension<void> {
         }
 
         if (validationRouteMeta.parameters.length || validationRouteMeta.requestBodyProperties) {
-          providersPerRou.push({ provide: ValidationRouteMeta, useExisting: edk.RouteMeta });
+          providersPerRou.push({ provide: ValidationRouteMeta, useExisting: RouteMeta });
           providersPerReq.push({
             provide: HTTP_INTERCEPTORS,
             useClass: ValidationInterceptor,

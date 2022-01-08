@@ -1,4 +1,4 @@
-import { Controller, Req, Res, Status, edk } from '@ditsmod/core';
+import { Controller, pickProperties, Req, Res, Status } from '@ditsmod/core';
 import { OasRoute } from '@ditsmod/openapi';
 
 import { Params } from '@models/params';
@@ -122,10 +122,10 @@ export class ArticlesController {
     dbArticle.createdAt = dbArticle.createdAt * 1000;
     dbArticle.updatedAt = dbArticle.updatedAt * 1000;
 
-    const author = edk.pickProperties(new Author(), dbArticle as Omit<DbArticle, 'following'>);
+    const author = pickProperties(new Author(), dbArticle as Omit<DbArticle, 'following'>);
     author.following = dbArticle.following ? true : false;
 
-    const article = edk.pickProperties(
+    const article = pickProperties(
       new Article(),
       dbArticle as Omit<DbArticle, 'favorited' | 'createdAt' | 'updatedAt'>
     );

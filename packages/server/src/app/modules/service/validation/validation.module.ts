@@ -1,10 +1,10 @@
-import { edk, Module } from '@ditsmod/core';
+import { Module, PRE_ROUTER_EXTENSIONS } from '@ditsmod/core';
 
 import { AssertService } from './assert.service';
 import { ValidationExtension, VALIDATION_EXTENSIONS } from './validation.extension';
 
 @Module({
   providersPerApp: [AssertService],
-  extensions: [[edk.PRE_ROUTER_EXTENSIONS, VALIDATION_EXTENSIONS, ValidationExtension, true]],
+  extensions: [[PRE_ROUTER_EXTENSIONS, VALIDATION_EXTENSIONS, ValidationExtension, true]],
 })
 export class ValidationModule {}

@@ -1,11 +1,11 @@
-import { edk, Status } from '@ditsmod/core';
+import { AnyObj, Status } from '@ditsmod/core';
 import { getContent, Parameters } from '@ditsmod/openapi';
 import { Type } from '@ts-stack/di';
 import { OperationObject, ResponseObject } from '@ts-stack/openapi-spec';
 
 import { ErrorTemplate } from '@models/errors';
 
-export type Model = Type<edk.AnyObj>;
+export type Model = Type<AnyObj>;
 type RequiredParamsIn = 'query' | 'header' | 'path' | 'cookie';
 type OptionalParamsIn = 'query' | 'header' | 'cookie';
 type KeyOf<T extends Model> = Extract<keyof T['prototype'], string>;

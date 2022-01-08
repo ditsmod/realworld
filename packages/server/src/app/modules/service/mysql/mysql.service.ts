@@ -1,7 +1,7 @@
 import { createPool, Pool, PoolConnection, MysqlError, OkPacket, FieldInfo } from 'mysql';
 import { Injectable } from '@ts-stack/di';
 import { Level } from '@ditsmod/logger';
-import { Status, edk } from '@ditsmod/core';
+import { AnyObj, Status } from '@ditsmod/core';
 
 import { ServerMsg } from '@service/msg/server-msg';
 import { CustomError } from '@service/error-handler/custom-error';
@@ -32,7 +32,7 @@ export class MysqlService {
     });
   }
 
-  async query<T = edk.AnyObj>(
+  async query<T = AnyObj>(
     sql: string,
     params?: any,
     dbName?: string
@@ -56,7 +56,7 @@ export class MysqlService {
     return connection;
   }
 
-  queryInTransaction<T = edk.AnyObj>(
+  queryInTransaction<T = AnyObj>(
     connection: PoolConnection,
     sql: string,
     params?: any
@@ -111,9 +111,7 @@ export class MysqlService {
     }
     let status: number = Status.INTERNAL_SERVER_ERROR;
     if (!isNaN(parseFloat(err.sqlMessage || ''))) {
-      let rawMsg: string;
-      let rawStatus: string;
-      [rawMsg, rawStatus] = err.sqlMessage!.split(',');
+      const [rawMsg, rawStatus] = err.sqlMessage!.split(',');
       msg1 = rawMsg || msg1;
       status = +rawStatus || status;
     }
