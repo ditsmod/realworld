@@ -332,10 +332,10 @@
   dependencies:
     get-body "^1.0.3"
 
-"@ditsmod/core@^2.0.0-beta.1":
-  version "2.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.0.0-beta.1.tgz#fe2efa061b1959bb37f6af187ef3c00316ffb5e6"
-  integrity sha512-FkVjav6z16VDvx23CpsSF2zdA1oL0OfLxxg1I36aDMnDrx0ROKYm2ehLsIRFjk9fgsnSx6GkNcVD/mLFSuZIHg==
+"@ditsmod/core@^2.0.0-beta.2":
+  version "2.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.0.0-beta.2.tgz#9d0178fa67eff271da826d750dca0b3535fe605a"
+  integrity sha512-tAb8Q9cax49hXu6BVXbZOa+W6y3/8As+KooF3L7Hm9qwbA9BpNwnKxacrtuDO/PPe4mkuJduS1M+FED+pN7HBQ==
 
 "@ditsmod/jwt@^2.0.0-beta.2":
   version "2.0.0-beta.2"

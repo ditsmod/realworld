@@ -35,6 +35,10 @@ import { TagsModule } from '@routed/tags/tags.module';
     // AppLoggerModule, // Uncomment this to allow write logs with AppLoggerModule
     ConfigModule,
     MsgModule,
+    ValidationModule,
+    ErrorHandlerModule,
+    UtilModule,
+    BodyParserModule,
   ],
   controllers: [],
   resolvedCollisionsPerApp: [

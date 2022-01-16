@@ -1,10 +1,12 @@
 import * as path from 'path';
-require('dotenv').config({path: path.resolve(__dirname + '../../../../../../.env')});
+import { config } from 'dotenv';
 import { PoolConnection } from 'mysql';
+config({ path: path.resolve(__dirname + '../../../../../../.env') });
 
 import { ServerMsg } from '@service/msg/server-msg';
 import { MySqlConfigService } from './mysql-config.service';
 import { MysqlService } from './mysql.service';
+
 
 describe('MysqlService', () => {
   it('get connection for default database', async () => {

@@ -1,7 +1,7 @@
 import { Module } from '@ditsmod/core';
 import { JwtModule } from '@ditsmod/jwt';
-import { AuthService } from './auth.service';
 
+import { AuthService } from './auth.service';
 import { BearerGuard } from './bearer.guard';
 import { ModuleConfigService } from './config.service';
 import { CryptoService } from './crypto.service';
