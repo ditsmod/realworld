@@ -88,5 +88,13 @@ If you want to add, for example, an Angular application, you can do this:
 
 ```bash
 npm install -g @angular/cli
-ng new packages/my-angular-application
+ng new packages/<your-project-name>
+```
+
+Then open `packages/<your-project-name>/angular.json` and fix `$schema`:
+
+```json
+// ...
+"$schema": "../../node_modules/@angular/cli/lib/config/schema.json",
+// ...
 ```
