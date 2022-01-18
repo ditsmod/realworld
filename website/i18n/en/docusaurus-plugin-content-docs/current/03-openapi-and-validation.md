@@ -35,7 +35,7 @@ Note that `Params` and `ArticleItem` here are the classes that act here as data 
 import { Column } from '@ditsmod/openapi';
 
 export class ArticleItem {
-  @Column({}, Article)
+  @Column()
   article: Article;
 }
 ```

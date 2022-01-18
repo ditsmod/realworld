@@ -47,7 +47,7 @@ export class Articles {
 }
 
 export class ArticleItem {
-  @Column({}, Article)
+  @Column()
   article: Article = new Article();
 }
 

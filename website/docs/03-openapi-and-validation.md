@@ -35,7 +35,7 @@ async getArticle() {
 import { Column } from '@ditsmod/openapi';
 
 export class ArticleItem {
-  @Column({}, Article)
+  @Column()
   article: Article;
 }
 ```
