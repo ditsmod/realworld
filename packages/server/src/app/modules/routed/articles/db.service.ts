@@ -222,7 +222,7 @@ export class DbService {
     `;
 
     let join = '';
-    let aWhere: string[] = [];
+    const aWhere: string[] = [];
     const dbParams: (string | number)[] = [];
 
     if (params.tag) {

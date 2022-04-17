@@ -18,14 +18,14 @@ All packages are located in `packages/*` and are serviced by [lerna](https://git
 
 From start you need:
 
-1. Clone the projects
+1. Clone the project
 
 ```bash
 git clone https://github.com/ditsmod/realworld.git my-app
 cd my-app
 ```
 
-2. Bootstrap the projects
+2. Bootstrap the project
 
 ```bash
 yarn install
@@ -60,7 +60,7 @@ yarn start-prod
 ## Postman tests
 
 To run [postman tests](https://github.com/gothinkster/realworld/blob/main/api/Conduit.postman_collection.json),
-you need to go through the three steps described above and start the web server.
+you need to go through the four steps described above and start the web server.
 
 After that execute:
 
