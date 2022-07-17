@@ -325,17 +325,17 @@
   dependencies:
     "@cspotcode/source-map-consumer" "0.8.0"
 
-"@ditsmod/body-parser@^2.0.0-beta.2":
-  version "2.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@ditsmod/body-parser/-/body-parser-2.0.0-beta.2.tgz#2e2fadf9fbfa594dde14aad2e8d5e03ecb3f3900"
-  integrity sha512-7GGw7/6G/bkgdEW46y0FQDRIBkW1r5zssBgsT7GJIWeQJyZxkes3wPl9/cxY60jiAjNA1swExnoo2+PVh8UIRQ==
+"@ditsmod/body-parser@^2.0.0-beta.3":
+  version "2.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/@ditsmod/body-parser/-/body-parser-2.0.0-beta.3.tgz#6900e6e40f52a661988fc2f7e27bc3498580ddaf"
+  integrity sha512-wCcoLRzR8I3JlW5KYEh8gRymuQF5T5uo6/t1vA8Uacf7gYjJSp7SfOUSh4vDB8ivYeDe16pFOcMqvnfx42LUzA==
   dependencies:
     get-body "^1.0.3"
 
-"@ditsmod/core@^2.0.0-beta.2":
-  version "2.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.0.0-beta.2.tgz#9d0178fa67eff271da826d750dca0b3535fe605a"
-  integrity sha512-tAb8Q9cax49hXu6BVXbZOa+W6y3/8As+KooF3L7Hm9qwbA9BpNwnKxacrtuDO/PPe4mkuJduS1M+FED+pN7HBQ==
+"@ditsmod/core@^2.0.0-beta.6":
+  version "2.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.0.0-beta.6.tgz#fa489179f53fe4665cb15c8e2c31667948902fba"
+  integrity sha512-NWjRuyUKmpwxxzBRECZQJtn8uxpciIfDiQyYdJtvr11qGiYhnzCZywd3bUKbv2Q4rmp23iTa3QNDCUmgNQXV3A==
 
 "@ditsmod/jwt@^2.0.0-beta.2":
   version "2.0.0-beta.2"
@@ -353,10 +353,10 @@
   optionalDependencies:
     mv "~2"
 
-"@ditsmod/openapi@^2.0.0-beta.2":
-  version "2.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.0.0-beta.2.tgz#2806cb33044d4dfab774f835b5846c85c29574e8"
-  integrity sha512-OC+6MaRGrLvHd7gis4FeMzG+Ds8uHy5LxKrkMdEXZ6p4GaSuKfTYE+eRgRY4CfPBjcQFqYrzirJ55KmWvOB6sw==
+"@ditsmod/openapi@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.0.0.tgz#bde25f17258281d8558b914502e153fbec122c44"
+  integrity sha512-15vuQ0B9XTxRUtRf0H12Q/Dyue4vveVOFZWSA3pBfVO/TBRJhORs32LaPbCn3o0JLRtyJsk/2oQTcpPGa9ASiw==
   dependencies:
     "@ts-stack/openapi-spec" "^3.1.2"
     copy-webpack-plugin "^8.1.1"

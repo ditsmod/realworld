@@ -9,8 +9,8 @@ import { FavoriteModule } from './favorite/favorite.module';
 
 @Module({
   imports: [
-    { prefix: 'comments', module: CommentsModule },
-    { prefix: 'favorite', module: FavoriteModule },
+    { path: 'comments', module: CommentsModule },
+    { path: 'favorite', module: FavoriteModule },
   ],
   controllers: [ArticlesController],
   providersPerReq: [DbService],
