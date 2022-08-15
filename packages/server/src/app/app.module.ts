@@ -45,7 +45,7 @@ const loggerConfig = new LoggerConfig('info');
   ],
   controllers: [],
   providersPerApp: [
-    // { provide: Logger, useValue: logger }, // Uncomment this to allow write logs with AppLoggerModule
+    // { provide: Logger, useValue: logger }, // Uncomment this to allow write logs to file
     { provide: LoggerConfig, useValue: loggerConfig },
     { provide: BunyanLogger, useExisting: Logger },
   ],
