@@ -1,7 +1,6 @@
 import { createHash } from 'crypto';
 import { NodeRequest, Status } from '@ditsmod/core';
 import { Injectable } from '@ts-stack/di';
-import { Level } from '@ditsmod/logger';
 
 import { ServerMsg } from '../msg/server-msg';
 import { CustomError } from '../error-handler/custom-error';
@@ -23,7 +22,7 @@ export class UtilService {
       msg1: message || this.serverMsg.pageNotFound,
       args1: [paramName],
       status: Status.NOT_FOUND,
-      level: Level.trace,
+      level: 'trace',
     });
   }
 
@@ -32,7 +31,7 @@ export class UtilService {
       msg1: message || this.serverMsg.authRequired,
       args1: [paramName],
       status: Status.UNAUTHORIZED,
-      level: Level.trace,
+      level: 'trace',
     });
   }
 
@@ -41,7 +40,7 @@ export class UtilService {
       msg1: message || this.serverMsg.forbidden,
       args1: [paramName],
       status: Status.FORBIDDEN,
-      level: Level.warn,
+      level: 'warn',
     });
   }
 }

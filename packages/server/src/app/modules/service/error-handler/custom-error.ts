@@ -1,6 +1,5 @@
 import { ChainError } from '@ts-stack/chain-error';
-import { Level } from '@ditsmod/logger';
-import { Status } from '@ditsmod/core';
+import { LogLevel, Status } from '@ditsmod/core';
 
 export class ErrorOpts {
   /**
@@ -22,7 +21,7 @@ export class ErrorOpts {
   /**
    * Log level.
    */
-  level?: Level = Level.trace;
+  level?: LogLevel = 'trace';
   /**
    * HTTP response status.
    */

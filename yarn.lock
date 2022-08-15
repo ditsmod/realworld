@@ -325,33 +325,24 @@
   dependencies:
     "@cspotcode/source-map-consumer" "0.8.0"
 
-"@ditsmod/body-parser@^2.0.0-beta.3":
-  version "2.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@ditsmod/body-parser/-/body-parser-2.0.0-beta.3.tgz#6900e6e40f52a661988fc2f7e27bc3498580ddaf"
-  integrity sha512-wCcoLRzR8I3JlW5KYEh8gRymuQF5T5uo6/t1vA8Uacf7gYjJSp7SfOUSh4vDB8ivYeDe16pFOcMqvnfx42LUzA==
+"@ditsmod/body-parser@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@ditsmod/body-parser/-/body-parser-2.0.1.tgz#29150375b66e2c70c273dbf4746340338af6be8b"
+  integrity sha512-HrMxIMz9JTgBqrjce5vfdgmKIdy1T6r6QyIl4sBnnH4DRemQYHQjHCl3tQbvPmKii7ACZ7Vd7F+7PAxXM0XhPQ==
   dependencies:
     get-body "^1.0.3"
 
-"@ditsmod/core@^2.0.0-beta.6":
-  version "2.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.0.0-beta.6.tgz#fa489179f53fe4665cb15c8e2c31667948902fba"
-  integrity sha512-NWjRuyUKmpwxxzBRECZQJtn8uxpciIfDiQyYdJtvr11qGiYhnzCZywd3bUKbv2Q4rmp23iTa3QNDCUmgNQXV3A==
+"@ditsmod/core@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.3.0.tgz#dfe60bd1b4e1c743ea651a7e28edde1a8d453bc2"
+  integrity sha512-Z327XoAmwbEIpAfxvQ8+fxDCd/Qx8/PMJ3wS6kQnYewyJv8xE4GN6gPjL+nzNz5QN73sZCN3txbkLlJkVpJQtw==
 
-"@ditsmod/jwt@^2.0.0-beta.2":
-  version "2.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@ditsmod/jwt/-/jwt-2.0.0-beta.2.tgz#b5837f47e4fb58eb0b75488f88964b791844adaf"
-  integrity sha512-k/uSytGG2Y+0fZu2WDRR8paUcAMVpYTMaeyjV48jkcWKl41oOfOdaBoO8O/xccMY2Ild6U5jaFedxyAE6U0V4w==
+"@ditsmod/jwt@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/jwt/-/jwt-2.0.0.tgz#340c907597bc877f56931892fc792a25b59cb436"
+  integrity sha512-AHVYfeDi3HkSwQFoJ1t43nGc3Wdpbyi4j6UQZHAIeAPmsosIAhTqXluTrPAPzgw5CM98GbWyYmSw1yd6PdKBPQ==
   dependencies:
     jsonwebtoken "^8.5.1"
-
-"@ditsmod/logger@^0.0.0-alpha.5":
-  version "0.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@ditsmod/logger/-/logger-0.0.0-alpha.5.tgz#8067c91c81d085f17e2695a31117fb8a9c721621"
-  integrity sha512-W0F1szO9DiERmUSIBfJucLWpgOMV3uEhSixxCTKrM13zAnmlHHPqXtB3tdpYA+X3YAX3nXlL0aygI0B9t1UZLA==
-  dependencies:
-    assert-plus "^1.0.0"
-  optionalDependencies:
-    mv "~2"
 
 "@ditsmod/openapi@^2.0.0":
   version "2.0.0"
@@ -369,10 +360,10 @@
     yaml "^1.10.2"
     yaml-loader "^0.6.0"
 
-"@ditsmod/router@^2.0.0-beta.2":
-  version "2.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@ditsmod/router/-/router-2.0.0-beta.2.tgz#916bcfd28f194ab5fbfdcbe66e94fa5bba0a3223"
-  integrity sha512-bKO70EjLhnVD1QxgnIdha+BzflFpLKEP4hashi7mlQDLDTixrXxzN+FPjiyrwsjEry/zhqxnwRgJfBdAggasHw==
+"@ditsmod/router@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/router/-/router-2.0.0.tgz#c0d5fd4eb87fce7591eb5b87397b0421811c58d8"
+  integrity sha512-pEsTRclciBCNIev9z9GkUchU9VD6NArypa5vs5b9NzYgtFII4nUmeVZJtpokb+uKcPVq4P9rebsMYYSkCRDIvg==
 
 "@eslint/eslintrc@^1.0.5":
   version "1.0.5"
@@ -1598,6 +1589,13 @@
   integrity sha512-K2waXdXBi2302XUdcHcR1jCeU0LL4TD9HRs/gk0N2Xvrht+G/BfJa4QObBQZfhMdxiCpV3COl5Nfq4uKTeTnJA==
   dependencies:
     "@babel/types" "^7.3.0"
+
+"@types/bunyan@^1.8.8":
+  version "1.8.8"
+  resolved "https://registry.yarnpkg.com/@types/bunyan/-/bunyan-1.8.8.tgz#8d6d33f090f37c07e2a80af30ae728450a101008"
+  integrity sha512-Cblq+Yydg3u+sGiz2mjHjC5MPmdjY+No4qvHrF+BUhblsmSfMvsHLbOG62tPbonsqBj6sbWv1LHcsoe5Jw+/Ow==
+  dependencies:
+    "@types/node" "*"
 
 "@types/dotenv@^8.2.0":
   version "8.2.0"

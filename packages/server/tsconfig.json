@@ -1,11 +1,13 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "esModuleInterop": true,
     "noImplicitOverride": true,
     "outDir": "dist",
     "rootDir": "src",
     "baseUrl": ".",
     "paths": {
+      "@configs/*": ["./src/app/configs/*"],
       "@classes/*": ["./src/app/classes/*"],
       "@service/*": ["./src/app/modules/service/*"],
       "@routed/*": ["./src/app/modules/routed/*"],

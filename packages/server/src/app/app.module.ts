@@ -1,8 +1,8 @@
 import * as http from 'http';
-import { ControllerErrorHandler, Logger, LoggerConfig, RootModule } from '@ditsmod/core';
+import { ControllerErrorHandler, Logger, LoggerConfig, LogLevel, RootModule } from '@ditsmod/core';
 import { RouterModule } from '@ditsmod/router';
+import BunyanLogger, { createLogger } from 'bunyan';
 
-import { AppLoggerModule } from '@service/logger/app-logger.module';
 import { MysqlModule } from '@service/mysql/mysql.module';
 import { ValidationModule } from '@service/validation/validation.module';
 import { ErrorHandlerModule } from '@service/error-handler/error-handler.module';
@@ -16,6 +16,10 @@ import { UsersModule } from '@routed/users/users.module';
 import { ProfilesModule } from '@routed/profiles/profiles.module';
 import { ArticlesModule } from '@routed/articles/articles.module';
 import { TagsModule } from '@routed/tags/tags.module';
+import { loggerOptions } from '@configs/logger-options';
+
+const logger = createLogger(loggerOptions);
+const loggerConfig = new LoggerConfig('info');
 
 @RootModule({
   httpModule: http,
@@ -24,7 +28,7 @@ import { TagsModule } from '@routed/tags/tags.module';
   listenOptions: { port: 3000, host: 'localhost' },
   path: 'api',
   imports: [
-    UsersModule,
+    { path: '', module: UsersModule },
     { path: 'profiles', module: ProfilesModule },
     { path: 'articles/:slug', module: ArticlesModule },
     { path: 'tags', module: TagsModule },
@@ -32,7 +36,6 @@ import { TagsModule } from '@routed/tags/tags.module';
     AuthModule,
     MysqlModule,
     openapiModuleWithParams,
-    // AppLoggerModule, // Uncomment this to allow write logs with AppLoggerModule
     ConfigModule,
     MsgModule,
     ValidationModule,
@@ -41,9 +44,10 @@ import { TagsModule } from '@routed/tags/tags.module';
     BodyParserModule,
   ],
   controllers: [],
-  resolvedCollisionsPerApp: [
-    // [Logger, AppLoggerModule], // Uncomment this to allow write logs with AppLoggerModule
-    // [LoggerConfig, AppLoggerModule], // Uncomment this to allow write logs with AppLoggerModule
+  providersPerApp: [
+    // { provide: Logger, useValue: logger }, // Uncomment this to allow write logs with AppLoggerModule
+    { provide: LoggerConfig, useValue: loggerConfig },
+    { provide: BunyanLogger, useExisting: Logger },
   ],
   resolvedCollisionsPerReq: [[ControllerErrorHandler, ErrorHandlerModule]],
   exports: [
@@ -55,4 +59,19 @@ import { TagsModule } from '@routed/tags/tags.module';
     BodyParserModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(config: LoggerConfig) {
+    logger.level(config.level);
+
+    // Logger must have `log` method.
+    (logger as unknown as Logger).log = (level: LogLevel, ...args: any[]) => {
+      const [arg1, ...rest] = args;
+      logger[level](arg1, ...rest);
+    };
+
+    // Logger must have `setLevel` method.
+    (logger as unknown as Logger).setLevel = (value: LogLevel) => {
+      logger.level(value);
+    };
+  }
+}

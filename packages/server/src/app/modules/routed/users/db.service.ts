@@ -1,6 +1,5 @@
 import { OkPacket } from 'mysql';
 import { Injectable } from '@ts-stack/di';
-import { Level } from '@ditsmod/logger';
 
 import { MysqlService } from '@service/mysql/mysql.service';
 import { CustomError } from '@service/error-handler/custom-error';
@@ -32,7 +31,7 @@ export class DbService {
       throw new CustomError({
         msg1: this.serverMsg.usernameOrEmailAlreadyExists,
         args1: ['email-or-username'],
-        level: Level.trace,
+        level: 'trace',
       });
     }
   }

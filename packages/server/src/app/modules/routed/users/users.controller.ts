@@ -1,7 +1,6 @@
 import { Controller, Req, Res, Status } from '@ditsmod/core';
 import { JwtService } from '@ditsmod/jwt';
 import { OasRoute } from '@ditsmod/openapi';
-import { Level } from '@ditsmod/logger';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { CustomError } from '@service/error-handler/custom-error';
@@ -72,7 +71,7 @@ export class UsersController {
         msg1: this.serverMsg.youHaveObsoleteToken,
         args1: ['auth-token'],
         status: Status.UNAUTHORIZED,
-        level: Level.error,
+        level: 'error',
       });
     }
     const userSessionData = new UserSessionData(dbUser);
@@ -96,7 +95,7 @@ export class UsersController {
         msg1: this.serverMsg.youHaveObsoleteToken,
         args1: ['auth-token'],
         status: Status.UNAUTHORIZED,
-        level: Level.error,
+        level: 'error',
       });
     }
     await this.getCurrentUser();

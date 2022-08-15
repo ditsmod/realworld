@@ -1,7 +1,6 @@
 import { createPool, Pool, PoolConnection, MysqlError, OkPacket, FieldInfo } from 'mysql';
 import { Injectable } from '@ts-stack/di';
-import { Level } from '@ditsmod/logger';
-import { AnyObj, Status } from '@ditsmod/core';
+import { AnyObj, LogLevel, Status } from '@ditsmod/core';
 
 import { ServerMsg } from '@service/msg/server-msg';
 import { CustomError } from '@service/error-handler/custom-error';
@@ -103,11 +102,11 @@ export class MysqlService {
   }
 
   protected handleErr(msg1: string, err: MysqlError, reject: (...args: any[]) => void) {
-    let level: Level;
+    let level: LogLevel;
     if (err.fatal) {
-      level = Level.fatal;
+      level = 'fatal';
     } else {
-      level = Level.error;
+      level = 'error';
     }
     let status: number = Status.INTERNAL_SERVER_ERROR;
     if (!isNaN(parseFloat(err.sqlMessage || ''))) {
