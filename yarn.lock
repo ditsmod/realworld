@@ -325,17 +325,17 @@
   dependencies:
     "@cspotcode/source-map-consumer" "0.8.0"
 
-"@ditsmod/body-parser@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@ditsmod/body-parser/-/body-parser-2.0.1.tgz#29150375b66e2c70c273dbf4746340338af6be8b"
-  integrity sha512-HrMxIMz9JTgBqrjce5vfdgmKIdy1T6r6QyIl4sBnnH4DRemQYHQjHCl3tQbvPmKii7ACZ7Vd7F+7PAxXM0XhPQ==
+"@ditsmod/body-parser@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/body-parser/-/body-parser-2.1.0.tgz#74861ee7bc70d80d141277586a716aa7fac870b9"
+  integrity sha512-0E0H8GngFn/zJ3gpocN2hgpkYmblyk2gBvfhih0hzjQS4xOrxjdynXz9qs+Q0zWBciN8vhCHdmF/nGYxm7Od5w==
   dependencies:
     get-body "^1.0.3"
 
-"@ditsmod/core@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.3.0.tgz#dfe60bd1b4e1c743ea651a7e28edde1a8d453bc2"
-  integrity sha512-Z327XoAmwbEIpAfxvQ8+fxDCd/Qx8/PMJ3wS6kQnYewyJv8xE4GN6gPjL+nzNz5QN73sZCN3txbkLlJkVpJQtw==
+"@ditsmod/core@^2.13.3":
+  version "2.13.3"
+  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.13.3.tgz#bc705a4d76b0231426e267219346fe8e2d68421b"
+  integrity sha512-0Rkv0qmfkWt/lgDm9MIsfAcR3rvGFGXEG0iR9Qr/DYQ94KhqhCkhzs7csio6WHh52x3Sr6GSePg82wXctGfXpQ==
 
 "@ditsmod/jwt@^2.0.0":
   version "2.0.0"
@@ -344,10 +344,10 @@
   dependencies:
     jsonwebtoken "^8.5.1"
 
-"@ditsmod/openapi@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.0.0.tgz#bde25f17258281d8558b914502e153fbec122c44"
-  integrity sha512-15vuQ0B9XTxRUtRf0H12Q/Dyue4vveVOFZWSA3pBfVO/TBRJhORs32LaPbCn3o0JLRtyJsk/2oQTcpPGa9ASiw==
+"@ditsmod/openapi@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.2.1.tgz#e7a65f0c542598549bc758a26b005a4565aa8fc2"
+  integrity sha512-tGzCINHc7zONsB7Qz+q29sQCNkGQyeAxYS1uLN8891lIwMW22nxRJyi3URbg00SfvYL87n9namiV4CZrb79+TQ==
   dependencies:
     "@ts-stack/openapi-spec" "^3.1.2"
     copy-webpack-plugin "^8.1.1"
@@ -360,10 +360,10 @@
     yaml "^1.10.2"
     yaml-loader "^0.6.0"
 
-"@ditsmod/router@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@ditsmod/router/-/router-2.0.0.tgz#c0d5fd4eb87fce7591eb5b87397b0421811c58d8"
-  integrity sha512-pEsTRclciBCNIev9z9GkUchU9VD6NArypa5vs5b9NzYgtFII4nUmeVZJtpokb+uKcPVq4P9rebsMYYSkCRDIvg==
+"@ditsmod/router@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/router/-/router-2.2.0.tgz#551e2b1e67bab81394a1456e264161139b192215"
+  integrity sha512-koNGvdzxzjvnubpKTX2ZjQ+DzX03DaIvdrIWDsSNgKZgFqBbVQfpeXCZeVccgCEEeBJl5cDmyBP2ldzFFQgUHw==
 
 "@eslint/eslintrc@^1.0.5":
   version "1.0.5"

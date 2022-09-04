@@ -5,6 +5,8 @@ import { ValidationExtension, VALIDATION_EXTENSIONS } from './validation.extensi
 
 @Module({
   providersPerApp: [AssertService],
-  extensions: [[PRE_ROUTER_EXTENSIONS, VALIDATION_EXTENSIONS, ValidationExtension, true]],
+  extensions: [
+    { extension: ValidationExtension, groupToken: VALIDATION_EXTENSIONS, nextToken: PRE_ROUTER_EXTENSIONS, exported: true }
+  ],
 })
 export class ValidationModule {}

@@ -18,11 +18,11 @@
     "clean": "rimraf dist ./**/*.tsbuildinfo"
   },
   "dependencies": {
-    "@ditsmod/body-parser": "^2.0.1",
-    "@ditsmod/core": "^2.3.0",
+    "@ditsmod/body-parser": "^2.1.0",
+    "@ditsmod/core": "^2.13.3",
     "@ditsmod/jwt": "^2.0.0",
-    "@ditsmod/openapi": "^2.0.0",
-    "@ditsmod/router": "^2.0.0",
+    "@ditsmod/openapi": "^2.2.1",
+    "@ditsmod/router": "^2.2.0",
     "@ts-stack/chain-error": "^1.2.0",
     "@ts-stack/cookies": "^1.0.2",
     "@ts-stack/di": "^1.2.0",
