@@ -1,5 +1,5 @@
 import * as http from 'http';
-import { ControllerErrorHandler, Logger, LoggerConfig, LogLevel, RootModule } from '@ditsmod/core';
+import { ControllerErrorHandler, Logger, LoggerConfig, Providers, RootModule } from '@ditsmod/core';
 import { RouterModule } from '@ditsmod/router';
 import BunyanLogger, { createLogger } from 'bunyan';
 
@@ -16,10 +16,9 @@ import { UsersModule } from '@routed/users/users.module';
 import { ProfilesModule } from '@routed/profiles/profiles.module';
 import { ArticlesModule } from '@routed/articles/articles.module';
 import { TagsModule } from '@routed/tags/tags.module';
-import { loggerOptions } from '@configs/logger-options';
+import { loggerOptions, patchLogger } from '@configs/logger-options';
 
 const logger = createLogger(loggerOptions);
-const loggerConfig = new LoggerConfig('info');
 
 @RootModule({
   httpModule: http,
@@ -45,33 +44,16 @@ const loggerConfig = new LoggerConfig('info');
   ],
   controllers: [],
   providersPerApp: [
-    // { provide: Logger, useValue: logger }, // Uncomment this to allow write logs to file
-    { provide: LoggerConfig, useValue: loggerConfig },
     { provide: BunyanLogger, useExisting: Logger },
+    ...new Providers()
+    .useValue(LoggerConfig, { level: 'info' })
+    // .useLogger(logger, { level: 'info' }) // Uncomment this to allow write to packages/server/logs
   ],
   resolvedCollisionsPerReq: [[ControllerErrorHandler, ErrorHandlerModule]],
-  exports: [
-    AuthModule,
-    openapiModuleWithParams,
-    ValidationModule,
-    ErrorHandlerModule,
-    UtilModule,
-    BodyParserModule,
-  ],
+  exports: [AuthModule, openapiModuleWithParams, ValidationModule, ErrorHandlerModule, UtilModule, BodyParserModule],
 })
 export class AppModule {
   constructor(config: LoggerConfig) {
-    logger.level(config.level);
-
-    // Logger must have `log` method.
-    (logger as unknown as Logger).log = (level: LogLevel, ...args: any[]) => {
-      const [arg1, ...rest] = args;
-      logger[level](arg1, ...rest);
-    };
-
-    // Logger must have `setLevel` method.
-    (logger as unknown as Logger).setLevel = (value: LogLevel) => {
-      logger.level(value);
-    };
+    patchLogger(logger, config);
   }
 }
