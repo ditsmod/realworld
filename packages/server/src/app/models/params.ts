@@ -1,8 +1,8 @@
 import { Column } from '@ditsmod/openapi';
+import { VALIDATION_ARGS } from '@ditsmod/openapi-validation';
 
 import { AppConfigService } from '@service/app-config/config.service';
 import { ServerMsg } from '@service/msg/server-msg';
-import { VALIDATION_ARGS } from '@service/validation/types';
 
 const config = new AppConfigService();
 const serverMsg = new ServerMsg();

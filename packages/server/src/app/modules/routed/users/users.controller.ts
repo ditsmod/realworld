@@ -1,9 +1,8 @@
-import { Controller, Req, Res, Status } from '@ditsmod/core';
+import { Controller, CustomError, Req, Res, Status } from '@ditsmod/core';
 import { JwtService } from '@ditsmod/jwt';
 import { OasRoute } from '@ditsmod/openapi';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
-import { CustomError } from '@service/error-handler/custom-error';
 import { ServerMsg } from '@service/msg/server-msg';
 import { OasOperationObject } from '@utils/oas-helpers';
 import { DbService } from './db.service';
@@ -47,7 +46,7 @@ export class UsersController {
     if (!dbUser) {
       throw new CustomError({
         msg1: this.serverMsg.badPasswordOrEmail,
-        args1: ['password-or-email'],
+        // args1: ['password-or-email'],
         status: Status.UNAUTHORIZED,
       });
     }
@@ -69,7 +68,7 @@ export class UsersController {
     if (!dbUser) {
       throw new CustomError({
         msg1: this.serverMsg.youHaveObsoleteToken,
-        args1: ['auth-token'],
+        // args1: ['auth-token'],
         status: Status.UNAUTHORIZED,
         level: 'error',
       });
@@ -93,7 +92,7 @@ export class UsersController {
     if (!okPacket.affectedRows) {
       throw new CustomError({
         msg1: this.serverMsg.youHaveObsoleteToken,
-        args1: ['auth-token'],
+        // args1: ['auth-token'],
         status: Status.UNAUTHORIZED,
         level: 'error',
       });

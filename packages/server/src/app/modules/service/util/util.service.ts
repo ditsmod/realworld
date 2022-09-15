@@ -1,9 +1,8 @@
 import { createHash } from 'crypto';
-import { NodeRequest, Status } from '@ditsmod/core';
+import { NodeRequest, Status, CustomError } from '@ditsmod/core';
 import { Injectable } from '@ts-stack/di';
 
 import { ServerMsg } from '../msg/server-msg';
-import { CustomError } from '../error-handler/custom-error';
 
 @Injectable()
 export class UtilService {
@@ -20,7 +19,7 @@ export class UtilService {
   throw404Error(paramName: string, message?: string) {
     throw new CustomError({
       msg1: message || this.serverMsg.pageNotFound,
-      args1: [paramName],
+      // args1: [paramName],
       status: Status.NOT_FOUND,
       level: 'trace',
     });
@@ -29,7 +28,7 @@ export class UtilService {
   throw401Error(paramName: string, message?: string) {
     throw new CustomError({
       msg1: message || this.serverMsg.authRequired,
-      args1: [paramName],
+      // args1: [paramName],
       status: Status.UNAUTHORIZED,
       level: 'trace',
     });
@@ -38,7 +37,7 @@ export class UtilService {
   throw403Error(paramName: string, message?: string) {
     throw new CustomError({
       msg1: message || this.serverMsg.forbidden,
-      args1: [paramName],
+      // args1: [paramName],
       status: Status.FORBIDDEN,
       level: 'warn',
     });

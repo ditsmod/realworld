@@ -1,8 +1,8 @@
 import { OkPacket } from 'mysql';
 import { Injectable } from '@ts-stack/di';
+import { CustomError } from '@ditsmod/core';
 
 import { MysqlService } from '@service/mysql/mysql.service';
-import { CustomError } from '@service/error-handler/custom-error';
 import { ServerMsg } from '@service/msg/server-msg';
 import { CryptoService } from '@service/auth/crypto.service';
 import { DbUser, EmailOrUsername } from './types';
@@ -30,7 +30,7 @@ export class DbService {
     if ((rows as any[]).length) {
       throw new CustomError({
         msg1: this.serverMsg.usernameOrEmailAlreadyExists,
-        args1: ['email-or-username'],
+        // args1: ['email-or-username'],
         level: 'trace',
       });
     }

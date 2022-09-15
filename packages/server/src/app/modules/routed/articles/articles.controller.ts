@@ -1,4 +1,4 @@
-import { Controller, pickProperties, Req, Res, Status } from '@ditsmod/core';
+import { Controller, pickProperties, Req, Res, Status, CustomError } from '@ditsmod/core';
 import { OasRoute } from '@ditsmod/openapi';
 
 import { Params } from '@models/params';
@@ -8,7 +8,6 @@ import { UtilService } from '@service/util/util.service';
 import { AuthService } from '@service/auth/auth.service';
 import { AppConfigService } from '@service/app-config/config.service';
 import { Permission } from '@shared';
-import { CustomError } from '@service/error-handler/custom-error';
 import { ServerMsg } from '@service/msg/server-msg';
 import { Article, ArticleItem, ArticlePostData, ArticlePutData, Articles, Author } from './models';
 import { DbService } from './db.service';
@@ -106,7 +105,10 @@ export class ArticlesController {
 
     const slugExists = await this.db.getArticleBySlug(slug!, 0);
     if (slugExists) {
-      throw new CustomError({ msg1: this.serverMsg.slugExists, args1: ['slug', slug] });
+      throw new CustomError({
+        msg1: this.serverMsg.slugExists,
+        // args1: ['slug', slug],
+      });
     }
 
     const okPacket = await this.db.postArticle(userId, slug, articlePostData);

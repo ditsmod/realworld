@@ -1,9 +1,8 @@
 import { createPool, Pool, PoolConnection, MysqlError, OkPacket, FieldInfo } from 'mysql';
 import { Injectable } from '@ts-stack/di';
-import { AnyObj, LogLevel, Status } from '@ditsmod/core';
+import { AnyObj, LogLevel, Status, CustomError } from '@ditsmod/core';
 
 import { ServerMsg } from '@service/msg/server-msg';
-import { CustomError } from '@service/error-handler/custom-error';
 import { MySqlConfigService } from './mysql-config.service';
 
 @Injectable()

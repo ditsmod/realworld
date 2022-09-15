@@ -1,11 +1,11 @@
 import { Controller, Req, Res } from '@ditsmod/core';
 import { OasRoute } from '@ditsmod/openapi';
+import { AssertService } from '@ditsmod/openapi-validation';
 
 import { Params } from '@models/params';
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { OasOperationObject } from '@utils/oas-helpers';
 import { UtilService } from '@service/util/util.service';
-import { AssertService } from '@service/validation/assert.service';
 import { AuthService } from '@service/auth/auth.service';
 import { ProfileData } from './models';
 import { DbService } from './db.service';

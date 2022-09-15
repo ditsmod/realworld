@@ -1,6 +1,6 @@
 import { Column } from '@ditsmod/openapi';
+import { IS_REQUIRED } from '@ditsmod/openapi-validation';
 
-import { IS_REQUIRED } from '@service/validation/types';
 import { AppConfigService } from '@service/app-config/config.service';
 
 const config = new AppConfigService();

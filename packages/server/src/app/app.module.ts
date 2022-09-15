@@ -1,13 +1,12 @@
 import * as http from 'http';
-import { ControllerErrorHandler, Logger, LoggerConfig, Providers, RootModule } from '@ditsmod/core';
+import { Logger, LoggerConfig, Providers, RootModule } from '@ditsmod/core';
 import { RouterModule } from '@ditsmod/router';
+import { BodyParserModule } from '@ditsmod/body-parser';
+import { ValidationModule } from '@ditsmod/openapi-validation';
 import BunyanLogger, { createLogger } from 'bunyan';
 
 import { MysqlModule } from '@service/mysql/mysql.module';
-import { ValidationModule } from '@service/validation/validation.module';
-import { ErrorHandlerModule } from '@service/error-handler/error-handler.module';
 import { UtilModule } from '@service/util/util.module';
-import { BodyParserModule } from '@ditsmod/body-parser';
 import { ConfigModule } from '@service/app-config/config.module';
 import { MsgModule } from '@service/msg/msg.module';
 import { AuthModule } from '@service/auth/auth.module';
@@ -38,7 +37,6 @@ const logger = createLogger(loggerOptions);
     ConfigModule,
     MsgModule,
     ValidationModule,
-    ErrorHandlerModule,
     UtilModule,
     BodyParserModule,
   ],
@@ -49,8 +47,7 @@ const logger = createLogger(loggerOptions);
     .useValue(LoggerConfig, { level: 'info' })
     // .useLogger(logger, { level: 'info' }) // Uncomment this to allow write to packages/server/logs
   ],
-  resolvedCollisionsPerReq: [[ControllerErrorHandler, ErrorHandlerModule]],
-  exports: [AuthModule, openapiModuleWithParams, ValidationModule, ErrorHandlerModule, UtilModule, BodyParserModule],
+  exports: [AuthModule, openapiModuleWithParams, ValidationModule, UtilModule, BodyParserModule],
 })
 export class AppModule {
   constructor(config: LoggerConfig) {
