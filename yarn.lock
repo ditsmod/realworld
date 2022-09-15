@@ -344,10 +344,10 @@
   dependencies:
     jsonwebtoken "^8.5.1"
 
-"@ditsmod/openapi@^2.2.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.2.1.tgz#e7a65f0c542598549bc758a26b005a4565aa8fc2"
-  integrity sha512-tGzCINHc7zONsB7Qz+q29sQCNkGQyeAxYS1uLN8891lIwMW22nxRJyi3URbg00SfvYL87n9namiV4CZrb79+TQ==
+"@ditsmod/openapi@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.3.0.tgz#3357a17b65510ce833327d048826034941d2e279"
+  integrity sha512-S4n6JRTPpQrkdroKZagbviUibADhl+ba2smMxokehsOPpvdnQ73XBdiHX82BulrprAnXkNwb4ogk5IkvvhzZ2Q==
   dependencies:
     "@ts-stack/openapi-spec" "^3.1.2"
     copy-webpack-plugin "^8.1.1"
