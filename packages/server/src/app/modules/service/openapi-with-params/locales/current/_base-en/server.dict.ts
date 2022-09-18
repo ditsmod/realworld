@@ -16,9 +16,15 @@ export class ServerDict implements Dictionary {
    * Invalid user name
    */
   invalidUserName = `Invalid user name`;
-  pageNotFound = `Page not found`;
-  authRequired = `UNAUTHORIZED`;
-  forbidden = `Forbidden`;
+  pageNotFound(paramName: string) {
+    return `${paramName}: Page not found`;
+  }
+  authRequired(paramName: string) {
+    return `${paramName}: UNAUTHORIZED`;
+  }
+  forbidden(paramName: string) {
+    return `${paramName}: Forbidden`;
+  }
   /**
    * An error occurred during the Mysql transaction commit
    */
@@ -26,19 +32,25 @@ export class ServerDict implements Dictionary {
   /**
    * A user with this email or username is already registered
    */
-   usernameOrEmailAlreadyExists = `A user with this email or username is already registered`;
+  usernameOrEmailAlreadyExists(paramName: string) {
+    return `${paramName}: A user with this email or username is already registered`;
+  }
   /**
    * Bad password or email
    */
-   badPasswordOrEmail = `Bad password or email`;
+  badPasswordOrEmail(paramName: string) {
+    return `${paramName}: Bad password or email`;
+  }
   /**
    * Article with this slug exists: '%s'
    */
-   slugExists(slug: string) {
-    return `Article with this slug exists: '${slug}'`;
+  slugExists(paramName: string, slug: string) {
+    return `${paramName}: Article with this slug exists: '${slug}'`;
   }
   /**
    * You have an outdated token
    */
-   youHaveObsoleteToken = `You have an outdated token`;
+  youHaveObsoleteToken(paramName: string) {
+    return `${paramName}: You have an outdated token`;
+  }
 }

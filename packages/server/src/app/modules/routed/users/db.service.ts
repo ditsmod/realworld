@@ -1,6 +1,7 @@
 import { OkPacket } from 'mysql';
 import { Injectable } from '@ts-stack/di';
 import { CustomError } from '@ditsmod/core';
+import { DictService } from '@ditsmod/i18n';
 
 import { MysqlService } from '@service/mysql/mysql.service';
 import { ServerDict } from '@service/openapi-with-params/locales/current';
@@ -10,7 +11,7 @@ import { LoginData, PutUser, SignUpFormData, UserSession } from './models';
 
 @Injectable()
 export class DbService {
-  constructor(private mysql: MysqlService, private serverMsg: ServerDict, private cryptoService: CryptoService) {}
+  constructor(private mysql: MysqlService, private dictService: DictService, private cryptoService: CryptoService) {}
 
   /**
    * Returns inserted user ID or throw an error about user exists.
@@ -28,9 +29,9 @@ export class DbService {
     const sql = `select 1 as userExists from curr_users where email = ? or username = ?;`;
     const { rows } = await this.mysql.query(sql, [email, username]);
     if ((rows as any[]).length) {
+      const dict = this.dictService.getDictionary(ServerDict);
       throw new CustomError({
-        msg1: this.serverMsg.usernameOrEmailAlreadyExists,
-        // args1: ['email-or-username'],
+        msg1: dict.usernameOrEmailAlreadyExists('email-or-username'),
         level: 'trace',
       });
     }

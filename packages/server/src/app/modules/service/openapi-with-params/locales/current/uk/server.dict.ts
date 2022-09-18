@@ -21,15 +21,21 @@ export class ServerUkDict extends ServerDict {
   /**
    * Сторінку не знайдено
    */
-  override pageNotFound = `Сторінку не знайдено`;
+  override pageNotFound(paramName: string) {
+    return `${paramName}: Сторінку не знайдено`;
+  }
   /**
    * Необхідна авторизація
    */
-  override authRequired = `Необхідна авторизація`;
+  override authRequired(paramName: string) {
+    return `${paramName}: Необхідна авторизація`;
+  }
   /**
    * Ви не маєте доступу до даного ресурсу
    */
-  override forbidden = `Ви не маєте доступу до даного ресурсу`;
+  override forbidden(paramName: string) {
+    return `${paramName}: Ви не маєте доступу до даного ресурсу`;
+  }
   /**
    * Під час коміту транзакції у Mysql сталася помилка
    */
@@ -37,11 +43,15 @@ export class ServerUkDict extends ServerDict {
   /**
    * Користувача із цією адресою електронної пошти чи логіном вже зареєстрований
    */
-  override usernameOrEmailAlreadyExists = `Користувача із цією адресою електронної пошти чи логіном вже зареєстрований`;
+  override usernameOrEmailAlreadyExists(paramName: string) {
+    return `${paramName}: Користувача із цією адресою електронної пошти чи логіном вже зареєстрований`;
+  }
   /**
    * Невірний пароль чи електронна пошта
    */
-  override badPasswordOrEmail = `Невірний пароль чи електронна пошта`;
+  override badPasswordOrEmail(paramName: string) {
+    return `${paramName}: Невірний пароль чи електронна пошта`;
+  }
   /**
    * Стаття з цим слугом існує: '${slug}'
    */
@@ -51,5 +61,7 @@ export class ServerUkDict extends ServerDict {
   /**
    * Ви маєте застарілий токен
    */
-  override youHaveObsoleteToken = `Ви маєте застарілий токен`;
+  override youHaveObsoleteToken(paramName: string) {
+    return `${paramName}: Ви маєте застарілий токен`;
+  }
 }

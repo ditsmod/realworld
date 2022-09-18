@@ -3,14 +3,13 @@ import { config } from 'dotenv';
 import { PoolConnection } from 'mysql';
 config({ path: path.resolve(__dirname + '../../../../../../.env') });
 
-import { ServerDict } from '@service/openapi-with-params/locales/current';
 import { MySqlConfigService } from './mysql-config.service';
 import { MysqlService } from './mysql.service';
 
 
 describe('MysqlService', () => {
   it('get connection for default database', async () => {
-    const mysqlService = new MysqlService(new MySqlConfigService(), new ServerDict());
+    const mysqlService = new MysqlService(new MySqlConfigService(), {} as any);
     let connection: PoolConnection;
     try {
       connection = await mysqlService.getConnection();
@@ -21,7 +20,7 @@ describe('MysqlService', () => {
   });
 
   it('select from default database', async () => {
-    const mysqlService = new MysqlService(new MySqlConfigService(), new ServerDict());
+    const mysqlService = new MysqlService(new MySqlConfigService(), {} as any);
     let connection: PoolConnection;
     try {
       const result = await mysqlService.query('select 1 as fieldOne;');

@@ -1,4 +1,5 @@
 import { Controller, CustomError, Req, Res, Status } from '@ditsmod/core';
+import { DictService } from '@ditsmod/i18n';
 import { JwtService } from '@ditsmod/jwt';
 import { OasRoute } from '@ditsmod/openapi';
 
@@ -14,8 +15,7 @@ export class UsersController {
     private req: Req,
     private res: Res,
     private db: DbService,
-    private jwtService: JwtService,
-    private serverMsg: ServerDict
+    private jwtService: JwtService
   ) {}
 
   @OasRoute('POST', 'users', {
@@ -44,9 +44,9 @@ export class UsersController {
     const { user } = this.req.body as LoginFormData;
     const dbUser = await this.db.signInUser(user);
     if (!dbUser) {
+      const dict = this.getDictionary();
       throw new CustomError({
-        msg1: this.serverMsg.badPasswordOrEmail,
-        // args1: ['password-or-email'],
+        msg1: dict.badPasswordOrEmail('password-or-email'),
         status: Status.UNAUTHORIZED,
       });
     }
@@ -66,9 +66,9 @@ export class UsersController {
     const userId = this.req.jwtPayload.userId as number;
     const dbUser = await this.db.getCurrentUser(userId);
     if (!dbUser) {
+      const dict = this.getDictionary();
       throw new CustomError({
-        msg1: this.serverMsg.youHaveObsoleteToken,
-        // args1: ['auth-token'],
+        msg1: dict.youHaveObsoleteToken('auth-token'),
         status: Status.UNAUTHORIZED,
         level: 'error',
       });
@@ -90,13 +90,21 @@ export class UsersController {
     const putUser = this.req.body as PutUser;
     const okPacket = await this.db.putCurrentUser(userId, putUser);
     if (!okPacket.affectedRows) {
+      const dict = this.getDictionary();
       throw new CustomError({
-        msg1: this.serverMsg.youHaveObsoleteToken,
-        // args1: ['auth-token'],
+        msg1: dict.youHaveObsoleteToken('auth-token'),
         status: Status.UNAUTHORIZED,
         level: 'error',
       });
     }
     await this.getCurrentUser();
+  }
+
+  /**
+   * Lazy loading dictionary for errors.
+   */
+  private getDictionary() {
+    const dictService = this.req.injector.get(DictService) as DictService;
+    return dictService.getDictionary(ServerDict);
   }
 }

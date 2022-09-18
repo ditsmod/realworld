@@ -1,6 +1,7 @@
 import { createPool, Pool, PoolConnection, MysqlError, OkPacket, FieldInfo } from 'mysql';
 import { Injectable } from '@ts-stack/di';
 import { AnyObj, LogLevel, Status, CustomError } from '@ditsmod/core';
+import { DictService } from '@ditsmod/i18n';
 
 import { ServerDict } from '@service/openapi-with-params/locales/current';
 import { MySqlConfigService } from './mysql-config.service';
@@ -8,10 +9,14 @@ import { MySqlConfigService } from './mysql-config.service';
 @Injectable()
 export class MysqlService {
   private pools: { [database: string]: Pool } = {};
+  private dict: ServerDict;
 
-  constructor(private config: MySqlConfigService, private serverMsg: ServerDict) {}
+  constructor(private config: MySqlConfigService, private dictService: DictService) {}
 
   getConnection(dbName?: string): Promise<PoolConnection> {
+    if (!this.dict) {
+      this.dict = this.dictService.getDictionary(ServerDict);
+    }
     return new Promise((resolve, reject) => {
       const config = { ...this.config };
       const database = (dbName || config.database) as string;
@@ -22,7 +27,7 @@ export class MysqlService {
 
       this.pools[database].getConnection((err, connection) => {
         if (err) {
-          this.handleErr(this.serverMsg.mysqlConnect, err, reject);
+          this.handleErr(this.dict.mysqlConnect, err, reject);
         } else {
           resolve(connection);
         }
@@ -40,7 +45,7 @@ export class MysqlService {
       connection.query(sql, params, (err, rows, fieldInfo) => {
         connection.release();
         if (err) {
-          this.handleErr(this.serverMsg.mysqlQuery, err, reject);
+          this.handleErr(this.dict.mysqlQuery, err, reject);
         } else {
           resolve({ rows, fieldInfo });
         }
@@ -64,7 +69,7 @@ export class MysqlService {
         if (err) {
           connection.rollback();
           connection.release();
-          this.handleErr(this.serverMsg.mysqlQuery, err, reject);
+          this.handleErr(this.dict.mysqlQuery, err, reject);
         } else {
           resolve({ rows, fieldInfo });
         }
@@ -77,7 +82,7 @@ export class MysqlService {
       connection.commit((err) => {
         if (err) {
           connection.rollback();
-          this.handleErr(this.serverMsg.errMysqlCommit, err, reject);
+          this.handleErr(this.dict.errMysqlCommit, err, reject);
         } else {
           resolve();
         }

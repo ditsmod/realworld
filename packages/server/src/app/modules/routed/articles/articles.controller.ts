@@ -1,5 +1,6 @@
 import { Controller, pickProperties, Req, Res, Status, CustomError } from '@ditsmod/core';
 import { OasRoute } from '@ditsmod/openapi';
+import { DictService } from '@ditsmod/i18n';
 
 import { Params } from '@models/params';
 import { OasOperationObject } from '@utils/oas-helpers';
@@ -21,8 +22,7 @@ export class ArticlesController {
     private authService: AuthService,
     private utils: UtilService,
     private db: DbService,
-    private config: AppConfigService,
-    private serverMsg: ServerDict
+    private config: AppConfigService
   ) {}
 
   @OasRoute('GET', '', {
@@ -105,9 +105,10 @@ export class ArticlesController {
 
     const slugExists = await this.db.getArticleBySlug(slug!, 0);
     if (slugExists) {
+      const dictService = this.req.injector.get(DictService) as DictService;
+      const dict = dictService.getDictionary(ServerDict);
       throw new CustomError({
-        msg1: this.serverMsg.slugExists(slug),
-        // args1: ['slug', slug],
+        msg1: dict.slugExists('slug', slug),
       });
     }
 
