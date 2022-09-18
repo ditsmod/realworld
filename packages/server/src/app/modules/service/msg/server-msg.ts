@@ -1,4 +1,9 @@
-export class ServerMsg {
+import { Dictionary, ISO639 } from '@ditsmod/i18n';
+
+export class ServerMsg implements Dictionary {
+  getLng(): ISO639 {
+    return 'en';
+  }
   /**
    * Database query error
    */
