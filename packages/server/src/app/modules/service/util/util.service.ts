@@ -2,7 +2,7 @@ import { createHash } from 'crypto';
 import { NodeRequest, Status, CustomError } from '@ditsmod/core';
 import { Injectable } from '@ts-stack/di';
 
-import { ServerDict } from '../openapi-with-params/server.dict';
+import { ServerDict } from '../openapi-with-params/locales/current/_base-en/server.dict';
 
 @Injectable()
 export class UtilService {

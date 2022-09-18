@@ -8,7 +8,7 @@ import { UtilService } from '@service/util/util.service';
 import { AuthService } from '@service/auth/auth.service';
 import { AppConfigService } from '@service/app-config/config.service';
 import { Permission } from '@shared';
-import { ServerDict } from '@service/openapi-with-params/server.dict';
+import { ServerDict } from '@service/openapi-with-params/locales/current';
 import { Article, ArticleItem, ArticlePostData, ArticlePutData, Articles, Author } from './models';
 import { DbService } from './db.service';
 import { ArticlesSelectParams, DbArticle } from './types';
@@ -106,7 +106,7 @@ export class ArticlesController {
     const slugExists = await this.db.getArticleBySlug(slug!, 0);
     if (slugExists) {
       throw new CustomError({
-        msg1: this.serverMsg.slugExists,
+        msg1: this.serverMsg.slugExists(slug),
         // args1: ['slug', slug],
       });
     }

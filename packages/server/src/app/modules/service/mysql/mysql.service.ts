@@ -2,7 +2,7 @@ import { createPool, Pool, PoolConnection, MysqlError, OkPacket, FieldInfo } fro
 import { Injectable } from '@ts-stack/di';
 import { AnyObj, LogLevel, Status, CustomError } from '@ditsmod/core';
 
-import { ServerDict } from '@service/openapi-with-params/server.dict';
+import { ServerDict } from '@service/openapi-with-params/locales/current';
 import { MySqlConfigService } from './mysql-config.service';
 
 @Injectable()

@@ -2,7 +2,7 @@ import { Column } from '@ditsmod/openapi';
 import { getInvalidArgs } from '@ditsmod/openapi-validation';
 
 import { AppConfigService } from '@service/app-config/config.service';
-import { ServerDict } from '@service/openapi-with-params/server.dict';
+import { ServerDict } from '@service/openapi-with-params/locales/current';
 
 const config = new AppConfigService();
 
