@@ -3,7 +3,7 @@ import { Injectable } from '@ts-stack/di';
 import { CustomError } from '@ditsmod/core';
 
 import { MysqlService } from '@service/mysql/mysql.service';
-import { ServerDict } from '@service/msg/server.dict';
+import { ServerDict } from '@service/i18n/server.dict';
 import { CryptoService } from '@service/auth/crypto.service';
 import { DbUser, EmailOrUsername } from './types';
 import { LoginData, PutUser, SignUpFormData, UserSession } from './models';

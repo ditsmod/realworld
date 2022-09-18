@@ -2,7 +2,7 @@ import { createHash } from 'crypto';
 import { NodeRequest, Status, CustomError } from '@ditsmod/core';
 import { Injectable } from '@ts-stack/di';
 
-import { ServerDict } from '../msg/server.dict';
+import { ServerDict } from '../i18n/server.dict';
 
 @Injectable()
 export class UtilService {

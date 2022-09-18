@@ -8,7 +8,7 @@ import BunyanLogger, { createLogger } from 'bunyan';
 import { MysqlModule } from '@service/mysql/mysql.module';
 import { UtilModule } from '@service/util/util.module';
 import { ConfigModule } from '@service/app-config/config.module';
-import { MsgModule } from '@service/msg/msg.module';
+import { MsgModule } from '@service/i18n/i18n.module';
 import { AuthModule } from '@service/auth/auth.module';
 import { openapiModuleWithParams } from '@service/openapi-with-params/openapi-with-params.module';
 import { UsersModule } from '@routed/users/users.module';

@@ -3,7 +3,7 @@ import { config } from 'dotenv';
 import { PoolConnection } from 'mysql';
 config({ path: path.resolve(__dirname + '../../../../../../.env') });
 
-import { ServerDict } from '@service/msg/server.dict';
+import { ServerDict } from '@service/i18n/server.dict';
 import { MySqlConfigService } from './mysql-config.service';
 import { MysqlService } from './mysql.service';
 
