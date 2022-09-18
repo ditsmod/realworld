@@ -63,16 +63,16 @@ yarn postman-test
 Повторний запуск даних тестів потребує очищення MySQL таблиць:
 
 ```sql
-delete from curr_articles where articleId > 0;
-delete from curr_comments where commentId > 0;
-delete from curr_users where userId > 0;
-delete from dict_tags where tagId > 0;
-delete from map_articles_tags where articleId > 0;
-delete from map_favorites where articleId > 0;
-delete from map_followers where userId > 0;
+SET FOREIGN_KEY_CHECKS=0;
+truncate curr_articles;
+truncate curr_comments;
+truncate curr_users;
+truncate dict_tags;
+truncate map_articles_tags;
+truncate map_favorites;
+truncate map_followers;
+SET FOREIGN_KEY_CHECKS=1;
 ```
-
-Не для усіх таблиць можна робити `truncate`, бо деякі із них мають "Foreign Keys".
 
 
 [1]: https://github.com/ditsmod/realworld
