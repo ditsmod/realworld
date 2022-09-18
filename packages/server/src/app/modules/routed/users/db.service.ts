@@ -3,14 +3,14 @@ import { Injectable } from '@ts-stack/di';
 import { CustomError } from '@ditsmod/core';
 
 import { MysqlService } from '@service/mysql/mysql.service';
-import { ServerMsg } from '@service/msg/server-msg';
+import { ServerDict } from '@service/msg/server.dict';
 import { CryptoService } from '@service/auth/crypto.service';
 import { DbUser, EmailOrUsername } from './types';
 import { LoginData, PutUser, SignUpFormData, UserSession } from './models';
 
 @Injectable()
 export class DbService {
-  constructor(private mysql: MysqlService, private serverMsg: ServerMsg, private cryptoService: CryptoService) {}
+  constructor(private mysql: MysqlService, private serverMsg: ServerDict, private cryptoService: CryptoService) {}
 
   /**
    * Returns inserted user ID or throw an error about user exists.

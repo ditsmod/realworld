@@ -2,11 +2,11 @@ import { createHash } from 'crypto';
 import { NodeRequest, Status, CustomError } from '@ditsmod/core';
 import { Injectable } from '@ts-stack/di';
 
-import { ServerMsg } from '../msg/server-msg';
+import { ServerDict } from '../msg/server.dict';
 
 @Injectable()
 export class UtilService {
-  constructor(private serverMsg: ServerMsg) {}
+  constructor(private serverMsg: ServerDict) {}
 
   getIp(nodeReq: NodeRequest) {
     return (nodeReq.headers['x-forwarded-for'] as string) || nodeReq.socket.remoteAddress;

@@ -8,7 +8,7 @@ import { UtilService } from '@service/util/util.service';
 import { AuthService } from '@service/auth/auth.service';
 import { AppConfigService } from '@service/app-config/config.service';
 import { Permission } from '@shared';
-import { ServerMsg } from '@service/msg/server-msg';
+import { ServerDict } from '@service/msg/server.dict';
 import { Article, ArticleItem, ArticlePostData, ArticlePutData, Articles, Author } from './models';
 import { DbService } from './db.service';
 import { ArticlesSelectParams, DbArticle } from './types';
@@ -22,7 +22,7 @@ export class ArticlesController {
     private utils: UtilService,
     private db: DbService,
     private config: AppConfigService,
-    private serverMsg: ServerMsg
+    private serverMsg: ServerDict
   ) {}
 
   @OasRoute('GET', '', {

@@ -1,6 +1,6 @@
 import { Module } from '@ditsmod/core';
 
-import { ServerMsg } from './server-msg';
+import { ServerDict } from './server.dict';
 
-@Module({ providersPerApp: [ServerMsg] })
+@Module({ providersPerApp: [ServerDict] })
 export class MsgModule {}

@@ -2,7 +2,7 @@ import { Column } from '@ditsmod/openapi';
 import { getInvalidArgs } from '@ditsmod/openapi-validation';
 
 import { AppConfigService } from '@service/app-config/config.service';
-import { ServerMsg } from '@service/msg/server-msg';
+import { ServerDict } from '@service/msg/server.dict';
 
 const config = new AppConfigService();
 
@@ -10,7 +10,7 @@ export class Params {
   @Column({
     minLength: config.minUserName,
     maxLength: config.maxUserName,
-    ...getInvalidArgs(ServerMsg, 'invalidUserName'),
+    ...getInvalidArgs(ServerDict, 'invalidUserName'),
     description: `User name should be between ${config.minUserName} and ${config.maxUserName} symbols.`,
   })
   username: string;

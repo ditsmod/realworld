@@ -1,6 +1,6 @@
 import { Dictionary, ISO639 } from '@ditsmod/i18n';
 
-export class ServerMsg implements Dictionary {
+export class ServerDict implements Dictionary {
   getLng(): ISO639 {
     return 'en';
   }

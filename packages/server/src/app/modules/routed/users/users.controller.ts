@@ -3,7 +3,7 @@ import { JwtService } from '@ditsmod/jwt';
 import { OasRoute } from '@ditsmod/openapi';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
-import { ServerMsg } from '@service/msg/server-msg';
+import { ServerDict } from '@service/msg/server.dict';
 import { OasOperationObject } from '@utils/oas-helpers';
 import { DbService } from './db.service';
 import { LoginFormData, PutUser, PutUserData, SignUpFormData, UserSessionData } from './models';
@@ -15,7 +15,7 @@ export class UsersController {
     private res: Res,
     private db: DbService,
     private jwtService: JwtService,
-    private serverMsg: ServerMsg
+    private serverMsg: ServerDict
   ) {}
 
   @OasRoute('POST', 'users', {
