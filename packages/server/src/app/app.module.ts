@@ -2,7 +2,6 @@ import * as http from 'http';
 import { Logger, LoggerConfig, Providers, RootModule } from '@ditsmod/core';
 import { RouterModule } from '@ditsmod/router';
 import { BodyParserModule } from '@ditsmod/body-parser';
-import { ValidationModule } from '@ditsmod/openapi-validation';
 import BunyanLogger, { createLogger } from 'bunyan';
 
 import { MysqlModule } from '@service/mysql/mysql.module';
@@ -10,7 +9,7 @@ import { UtilModule } from '@service/util/util.module';
 import { ConfigModule } from '@service/app-config/config.module';
 import { MsgModule } from '@service/i18n/i18n.module';
 import { AuthModule } from '@service/auth/auth.module';
-import { openapiModuleWithParams } from '@service/openapi-with-params/openapi-with-params.module';
+import { openapiModuleWithParams, validationModuleWithParams } from '@service/openapi-with-params';
 import { UsersModule } from '@routed/users/users.module';
 import { ProfilesModule } from '@routed/profiles/profiles.module';
 import { ArticlesModule } from '@routed/articles/articles.module';
@@ -34,20 +33,19 @@ const logger = createLogger(loggerOptions);
     AuthModule,
     MysqlModule,
     openapiModuleWithParams,
+    validationModuleWithParams,
     ConfigModule,
     MsgModule,
-    ValidationModule,
     UtilModule,
     BodyParserModule,
   ],
   controllers: [],
   providersPerApp: [
     { provide: BunyanLogger, useExisting: Logger },
-    ...new Providers()
-    .useValue(LoggerConfig, { level: 'info' })
+    ...new Providers().useValue(LoggerConfig, { level: 'info' }),
     // .useLogger(logger, { level: 'info' }) // Uncomment this to allow write to packages/server/logs
   ],
-  exports: [AuthModule, openapiModuleWithParams, ValidationModule, UtilModule, BodyParserModule],
+  exports: [AuthModule, openapiModuleWithParams, validationModuleWithParams, UtilModule, BodyParserModule],
 })
 export class AppModule {
   constructor(config: LoggerConfig) {

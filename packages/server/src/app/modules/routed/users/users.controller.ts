@@ -3,7 +3,7 @@ import { JwtService } from '@ditsmod/jwt';
 import { OasRoute } from '@ditsmod/openapi';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
-import { ServerDict } from '@service/i18n/server.dict';
+import { ServerDict } from '@service/openapi-with-params/server.dict';
 import { OasOperationObject } from '@utils/oas-helpers';
 import { DbService } from './db.service';
 import { LoginFormData, PutUser, PutUserData, SignUpFormData, UserSessionData } from './models';
