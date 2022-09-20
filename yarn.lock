@@ -317,22 +317,22 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@ditsmod/body-parser@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@ditsmod/body-parser/-/body-parser-2.1.0.tgz#74861ee7bc70d80d141277586a716aa7fac870b9"
-  integrity sha512-0E0H8GngFn/zJ3gpocN2hgpkYmblyk2gBvfhih0hzjQS4xOrxjdynXz9qs+Q0zWBciN8vhCHdmF/nGYxm7Od5w==
+"@ditsmod/body-parser@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/body-parser/-/body-parser-2.3.0.tgz#7fb714d6255e784ab9edf3f198c8fd20eae5b3ea"
+  integrity sha512-i9VVIlM8grJCU3iRO71j1MFrM+0GNJK2yK0jgJZMlOf3WeADOBfawZ74J4OKTjNkuaVhrsfr945DygQEcB8PHQ==
   dependencies:
     get-body "^1.0.3"
 
-"@ditsmod/core@^2.15.1":
-  version "2.15.1"
-  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.15.1.tgz#ba24d38246875a4e4f7a34ff20beb48f7f775bc2"
-  integrity sha512-DHdW1oiGS+8m4074raXQUTOlQifEN9T36r21VvOW7VUqu4r93Qeq5rxM+QlVdGFu5Jenxc/scbr9PpvJHtcwjw==
+"@ditsmod/core@^2.17.0":
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.17.0.tgz#f8b2a44cd0961cb2220933083e211117bd951330"
+  integrity sha512-KoMePLmlyPvNzWOdbd0f/k/uZHLKv/99paJzmbmQo/CzH2GhOxQapdXP3ph3f+c2fFD+vsXlLsNjD+jeaBQ3jA==
 
-"@ditsmod/i18n@^2.0.0-beta.13":
-  version "2.0.0-beta.13"
-  resolved "https://registry.yarnpkg.com/@ditsmod/i18n/-/i18n-2.0.0-beta.13.tgz#d6954c09585f8af03312d0f567f7f87e03c15c38"
-  integrity sha512-31r8zhhqU2YDkj9DCjr4kyOKtyJUSLkJwKa5ND3pBejxitLT3vmCZQAnNd1vLebNlVbWuQj7KhyRTa06PQ2uJw==
+"@ditsmod/i18n@^2.0.0-beta.15":
+  version "2.0.0-beta.15"
+  resolved "https://registry.yarnpkg.com/@ditsmod/i18n/-/i18n-2.0.0-beta.15.tgz#f657997e633b8f753e80e2d31676ef95d27106fd"
+  integrity sha512-gnl8ol74Y7ul1uSGYYPuwIorPzIP3lqw/VyyWXRfloidPeuRZMYG3TYCWXBaWi/lLYlEZ+1fmu8UwENrSgOW3w==
 
 "@ditsmod/jwt@^2.0.0":
   version "2.0.0"
@@ -341,17 +341,17 @@
   dependencies:
     jsonwebtoken "^8.5.1"
 
-"@ditsmod/openapi-validation@^2.0.0-beta.5":
-  version "2.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@ditsmod/openapi-validation/-/openapi-validation-2.0.0-beta.5.tgz#4be875a2723102faf22a8906dab2f3bb78e2723d"
-  integrity sha512-T5EKePjWcaIJBNb/qMTYi8FaXS4TOVvHAjQfd4hSwwoZnVDwshNQCY9gxo6Mixic/TC65Gaz0WX/OL12rKLUnQ==
+"@ditsmod/openapi-validation@^2.0.0-beta.6":
+  version "2.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@ditsmod/openapi-validation/-/openapi-validation-2.0.0-beta.6.tgz#abccc821e5962051dd3a6d5393d536e454d4d2fb"
+  integrity sha512-tP2h2AkOyZb/e4FxgFAPKFNBT+uxEXE/rQ5sv0j38qDQgNsb0dEo47hOvQsJPQjXvLGlmZtwv9XjVZJbzNop0g==
   dependencies:
     "@ts-stack/cookies" "^1.0.2"
 
-"@ditsmod/openapi@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.4.1.tgz#7f8b957adddfdeae9b316667af1df1ad8047ed6e"
-  integrity sha512-+GCwNbreeCiZKNaNoqGu7t+o+UVaKS3wdD1yjJ+odtVNlRxwCgzfWMtYeh4Ii+mwSByXwcG1imJCvVllIzN9fg==
+"@ditsmod/openapi@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.5.0.tgz#32a6cc7db86b94f83119ab70939882625e31f234"
+  integrity sha512-rVbUG5LuBOLbqFZabbtdr9BIJ4sUq+fbsX/46nlvLxor8yriU6jcEkstlazpvHwg9pKaDzWOa0bmVlXODPUIZA==
   dependencies:
     "@ts-stack/openapi-spec" "^3.1.2"
     copy-webpack-plugin "^8.1.1"
