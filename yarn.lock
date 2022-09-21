@@ -324,15 +324,15 @@
   dependencies:
     get-body "^1.0.3"
 
-"@ditsmod/core@^2.17.0":
-  version "2.17.0"
-  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.17.0.tgz#f8b2a44cd0961cb2220933083e211117bd951330"
-  integrity sha512-KoMePLmlyPvNzWOdbd0f/k/uZHLKv/99paJzmbmQo/CzH2GhOxQapdXP3ph3f+c2fFD+vsXlLsNjD+jeaBQ3jA==
+"@ditsmod/core@^2.18.0":
+  version "2.18.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.18.0.tgz#6c6853b5f22b5d8f39cd807f5302164b13790662"
+  integrity sha512-EarYQhJcGE+3xuqxoBwvdDC4OJSkkc6JyF9NOcPblSLFBrhtglLYFfBLcL9zBCLXNQVpvzoDdFXOsPoQHJZPHA==
 
-"@ditsmod/i18n@^2.0.0-beta.15":
-  version "2.0.0-beta.15"
-  resolved "https://registry.yarnpkg.com/@ditsmod/i18n/-/i18n-2.0.0-beta.15.tgz#f657997e633b8f753e80e2d31676ef95d27106fd"
-  integrity sha512-gnl8ol74Y7ul1uSGYYPuwIorPzIP3lqw/VyyWXRfloidPeuRZMYG3TYCWXBaWi/lLYlEZ+1fmu8UwENrSgOW3w==
+"@ditsmod/i18n@^2.0.0-beta.16":
+  version "2.0.0-beta.16"
+  resolved "https://registry.yarnpkg.com/@ditsmod/i18n/-/i18n-2.0.0-beta.16.tgz#146aead9c9d7add04237a4b7467e5485ce32a075"
+  integrity sha512-TAlr7P9AeoGhEpKHkKGYZsjiub1ROFY7ugFKfMDNQVwF5qGPE/ece4UkwSpB+1gnRsHsg1i/Lt94TGmZNeGEtA==
 
 "@ditsmod/jwt@^2.0.0":
   version "2.0.0"
