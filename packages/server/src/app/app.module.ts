@@ -40,7 +40,7 @@ const logger = createLogger(loggerOptions);
   controllers: [],
   providersPerApp: [
     { provide: BunyanLogger, useExisting: Logger },
-    ...new Providers().useLogConfig({ level: 'info' }),
+    ...new Providers().useLogConfig({ level: 'info' })
     // .useLogger(logger, { level: 'info' }) // Uncomment this to allow write to packages/server/logs
   ],
   exports: [AuthModule, openapiModuleWithParams, validationModuleWithParams, UtilModule, BodyParserModule],
