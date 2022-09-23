@@ -1,5 +1,4 @@
 import { Column } from '@ditsmod/openapi';
-import { IS_REQUIRED } from '@ditsmod/openapi-validation';
 
 import { Author } from '../models';
 
@@ -27,11 +26,11 @@ export class CommentsData {
 }
 
 export class CommentPost {
-  @Column({ [IS_REQUIRED]: true })
+  @Column()
   body: string;
 }
 
 export class CommentPostData {
-  @Column({ [IS_REQUIRED]: true })
+  @Column()
   comment: CommentPost;
 }

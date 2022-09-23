@@ -1,5 +1,4 @@
 import { Column } from '@ditsmod/openapi';
-import { IS_REQUIRED } from '@ditsmod/openapi-validation';
 
 import { AppConfigService } from '@service/app-config/config.service';
 
@@ -40,7 +39,7 @@ export class Article {
 }
 
 export class Articles {
-  @Column({ [IS_REQUIRED]: true }, Article)
+  @Column({}, Article)
   articles: Article[] = [];
   @Column()
   articlesCount: number = 0;
@@ -52,11 +51,11 @@ export class ArticleItem {
 }
 
 export class ArticlePost {
-  @Column({ [IS_REQUIRED]: true })
+  @Column()
   title: string = '';
-  @Column({ [IS_REQUIRED]: true })
+  @Column()
   description: string = '';
-  @Column({ [IS_REQUIRED]: true })
+  @Column()
   body: string = '';
   @Column(
     {
@@ -70,7 +69,7 @@ export class ArticlePost {
 }
 
 export class ArticlePostData {
-  @Column({ [IS_REQUIRED]: true })
+  @Column()
   article: ArticlePost;
 }
 
