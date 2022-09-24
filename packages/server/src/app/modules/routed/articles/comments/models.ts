@@ -1,4 +1,4 @@
-import { Column } from '@ditsmod/openapi';
+import { Column, REQUIRED } from '@ditsmod/openapi';
 
 import { Author } from '../models';
 
@@ -22,15 +22,15 @@ export class CommentData {
 
 export class CommentsData {
   @Column({}, Comment)
-  comments: Comment[] = [new Comment];
+  comments: Comment[] = [new Comment()];
 }
 
 export class CommentPost {
-  @Column()
-  body: string; // Required
+  @Column({ [REQUIRED]: true })
+  body: string;
 }
 
 export class CommentPostData {
-  @Column()
-  comment: CommentPost; // Required
+  @Column({ [REQUIRED]: true })
+  comment: CommentPost;
 }

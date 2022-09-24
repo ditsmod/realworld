@@ -1,29 +1,29 @@
-import { Column } from '@ditsmod/openapi';
+import { Column, REQUIRED } from '@ditsmod/openapi';
 
 import { AppConfigService } from '@service/app-config/config.service';
 
 const config = new AppConfigService();
 
 export class LoginData {
-  @Column({ pattern: config.emailPattern.source })
-  email: string; // Required
-  @Column({ minLength: config.minLengthPassword, maxLength: config.maxLengthPassword })
-  password: string; // Required
+  @Column({ [REQUIRED]: true, pattern: config.emailPattern.source })
+  email: string;
+  @Column({ [REQUIRED]: true, minLength: config.minLengthPassword, maxLength: config.maxLengthPassword })
+  password: string;
 }
 
 export class SignUpData extends LoginData {
-  @Column()
-  username: string; // Required
+  @Column({ [REQUIRED]: true })
+  username: string;
 }
 
 export class LoginFormData {
-  @Column()
-  user: LoginData; // Required
+  @Column({ [REQUIRED]: true })
+  user: LoginData;
 }
 
 export class SignUpFormData {
-  @Column()
-  user: SignUpData; // Required
+  @Column({ [REQUIRED]: true })
+  user: SignUpData;
 }
 
 export class UserSession {

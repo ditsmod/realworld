@@ -1,4 +1,4 @@
-import { Column } from '@ditsmod/openapi';
+import { Column, REQUIRED } from '@ditsmod/openapi';
 
 import { AppConfigService } from '@service/app-config/config.service';
 
@@ -39,8 +39,8 @@ export class Article {
 }
 
 export class Articles {
-  @Column({}, Article)
-  articles: Article[] = [];  // Required
+  @Column({ [REQUIRED]: true }, Article)
+  articles: Article[] = [];
   @Column()
   articlesCount: number = 0;
 }
@@ -51,12 +51,12 @@ export class ArticleItem {
 }
 
 export class ArticlePost {
-  @Column()
-  title: string = ''; // Required
-  @Column()
-  description: string = ''; // Required
-  @Column()
-  body: string = ''; // Required
+  @Column({ [REQUIRED]: true })
+  title: string = '';
+  @Column({ [REQUIRED]: true })
+  description: string = '';
+  @Column({ [REQUIRED]: true })
+  body: string = '';
   @Column(
     {
       type: 'array',
@@ -69,8 +69,8 @@ export class ArticlePost {
 }
 
 export class ArticlePostData {
-  @Column()
-  article: ArticlePost; // Required
+  @Column({ [REQUIRED]: true })
+  article: ArticlePost;
 }
 
 export class ArticlePut {
