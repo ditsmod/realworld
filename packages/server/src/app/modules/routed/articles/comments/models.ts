@@ -27,10 +27,10 @@ export class CommentsData {
 
 export class CommentPost {
   @Column()
-  body: string;
+  body: string; // Required
 }
 
 export class CommentPostData {
   @Column()
-  comment: CommentPost;
+  comment: CommentPost; // Required
 }

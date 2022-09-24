@@ -40,7 +40,7 @@ export class Article {
 
 export class Articles {
   @Column({}, Article)
-  articles: Article[] = [];
+  articles: Article[] = [];  // Required
   @Column()
   articlesCount: number = 0;
 }
@@ -52,11 +52,11 @@ export class ArticleItem {
 
 export class ArticlePost {
   @Column()
-  title: string = '';
+  title: string = ''; // Required
   @Column()
-  description: string = '';
+  description: string = ''; // Required
   @Column()
-  body: string = '';
+  body: string = ''; // Required
   @Column(
     {
       type: 'array',
@@ -70,7 +70,7 @@ export class ArticlePost {
 
 export class ArticlePostData {
   @Column()
-  article: ArticlePost;
+  article: ArticlePost; // Required
 }
 
 export class ArticlePut {

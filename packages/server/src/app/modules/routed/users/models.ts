@@ -6,24 +6,24 @@ const config = new AppConfigService();
 
 export class LoginData {
   @Column({ pattern: config.emailPattern.source })
-  email: string;
+  email: string; // Required
   @Column({ minLength: config.minLengthPassword, maxLength: config.maxLengthPassword })
-  password: string;
+  password: string; // Required
 }
 
 export class SignUpData extends LoginData {
   @Column()
-  username: string;
+  username: string; // Required
 }
 
 export class LoginFormData {
   @Column()
-  user: LoginData;
+  user: LoginData; // Required
 }
 
 export class SignUpFormData {
   @Column()
-  user: SignUpData;
+  user: SignUpData; // Required
 }
 
 export class UserSession {
