@@ -3,6 +3,8 @@ import { ControllerErrorHandler, Logger, LoggerConfig, Providers, RootModule, St
 import { RouterModule } from '@ditsmod/router';
 import { BodyParserModule } from '@ditsmod/body-parser';
 import BunyanLogger, { createLogger } from 'bunyan';
+import { Options } from 'ajv';
+import { AJV_OPTIONS, ValidationOptions } from '@ditsmod/openapi-validation';
 
 import { MysqlModule } from '@service/mysql/mysql.module';
 import { UtilModule } from '@service/util/util.module';
@@ -14,7 +16,6 @@ import { ProfilesModule } from '@routed/profiles/profiles.module';
 import { ArticlesModule } from '@routed/articles/articles.module';
 import { TagsModule } from '@routed/tags/tags.module';
 import { loggerOptions, patchLogger } from '@configs/logger-options';
-import { ValidationOptions } from '@ditsmod/openapi-validation';
 import { ErrorHandlerModule } from '@service/error-handler/error-handler.module';
 
 const logger = createLogger(loggerOptions);
@@ -55,6 +56,7 @@ const logger = createLogger(loggerOptions);
     { provide: BunyanLogger, useExisting: Logger },
     ...new Providers()
       .useValue(ValidationOptions, { invalidStatus: Status.UNPROCESSABLE_ENTRY })
+      .useAnyValue<Options>(AJV_OPTIONS, { allErrors: true })
       .useLogConfig({ level: 'info' }),
     // .useLogger(logger, { level: 'info' }) // Uncomment this to allow write to packages/server/logs
   ],
