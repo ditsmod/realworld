@@ -20,7 +20,11 @@ export class ErrorHandler implements ControllerErrorHandler {
         const errors = this.transformArrToObj(args1);
         this.sendError(errors, status);
       } else {
-        this.sendError({ parameter: err.message }, status);
+        let parameter = 'parameter';
+        if (args1?.parameter) {
+          parameter = args1.parameter;
+        }
+        this.sendError({ [parameter]: err.message }, status);
       }
     } else {
       this.logger.error({ err, req });
