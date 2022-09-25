@@ -1,11 +1,11 @@
-import { Column } from '@ditsmod/openapi';
+import { Property } from '@ditsmod/openapi';
 
 export class ErrorField {
-  @Column({}, String)
+  @Property({}, String)
   someProperty: string[];
 }
 
 export class ErrorTemplate {
-  @Column()
+  @Property()
   errors: ErrorField;
 }

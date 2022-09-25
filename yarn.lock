@@ -349,10 +349,10 @@
     "@ts-stack/cookies" "^1.0.2"
     ajv "^8.11.0"
 
-"@ditsmod/openapi@^2.6.0":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.6.0.tgz#9217da5c96971c00da372d8cfcfdddd5ae4c8023"
-  integrity sha512-CzCVoDCnGLuHK7qqUdNjzg2S/4e/YiyptC5xhydUsVnV2r7gtDe2WhXDVbcbbzRMFhguZCKtCjuOiLY3nZrBaQ==
+"@ditsmod/openapi@^2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.7.0.tgz#b32c563c8926b687dadf425f440a5dd9aac503ed"
+  integrity sha512-ROJuvLvOae5+tcAk4ORpK3P+6xsl8nmA23laAM74uuc5PZK3WscirCF4lgjYmFHEqn2Esil6SZ9xV8nOO+FgLA==
   dependencies:
     "@ts-stack/openapi-spec" "^3.1.2"
     copy-webpack-plugin "^8.1.1"

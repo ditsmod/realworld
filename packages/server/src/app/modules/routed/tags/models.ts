@@ -1,6 +1,6 @@
-import { Column } from '@ditsmod/openapi';
+import { Property } from '@ditsmod/openapi';
 
 export class Tags {
-  @Column({}, String)
+  @Property({}, String)
   tags: string[];
 }

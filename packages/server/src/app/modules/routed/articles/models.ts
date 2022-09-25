@@ -1,63 +1,63 @@
-import { Column, REQUIRED } from '@ditsmod/openapi';
+import { Property, REQUIRED } from '@ditsmod/openapi';
 
 import { AppConfigService } from '@service/app-config/config.service';
 
 const config = new AppConfigService();
 
 export class Author {
-  @Column()
+  @Property()
   username: string = '';
-  @Column()
+  @Property()
   bio: string = '';
-  @Column()
+  @Property()
   image: string = '';
-  @Column()
+  @Property()
   following: boolean = false;
 }
 
 export class Article {
-  @Column()
+  @Property()
   slug: string = '';
-  @Column({ minLength: config.minLengthArticleTitle, maxLength: config.maxLengthArticleTitle })
+  @Property({ minLength: config.minLengthArticleTitle, maxLength: config.maxLengthArticleTitle })
   title: string = '';
-  @Column()
+  @Property()
   description: string = '';
-  @Column()
+  @Property()
   body: string = '';
-  @Column({}, String)
+  @Property({}, String)
   tagList: string[] = [];
-  @Column()
+  @Property()
   createdAt: string = '';
-  @Column()
+  @Property()
   updatedAt: string = '';
-  @Column()
+  @Property()
   favorited: boolean = false;
-  @Column()
+  @Property()
   favoritesCount: number = 0;
-  @Column()
+  @Property()
   author: Author = new Author();
 }
 
 export class Articles {
-  @Column({ [REQUIRED]: true }, Article)
+  @Property({ [REQUIRED]: true }, Article)
   articles: Article[] = [];
-  @Column()
+  @Property()
   articlesCount: number = 0;
 }
 
 export class ArticleItem {
-  @Column()
+  @Property()
   article: Article = new Article();
 }
 
 export class ArticlePost {
-  @Column({ [REQUIRED]: true })
+  @Property({ [REQUIRED]: true })
   title: string = '';
-  @Column({ [REQUIRED]: true })
+  @Property({ [REQUIRED]: true })
   description: string = '';
-  @Column({ [REQUIRED]: true })
+  @Property({ [REQUIRED]: true })
   body: string = '';
-  @Column(
+  @Property(
     {
       type: 'array',
       maxItems: config.maxItemsTagsPerArticle,
@@ -69,20 +69,20 @@ export class ArticlePost {
 }
 
 export class ArticlePostData {
-  @Column({ [REQUIRED]: true })
+  @Property({ [REQUIRED]: true })
   article: ArticlePost;
 }
 
 export class ArticlePut {
-  @Column()
+  @Property()
   title?: string = '';
-  @Column()
+  @Property()
   description?: string = '';
-  @Column()
+  @Property()
   body?: string = '';
 }
 
 export class ArticlePutData {
-  @Column()
+  @Property()
   article: ArticlePut;
 }

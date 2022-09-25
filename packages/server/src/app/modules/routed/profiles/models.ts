@@ -1,17 +1,17 @@
-import { Column } from '@ditsmod/openapi';
+import { Property } from '@ditsmod/openapi';
 
 export class Profile {
-  @Column()
+  @Property()
   username: string = '';
-  @Column()
+  @Property()
   bio: string = '';
-  @Column()
+  @Property()
   image: string = '';
-  @Column()
+  @Property()
   following: boolean = false;
 }
 
 export class ProfileData {
-  @Column()
+  @Property()
   profile: Profile = new Profile();
 }

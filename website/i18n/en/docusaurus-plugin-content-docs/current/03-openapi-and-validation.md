@@ -29,13 +29,13 @@ async getArticle() {
 
 As you can see, methods with the prefix `set*` are called three times and at the very end - once with the prefix `get*`. This is an important point: "Each use of the `OasOperationObject` instance must end with a method call with the prefix `get*`".
 
-Note that `Params` and `ArticleItem` here are the classes that act here as data models from which the `OasOperationObject` helper reads metadata. To pin metadata for each model, use the `@Column()` decorator:
+Note that `Params` and `ArticleItem` here are the classes that act here as data models from which the `OasOperationObject` helper reads metadata. To pin metadata for each model, use the `@Property()` decorator:
 
 ```ts
-import { Column } from '@ditsmod/openapi';
+import { Property } from '@ditsmod/openapi';
 
 export class ArticleItem {
-  @Column()
+  @Property()
   article: Article;
 }
 ```

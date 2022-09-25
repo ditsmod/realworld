@@ -1,28 +1,28 @@
-import { Column } from '@ditsmod/openapi';
+import { Property } from '@ditsmod/openapi';
 
 import { AppConfigService } from '@service/app-config/config.service';
 
 const config = new AppConfigService();
 
 export class Params {
-  @Column({
+  @Property({
     minLength: config.minUserName,
     maxLength: config.maxUserName,
     description: `User name should be between ${config.minUserName} and ${config.maxUserName} symbols.`,
   })
   username: string;
-  @Column()
+  @Property()
   tag: string;
-  @Column()
+  @Property()
   author: string;
-  @Column()
+  @Property()
   favorited: string;
-  @Column()
+  @Property()
   limit: number;
-  @Column()
+  @Property()
   offset: number;
-  @Column()
+  @Property()
   slug: string;
-  @Column()
+  @Property()
   id: number;
 }
