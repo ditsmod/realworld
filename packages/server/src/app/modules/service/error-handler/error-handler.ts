@@ -16,8 +16,11 @@ export class ErrorHandler implements ControllerErrorHandler {
       const { level, status, args1 } = err.info;
       this.logger.log(level || 'debug', err.message);
       if (Array.isArray(args1)) {
+        // Messages from ajv validator
         const errors = this.transformArrToObj(args1);
         this.sendError(errors, status);
+      } else {
+        this.sendError({ parameter: err.message }, status);
       }
     } else {
       this.logger.error({ err, req });
