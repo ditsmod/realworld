@@ -24,7 +24,7 @@ export class Article {
   description: string = '';
   @Property()
   body: string = '';
-  @Property({}, String)
+  @Property({}, { array: String })
   tagList: string[] = [];
   @Property()
   createdAt: string = '';
@@ -39,7 +39,7 @@ export class Article {
 }
 
 export class Articles {
-  @Property({ [REQUIRED]: true }, Article)
+  @Property({ [REQUIRED]: true }, { array: Article })
   articles: Article[] = [];
   @Property()
   articlesCount: number = 0;
@@ -63,7 +63,7 @@ export class ArticlePost {
       maxItems: config.maxItemsTagsPerArticle,
       items: { type: 'string', minLength: config.minLengthTag, maxLength: config.maxLengthTag },
     },
-    String
+    { array: String }
   )
   tagList?: string[] = [];
 }

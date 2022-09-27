@@ -1,6 +1,6 @@
 import { Property } from '@ditsmod/openapi';
 
 export class Tags {
-  @Property({}, String)
+  @Property({}, { array: String })
   tags: string[];
 }

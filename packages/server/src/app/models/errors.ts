@@ -1,7 +1,7 @@
 import { Property } from '@ditsmod/openapi';
 
 export class ErrorField {
-  @Property({}, String)
+  @Property({}, { array: String })
   someProperty: string[];
 }
 

@@ -21,7 +21,7 @@ export class CommentData {
 }
 
 export class CommentsData {
-  @Property({}, Comment)
+  @Property({}, { array: Comment })
   comments: Comment[] = [new Comment()];
 }
 
