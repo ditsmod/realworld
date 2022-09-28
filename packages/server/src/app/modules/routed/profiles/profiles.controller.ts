@@ -1,6 +1,5 @@
 import { Controller, Req, Res } from '@ditsmod/core';
 import { OasRoute } from '@ditsmod/openapi';
-import { AssertService } from '@ditsmod/openapi-validation';
 
 import { Params } from '@models/params';
 import { BearerGuard } from '@service/auth/bearer.guard';
@@ -17,8 +16,7 @@ export class ProfilesController {
     private res: Res,
     private db: DbService,
     private authService: AuthService,
-    private util: UtilService,
-    private assert: AssertService
+    private util: UtilService
   ) {}
 
   @OasRoute('GET', ':username', {
@@ -35,7 +33,7 @@ export class ProfilesController {
     if (!profile) {
       this.util.throw404Error('username', 'A profile with the specified username was not found.');
     }
-    profile.following = this.assert.convertToBool(profile.following);
+    profile.following = this.util.convertToBool(profile.following);
     const profileData = new ProfileData();
     profileData.profile = profile;
     this.res.sendJson(profileData);

@@ -17,6 +17,10 @@ export class UtilService {
     return createHash('md5').update(str.toLocaleLowerCase()).digest('hex');
   }
 
+  convertToBool(value: boolean | string | number): boolean {
+    return !value || value == 'false' || value == '0' ? false : true;
+  }
+
   throw404Error(paramName: string, message?: string) {
     const dict = this.dictService.getDictionary(ServerDict);
     throw new CustomError({
