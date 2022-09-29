@@ -324,15 +324,15 @@
   dependencies:
     get-body "^1.0.3"
 
-"@ditsmod/core@^2.19.0":
-  version "2.19.0"
-  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.19.0.tgz#16a473f258b12d5077f26edd7e3ceee313905b31"
-  integrity sha512-2GC/EArFahoBCa2t6yl73ghX9Nw65z+kXpXC7ppfBRYi/ZpGXM2yTb2aw/8BXbeLoCKCwWZOXvbxGuQIwGR9rQ==
+"@ditsmod/core@^2.20.0":
+  version "2.20.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.20.0.tgz#dbad0122953c5631d03e7f86a5f24b1ef6ed4b93"
+  integrity sha512-Tfh+/t3CuO5welt4xi5z9ZPhXLkxDPvCm+gG6BM61AJydRciVD+kHxedqMY6rouXipOWd83o7YS4LopcPlqFUQ==
 
-"@ditsmod/i18n@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@ditsmod/i18n/-/i18n-2.0.0.tgz#7b66b609e215c6fde1309b7a5dfc2055ccee0722"
-  integrity sha512-Slkjo8HCDUaEkjos1is20ZJtiVRHn9Npgm7w3FsoDOX4mDOmh1KWbCt+f2bM4VtNGuDfFoVxHUNfUgVo6VJesw==
+"@ditsmod/i18n@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@ditsmod/i18n/-/i18n-2.0.1.tgz#74db404d7ffae6bff3d602ecbb47279b4c709476"
+  integrity sha512-OOx33YfgiWls8sj17nMOs+YQC/4kiaQ9rhCLtWmPe2R1Yer+4/SeZqqomMx4103NLCINIWxLMQN90ILXRZScPw==
 
 "@ditsmod/jwt@^2.0.0":
   version "2.0.0"
@@ -341,10 +341,10 @@
   dependencies:
     jsonwebtoken "^8.5.1"
 
-"@ditsmod/openapi-validation@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@ditsmod/openapi-validation/-/openapi-validation-2.0.0.tgz#f9d676cc09b87560a83ae03937db48b3247b25ce"
-  integrity sha512-c2EpynMNDnq3ZGcH8eoswS0AOtcpMZY5xFeGPTnC8XRgcvQyOG/kH8QEPA+b0/WhohaBDQzFtQaANxo+GAlXyQ==
+"@ditsmod/openapi-validation@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@ditsmod/openapi-validation/-/openapi-validation-2.0.1.tgz#045a8ec75a7b5fe103840ac70c1083cacc3c7092"
+  integrity sha512-Y/xEGzWjfJG84fssGlWpESnngISz2V6SOulIGaQiM1QIezH93hkoh2YejYJrYuaeeDEBYdPdPESG08kGP331Dg==
   dependencies:
     "@ts-stack/cookies" "^1.0.2"
     ajv "^8.11.0"

@@ -55,8 +55,8 @@ const logger = createLogger(loggerOptions);
   providersPerApp: [
     { provide: BunyanLogger, useExisting: Logger },
     ...new Providers()
-      .useValue(ValidationOptions, { invalidStatus: Status.UNPROCESSABLE_ENTRY })
-      .useAnyValue<Options>(AJV_OPTIONS, { allErrors: true })
+      .useValue<ValidationOptions>(ValidationOptions, { invalidStatus: Status.UNPROCESSABLE_ENTRY })
+      .useValue<Options>(AJV_OPTIONS, { allErrors: true })
       .useLogConfig({ level: 'info' }),
     // .useLogger(logger, { level: 'info' }) // Uncomment this to allow write to packages/server/logs
   ],
