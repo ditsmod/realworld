@@ -23,7 +23,7 @@
     "@ditsmod/i18n": "^2.0.1",
     "@ditsmod/jwt": "^2.0.0",
     "@ditsmod/openapi": "^2.8.2",
-    "@ditsmod/openapi-validation": "^2.0.1",
+    "@ditsmod/openapi-validation": "^2.0.2",
     "@ditsmod/router": "^2.2.0",
     "@ts-stack/chain-error": "^1.2.0",
     "@ts-stack/cookies": "^1.0.2",
