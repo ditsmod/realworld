@@ -1,8 +1,7 @@
 import * as http from 'http';
-import { ControllerErrorHandler, Logger, LoggerConfig, Providers, RootModule, Status } from '@ditsmod/core';
+import { ControllerErrorHandler, Logger, Providers, RootModule, Status } from '@ditsmod/core';
 import { RouterModule } from '@ditsmod/router';
 import { BodyParserModule } from '@ditsmod/body-parser';
-import BunyanLogger from 'bunyan';
 import { Options } from 'ajv';
 import { AJV_OPTIONS, ValidationOptions } from '@ditsmod/openapi-validation';
 
@@ -15,8 +14,8 @@ import { UsersModule } from '@routed/users/users.module';
 import { ProfilesModule } from '@routed/profiles/profiles.module';
 import { ArticlesModule } from '@routed/articles/articles.module';
 import { TagsModule } from '@routed/tags/tags.module';
-import { patchLogger } from '@configs/logger-options';
 import { ErrorHandlerModule } from '@service/error-handler/error-handler.module';
+import { LoggerModule } from '@service/logger/logger.module';
 
 @RootModule({
   httpModule: http,
@@ -29,6 +28,7 @@ import { ErrorHandlerModule } from '@service/error-handler/error-handler.module'
     { path: 'profiles', module: ProfilesModule },
     { path: 'articles/:slug', module: ArticlesModule },
     { path: 'tags', module: TagsModule },
+    LoggerModule,
     RouterModule,
     AuthModule,
     MysqlModule,
@@ -47,16 +47,17 @@ import { ErrorHandlerModule } from '@service/error-handler/error-handler.module'
     BodyParserModule,
     ErrorHandlerModule,
   ],
+  resolvedCollisionsPerApp: [
+    [Logger, LoggerModule]
+  ],
   resolvedCollisionsPerReq: [
     [ControllerErrorHandler, ErrorHandlerModule]
   ],
   providersPerApp: [
-    { provide: BunyanLogger, useExisting: Logger },
     ...new Providers()
       .useValue<ValidationOptions>(ValidationOptions, { invalidStatus: Status.UNPROCESSABLE_ENTRY })
       .useValue<Options>(AJV_OPTIONS, { allErrors: true })
-      .useLogConfig({ level: 'info' })
-      // .useFactory(Logger, patchLogger, [LoggerConfig])// Uncomment this to allow write logs to packages/server/logs
+      .useLogConfig({ level: 'info' }) // Also see LoggerModule
   ],
 })
 export class AppModule {}
