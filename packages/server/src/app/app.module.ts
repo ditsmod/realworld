@@ -2,7 +2,7 @@ import * as http from 'http';
 import { ControllerErrorHandler, Logger, LoggerConfig, Providers, RootModule, Status } from '@ditsmod/core';
 import { RouterModule } from '@ditsmod/router';
 import { BodyParserModule } from '@ditsmod/body-parser';
-import BunyanLogger, { createLogger } from 'bunyan';
+import BunyanLogger from 'bunyan';
 import { Options } from 'ajv';
 import { AJV_OPTIONS, ValidationOptions } from '@ditsmod/openapi-validation';
 
@@ -15,10 +15,8 @@ import { UsersModule } from '@routed/users/users.module';
 import { ProfilesModule } from '@routed/profiles/profiles.module';
 import { ArticlesModule } from '@routed/articles/articles.module';
 import { TagsModule } from '@routed/tags/tags.module';
-import { loggerOptions, patchLogger } from '@configs/logger-options';
+import { patchLogger } from '@configs/logger-options';
 import { ErrorHandlerModule } from '@service/error-handler/error-handler.module';
-
-const logger = createLogger(loggerOptions);
 
 @RootModule({
   httpModule: http,
@@ -57,12 +55,8 @@ const logger = createLogger(loggerOptions);
     ...new Providers()
       .useValue<ValidationOptions>(ValidationOptions, { invalidStatus: Status.UNPROCESSABLE_ENTRY })
       .useValue<Options>(AJV_OPTIONS, { allErrors: true })
-      .useLogConfig({ level: 'info' }),
-    // .useLogger(logger, { level: 'info' }) // Uncomment this to allow write to packages/server/logs
+      .useLogConfig({ level: 'info' })
+      // .useFactory(Logger, patchLogger, [LoggerConfig])// Uncomment this to allow write logs to packages/server/logs
   ],
 })
-export class AppModule {
-  constructor(config: LoggerConfig) {
-    patchLogger(logger, config);
-  }
-}
+export class AppModule {}
