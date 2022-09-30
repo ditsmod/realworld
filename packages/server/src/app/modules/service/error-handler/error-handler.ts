@@ -14,7 +14,7 @@ export class ErrorHandler implements ControllerErrorHandler {
     const req = this.req.toString();
     if (isChainError<ErrorOpts>(err)) {
       const { level, status, args1 } = err.info;
-      this.logger.log(level || 'debug', err.message);
+      this.logger.log(level || 'debug', { err, req });
       if (Array.isArray(args1)) {
         // Messages from ajv validator
         const errors = this.transformArrToObj(args1);
