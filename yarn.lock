@@ -341,10 +341,10 @@
   dependencies:
     jsonwebtoken "^8.5.1"
 
-"@ditsmod/openapi-validation@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@ditsmod/openapi-validation/-/openapi-validation-2.1.0.tgz#53e076df5575a56161387d4694015ab0464a268b"
-  integrity sha512-xQQEBgX/oqiLYN1wKXu1ma0s8vRRX4sNA+rQOXwIgG+7MfTLX121Lwr3+M7RnfpigCPXC5XJcXMf4ndI3/7YBw==
+"@ditsmod/openapi-validation@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@ditsmod/openapi-validation/-/openapi-validation-2.1.1.tgz#0d2f0bac64c817bf96bd5f122d3b7fa8f223ce9b"
+  integrity sha512-hxAaLXJnz+KvqLOXGcTMv67A7OY44un57cjWU7r6QTrG5W9keFlbPnCLXBfyCVExxEwccub304Gatvv+cGSiqg==
   dependencies:
     "@ts-stack/cookies" "^1.0.2"
     ajv "^8.11.0"

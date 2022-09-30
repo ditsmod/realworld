@@ -56,7 +56,7 @@ import { LoggerModule } from '@service/logger/logger.module';
   providersPerApp: [
     ...new Providers()
       .useValue<ValidationOptions>(ValidationOptions, { invalidStatus: Status.UNPROCESSABLE_ENTRY })
-      .useValue<Options>(AJV_OPTIONS, { allErrors: true })
+      .useValue<Options>(AJV_OPTIONS, { allErrors: true, coerceTypes: true })
       .useLogConfig({ level: 'info' }) // Also see LoggerModule
   ],
 })
