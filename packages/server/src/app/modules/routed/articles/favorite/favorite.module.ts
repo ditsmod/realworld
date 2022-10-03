@@ -1,4 +1,5 @@
 import { Module } from '@ditsmod/core';
+import { CorsModule } from '@ditsmod/cors';
 import { getParams, OasOptions } from '@ditsmod/openapi';
 
 import { Params } from '@models/params';
@@ -8,6 +9,7 @@ import { DbService } from './db.service';
 import { FavoriteController } from './favorite.controller';
 
 @Module({
+  imports: [CorsModule],
   controllers: [FavoriteController],
   providersPerReq: [DbService, ArticlesController, ArticleDbService],
   extensionsMeta: {

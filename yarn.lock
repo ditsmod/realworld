@@ -329,6 +329,11 @@
   resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.20.0.tgz#dbad0122953c5631d03e7f86a5f24b1ef6ed4b93"
   integrity sha512-Tfh+/t3CuO5welt4xi5z9ZPhXLkxDPvCm+gG6BM61AJydRciVD+kHxedqMY6rouXipOWd83o7YS4LopcPlqFUQ==
 
+"@ditsmod/cors@^2.0.0-beta.1":
+  version "2.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@ditsmod/cors/-/cors-2.0.0-beta.1.tgz#303dd1414945a60f82a82bce1b34e2c6f3b15249"
+  integrity sha512-wQz0qHMilJltiEeFawGGkyBkAK8Js31jcnfaLV+Mea/o0R5nQNA5YAXb4/CCRPNlNIBiqhLpy8z+vgS5/l/0Qg==
+
 "@ditsmod/i18n@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@ditsmod/i18n/-/i18n-2.0.1.tgz#74db404d7ffae6bff3d602ecbb47279b4c709476"
@@ -1578,6 +1583,13 @@
   integrity sha512-qKE5z7v020heLi+HJWpbPqhu2A2ddwimCD0U/KbvVsTvrs7QCihM7RB4zcWwY9VabLSKd+jY/LGBcfxatoITEQ==
   dependencies:
     keygrip "~1.1.0"
+
+"@ts-stack/cors@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@ts-stack/cors/-/cors-1.0.5.tgz#456c90ba89bc35f580711fbe6cd7e8091934d068"
+  integrity sha512-Yaw3UuOMR9QpR7SdAhgzDVYQx9UFfbgeFIfHyJWoXjTnianj3s9HtKKtBuyf4xFlhxYtmzK+u5m5VsGXwISlLw==
+  dependencies:
+    vary "^1.1.2"
 
 "@ts-stack/di@^1.2.0":
   version "1.2.0"
@@ -8571,6 +8583,11 @@ validate-npm-package-name@^3.0.0:
   integrity sha512-M6w37eVCMMouJ9V/sdPGnC5H4uDr73/+xdq0FBLO3TFFX1+7wiUY6Es328NN+y43tmY+doUdN9g9J21vqB7iLw==
   dependencies:
     builtins "^1.0.3"
+
+vary@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
+  integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
 verror@1.10.0:
   version "1.10.0"

@@ -4,6 +4,7 @@ import { RouterModule } from '@ditsmod/router';
 import { BodyParserModule } from '@ditsmod/body-parser';
 import { Options } from 'ajv';
 import { AJV_OPTIONS, ValidationOptions } from '@ditsmod/openapi-validation';
+import { CorsOptions } from '@ts-stack/cors';
 
 import { MysqlModule } from '@service/mysql/mysql.module';
 import { UtilModule } from '@service/util/util.module';
@@ -57,7 +58,8 @@ import { LoggerModule } from '@service/logger/logger.module';
     ...new Providers()
       .useValue<ValidationOptions>(ValidationOptions, { invalidStatus: Status.UNPROCESSABLE_ENTRY })
       .useValue<Options>(AJV_OPTIONS, { allErrors: true, coerceTypes: true })
-      .useLogConfig({ level: 'info' }) // Also see LoggerModule
+      .useValue<CorsOptions>(CorsOptions, { origin: '*' })
+      .useLogConfig({ level: 'info' })
   ],
 })
 export class AppModule {}

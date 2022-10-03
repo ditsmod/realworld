@@ -1,4 +1,5 @@
 import { Module } from '@ditsmod/core';
+import { CorsModule } from '@ditsmod/cors';
 import { getParams, OasOptions } from '@ditsmod/openapi';
 
 import { Params } from '@models/params';
@@ -9,6 +10,7 @@ import { FavoriteModule } from './favorite/favorite.module';
 
 @Module({
   imports: [
+    CorsModule,
     { path: 'comments', module: CommentsModule },
     { path: 'favorite', module: FavoriteModule },
   ],
