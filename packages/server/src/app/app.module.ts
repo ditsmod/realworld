@@ -4,7 +4,7 @@ import { RouterModule } from '@ditsmod/router';
 import { BodyParserModule } from '@ditsmod/body-parser';
 import { Options } from 'ajv';
 import { AJV_OPTIONS, ValidationOptions } from '@ditsmod/openapi-validation';
-import { CorsOptions } from '@ts-stack/cors';
+import { CorsOptions } from '@ditsmod/cors';
 
 import { MysqlModule } from '@service/mysql/mysql.module';
 import { UtilModule } from '@service/util/util.module';

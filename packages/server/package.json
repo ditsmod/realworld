@@ -19,8 +19,8 @@
   },
   "dependencies": {
     "@ditsmod/body-parser": "^2.3.0",
-    "@ditsmod/core": "^2.20.0",
-    "@ditsmod/cors": "^2.0.0-beta.1",
+    "@ditsmod/core": "^2.21.0",
+    "@ditsmod/cors": "^2.0.0-beta.4",
     "@ditsmod/i18n": "^2.0.1",
     "@ditsmod/jwt": "^2.0.0",
     "@ditsmod/openapi": "^2.8.2",
@@ -28,7 +28,6 @@
     "@ditsmod/router": "^2.2.0",
     "@ts-stack/chain-error": "^1.2.0",
     "@ts-stack/cookies": "^1.0.2",
-    "@ts-stack/cors": "^1.0.5",
     "@ts-stack/di": "^1.2.0",
     "@ts-stack/openapi-spec": "^3.1.4",
     "bunyan": "^1.8.15",
