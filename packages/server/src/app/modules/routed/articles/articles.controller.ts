@@ -50,6 +50,7 @@ export class ArticlesController {
 
   @OasRoute('GET', ':slug', {
     ...new OasOperationObject()
+      .setRequiredParams('path', Params, 'slug')
       .setOptionalParams('query', Params, 'tag', 'author', 'limit', 'offset')
       .setResponse(ArticleItem, 'Description for response content.')
       .setUnauthorizedResponse()
@@ -145,6 +146,7 @@ export class ArticlesController {
 
   @OasRoute('PUT', ':slug', [BearerGuard], {
     ...new OasOperationObject()
+      .setRequiredParams('path', Params, 'slug')
       .setRequestBody(ArticlePutData, 'Description for requestBody.')
       .getResponse(ArticleItem, 'Description for response content.'),
   })
@@ -163,7 +165,10 @@ export class ArticlesController {
   }
 
   @OasRoute('DELETE', ':slug', [BearerGuard], {
-    ...new OasOperationObject().setUnprocessableEnryResponse().getResponse(),
+    ...new OasOperationObject()
+      .setRequiredParams('path', Params, 'slug')
+      .setUnprocessableEnryResponse()
+      .getResponse(),
   })
   async delArticlesSlug() {
     const hasPermissions = await this.authService.hasPermissions([Permission.canDeleteAnyPost]);

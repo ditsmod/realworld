@@ -1,8 +1,7 @@
 import { Module } from '@ditsmod/core';
 import { CorsModule } from '@ditsmod/cors';
-import { getParams, OasOptions } from '@ditsmod/openapi';
+import { OasOptions } from '@ditsmod/openapi';
 
-import { Params } from '@models/params';
 import { ArticlesController } from './articles.controller';
 import { CommentsModule } from './comments/comments.module';
 import { DbService } from './db.service';
@@ -19,7 +18,6 @@ import { FavoriteModule } from './favorite/favorite.module';
   extensionsMeta: {
     oasOptions: {
       tags: ['articles'],
-      paratemers: getParams('path', true, Params, 'slug'),
     } as OasOptions,
   },
 })
