@@ -375,11 +375,12 @@
   resolved "https://registry.npmjs.org/@ditsmod/core/-/core-2.22.0.tgz"
   integrity sha512-ALkZ5+X+xVEhJkW5P6idwsy1gR8hvzyEgFg4yYJWAIEy6X59UMETC1lRsKvebgzNbDBIj69bOus2TDQdX9vAsg==
 
-"@ditsmod/cors@^2.0.0-beta.6":
-  version "2.0.0-beta.6"
-  resolved "https://registry.npmjs.org/@ditsmod/cors/-/cors-2.0.0-beta.6.tgz"
-  integrity sha512-FBqsP/oeDpmVtL8D1Emu9Tm5zvtHyrDoCVf0h+F7LBr/11qU8kXFsf2Sf3TvKF22lfJvew/kObLLCHVQa9Uw5Q==
+"@ditsmod/cors@^2.0.0-beta.7":
+  version "2.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@ditsmod/cors/-/cors-2.0.0-beta.7.tgz#9e0357adce5e2e00ebe502f3014481df964a67e4"
+  integrity sha512-39d97WicJUWyZQJWJigTswsJr3wN7gITt4Waq8cmox3sJJvr4TSuB1rKk84HvrOEnAuag6iJ2qtewU8Vu+GSsQ==
   dependencies:
+    "@ts-stack/cookies" "^1.0.2"
     "@ts-stack/cors" "^1.3.0"
 
 "@ditsmod/i18n@^2.0.1":
