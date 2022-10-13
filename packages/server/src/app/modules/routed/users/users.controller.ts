@@ -1,7 +1,8 @@
-import { Controller, CustomError, Req, Res, Status } from '@ditsmod/core';
+import { Controller, CustomError, Req, Status } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 import { JwtService } from '@ditsmod/jwt';
 import { OasRoute } from '@ditsmod/openapi';
+import { Injector } from '@ts-stack/di';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { ServerDict } from '@service/openapi-with-params/locales/current';
@@ -13,9 +14,9 @@ import { LoginFormData, PutUser, PutUserData, SignUpFormData, UserSessionData } 
 export class UsersController {
   constructor(
     private req: Req,
-    private res: Res,
     private db: DbService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private injector: Injector
   ) {}
 
   @OasRoute('POST', 'users', {
@@ -30,7 +31,7 @@ export class UsersController {
     const userId = await this.db.signUpUser(signUpFormData);
     const userSessionData = new UserSessionData(signUpFormData.user);
     userSessionData.user.token = await this.jwtService.signWithSecret({ userId });
-    this.res.sendJson(userSessionData, Status.CREATED);
+    return userSessionData;
   }
 
   @OasRoute('POST', 'users/login', {
@@ -52,7 +53,7 @@ export class UsersController {
     }
     const userSessionData = new UserSessionData(dbUser);
     userSessionData.user.token = await this.jwtService.signWithSecret({ userId: dbUser.userId });
-    this.res.sendJson(userSessionData);
+    return userSessionData;
   }
 
   @OasRoute('GET', 'user', [BearerGuard], {
@@ -75,7 +76,7 @@ export class UsersController {
     }
     const userSessionData = new UserSessionData(dbUser);
     userSessionData.user.token = await this.jwtService.signWithSecret({ userId });
-    this.res.sendJson(userSessionData);
+    return userSessionData;
   }
 
   @OasRoute('PUT', 'user', [BearerGuard], {
@@ -97,14 +98,14 @@ export class UsersController {
         level: 'error',
       });
     }
-    await this.getCurrentUser();
+    return this.getCurrentUser();
   }
 
   /**
    * Lazy loading dictionary for errors.
    */
   private getDictionary() {
-    const dictService = this.req.injector.get(DictService) as DictService;
+    const dictService = this.injector.get(DictService) as DictService;
     return dictService.getDictionary(ServerDict);
   }
 }

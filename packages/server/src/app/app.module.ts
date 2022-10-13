@@ -1,10 +1,11 @@
 import * as http from 'http';
-import { ControllerErrorHandler, Logger, Providers, RootModule, Status } from '@ditsmod/core';
+import { ControllerErrorHandler, Logger, Providers, RootModule, Status, HttpBackend } from '@ditsmod/core';
 import { RouterModule } from '@ditsmod/router';
 import { BodyParserModule } from '@ditsmod/body-parser';
 import { Options } from 'ajv';
 import { AJV_OPTIONS, ValidationOptions } from '@ditsmod/openapi-validation';
 import { CorsOpts } from '@ditsmod/cors';
+import { ReturnModule } from '@ditsmod/return';
 
 import { MysqlModule } from '@service/mysql/mysql.module';
 import { UtilModule } from '@service/util/util.module';
@@ -29,6 +30,7 @@ import { LoggerModule } from '@service/logger/logger.module';
     { path: 'profiles', module: ProfilesModule },
     { path: 'articles/:slug', module: ArticlesModule },
     { path: 'tags', module: TagsModule },
+    ReturnModule,
     LoggerModule,
     RouterModule,
     AuthModule,
@@ -41,6 +43,7 @@ import { LoggerModule } from '@service/logger/logger.module';
     ErrorHandlerModule,
   ],
   exports: [
+    ReturnModule,
     AuthModule,
     openapiModuleWithParams,
     validationModuleWithParams,
@@ -52,7 +55,8 @@ import { LoggerModule } from '@service/logger/logger.module';
     [Logger, LoggerModule]
   ],
   resolvedCollisionsPerReq: [
-    [ControllerErrorHandler, ErrorHandlerModule]
+    [ControllerErrorHandler, ErrorHandlerModule],
+    [HttpBackend, ReturnModule]
   ],
   providersPerApp: [
     ...new Providers()

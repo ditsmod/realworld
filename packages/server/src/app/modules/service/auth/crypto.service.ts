@@ -46,7 +46,7 @@ export class CryptoService {
    * But there is a problem here - `ParamsService` is declared at the application scope.
    */
   checkXsrf(): boolean {
-    const cookies = new Cookies(this.req.nodeReq, this.req.nodeRes);
+    const cookies = new Cookies(this.req.nodeReq, this.res.nodeRes);
     const xsrf = cookies.get(this.config.xsrfCookieName);
 
     if (!xsrf || xsrf.length != this.config.sizeXsrfToken * 2) {

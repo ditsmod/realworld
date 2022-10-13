@@ -1,4 +1,4 @@
-import { Controller, Req, Res } from '@ditsmod/core';
+import { Controller, Req } from '@ditsmod/core';
 import { OasRoute } from '@ditsmod/openapi';
 
 import { Params } from '@models/params';
@@ -13,7 +13,6 @@ import { DbService } from './db.service';
 export class ProfilesController {
   constructor(
     private req: Req,
-    private res: Res,
     private db: DbService,
     private authService: AuthService,
     private util: UtilService
@@ -36,7 +35,7 @@ export class ProfilesController {
     profile.following = this.util.convertToBool(profile.following);
     const profileData = new ProfileData();
     profileData.profile = profile;
-    this.res.sendJson(profileData);
+    return profileData;
   }
 
   @OasRoute('POST', ':username/follow', [BearerGuard], {
@@ -49,7 +48,7 @@ export class ProfilesController {
     const currentUserId = this.req.jwtPayload?.userId;
     const targetUserName = this.req.pathParams.username as string;
     await this.db.followUser(currentUserId, targetUserName);
-    await this.getProfileOfTargetUser(currentUserId);
+    return this.getProfileOfTargetUser(currentUserId);
   }
 
   @OasRoute('DELETE', ':username/follow', [BearerGuard], {
@@ -62,6 +61,6 @@ export class ProfilesController {
     const currentUserId = this.req.jwtPayload?.userId;
     const targetUserName = this.req.pathParams.username as string;
     await this.db.unfollowUser(currentUserId, targetUserName);
-    await this.getProfileOfTargetUser(currentUserId);
+    return this.getProfileOfTargetUser(currentUserId);
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, pickProperties, Req, Res, Status } from '@ditsmod/core';
+import { Controller, pickProperties, Req, Status } from '@ditsmod/core';
 import { OasRoute } from '@ditsmod/openapi';
 
 import { Permission } from '@shared';
@@ -16,7 +16,6 @@ import { Author } from '../models';
 export class CommentsController {
   constructor(
     private req: Req,
-    private res: Res,
     private db: DbService,
     private utils: UtilService,
     private authService: AuthService
@@ -36,7 +35,7 @@ export class CommentsController {
     const dbComment = await this.db.getComments(userId, commentId);
     const commentData = new CommentData();
     commentData.comment = this.transformToComment(dbComment);
-    this.res.sendJson(commentData);
+    return commentData;
   }
 
   protected transformToComment(dbComment: DbComment): Comment {
@@ -60,7 +59,7 @@ export class CommentsController {
     const dbComments = await this.db.getComments(currentUserId);
     const commentsData = new CommentsData();
     commentsData.comments = dbComments.map((dbComment) => this.transformToComment(dbComment));
-    this.res.sendJson(commentsData);
+    return commentsData;
   }
 
   @OasRoute('DELETE', ':id', [BearerGuard], {
@@ -77,6 +76,6 @@ export class CommentsController {
     if (!okPacket.affectedRows) {
       this.utils.throw403Error('permissions', `You don't have permission to delete this comment.`);
     }
-    this.res.sendJson({ ok: 1 });
+    return { ok: 1 };
   }
 }

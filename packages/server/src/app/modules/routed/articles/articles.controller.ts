@@ -1,6 +1,7 @@
-import { Controller, pickProperties, Req, Res, Status, CustomError } from '@ditsmod/core';
+import { Controller, pickProperties, Req, Status, CustomError } from '@ditsmod/core';
 import { OasRoute } from '@ditsmod/openapi';
 import { DictService } from '@ditsmod/i18n';
+import { Injector } from '@ts-stack/di';
 
 import { Params } from '@models/params';
 import { OasOperationObject } from '@utils/oas-helpers';
@@ -18,11 +19,11 @@ import { ArticlesSelectParams, DbArticle } from './types';
 export class ArticlesController {
   constructor(
     private req: Req,
-    private res: Res,
     private authService: AuthService,
     private utils: UtilService,
     private db: DbService,
-    private config: AppConfigService
+    private config: AppConfigService,
+    private injector: Injector
   ) {}
 
   @OasRoute('GET', '', {
@@ -45,7 +46,7 @@ export class ArticlesController {
     const articles = new Articles();
     articles.articles = dbArticles.map((dbArticle) => this.transformToArticleItem(dbArticle));
     articles.articlesCount = foundRows;
-    this.res.sendJson(articles);
+    return articles;
   }
 
   @OasRoute('GET', ':slug', {
@@ -59,9 +60,9 @@ export class ArticlesController {
   async getArticle() {
     // This need only because parameter `:slug` conflict with parameter `feed`.
     if (this.req.pathParams.slug == 'feed') {
-      await this.fead();
+      return this.fead();
     } else {
-      await this.getArticleBySlug();
+      return this.getArticleBySlug();
     }
   }
 
@@ -75,9 +76,9 @@ export class ArticlesController {
       const articles = new Articles();
       articles.articles = dbArticles.map((dbArticle) => this.transformToArticleItem(dbArticle));
       articles.articlesCount = foundRows;
-      this.res.sendJson(articles);
+      return articles;
     } else {
-      this.utils.throw401Error('jwt-token');
+      return this.utils.throw401Error('jwt-token');
     }
   }
 
@@ -91,7 +92,7 @@ export class ArticlesController {
     const article = this.transformToArticleItem(dbArticle);
     const articleItem = new ArticleItem();
     articleItem.article = article;
-    this.res.sendJson(articleItem);
+    return articleItem;
   }
 
   @OasRoute('POST', '', [BearerGuard], {
@@ -106,7 +107,7 @@ export class ArticlesController {
 
     const slugExists = await this.db.getArticleBySlug(slug!, 0);
     if (slugExists) {
-      const dictService = this.req.injector.get(DictService) as DictService;
+      const dictService = this.injector.get(DictService) as DictService;
       const dict = dictService.getDictionary(ServerDict);
       throw new CustomError({
         msg1: dict.slugExists('slug', slug),
@@ -119,7 +120,7 @@ export class ArticlesController {
     const article = this.transformToArticleItem(dbArticle);
     const articleItem = new ArticleItem();
     articleItem.article = article;
-    this.res.sendJson(articleItem);
+    return articleItem;
   }
 
   protected transformToArticleItem(dbArticle: DbArticle): Article {
@@ -161,7 +162,7 @@ export class ArticlesController {
       this.utils.throw403Error('permissions', `You don't have permission to change this article.`);
     }
 
-    await this.getArticleBySlug(newSlug);
+    return this.getArticleBySlug(newSlug);
   }
 
   @OasRoute('DELETE', ':slug', [BearerGuard], {
@@ -179,6 +180,6 @@ export class ArticlesController {
       this.utils.throw403Error('permissions', `You don't have permission to delete this article.`);
     }
 
-    this.res.sendJson({ ok: 1 });
+    return { ok: 1 };
   }
 }

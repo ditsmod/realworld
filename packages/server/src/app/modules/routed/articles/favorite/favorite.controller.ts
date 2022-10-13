@@ -26,7 +26,7 @@ export class FavoriteController {
     const slug = this.req.pathParams.slug as string;
     const userId = await this.authService.getCurrentUserId();
     await this.db.setArticleFaforite(userId, slug);
-    await this.articlesController.getArticleBySlug(slug);
+    return this.articlesController.getArticleBySlug(slug);
   }
 
   @OasRoute('DELETE', '', [BearerGuard], {
@@ -39,6 +39,6 @@ export class FavoriteController {
     const slug = this.req.pathParams.slug as string;
     const userId = await this.authService.getCurrentUserId();
     await this.db.deleteArticleFaforite(userId, slug);
-    await this.articlesController.getArticleBySlug(slug);
+    return this.articlesController.getArticleBySlug(slug);
   }
 }
