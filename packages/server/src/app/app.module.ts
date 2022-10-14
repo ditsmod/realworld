@@ -21,7 +21,6 @@ import { LoggerModule } from '@service/logger/logger.module';
 
 @RootModule({
   httpModule: http,
-  serverName: 'Node.js',
   serverOptions: {},
   listenOptions: { port: 3000, host: 'localhost' },
   path: 'api',
