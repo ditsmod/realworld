@@ -363,22 +363,22 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@ditsmod/body-parser@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.npmjs.org/@ditsmod/body-parser/-/body-parser-2.4.0.tgz"
-  integrity sha512-2KttJRkhn4MaUfuRkh7UalE/Mii7r4Uj5ihpipEzm0o6KTMT2H1tMgY9nwtT0SOBlwG4jsujev1fBVjlt8twYg==
+"@ditsmod/body-parser@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@ditsmod/body-parser/-/body-parser-2.6.1.tgz#cde8c2f1ce79cafc2ea2376a04f34fce0c6a34ec"
+  integrity sha512-LqVJpIHq189PkzxnHGmB3yrj+2X4grdPRE0a4puVG487hPoK02X4JkmIwbjcQaTZQiaa2zw7oOLtW7U19EDauQ==
   dependencies:
     get-body "^1.0.3"
 
-"@ditsmod/core@^2.24.0":
-  version "2.24.0"
-  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.24.0.tgz#4bcd83b5f4f3f02082baee8da038ff2b1664421e"
-  integrity sha512-odzCh4qZlgV62F6utt5yhN+wKPxenIObzPhJUvYukKsNFPOeq0OfVcgW8F78sLmbS929i1qRCZMq3N8+x7/SYw==
+"@ditsmod/core@^2.25.0":
+  version "2.25.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.25.0.tgz#cfa017f8f82d75deb783aea5bd8824a422769a87"
+  integrity sha512-9P3dv0jWnpRBCkd94dB68924YBw4P33ifuMKfLo3wgcYZnzGm/pbJJhQSqIAse6OtfSpYwGSeedxLAcNi/+7KA==
 
-"@ditsmod/cors@^2.0.0-beta.7":
-  version "2.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@ditsmod/cors/-/cors-2.0.0-beta.7.tgz#9e0357adce5e2e00ebe502f3014481df964a67e4"
-  integrity sha512-39d97WicJUWyZQJWJigTswsJr3wN7gITt4Waq8cmox3sJJvr4TSuB1rKk84HvrOEnAuag6iJ2qtewU8Vu+GSsQ==
+"@ditsmod/cors@^2.0.0-beta.8":
+  version "2.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@ditsmod/cors/-/cors-2.0.0-beta.8.tgz#b1d9710fa6dd9fdb5a99b40db693ef3698e561ba"
+  integrity sha512-y16Hc6WmTwLfSmc5Z9/CEPN5YxWXq1tw0iGynPLn75v5UNNDXGu/aB3Oy2z+AYUlWpPKKUA8C2RP4BIT3UfOkA==
   dependencies:
     "@ts-stack/cookies" "^1.0.2"
     "@ts-stack/cors" "^1.3.0"
@@ -1867,15 +1867,7 @@
     "@types/eslint" "*"
     "@types/estree" "*"
 
-"@types/eslint@*":
-  version "8.4.6"
-  resolved "https://registry.npmjs.org/@types/eslint/-/eslint-8.4.6.tgz"
-  integrity sha512-/fqTbjxyFUaYNO7VcW5g+4npmqVACz1bB7RTHYuLj+PRjw9hrCwrUXVQFpChUS0JsyEFvMZ7U/PfmvWgxJhI9g==
-  dependencies:
-    "@types/estree" "*"
-    "@types/json-schema" "*"
-
-"@types/eslint@^8.4.6":
+"@types/eslint@*", "@types/eslint@^8.4.6":
   version "8.4.6"
   resolved "https://registry.yarnpkg.com/@types/eslint/-/eslint-8.4.6.tgz#7976f054c1bccfcf514bff0564c0c41df5c08207"
   integrity sha512-/fqTbjxyFUaYNO7VcW5g+4npmqVACz1bB7RTHYuLj+PRjw9hrCwrUXVQFpChUS0JsyEFvMZ7U/PfmvWgxJhI9g==
