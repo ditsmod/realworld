@@ -22,7 +22,7 @@
     "@ditsmod/cors": "^2.0.0-beta.8",
     "@ditsmod/i18n": "^2.0.1",
     "@ditsmod/jwt": "^2.0.0",
-    "@ditsmod/openapi": "^2.9.3",
+    "@ditsmod/openapi": "^2.9.4",
     "@ditsmod/openapi-validation": "^2.2.0",
     "@ditsmod/return": "^2.0.0-beta.1",
     "@ditsmod/router": "^2.2.0",

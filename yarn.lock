@@ -403,10 +403,10 @@
     "@ts-stack/cookies" "^1.0.2"
     ajv "^8.11.0"
 
-"@ditsmod/openapi@^2.9.3":
-  version "2.9.3"
-  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.9.3.tgz#8058dfa1953491bf0949635bc4ec4cc58b90532a"
-  integrity sha512-erKdZBdn7pO5Jn8G2zDgOnKNvYAnbBuzVhH7mSHWBTb6LwVdQ+FlQJv5PrqiULNbKa4xKlYK5ZjOaPrqP6Co/A==
+"@ditsmod/openapi@^2.9.4":
+  version "2.9.4"
+  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.9.4.tgz#0d1e8f18a4ef12cec2a221b1aa1e62031ec90268"
+  integrity sha512-swx7R1bFKuX1Gysi0AQB0cQUrZA/0svEEGu5mCOeb0H6oAiHydnJgANtGyXeXfcHAYcXf/m+j/CVDAQmdNa7vw==
   dependencies:
     "@ts-stack/openapi-spec" "^3.1.5"
     buffer "^6.0.3"
