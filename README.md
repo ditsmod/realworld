@@ -5,11 +5,6 @@
 
 This codebase was created to demonstrate a fully fledged fullstack application built with **Ditsmod** including CRUD operations, authentication, routing, pagination, and more.
 
-See also:
-
-- [Documentation in English](https://ditsmod.github.io/realworld/en/)
-- [Documentation in Ukrainian](https://ditsmod.github.io/realworld/)
-
 # Getting started
 
 This monorepository includes [Ditsmod](https://ditsmod.github.io/en/) applications seed.
@@ -98,3 +93,7 @@ Then open `packages/<your-project-name>/angular.json` and fix `$schema`:
 "$schema": "../../node_modules/@angular/cli/lib/config/schema.json",
 // ...
 ```
+
+## See also
+
+- [Documentation in Ukrainian](https://ditsmod.github.io/realworld/)
