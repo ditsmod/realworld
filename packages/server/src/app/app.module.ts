@@ -24,11 +24,13 @@ import { UtilModule } from '@service/util/util.module';
   serverOptions: {},
   listenOptions: { port: 3000, host: 'localhost' },
   path: 'api',
-  imports: [
-    { path: '', module: UsersModule },
+  appends: [
+    UsersModule,
     { path: 'profiles', module: ProfilesModule },
     { path: 'articles/:slug', module: ArticlesModule },
     { path: 'tags', module: TagsModule },
+  ],
+  imports: [
     ReturnModule,
     LoggerModule,
     RouterModule,

@@ -10,6 +10,8 @@ import { FavoriteModule } from './favorite/favorite.module';
 @Module({
   imports: [
     CorsModule,
+  ],
+  appends: [
     { path: 'comments', module: CommentsModule },
     { path: 'favorite', module: FavoriteModule },
   ],
