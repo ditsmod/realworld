@@ -332,17 +332,17 @@
   dependencies:
     get-body "^1.0.3"
 
-"@ditsmod/core@^2.29.3":
-  version "2.29.3"
-  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.29.3.tgz#28b4f1bf0c83c5a22faed00fca0dd23dd46b7256"
-  integrity sha512-JhrKcrqndMl4ww02cmoRPW4DgvVdGODNSHJ24EWyEoEPpfzqVGQKACP2Mw4qhn5P0eYFoH2/1gf8yMr5iuR33g==
+"@ditsmod/core@^2.29.4":
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.29.4.tgz#054040d8d09249f0f6a3f74cde12841c1249f36a"
+  integrity sha512-qeNYTOJXpP1QcX8Y7+QP4QEJQWpbOIJQbifa3tBEM8PFeOTmasebSPARhGDadpJac3JBbmEgejJHIzG7UZuapw==
   dependencies:
-    "@ts-stack/di" "^2.0.0"
+    "@ts-stack/di" "^2.0.1"
 
-"@ditsmod/cors@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@ditsmod/cors/-/cors-2.0.1.tgz#a04078678a7a48013dd278b36ee31c3bd9f2ba61"
-  integrity sha512-D/rcJDm1TWU1P2wjWBIprLKIQTzUSrOP/dsH23y+pPunE2ZbMQsw4p5Nlz8PYHeqQmw05MY3smrE6KgP0wh5EA==
+"@ditsmod/cors@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@ditsmod/cors/-/cors-2.0.2.tgz#264133e449c9aa4bdaf23e23c5820e0e947609b8"
+  integrity sha512-BXyOrRzIgbOkcrAcXVQCXiLxGYfKVEITi+A+qjiO9oM/TwYaODM+qAnqTcQqUtN+OOd4YZPIahsB6nTNkLsmoQ==
   dependencies:
     "@ts-stack/cookies" "^1.0.2"
     "@ts-stack/cors" "^1.3.0"
@@ -367,10 +367,10 @@
     "@ts-stack/cookies" "^1.0.2"
     ajv "^8.11.0"
 
-"@ditsmod/openapi@^2.11.4":
-  version "2.11.4"
-  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.11.4.tgz#63fc1238e439a4cc29585c1aa9b85f504f256559"
-  integrity sha512-0H58PXRDiPtbnZzB5RBAotUb6AS7C6laISwEN4N/9ce/JYN1+tYItYdmiYC+m6def+mD5R7Rh52illHXHrtzIw==
+"@ditsmod/openapi@^2.11.5":
+  version "2.11.5"
+  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.11.5.tgz#b85f3594d2a61d1a14b7e567539fcc55ed22519b"
+  integrity sha512-9p/HhEttB6dEJlkXsrNoWgZpgp8LpS+6grSyh9vR2VP2Uz8w09LqBIYZoDPG9TwPrejBs6Z+Go5RbRbCDfgQ3w==
   dependencies:
     "@ts-stack/openapi-spec" "^3.1.5"
     buffer "^6.0.3"
@@ -385,10 +385,10 @@
     yaml "^2.1.3"
     yaml-loader "^0.8.0"
 
-"@ditsmod/return@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@ditsmod/return/-/return-2.0.1.tgz#2375b8a102cba5c1e75d83ba8b113fc2a0c6e37c"
-  integrity sha512-GOeShgUP4OtaHvVcdqrm3YouEb2wQVRHVp9BM+zFh/uDa+kmKQ7nZjbxDL5WWy5h/IWtBes3Yv/51LHkbWXQFQ==
+"@ditsmod/return@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@ditsmod/return/-/return-2.0.2.tgz#a8d788488e3a662ae2b2314c927eea9bb8486fd2"
+  integrity sha512-0rGuAfJ1l4mSq5VlxDinzIZFqowwROKPQa2LV/Fx6haHJ4VbTWHblsrySEYpTW1myhLRDeEBNFtSvNvUQuvpfw==
 
 "@ditsmod/router@^2.4.2":
   version "2.4.2"
@@ -1739,10 +1739,10 @@
   dependencies:
     vary "^1.1.2"
 
-"@ts-stack/di@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@ts-stack/di/-/di-2.0.0.tgz#dec79ba5ed54e8ec5c5fdfbf65454d638a6cb463"
-  integrity sha512-W6E3O+Hi2hjsZY9TKGP60w8Qh6WcAPbAWqk3zarvy+6eHOdLCG//7pdSN4Dta8chAo/FQ2xGjWhIEEt18IYXFA==
+"@ts-stack/di@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@ts-stack/di/-/di-2.0.1.tgz#ee0b05572a441ac6774083f7e08915248c6870b1"
+  integrity sha512-digGSWlARAj4WSxbxmh7Y76wBWATC7e+mWejbuKRaq7GIHejSJledUy5DIYcZgVeNY6fCATAp508+eRV7JIsQA==
 
 "@ts-stack/markdown@^1.4.0":
   version "1.4.0"
