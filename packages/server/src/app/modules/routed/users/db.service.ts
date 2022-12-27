@@ -1,5 +1,5 @@
 import { OkPacket } from 'mysql';
-import { Injectable } from '@ts-stack/di';
+import { injectable } from '@ditsmod/core';
 import { CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 
@@ -9,7 +9,7 @@ import { CryptoService } from '@service/auth/crypto.service';
 import { DbUser, EmailOrUsername } from './types';
 import { LoginData, PutUser, SignUpFormData, UserSession } from './models';
 
-@Injectable()
+@injectable()
 export class DbService {
   constructor(private mysql: MysqlService, private dictService: DictService, private cryptoService: CryptoService) {}
 

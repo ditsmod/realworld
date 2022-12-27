@@ -1,15 +1,15 @@
-import { Controller } from '@ditsmod/core';
-import { OasRoute } from '@ditsmod/openapi';
+import { controller } from '@ditsmod/core';
+import { oasRoute } from '@ditsmod/openapi';
 
 import { OasOperationObject } from '@utils/oas-helpers';
 import { DbService } from './db.service';
 import { Tags } from './models';
 
-@Controller()
+@controller()
 export class TagsController {
   constructor(private db: DbService) {}
 
-  @OasRoute('GET', '', {
+  @oasRoute('GET', '', {
     ...new OasOperationObject().getResponse(Tags, 'Description for response content.'),
   })
   async getTags() {

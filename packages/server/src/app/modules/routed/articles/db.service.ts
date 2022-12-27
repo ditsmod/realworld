@@ -1,11 +1,11 @@
 import { OkPacket } from 'mysql';
-import { Injectable } from '@ts-stack/di';
+import { injectable } from '@ditsmod/core';
 
 import { MysqlService } from '@service/mysql/mysql.service';
 import { ArticlesSelectParams, DbArticle } from './types';
 import { ArticlePost, ArticlePut } from './models';
 
-@Injectable()
+@injectable()
 export class DbService {
   constructor(private mysql: MysqlService) {}
 

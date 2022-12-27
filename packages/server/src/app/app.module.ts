@@ -1,5 +1,5 @@
 import { BodyParserModule } from '@ditsmod/body-parser';
-import { ControllerErrorHandler, HttpBackend, Logger, Providers, RootModule, Status } from '@ditsmod/core';
+import { ControllerErrorHandler, HttpBackend, Logger, Providers, rootModule, Status } from '@ditsmod/core';
 import { CorsOpts } from '@ditsmod/cors';
 import { AJV_OPTIONS, ValidationOptions } from '@ditsmod/openapi-validation';
 import { ReturnModule } from '@ditsmod/return';
@@ -19,7 +19,7 @@ import { MysqlModule } from '@service/mysql/mysql.module';
 import { openapiModuleWithParams, validationModuleWithParams } from '@service/openapi-with-params';
 import { UtilModule } from '@service/util/util.module';
 
-@RootModule({
+@rootModule({
   httpModule: http,
   serverOptions: {},
   listenOptions: { port: 3000, host: 'localhost' },

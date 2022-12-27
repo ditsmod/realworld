@@ -1,7 +1,7 @@
-import { Controller, pickProperties, Req, Status, CustomError } from '@ditsmod/core';
-import { OasRoute } from '@ditsmod/openapi';
+import { controller, pickProperties, Req, Status, CustomError } from '@ditsmod/core';
+import { oasRoute } from '@ditsmod/openapi';
 import { DictService } from '@ditsmod/i18n';
-import { Injector } from '@ts-stack/di';
+import { Injector } from '@ditsmod/core';
 
 import { Params } from '@models/params';
 import { OasOperationObject } from '@utils/oas-helpers';
@@ -15,7 +15,7 @@ import { Article, ArticleItem, ArticlePostData, ArticlePutData, Articles, Author
 import { DbService } from './db.service';
 import { ArticlesSelectParams, DbArticle } from './types';
 
-@Controller()
+@controller()
 export class ArticlesController {
   constructor(
     private req: Req,
@@ -26,7 +26,7 @@ export class ArticlesController {
     private injector: Injector
   ) {}
 
-  @OasRoute('GET', '', {
+  @oasRoute('GET', '', {
     ...new OasOperationObject()
       .setOptionalParams('query', Params, 'tag', 'author', 'favorited', 'limit', 'offset')
       .setResponse(Articles, 'Description for response content.')
@@ -49,7 +49,7 @@ export class ArticlesController {
     return articles;
   }
 
-  @OasRoute('GET', ':slug', {
+  @oasRoute('GET', ':slug', {
     ...new OasOperationObject()
       .setRequiredParams('path', Params, 'slug')
       .setOptionalParams('query', Params, 'tag', 'author', 'limit', 'offset')
@@ -95,7 +95,7 @@ export class ArticlesController {
     return articleItem;
   }
 
-  @OasRoute('POST', '', [BearerGuard], {
+  @oasRoute('POST', '', [BearerGuard], {
     ...new OasOperationObject()
       .setRequestBody(ArticlePostData, 'Description for requestBody.')
       .getResponse(ArticleItem, 'Description for response content.', Status.CREATED),
@@ -145,7 +145,7 @@ export class ArticlesController {
     return title.toLocaleLowerCase().replace(/ /g, '-');
   }
 
-  @OasRoute('PUT', ':slug', [BearerGuard], {
+  @oasRoute('PUT', ':slug', [BearerGuard], {
     ...new OasOperationObject()
       .setRequiredParams('path', Params, 'slug')
       .setRequestBody(ArticlePutData, 'Description for requestBody.')
@@ -165,7 +165,7 @@ export class ArticlesController {
     return this.getArticleBySlug(newSlug);
   }
 
-  @OasRoute('DELETE', ':slug', [BearerGuard], {
+  @oasRoute('DELETE', ':slug', [BearerGuard], {
     ...new OasOperationObject()
       .setRequiredParams('path', Params, 'slug')
       .setUnprocessableEnryResponse()

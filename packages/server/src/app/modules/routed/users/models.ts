@@ -1,41 +1,41 @@
-import { Property, REQUIRED } from '@ditsmod/openapi';
+import { property, REQUIRED } from '@ditsmod/openapi';
 
 import { AppConfigService } from '@service/app-config/config.service';
 
 const config = new AppConfigService();
 
 export class LoginData {
-  @Property({ [REQUIRED]: true, pattern: config.emailPattern.source })
+  @property({ [REQUIRED]: true, pattern: config.emailPattern.source })
   email: string;
-  @Property({ [REQUIRED]: true, minLength: config.minLengthPassword, maxLength: config.maxLengthPassword })
+  @property({ [REQUIRED]: true, minLength: config.minLengthPassword, maxLength: config.maxLengthPassword })
   password: string;
 }
 
 export class SignUpData extends LoginData {
-  @Property({ [REQUIRED]: true })
+  @property({ [REQUIRED]: true })
   username: string;
 }
 
 export class LoginFormData {
-  @Property({ [REQUIRED]: true })
+  @property({ [REQUIRED]: true })
   user: LoginData;
 }
 
 export class SignUpFormData {
-  @Property({ [REQUIRED]: true })
+  @property({ [REQUIRED]: true })
   user: SignUpData;
 }
 
 export class UserSession {
-  @Property({ pattern: config.emailPattern.source })
+  @property({ pattern: config.emailPattern.source })
   email: string = '';
-  @Property()
+  @property()
   token: string = '';
-  @Property()
+  @property()
   username: string = '';
-  @Property({ minLength: config.minLengthBio, maxLength: config.maxLengthBio })
+  @property({ minLength: config.minLengthBio, maxLength: config.maxLengthBio })
   bio: string = '';
-  @Property({ minLength: config.minLengthUrl, maxLength: config.maxLengthUrl })
+  @property({ minLength: config.minLengthUrl, maxLength: config.maxLengthUrl })
   image: string = '';
 }
 
@@ -45,16 +45,16 @@ export class UserSessionData {
     delete (this.user as any).userId;
   }
 
-  @Property()
+  @property()
   user: UserSession;
 }
 
 export class PutUser extends UserSession {
-  @Property({ minLength: config.minLengthPassword, maxLength: config.maxLengthPassword })
+  @property({ minLength: config.minLengthPassword, maxLength: config.maxLengthPassword })
   password: string = '';
 }
 
 export class PutUserData {
-  @Property()
+  @property()
   user: PutUser;
 }

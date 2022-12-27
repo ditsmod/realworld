@@ -1,63 +1,63 @@
-import { Property, REQUIRED } from '@ditsmod/openapi';
+import { property, REQUIRED } from '@ditsmod/openapi';
 
 import { AppConfigService } from '@service/app-config/config.service';
 
 const config = new AppConfigService();
 
 export class Author {
-  @Property()
+  @property()
   username: string = '';
-  @Property()
+  @property()
   bio: string = '';
-  @Property()
+  @property()
   image: string = '';
-  @Property()
+  @property()
   following: boolean = false;
 }
 
 export class Article {
-  @Property()
+  @property()
   slug: string = '';
-  @Property({ minLength: config.minLengthArticleTitle, maxLength: config.maxLengthArticleTitle })
+  @property({ minLength: config.minLengthArticleTitle, maxLength: config.maxLengthArticleTitle })
   title: string = '';
-  @Property()
+  @property()
   description: string = '';
-  @Property()
+  @property()
   body: string = '';
-  @Property({}, { array: String })
+  @property({}, { array: String })
   tagList: string[] = [];
-  @Property()
+  @property()
   createdAt: string = '';
-  @Property()
+  @property()
   updatedAt: string = '';
-  @Property()
+  @property()
   favorited: boolean = false;
-  @Property()
+  @property()
   favoritesCount: number = 0;
-  @Property()
+  @property()
   author: Author = new Author();
 }
 
 export class Articles {
-  @Property({ [REQUIRED]: true }, { array: Article })
+  @property({ [REQUIRED]: true }, { array: Article })
   articles: Article[] = [];
-  @Property()
+  @property()
   articlesCount: number = 0;
 }
 
 export class ArticleItem {
-  @Property()
+  @property()
   article: Article = new Article();
 }
 
 export class ArticlePost {
-  @Property({ [REQUIRED]: true })
+  @property({ [REQUIRED]: true })
   title: string = '';
-  @Property({ [REQUIRED]: true })
+  @property({ [REQUIRED]: true })
   description: string = '';
-  @Property({ [REQUIRED]: true })
+  @property({ [REQUIRED]: true })
   body: string = '';
-  @Property(
+  @property(
     {
       type: 'array',
       maxItems: config.maxItemsTagsPerArticle,
@@ -69,20 +69,20 @@ export class ArticlePost {
 }
 
 export class ArticlePostData {
-  @Property({ [REQUIRED]: true })
+  @property({ [REQUIRED]: true })
   article: ArticlePost;
 }
 
 export class ArticlePut {
-  @Property()
+  @property()
   title?: string = '';
-  @Property()
+  @property()
   description?: string = '';
-  @Property()
+  @property()
   body?: string = '';
 }
 
 export class ArticlePutData {
-  @Property()
+  @property()
   article: ArticlePut;
 }

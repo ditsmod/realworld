@@ -1,4 +1,4 @@
-import { Injectable } from '@ts-stack/di';
+import { injectable } from '@ditsmod/core';
 import { ControllerErrorHandler, Req, Res, ErrorOpts, Status, Logger, isChainError } from '@ditsmod/core';
 import { ErrorObject as OriginalErrorObject } from 'ajv';
 
@@ -6,7 +6,7 @@ import { AnyObj } from '@shared';
 
 type ErrorObject = OriginalErrorObject & { instancePath?: string }; // Here fixed bug with ajv def
 
-@Injectable()
+@injectable()
 export class ErrorHandler implements ControllerErrorHandler {
   constructor(private req: Req, private res: Res, private logger: Logger) {}
 

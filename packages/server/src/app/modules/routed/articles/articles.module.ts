@@ -1,4 +1,4 @@
-import { Module } from '@ditsmod/core';
+import { featureModule } from '@ditsmod/core';
 import { CorsModule } from '@ditsmod/cors';
 import { OasOptions } from '@ditsmod/openapi';
 
@@ -7,7 +7,7 @@ import { CommentsModule } from './comments/comments.module';
 import { DbService } from './db.service';
 import { FavoriteModule } from './favorite/favorite.module';
 
-@Module({
+@featureModule({
   imports: [
     CorsModule,
   ],

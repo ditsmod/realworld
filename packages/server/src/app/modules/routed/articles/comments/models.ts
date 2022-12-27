@@ -1,36 +1,36 @@
-import { Property, REQUIRED } from '@ditsmod/openapi';
+import { property, REQUIRED } from '@ditsmod/openapi';
 
 import { Author } from '../models';
 
 export class Comment {
-  @Property()
+  @property()
   id: number = 0;
-  @Property()
+  @property()
   createdAt: string = '';
-  @Property()
+  @property()
   updatedAt: string = '';
-  @Property()
+  @property()
   body: string = '';
-  @Property()
+  @property()
   author: Author = new Author();
 }
 
 export class CommentData {
-  @Property()
+  @property()
   comment: Comment;
 }
 
 export class CommentsData {
-  @Property({}, { array: Comment })
+  @property({}, { array: Comment })
   comments: Comment[] = [new Comment()];
 }
 
 export class CommentPost {
-  @Property({ [REQUIRED]: true })
+  @property({ [REQUIRED]: true })
   body: string;
 }
 
 export class CommentPostData {
-  @Property({ [REQUIRED]: true })
+  @property({ [REQUIRED]: true })
   comment: CommentPost;
 }

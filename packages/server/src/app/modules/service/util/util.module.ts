@@ -1,6 +1,6 @@
-import { Module } from '@ditsmod/core';
+import { featureModule } from '@ditsmod/core';
 
 import { UtilService } from './util.service';
 
-@Module({ providersPerApp: [UtilService] })
+@featureModule({ providersPerApp: [UtilService] })
 export class UtilModule {}

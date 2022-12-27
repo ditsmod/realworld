@@ -1,12 +1,12 @@
 import { createPool, Pool, PoolConnection, MysqlError, OkPacket, FieldInfo } from 'mysql';
-import { Injectable } from '@ts-stack/di';
+import { injectable } from '@ditsmod/core';
 import { AnyObj, LogLevel, Status, CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 
 import { ServerDict } from '@service/openapi-with-params/locales/current';
 import { MySqlConfigService } from './mysql-config.service';
 
-@Injectable()
+@injectable()
 export class MysqlService {
   private pools: { [database: string]: Pool } = {};
   private dict: ServerDict;

@@ -1,6 +1,6 @@
 import { AnyObj, Status } from '@ditsmod/core';
 import { getContent, Parameters } from '@ditsmod/openapi';
-import { Type } from '@ts-stack/di';
+import { Type } from '@ditsmod/core';
 import { OperationObject, ResponseObject } from '@ts-stack/openapi-spec';
 
 import { ErrorTemplate } from '@models/errors';

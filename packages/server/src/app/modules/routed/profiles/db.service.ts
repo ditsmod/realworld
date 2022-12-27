@@ -1,10 +1,10 @@
-import { Injectable } from '@ts-stack/di';
+import { injectable } from '@ditsmod/core';
 
 import { MysqlService } from '@service/mysql/mysql.service';
 import { Profile } from './models';
 import { OkPacket } from 'mysql';
 
-@Injectable()
+@injectable()
 export class DbService {
   constructor(private mysql: MysqlService) {}
 

@@ -1,10 +1,10 @@
-import { Injectable } from '@ts-stack/di';
+import { injectable } from '@ditsmod/core';
 import { CanActivate, Status } from '@ditsmod/core';
 
 import { Permission } from '@shared';
 import { AuthService } from './auth.service';
 
-@Injectable()
+@injectable()
 export class PermissionsGuard implements CanActivate {
   constructor(private authService: AuthService) {}
 

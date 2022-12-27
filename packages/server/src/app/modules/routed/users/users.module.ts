@@ -1,10 +1,10 @@
-import { Module } from '@ditsmod/core';
+import { featureModule } from '@ditsmod/core';
 import { CorsModule } from '@ditsmod/cors';
 
 import { DbService } from './db.service';
 import { UsersController } from './users.controller';
 
-@Module({
+@featureModule({
   imports: [CorsModule],
   controllers: [UsersController],
   providersPerReq: [DbService],

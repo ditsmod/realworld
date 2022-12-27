@@ -1,10 +1,10 @@
 import { Req } from '@ditsmod/core';
-import { Injectable, Injector } from '@ts-stack/di';
+import { injectable, Injector } from '@ditsmod/core';
 
 import { Permission } from '@shared';
 import { BearerGuard } from './bearer.guard';
 
-@Injectable()
+@injectable()
 export class AuthService {
   constructor(private injector: Injector, private req: Req) {}
 

@@ -1,9 +1,9 @@
-import { Injectable } from '@ts-stack/di';
+import { injectable } from '@ditsmod/core';
 
 import { MysqlService } from '@service/mysql/mysql.service';
 import { AppConfigService } from '@service/app-config/config.service';
 
-@Injectable()
+@injectable()
 export class DbService {
   constructor(private mysql: MysqlService, private config: AppConfigService) {}
 

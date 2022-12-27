@@ -1,8 +1,8 @@
-import { Controller, CustomError, Req, Status } from '@ditsmod/core';
+import { controller, CustomError, Req, Status } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 import { JwtService } from '@ditsmod/jwt';
-import { OasRoute } from '@ditsmod/openapi';
-import { Injector } from '@ts-stack/di';
+import { oasRoute } from '@ditsmod/openapi';
+import { Injector } from '@ditsmod/core';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { ServerDict } from '@service/openapi-with-params/locales/current';
@@ -10,7 +10,7 @@ import { OasOperationObject } from '@utils/oas-helpers';
 import { DbService } from './db.service';
 import { LoginFormData, PutUser, PutUserData, SignUpFormData, UserSessionData } from './models';
 
-@Controller()
+@controller()
 export class UsersController {
   constructor(
     private req: Req,
@@ -19,7 +19,7 @@ export class UsersController {
     private injector: Injector
   ) {}
 
-  @OasRoute('POST', 'users', {
+  @oasRoute('POST', 'users', {
     description: 'User registration.',
     tags: ['users'],
     ...new OasOperationObject()
@@ -34,7 +34,7 @@ export class UsersController {
     return userSessionData;
   }
 
-  @OasRoute('POST', 'users/login', {
+  @oasRoute('POST', 'users/login', {
     description: 'User login.',
     tags: ['users'],
     ...new OasOperationObject()
@@ -56,7 +56,7 @@ export class UsersController {
     return userSessionData;
   }
 
-  @OasRoute('GET', 'user', [BearerGuard], {
+  @oasRoute('GET', 'user', [BearerGuard], {
     description: 'Info about current user.',
     tags: ['user'],
     ...new OasOperationObject()
@@ -79,7 +79,7 @@ export class UsersController {
     return userSessionData;
   }
 
-  @OasRoute('PUT', 'user', [BearerGuard], {
+  @oasRoute('PUT', 'user', [BearerGuard], {
     description: 'Update current user.',
     tags: ['user'],
     ...new OasOperationObject()

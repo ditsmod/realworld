@@ -1,14 +1,14 @@
-import { ConsoleLogger, Logger, LoggerConfig, Module, Providers } from '@ditsmod/core';
+import { ConsoleLogger, Logger, featureModule, Providers } from '@ditsmod/core';
 import BunyanLogger from 'bunyan';
 
-import { patchLogger } from './patch-logger';
+import { PatchLogger } from './patch-logger';
 
-@Module({
+@featureModule({
   providersPerApp: [
-    { provide: BunyanLogger, useExisting: Logger },
+    { token: BunyanLogger, useToken: Logger },
     ...new Providers()
       .useLogger(new ConsoleLogger())
-      // .useFactory(Logger, patchLogger, [LoggerConfig]), // Uncomment this to allow write logs to packages/server/logs
+      // .useFactory(Logger, [PatchLogger, PatchLogger.prototype.patchLogger]), // Uncomment this to allow write logs to packages/server/logs
   ],
 })
 export class LoggerModule {}

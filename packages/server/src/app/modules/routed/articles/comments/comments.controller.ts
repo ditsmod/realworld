@@ -1,5 +1,5 @@
-import { Controller, pickProperties, Req, Status } from '@ditsmod/core';
-import { OasRoute } from '@ditsmod/openapi';
+import { controller, pickProperties, Req, Status } from '@ditsmod/core';
+import { oasRoute } from '@ditsmod/openapi';
 
 import { Permission } from '@shared';
 import { BearerGuard } from '@service/auth/bearer.guard';
@@ -12,7 +12,7 @@ import { DbService } from './db.service';
 import { DbComment } from './types';
 import { Author } from '../models';
 
-@Controller()
+@controller()
 export class CommentsController {
   constructor(
     private req: Req,
@@ -21,7 +21,7 @@ export class CommentsController {
     private authService: AuthService
   ) {}
 
-  @OasRoute('POST', '', [BearerGuard], {
+  @oasRoute('POST', '', [BearerGuard], {
     ...new OasOperationObject()
       .setRequestBody(CommentPostData, 'Description for requestBody.')
       .getResponse(CommentData, 'Description for response content.', Status.CREATED),
@@ -51,7 +51,7 @@ export class CommentsController {
     return commentData;
   }
 
-  @OasRoute('GET', '', {
+  @oasRoute('GET', '', {
     ...new OasOperationObject().getResponse(CommentsData, 'Description for response content.'),
   })
   async getComments() {
@@ -62,7 +62,7 @@ export class CommentsController {
     return commentsData;
   }
 
-  @OasRoute('DELETE', ':id', [BearerGuard], {
+  @oasRoute('DELETE', ':id', [BearerGuard], {
     ...new OasOperationObject()
       .setRequiredParams('path', Params, 'id')
       .setNotFoundResponse('Comment nof found.')

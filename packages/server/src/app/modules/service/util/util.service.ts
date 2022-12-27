@@ -1,11 +1,11 @@
 import { createHash } from 'crypto';
 import { NodeRequest, Status, CustomError } from '@ditsmod/core';
-import { Injectable } from '@ts-stack/di';
+import { injectable } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 
 import { ServerDict } from '../openapi-with-params/locales/current/_base-en/server.dict';
 
-@Injectable()
+@injectable()
 export class UtilService {
   constructor(private dictService: DictService) {}
 

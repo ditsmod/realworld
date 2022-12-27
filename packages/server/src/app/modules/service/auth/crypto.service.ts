@@ -1,11 +1,11 @@
 import { createHmac, randomBytes } from 'crypto';
 import { Req, Res } from '@ditsmod/core';
 import { Cookies } from '@ts-stack/cookies';
-import { Injectable } from '@ts-stack/di';
+import { injectable } from '@ditsmod/core';
 
 import { ModuleConfigService } from './config.service';
 
-@Injectable()
+@injectable()
 export class CryptoService {
   constructor(private config: ModuleConfigService, private req: Req, private res: Res) {}
   /**

@@ -1,28 +1,28 @@
-import { Property } from '@ditsmod/openapi';
+import { property } from '@ditsmod/openapi';
 
 import { AppConfigService } from '@service/app-config/config.service';
 
 const config = new AppConfigService();
 
 export class Params {
-  @Property({
+  @property({
     minLength: config.minUserName,
     maxLength: config.maxUserName,
     description: `User name should be between ${config.minUserName} and ${config.maxUserName} symbols.`,
   })
   username: string;
-  @Property()
+  @property()
   tag: string;
-  @Property()
+  @property()
   author: string;
-  @Property()
+  @property()
   favorited: string;
-  @Property()
+  @property()
   limit: number;
-  @Property()
+  @property()
   offset: number;
-  @Property()
+  @property()
   slug: string;
-  @Property()
+  @property()
   id: number;
 }
