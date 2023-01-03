@@ -21,9 +21,7 @@ export class ArticlesController {
     private req: Req,
     private authService: AuthService,
     private utils: UtilService,
-    private db: DbService,
-    private config: AppConfigService,
-    private injector: Injector
+    private db: DbService
   ) {}
 
   @oasRoute('GET', '', {
@@ -32,14 +30,14 @@ export class ArticlesController {
       .setResponse(Articles, 'Description for response content.')
       .getNotFoundResponse('The article not found.'),
   })
-  async getLastArticles() {
+  async getLastArticles(config: AppConfigService) {
     const { queryParams } = this.req;
     const articlesSelectParams: ArticlesSelectParams = {
       tag: queryParams.tag || '',
       author: queryParams.author || '',
       favorited: queryParams.favorited || '',
       offset: queryParams.offset || 0,
-      limit: queryParams.limit || this.config.perPage,
+      limit: queryParams.limit || config.perPage,
     };
     const userId = await this.authService.getCurrentUserId();
     const { dbArticles, foundRows } = await this.db.getArticles(userId, articlesSelectParams);
@@ -57,21 +55,21 @@ export class ArticlesController {
       .setUnauthorizedResponse()
       .getNotFoundResponse('The article not found.'),
   })
-  async getArticle() {
+  async getArticle(config: AppConfigService) {
     // This need only because parameter `:slug` conflict with parameter `feed`.
     if (this.req.pathParams.slug == 'feed') {
-      return this.fead();
+      return this.fead(config);
     } else {
       return this.getArticleBySlug();
     }
   }
 
-  private async fead() {
+  private async fead(config: AppConfigService) {
     const currentUserId = await this.authService.getCurrentUserId();
     if (currentUserId) {
       const { queryParams } = this.req;
       const offset: number = queryParams.offset || 0;
-      const limit: number = queryParams.limit || this.config.perPage;
+      const limit: number = queryParams.limit || config.perPage;
       const { dbArticles, foundRows } = await this.db.getArticlesByFeed(currentUserId, offset, limit);
       const articles = new Articles();
       articles.articles = dbArticles.map((dbArticle) => this.transformToArticleItem(dbArticle));
@@ -100,14 +98,14 @@ export class ArticlesController {
       .setRequestBody(ArticlePostData, 'Description for requestBody.')
       .getResponse(ArticleItem, 'Description for response content.', Status.CREATED),
   })
-  async postArticles() {
+  async postArticles(injector: Injector) {
     const userId = this.req.jwtPayload.userId as number;
     const { article: articlePostData } = this.req.body as ArticlePostData;
     const slug = this.getSlug(articlePostData.title);
 
     const slugExists = await this.db.getArticleBySlug(slug!, 0);
     if (slugExists) {
-      const dictService = this.injector.get(DictService) as DictService;
+      const dictService = injector.get(DictService) as DictService;
       const dict = dictService.getDictionary(ServerDict);
       throw new CustomError({
         msg1: dict.slugExists('slug', slug),

@@ -17,7 +17,6 @@ export class CommentsController {
   constructor(
     private req: Req,
     private db: DbService,
-    private utils: UtilService,
     private authService: AuthService
   ) {}
 
@@ -68,13 +67,13 @@ export class CommentsController {
       .setNotFoundResponse('Comment nof found.')
       .getNoContentResponse(),
   })
-  async deleteComment() {
+  async deleteComment(utils: UtilService) {
     const currentUserId = await this.authService.getCurrentUserId();
     const hasPermissions = await this.authService.hasPermissions([Permission.canDeleteAnyComments]);
     const commentId = this.req.pathParams.id as number;
     const okPacket = await this.db.deleteArticle(currentUserId, hasPermissions, commentId);
     if (!okPacket.affectedRows) {
-      this.utils.throw403Error('permissions', `You don't have permission to delete this comment.`);
+      utils.throw403Error('permissions', `You don't have permission to delete this comment.`);
     }
     return { ok: 1 };
   }
