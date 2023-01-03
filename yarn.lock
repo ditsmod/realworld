@@ -332,12 +332,12 @@
   dependencies:
     get-body "^1.0.3"
 
-"@ditsmod/core@^2.31.0":
-  version "2.31.0"
-  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.31.0.tgz#9ebb25d4754c78fa528793370cae5f505edd116e"
-  integrity sha512-9U3PEkc0LB02A6Rnz8cPiSImuSCnagUFSVuMXPBxUV5ryLHGZYBbftynuVDFlHuspxe08PI8ZZ1rSv/oL50AvA==
+"@ditsmod/core@^2.32.0":
+  version "2.32.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.32.0.tgz#1081ec1d930792b9a23d9a195b3a582ca180301a"
+  integrity sha512-aTu/Xww6Xh/7w72jj+Y3ia2qs0n7U+r7E6AJN8d5mu11SIBgG7+1e5E4zp9WgHDIvrWs0F3FcSRV5yX777OCUQ==
   dependencies:
-    "@ts-stack/di" "^2.2.0"
+    "@ts-stack/di" "^2.3.3"
 
 "@ditsmod/cors@^2.1.0":
   version "2.1.0"
@@ -367,10 +367,10 @@
     "@ts-stack/cookies" "^1.0.2"
     ajv "^8.11.0"
 
-"@ditsmod/openapi@^2.13.0":
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.13.0.tgz#74a2cbfcf6e7596505e1b8620ef192e1c7f0a235"
-  integrity sha512-KkJ8Y51ZYo6YU6zFzxruq4sbiTyvakAIBmh4ZUN7jMiQXpgRxevq39iFS1ECrYTvmNpVdtMGMUY/gWfxkms0dw==
+"@ditsmod/openapi@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/openapi/-/openapi-2.14.0.tgz#15f1a965f1248fa4b4fdbad55dc4e78d7987ecff"
+  integrity sha512-I4aaiQiCJf0zNxlir9J24rzwLmbLZoe7U39PMdKfYZ4kjLfPgQ4YjeWnNkhv0MeCGJpElqmYR5SJtH+X5G/ePQ==
   dependencies:
     "@ts-stack/openapi-spec" "^3.1.5"
     buffer "^6.0.3"
@@ -1739,10 +1739,10 @@
   dependencies:
     vary "^1.1.2"
 
-"@ts-stack/di@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@ts-stack/di/-/di-2.2.0.tgz#cc97c038ec1ca669f0d8521387a4943811e7ee74"
-  integrity sha512-o131yshg2gDILYDXtOQByZ3FmUTQ5gzmPaeTfCgcgDNKgLpeDv9NRCsojuvak2xaJnr0PoPsUFNl9JKgJ8qj5Q==
+"@ts-stack/di@^2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@ts-stack/di/-/di-2.3.3.tgz#e49170933a0b9938fc08a1626de6ae5f2c5d12b1"
+  integrity sha512-gSfWgnIg20uUqBSXKLsc+7scEKVGLTCUTu6e31WosaMZJeIHLrRFsNnIytjtPAr8VLR0338LG/feUOi1M+NAIQ==
 
 "@ts-stack/markdown@^1.4.0":
   version "1.4.0"

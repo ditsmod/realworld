@@ -18,11 +18,11 @@
   },
   "dependencies": {
     "@ditsmod/body-parser": "^2.8.0",
-    "@ditsmod/core": "^2.31.0",
+    "@ditsmod/core": "^2.32.0",
     "@ditsmod/cors": "^2.1.0",
     "@ditsmod/i18n": "^2.4.0",
     "@ditsmod/jwt": "^2.1.3",
-    "@ditsmod/openapi": "^2.13.0",
+    "@ditsmod/openapi": "^2.14.0",
     "@ditsmod/openapi-validation": "^2.5.0",
     "@ditsmod/return": "^2.1.0",
     "@ditsmod/router": "^2.4.2",
