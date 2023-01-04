@@ -332,12 +332,12 @@
   dependencies:
     get-body "^1.0.3"
 
-"@ditsmod/core@^2.32.1":
-  version "2.32.1"
-  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.32.1.tgz#e74d900057a94c97e50d96f26a7ab36b9cb36a42"
-  integrity sha512-Yg9bfnebLTAa/rBv3JyNKWjHI+oXPEsb3x1JHifqS0Xda7/3/LpHoYVjBvr1+etAjzWkrru1J2xeUfiX7ox2Zw==
+"@ditsmod/core@^2.32.3":
+  version "2.32.3"
+  resolved "https://registry.yarnpkg.com/@ditsmod/core/-/core-2.32.3.tgz#ce0e5db4a9c03e748523b5e7782d4bba26ad9b3c"
+  integrity sha512-qOpsD7tRhFPjvWQXqwH9uTaMO1hAfTPeCZxa4pIFs+27XMQ7UuSkCco49pEgeZbxbl07p71OYl1pwK1V70F0sw==
   dependencies:
-    "@ts-stack/di" "^2.3.4"
+    "@ts-stack/di" "^2.4.2"
 
 "@ditsmod/cors@^2.1.0":
   version "2.1.0"
@@ -1739,10 +1739,10 @@
   dependencies:
     vary "^1.1.2"
 
-"@ts-stack/di@^2.3.4":
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/@ts-stack/di/-/di-2.3.4.tgz#c0edec79c2835d7e15656372c0ce0468e3825abc"
-  integrity sha512-w5MAr4IrnBaRTJJKWOQNYD0TaVm/0pPZSMVxWCyYp9E//3pDY1g7dBiZwC1w7saRI3ps+dv5Nf/ru3JWpRJnqw==
+"@ts-stack/di@^2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@ts-stack/di/-/di-2.4.2.tgz#88b3b65cc52f076e06464b483b3ea4fa6fae56f0"
+  integrity sha512-l8CZvXzhddy569JjPTZp5w/PbhJP0wck1U60RM+uC6nQoKeWEKTFuuZ7NgLGvut1t6GrJqPYBug3QUDLNbWcFw==
 
 "@ts-stack/markdown@^1.4.0":
   version "1.4.0"
