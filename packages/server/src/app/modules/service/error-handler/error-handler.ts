@@ -1,5 +1,5 @@
-import { injectable } from '@ditsmod/core';
-import { ControllerErrorHandler, Req, Res, ErrorOpts, Status, Logger, isChainError } from '@ditsmod/core';
+import { injectable, RequestContext } from '@ditsmod/core';
+import { ControllerErrorHandler, ErrorOpts, Status, Logger, isChainError } from '@ditsmod/core';
 import { ErrorObject as OriginalErrorObject } from 'ajv';
 
 import { AnyObj } from '@shared';
@@ -8,10 +8,10 @@ type ErrorObject = OriginalErrorObject & { instancePath?: string }; // Here fixe
 
 @injectable()
 export class ErrorHandler implements ControllerErrorHandler {
-  constructor(private req: Req, private res: Res, private logger: Logger) {}
+  constructor(private ctx: RequestContext, private logger: Logger) {}
 
   async handleError(err: Error) {
-    const req = this.req.toString();
+    const req = this.ctx.req.toString();
     if (isChainError<ErrorOpts>(err)) {
       const { level, status, args1 } = err.info;
       this.logger.log(level || 'debug', { err, req });
@@ -41,14 +41,14 @@ export class ErrorHandler implements ControllerErrorHandler {
   }
 
   protected sendError(errors: AnyObj, status?: Status) {
-    if (!this.res.nodeRes.headersSent) {
+    if (!this.ctx.nodeRes.headersSent) {
       this.addRequestIdToHeader();
-      this.res.sendJson({ errors }, status);
+      this.ctx.res.sendJson({ errors }, status);
     }
   }
 
   protected addRequestIdToHeader() {
     const header = 'x-requestId';
-    this.res.nodeRes.setHeader(header, this.req.requestId);
+    this.ctx.nodeRes.setHeader(header, this.ctx.req.requestId);
   }
 }

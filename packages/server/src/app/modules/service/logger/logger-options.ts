@@ -1,7 +1,8 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import { Req, Res } from '@ditsmod/core';
+import { NodeResponse } from '@ditsmod/core';
 import BunyanLogger, { LoggerOptions } from 'bunyan';
+import { NodeRequest } from '@ts-stack/cookies';
 
 let logsDir: string = process.env.LOGS_DIR || '';
 
@@ -16,27 +17,27 @@ export const loggerOptions: LoggerOptions = {
   name: 'logger-1',
   serializers: {
     err: BunyanLogger.stdSerializers.err,
-    req: (req: Req) => {
-      if (!req?.nodeReq?.socket) {
-        return req;
+    req: (nodeReq: NodeRequest) => {
+      if (!nodeReq?.socket) {
+        return nodeReq;
       }
 
       return {
-        method: req.nodeReq.method,
-        url: req.nodeReq.url,
-        headers: req.nodeReq.headers,
-        remoteAddress: req.nodeReq.socket.remoteAddress,
-        remotePort: req.nodeReq.socket.remotePort,
+        method: nodeReq.method,
+        url: nodeReq.url,
+        headers: nodeReq.headers,
+        remoteAddress: nodeReq.socket.remoteAddress,
+        remotePort: nodeReq.socket.remotePort,
       };
     },
-    res: (res: Res) => {
-      if (!res?.nodeRes.statusCode) {
-        return res;
+    res: (nodeRes: NodeResponse) => {
+      if (!nodeRes.statusCode) {
+        return nodeRes;
       }
 
       return {
-        statusCode: res.nodeRes.statusCode,
-        header: res.nodeRes.getHeaders(),
+        statusCode: nodeRes.statusCode,
+        header: nodeRes.getHeaders(),
       };
     },
   },
