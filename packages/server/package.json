@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@ditsmod/body-parser": "^2.9.0",
-    "@ditsmod/core": "^2.33.1",
+    "@ditsmod/core": "^2.34.0",
     "@ditsmod/cors": "^2.2.0",
     "@ditsmod/i18n": "^2.5.0",
     "@ditsmod/jwt": "^2.2.0",

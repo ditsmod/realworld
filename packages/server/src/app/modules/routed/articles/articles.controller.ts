@@ -1,4 +1,4 @@
-import { controller, pickProperties, Req, Status, CustomError, RequestContext } from '@ditsmod/core';
+import { controller, pickProperties, Status, CustomError, RequestContext } from '@ditsmod/core';
 import { oasRoute } from '@ditsmod/openapi';
 import { DictService } from '@ditsmod/i18n';
 import { Injector } from '@ditsmod/core';

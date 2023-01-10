@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "test": "jest",
+    "postinstall": "lerna bootstrap",
     "postman-test": "APIURL=http://localhost:3000/api ./packages/server/tests/run-api-tests.sh",
     "start": "nodemon -e ts --exec ts-node -r tsconfig-paths/register packages/server/src/main.ts --project=packages/server/tsconfig.json",
     "start-prod": "node -r tsconfig-paths/register packages/server/dist/main.js",
