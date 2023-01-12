@@ -1,4 +1,4 @@
-import { controller, RequestContext } from '@ditsmod/core';
+import { controller, Req } from '@ditsmod/core';
 import { oasRoute } from '@ditsmod/openapi';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
@@ -11,7 +11,7 @@ import { DbService } from './db.service';
 @controller()
 export class FavoriteController {
   constructor(
-    private ctx: RequestContext,
+    private req: Req,
     private db: DbService,
     private authService: AuthService,
     private articlesController: ArticlesController
@@ -23,7 +23,7 @@ export class FavoriteController {
       .getUnprocessableEnryResponse(),
   })
   async postFavorite() {
-    const slug = this.ctx.req.pathParams.slug as string;
+    const slug = this.req.pathParams.slug as string;
     const userId = await this.authService.getCurrentUserId();
     await this.db.setArticleFaforite(userId, slug);
     return this.articlesController.getArticleBySlug(slug);
@@ -36,7 +36,7 @@ export class FavoriteController {
     .getUnprocessableEnryResponse(),
   })
   async Unfavorite() {
-    const slug = this.ctx.req.pathParams.slug as string;
+    const slug = this.req.pathParams.slug as string;
     const userId = await this.authService.getCurrentUserId();
     await this.db.deleteArticleFaforite(userId, slug);
     return this.articlesController.getArticleBySlug(slug);

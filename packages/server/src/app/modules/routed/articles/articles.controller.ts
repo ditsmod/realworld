@@ -1,4 +1,4 @@
-import { controller, pickProperties, Status, CustomError, RequestContext } from '@ditsmod/core';
+import { controller, pickProperties, Status, CustomError, Req } from '@ditsmod/core';
 import { oasRoute } from '@ditsmod/openapi';
 import { DictService } from '@ditsmod/i18n';
 import { Injector } from '@ditsmod/core';
@@ -18,7 +18,7 @@ import { ArticlesSelectParams, DbArticle } from './types';
 @controller()
 export class ArticlesController {
   constructor(
-    private ctx: RequestContext,
+    private req: Req,
     private authService: AuthService,
     private utils: UtilService,
     private db: DbService
@@ -31,7 +31,7 @@ export class ArticlesController {
       .getNotFoundResponse('The article not found.'),
   })
   async getLastArticles(config: AppConfigService) {
-    const { queryParams } = this.ctx.req;
+    const { queryParams } = this.req;
     const articlesSelectParams: ArticlesSelectParams = {
       tag: queryParams.tag || '',
       author: queryParams.author || '',
@@ -57,7 +57,7 @@ export class ArticlesController {
   })
   async getArticle(config: AppConfigService) {
     // This need only because parameter `:slug` conflict with parameter `feed`.
-    if (this.ctx.req.pathParams.slug == 'feed') {
+    if (this.req.pathParams.slug == 'feed') {
       return this.fead(config);
     } else {
       return this.getArticleBySlug();
@@ -67,7 +67,7 @@ export class ArticlesController {
   private async fead(config: AppConfigService) {
     const currentUserId = await this.authService.getCurrentUserId();
     if (currentUserId) {
-      const { queryParams } = this.ctx.req;
+      const { queryParams } = this.req;
       const offset: number = queryParams.offset || 0;
       const limit: number = queryParams.limit || config.perPage;
       const { dbArticles, foundRows } = await this.db.getArticlesByFeed(currentUserId, offset, limit);
@@ -82,7 +82,7 @@ export class ArticlesController {
 
   async getArticleBySlug(slug?: string) {
     const currentUserId = await this.authService.getCurrentUserId();
-    slug = slug || this.ctx.req.pathParams.slug;
+    slug = slug || this.req.pathParams.slug;
     const dbArticle = await this.db.getArticleBySlug(slug!, currentUserId);
     if (!dbArticle) {
       this.utils.throw404Error('slug', 'The article not found.');
@@ -99,8 +99,8 @@ export class ArticlesController {
       .getResponse(ArticleItem, 'Description for response content.', Status.CREATED),
   })
   async postArticles(injector: Injector) {
-    const userId = this.ctx.req.jwtPayload.userId as number;
-    const { article: articlePostData } = this.ctx.req.body as ArticlePostData;
+    const userId = this.req.jwtPayload.userId as number;
+    const { article: articlePostData } = this.req.body as ArticlePostData;
     const slug = this.getSlug(articlePostData.title);
 
     const slugExists = await this.db.getArticleBySlug(slug!, 0);
@@ -152,8 +152,8 @@ export class ArticlesController {
   async putArticlesSlug() {
     const hasPermissions = await this.authService.hasPermissions([Permission.canEditAnyPost]);
     const currentUserId = await this.authService.getCurrentUserId();
-    const oldSlug = this.ctx.req.pathParams.slug as string;
-    const articlePutData = this.ctx.req.body as ArticlePutData;
+    const oldSlug = this.req.pathParams.slug as string;
+    const articlePutData = this.req.body as ArticlePutData;
     const newSlug = this.getSlug(articlePutData.article.title) || oldSlug;
     const okPacket = await this.db.putArticle(currentUserId, hasPermissions, oldSlug, newSlug, articlePutData.article);
     if (!okPacket.affectedRows) {
@@ -172,7 +172,7 @@ export class ArticlesController {
   async delArticlesSlug() {
     const hasPermissions = await this.authService.hasPermissions([Permission.canDeleteAnyPost]);
     const currentUserId = await this.authService.getCurrentUserId();
-    const slug = this.ctx.req.pathParams.slug as string;
+    const slug = this.req.pathParams.slug as string;
     const okPacket = await this.db.deleteArticle(currentUserId, hasPermissions, slug);
     if (!okPacket.affectedRows) {
       this.utils.throw403Error('permissions', `You don't have permission to delete this article.`);

@@ -1,5 +1,5 @@
 import { createHmac, randomBytes } from 'crypto';
-import { RequestContext } from '@ditsmod/core';
+import { NodeResponse, NODE_RES, inject, NodeRequest, NODE_REQ } from '@ditsmod/core';
 import { Cookies } from '@ts-stack/cookies';
 import { injectable } from '@ditsmod/core';
 
@@ -7,7 +7,11 @@ import { ModuleConfigService } from './config.service';
 
 @injectable()
 export class CryptoService {
-  constructor(private config: ModuleConfigService, private ctx: RequestContext) {}
+  constructor(
+    private config: ModuleConfigService,
+    @inject(NODE_REQ) private nodeReq: NodeRequest,
+    @inject(NODE_RES) private nodeRes: NodeResponse
+  ) {}
   /**
    * Encrypts the password.
    */
@@ -35,7 +39,7 @@ export class CryptoService {
    */
   async setXsrf(size: number = this.config.sizeXsrfToken): Promise<void> {
     const token = await this.getToken(size);
-    const cookies = new Cookies(this.ctx.nodeReq, this.ctx.nodeRes);
+    const cookies = new Cookies(this.nodeReq, this.nodeRes);
     cookies.set(this.config.xsrfCookieName, token, { httpOnly: false });
   }
 
@@ -46,13 +50,13 @@ export class CryptoService {
    * But there is a problem here - `ParamsService` is declared at the application scope.
    */
   checkXsrf(): boolean {
-    const cookies = new Cookies(this.ctx.nodeReq, this.ctx.nodeRes);
+    const cookies = new Cookies(this.nodeReq, this.nodeRes);
     const xsrf = cookies.get(this.config.xsrfCookieName);
 
     if (!xsrf || xsrf.length != this.config.sizeXsrfToken * 2) {
       return false;
     } else {
-      return xsrf == this.ctx.nodeReq.headers['x-xsrf-token'];
+      return xsrf == this.nodeReq.headers['x-xsrf-token'];
     }
   }
 }

@@ -1,4 +1,4 @@
-import { controller, RequestContext } from '@ditsmod/core';
+import { controller, Req } from '@ditsmod/core';
 import { oasRoute } from '@ditsmod/openapi';
 
 import { Params } from '@models/params';
@@ -12,7 +12,7 @@ import { DbService } from './db.service';
 @controller()
 export class ProfilesController {
   constructor(
-    private ctx: RequestContext,
+    private req: Req,
     private db: DbService,
     private authService: AuthService,
     private util: UtilService
@@ -31,7 +31,7 @@ export class ProfilesController {
   }
 
   private async getProfileOfTargetUser(currentUserId?: number) {
-    const targetUserName = this.ctx.req.pathParams.username as string;
+    const targetUserName = this.req.pathParams.username as string;
     currentUserId = currentUserId || (await this.authService.getCurrentUserId());
     const profile = await this.db.getProfile(currentUserId!, targetUserName);
     if (!profile) {
@@ -50,8 +50,8 @@ export class ProfilesController {
       .getResponse(ProfileData, 'Description for response content.'),
   })
   async followUser() {
-    const currentUserId = this.ctx.req.jwtPayload?.userId;
-    const targetUserName = this.ctx.req.pathParams.username as string;
+    const currentUserId = this.req.jwtPayload?.userId;
+    const targetUserName = this.req.pathParams.username as string;
     await this.db.followUser(currentUserId, targetUserName);
     return this.getProfileOfTargetUser(currentUserId);
   }
@@ -63,8 +63,8 @@ export class ProfilesController {
       .getNotFoundResponse('A profile with the specified username was not found.'),
   })
   async deleteFollowUser() {
-    const currentUserId = this.ctx.req.jwtPayload?.userId;
-    const targetUserName = this.ctx.req.pathParams.username as string;
+    const currentUserId = this.req.jwtPayload?.userId;
+    const targetUserName = this.req.pathParams.username as string;
     await this.db.unfollowUser(currentUserId, targetUserName);
     return this.getProfileOfTargetUser(currentUserId);
   }

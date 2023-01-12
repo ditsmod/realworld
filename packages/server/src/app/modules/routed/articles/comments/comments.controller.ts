@@ -1,4 +1,4 @@
-import { controller, pickProperties, RequestContext, Status } from '@ditsmod/core';
+import { controller, pickProperties, Req, Status } from '@ditsmod/core';
 import { oasRoute } from '@ditsmod/openapi';
 
 import { Permission } from '@shared';
@@ -14,11 +14,7 @@ import { Author } from '../models';
 
 @controller()
 export class CommentsController {
-  constructor(
-    private ctx: RequestContext,
-    private db: DbService,
-    private authService: AuthService
-  ) {}
+  constructor(private req: Req, private db: DbService, private authService: AuthService) {}
 
   @oasRoute('POST', '', [BearerGuard], {
     ...new OasOperationObject()
@@ -27,8 +23,8 @@ export class CommentsController {
   })
   async postComment() {
     const userId = await this.authService.getCurrentUserId();
-    const commentPostData = this.ctx.req.body as CommentPostData;
-    const slug = this.ctx.req.pathParams.slug as string;
+    const commentPostData = this.req.body as CommentPostData;
+    const slug = this.req.pathParams.slug as string;
     const okPacket = await this.db.postComment(userId, slug, commentPostData.comment.body);
     const commentId = okPacket.insertId;
     const dbComment = await this.db.getComments(userId, commentId);
@@ -70,7 +66,7 @@ export class CommentsController {
   async deleteComment(utils: UtilService) {
     const currentUserId = await this.authService.getCurrentUserId();
     const hasPermissions = await this.authService.hasPermissions([Permission.canDeleteAnyComments]);
-    const commentId = this.ctx.req.pathParams.id as number;
+    const commentId = this.req.pathParams.id as number;
     const okPacket = await this.db.deleteArticle(currentUserId, hasPermissions, commentId);
     if (!okPacket.affectedRows) {
       utils.throw403Error('permissions', `You don't have permission to delete this comment.`);
