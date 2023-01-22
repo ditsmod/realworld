@@ -25,12 +25,13 @@ export class DbService {
 
   async deleteArticle(userId: number, hasPermissions: boolean, commentId: number) {
     const db = await this.mysql.getKysely<Database>();
-    const query = db.deleteFrom('curr_comments').where('commentId', '=', commentId);
-
-    if (!hasPermissions) {
-      // If no permissions, only owner can delete the comment.
-      query.where('userId', '=', userId);
-    }
+    const query = db
+      .deleteFrom('curr_comments')
+      .where('commentId', '=', commentId)
+      .$if(!hasPermissions, (eb) => {
+        // If no permissions, only owner can delete the comment.
+        return eb.where('userId', '=', userId);
+      });
 
     return query.executeTakeFirst();
   }
@@ -40,7 +41,8 @@ export class DbService {
   async getComments(currentUserId: number, commentId?: number) {
     const db = await this.mysql.getKysely<Database>();
 
-    const query = db.selectFrom('curr_comments as c')
+    const query = db
+      .selectFrom('curr_comments as c')
       .innerJoin('curr_users as u', 'c.userId', 'u.userId')
       .leftJoin('map_followers as f', (jb) =>
         jb.onRef('c.userId', '=', 'f.userId').on('f.followerId', '=', currentUserId)
@@ -54,11 +56,9 @@ export class DbService {
         'u.bio',
         'u.image',
         sql`if(f.userId is null, 0, 1)`.as('following'),
-      ]);
+      ])
+      .$if(!!commentId, (eb) => eb.where('commentId', '=', commentId!));
 
-    if (commentId) {
-      query.where('commentId', '=', commentId);
-    }
     const rows = await query.execute();
 
     if (commentId) {

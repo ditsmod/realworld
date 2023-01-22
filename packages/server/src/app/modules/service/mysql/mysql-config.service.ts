@@ -9,10 +9,10 @@ export class MySqlConfigService implements ConnectionOptions {
   user = MYSQL_USER;
   password = MYSQL_PASSWORD;
   database = MYSQL_DATABASE;
-  // typeCast: TypeCast = (field, next) => {
-  //   if (field.type == 'JSON') {
-  //     return JSON.parse(`${field.string()}` || '');
-  //   }
-  //   return next();
-  // };
+  typeCast: boolean | ((field: any, next: () => void) => any) = (field, next) => {
+    if (field.type == 'JSON') {
+      return JSON.parse(`${field.string()}` || '');
+    }
+    return next();
+  };
 }
