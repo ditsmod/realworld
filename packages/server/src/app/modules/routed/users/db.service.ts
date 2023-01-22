@@ -68,7 +68,6 @@ export class DbService {
 
   async putCurrentUser(userId: number, pubUser: PutUser) {
     const { email, username, password: rawPassword, image, bio } = pubUser;
-    console.log(pubUser);
     const password = this.cryptoService.getCryptedPassword(rawPassword || '');
     const db = await this.mysql.getKysely<Database>();
     return await db
