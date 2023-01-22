@@ -6,7 +6,7 @@ import { BearerGuard } from '@service/auth/bearer.guard';
 import { OasOperationObject } from '@utils/oas-helpers';
 import { UtilService } from '@service/util/util.service';
 import { AuthService } from '@service/auth/auth.service';
-import { ProfileData } from './models';
+import { Profile, ProfileData } from './models';
 import { DbService } from './db.service';
 
 @controller()
@@ -37,9 +37,9 @@ export class ProfilesController {
     if (!profile) {
       this.util.throw404Error('username', 'A profile with the specified username was not found.');
     }
-    profile.following = this.util.convertToBool(profile.following);
+    profile!.following = this.util.convertToBool(profile!.following);
     const profileData = new ProfileData();
-    profileData.profile = profile;
+    profileData.profile = profile! as Profile;
     return profileData;
   }
 

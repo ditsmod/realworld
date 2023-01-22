@@ -7,11 +7,10 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Run start",
       "command": "yarn start",
-      "name": "Run yarn start",
       "request": "launch",
-      "type": "node-terminal",
-      "diagnosticLogging": true
+      "type": "node-terminal"
     },
     {
       "name": "Attach by Process ID",
@@ -20,10 +19,10 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "type": "pwa-node"
+      "type": "node"
     },
     {
-      "type": "pwa-node",
+      "type": "node",
       "request": "launch",
       "name": "Jest All",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
@@ -35,14 +34,12 @@
       }
     },
     {
-      "type": "pwa-node",
+      "type": "node",
       "request": "launch",
       "name": "Jest Current File",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": [
-        "${fileDirname}/${fileBasenameNoExtension}",
-        "--config",
-        "jest.config.js"
+        "${fileDirname}/${fileBasenameNoExtension}"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

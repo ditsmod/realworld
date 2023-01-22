@@ -1,53 +1,48 @@
 import { injectable } from '@ditsmod/core';
+import { sql } from 'kysely';
 
 import { MysqlService } from '@service/mysql/mysql.service';
-import { Profile } from './models';
-import { OkPacket } from 'mysql';
+import { Database } from './models';
 
 @injectable()
 export class DbService {
   constructor(private mysql: MysqlService) {}
 
   async getProfile(currentUserId: number, targetUserName: string) {
-    const sql = `
-    select
-      username,
-      bio,
-      image,
-      if(f.userId is null, 0, 1) as following
-    from curr_users as u
-    left join map_followers as f
-      on u.userId = f.userId
-        and f.followerId = ?
-    where u.username = ?
-    ;`;
-    const { rows } = await this.mysql.query(sql, [currentUserId, targetUserName]);
-    return (rows as Profile[])[0];
+    const db = await this.mysql.getKysely<Database>();
+    return db
+      .selectFrom('curr_users as u')
+      .leftJoin('map_followers as f', (jb) =>
+        jb.onRef('u.userId', '=', 'f.userId').on('f.followerId', '=', currentUserId)
+      )
+      .select(['username', 'bio', 'image', sql<string | boolean>`if(f.userId is null, 0, 1)`.as('following')])
+      .where('username', '=', targetUserName)
+      .executeTakeFirst();
   }
 
   async followUser(currentUserId: number, targetUserName: string) {
-    const sql = `
-    insert ignore into map_followers (userId, followerId)
-    select
-      userId,
-      ?
-    from curr_users as u
-    where username = ?
-    ;`;
-    const { rows } = await this.mysql.query(sql, [currentUserId, targetUserName]);
-    return (rows as OkPacket);
+    const db = await this.mysql.getKysely<Database>();
+    return db
+      .insertInto('map_followers')
+      .ignore()
+      .columns(['userId', 'followerId'])
+      .expression((eb) =>
+        eb
+          .selectFrom('curr_users as u')
+          .select(['u.userId', sql<string>`${currentUserId}`.as('currentUserId')])
+          .where('u.username', '=', targetUserName)
+      )
+      .executeTakeFirst();
   }
 
   async unfollowUser(currentUserId: number, targetUserName: string) {
-    const sql = `
-    delete f 
-    from map_followers as f
-    join curr_users as u
-      using(userId)
-    where u.username = ?
-      and f.followerId = ?
-    ;`;
-    const { rows } = await this.mysql.query(sql, [targetUserName, currentUserId]);
-    return (rows as OkPacket);
+    const db = await this.mysql.getKysely<Database>();
+    return db
+      .deleteFrom('f' as any)
+      .using('map_followers as f')
+      .innerJoin('curr_users as u', 'f.userId', 'u.userId')
+      .where('u.username', '=', targetUserName)
+      .where('f.followerId', '=', currentUserId)
+      .executeTakeFirst();
   }
 }

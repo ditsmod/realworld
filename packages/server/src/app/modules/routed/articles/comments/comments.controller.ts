@@ -26,7 +26,7 @@ export class CommentsController {
     const commentPostData = this.req.body as CommentPostData;
     const slug = this.req.pathParams.slug as string;
     const okPacket = await this.db.postComment(userId, slug, commentPostData.comment.body);
-    const commentId = okPacket.insertId;
+    const commentId = Number(okPacket.insertId);
     const dbComment = await this.db.getComments(userId, commentId);
     const commentData = new CommentData();
     commentData.comment = this.transformToComment(dbComment);
@@ -68,7 +68,7 @@ export class CommentsController {
     const hasPermissions = await this.authService.hasPermissions([Permission.canDeleteAnyComments]);
     const commentId = this.req.pathParams.id as number;
     const okPacket = await this.db.deleteArticle(currentUserId, hasPermissions, commentId);
-    if (!okPacket.affectedRows) {
+    if (!okPacket.numDeletedRows) {
       utils.throw403Error('permissions', `You don't have permission to delete this comment.`);
     }
     return { ok: 1 };

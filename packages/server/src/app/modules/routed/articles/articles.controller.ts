@@ -17,12 +17,7 @@ import { ArticlesSelectParams, DbArticle } from './types';
 
 @controller()
 export class ArticlesController {
-  constructor(
-    private req: Req,
-    private authService: AuthService,
-    private utils: UtilService,
-    private db: DbService
-  ) {}
+  constructor(private req: Req, private authService: AuthService, private utils: UtilService, private db: DbService) {}
 
   @oasRoute('GET', '', {
     ...new OasOperationObject()
@@ -112,10 +107,10 @@ export class ArticlesController {
       });
     }
 
-    const okPacket = await this.db.postArticle(userId, slug, articlePostData);
+    const insertResult = await this.db.postArticle(userId, slug, articlePostData);
     const currentUserId = await this.authService.getCurrentUserId();
-    const dbArticle = await this.db.getArticleById(okPacket.insertId, currentUserId);
-    const article = this.transformToArticleItem(dbArticle);
+    const dbArticle = await this.db.getArticleById(Number(insertResult.insertId), currentUserId);
+    const article = this.transformToArticleItem(dbArticle!);
     const articleItem = new ArticleItem();
     articleItem.article = article;
     return articleItem;
@@ -156,7 +151,7 @@ export class ArticlesController {
     const articlePutData = this.req.body as ArticlePutData;
     const newSlug = this.getSlug(articlePutData.article.title) || oldSlug;
     const okPacket = await this.db.putArticle(currentUserId, hasPermissions, oldSlug, newSlug, articlePutData.article);
-    if (!okPacket.affectedRows) {
+    if (!okPacket.numUpdatedRows) {
       this.utils.throw403Error('permissions', `You don't have permission to change this article.`);
     }
 
@@ -164,17 +159,14 @@ export class ArticlesController {
   }
 
   @oasRoute('DELETE', ':slug', [BearerGuard], {
-    ...new OasOperationObject()
-      .setRequiredParams('path', Params, 'slug')
-      .setUnprocessableEnryResponse()
-      .getResponse(),
+    ...new OasOperationObject().setRequiredParams('path', Params, 'slug').setUnprocessableEnryResponse().getResponse(),
   })
   async delArticlesSlug() {
     const hasPermissions = await this.authService.hasPermissions([Permission.canDeleteAnyPost]);
     const currentUserId = await this.authService.getCurrentUserId();
     const slug = this.req.pathParams.slug as string;
     const okPacket = await this.db.deleteArticle(currentUserId, hasPermissions, slug);
-    if (!okPacket.affectedRows) {
+    if (!okPacket.numDeletedRows) {
       this.utils.throw403Error('permissions', `You don't have permission to delete this article.`);
     }
 

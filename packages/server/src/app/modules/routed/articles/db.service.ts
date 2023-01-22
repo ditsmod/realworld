@@ -1,55 +1,53 @@
-import { OkPacket } from 'mysql';
 import { injectable } from '@ditsmod/core';
+import { sql } from 'kysely';
 
 import { MysqlService } from '@service/mysql/mysql.service';
 import { ArticlesSelectParams, DbArticle } from './types';
-import { ArticlePost, ArticlePut } from './models';
+import { ArticlePost, ArticlePut, Database } from './models';
 
 @injectable()
 export class DbService {
   constructor(private mysql: MysqlService) {}
 
-  async postArticle(userId: number, slug: string, { title, description, body, tagList }: ArticlePost) {
-    const sql = `
-    insert into curr_articles
-    set
-      userId = ?,
-      title = ?,
-      slug = ?,
-      description = ?,
-      body = ?,
-      tagList = ?
-    ;`;
-    const tags = JSON.stringify(tagList || []);
-    const { rows } = await this.mysql.query(sql, [userId, title, slug, description, body, tags]);
-    const result = rows as OkPacket;
+  async postArticle(userId: number, slug: string, { title, description, body, tagList: rawTags }: ArticlePost) {
+    const db = await this.mysql.getKysely<Database>();
+
+    const tagList = JSON.stringify(rawTags || []);
+    const result = await db
+      .insertInto('curr_articles')
+      .values({ userId, title, slug, description, body, tagList })
+      .executeTakeFirst();
+
     if (tagList && tagList.length) {
-      await this.insertIntoDictTags(userId, tagList);
-      await this.insertIntoMapArticlesTags(result.insertId, tagList);
+      await this.insertIntoDictTags(userId, rawTags!);
+      await this.insertIntoMapArticlesTags(Number(result.insertId), rawTags!);
     }
     return result;
   }
 
   async insertIntoDictTags(userId: number, tagList: string[]) {
-    const params: string[] = [];
-    const values = tagList.map((tag) => {
-      params.push(tag);
-      return `(?, ${userId})`;
-    });
-    const sql1 = `
-    insert ignore into dict_tags (tagName, creatorId)
-    values ${values.join(', ')}`;
-    await this.mysql.query(sql1, params);
+    const db = await this.mysql.getKysely<Database>();
+
+    const query = db.insertInto('dict_tags').ignore().columns(['tagName', 'creatorId']);
+    const tags = tagList.map((tagName) => ({ tagName, creatorId: userId }));
+    return query.values(tags).execute();
   }
 
   async insertIntoMapArticlesTags(articleId: number, tagList: string[]) {
+    const db = await this.mysql.getKysely<Database>();
+
     for (const tagName of tagList) {
-      const sql = `
-      insert ignore into map_articles_tags (articleId, tagId)
-      select ${articleId} as articleId, tagId
-      from dict_tags as t
-      where t.tagName = ?`;
-      await this.mysql.query(sql, tagName);
+      await db
+        .insertInto('map_articles_tags')
+        .ignore()
+        .columns(['articleId', 'tagId'])
+        .expression((eb) =>
+          eb
+            .selectFrom('dict_tags as t')
+            .select([sql`${articleId}`.as('articleId'), 'tagId'])
+            .where('t.tagName', '=', tagName)
+        )
+        .executeTakeFirst();
     }
   }
 
@@ -60,207 +58,198 @@ export class DbService {
     newSlug: string,
     { title, description, body }: ArticlePut
   ) {
-    let sql = `
-    update curr_articles
-    set
-      title = ifnull(?, title),
-      description = ifnull(?, description),
-      body = ifnull(?, body),
-      slug = ifnull(?, slug)
-    where slug = ?`;
+    const db = await this.mysql.getKysely<Database>();
 
-    const params: (string | number | undefined)[] = [title, description, body, newSlug, oldSlug];
-
-    if (!hasPermissions) {
-      // If no permissions, only owner can update the article.
-      sql += ` and userId = ?;`;
-      params.push(userId);
-    }
-
-    const { rows } = await this.mysql.query(sql, params);
-    return rows as OkPacket;
+    return db
+      .updateTable('curr_articles')
+      .set({
+        title: sql`ifnull(${title}, title)`,
+        description: sql`ifnull(${description}, description)`,
+        body: sql`ifnull(${body}, body)`,
+        slug: sql`ifnull(${newSlug}, slug)`,
+      })
+      .where('slug', '=', oldSlug)
+      .$if(!hasPermissions, (eb) => {
+        // If no permissions, only owner can delete the article.
+        return eb.where('userId', '=', userId);
+      })
+      .executeTakeFirst();
   }
 
   async deleteArticle(userId: number, hasPermissions: boolean, slug: string) {
-    let sql = `
-    delete from curr_articles
-    where slug = ?`;
+    const db = await this.mysql.getKysely<Database>();
 
-    const params: (string | number | undefined)[] = [slug];
-
-    if (!hasPermissions) {
-      // If no permissions, only owner can delete the article.
-      sql += ` and userId = ?;`;
-      params.push(userId);
-    }
-
-    const { rows } = await this.mysql.query(sql, params);
-    return rows as OkPacket;
+    return db
+      .deleteFrom('curr_articles')
+      .where('slug', '=', slug)
+      .$if(!hasPermissions, (eb) => {
+        // If no permissions, only owner can delete the article.
+        return eb.where('userId', '=', userId);
+      })
+      .executeTakeFirst();
   }
 
   async getArticleById(articleId: number, currentUserId: number) {
-    const sql = `
-    select
-      a.slug,
-      a.title,
-      a.description,
-      a.body,
-      a.tagList,
-      a.createdAt,
-      a.updatedAt,
-      a.favoritesCount,
-      if(fav.userId is null, 0, 1) as favorited,
-      u.username,
-      u.bio,
-      u.image,
-      if(fol.followerId is null, 0, 1) as following
-    from curr_articles as a
-    join curr_users as u
-      using(userId)
-    left join map_followers as fol
-      on a.userId = fol.userId
-        and fol.followerId = ${currentUserId}
-    left join map_favorites as fav
-      on a.articleId = fav.articleId
-        and a.userId = ${currentUserId}
-    where a.articleId = ${articleId}
-    ;`;
-    const { rows } = await this.mysql.query(sql);
-    return (rows as DbArticle[])[0];
+    const db = await this.mysql.getKysely<Database>();
+
+    return db
+      .selectFrom('curr_articles as a')
+      .innerJoin('curr_users as u', 'a.userId', 'u.userId')
+      .leftJoin('map_followers as fol', (jb) =>
+        jb.onRef('a.userId', '=', 'fol.userId').on('fol.followerId', '=', currentUserId)
+      )
+      .leftJoin('map_favorites as fav', (jb) =>
+        jb.onRef('a.articleId', '=', 'fav.articleId').on('a.userId', '=', currentUserId)
+      )
+      .select([
+        'a.slug',
+        'a.title',
+        'a.description',
+        'a.body',
+        'a.tagList',
+        'a.createdAt',
+        'a.updatedAt',
+        'a.favoritesCount',
+        sql`if(fav.userId is null, 0, 1)`.as('favorited'),
+        'u.username',
+        'u.bio',
+        'u.image',
+        sql`if(fol.followerId is null, 0, 1)`.as('following'),
+      ])
+      .where('a.articleId', '=', articleId)
+      .executeTakeFirst() as unknown as DbArticle;
   }
 
   async getArticleBySlug(slug: string, currentUserId: number) {
-    const sql = `
-    select
-      a.slug,
-      a.title,
-      a.description,
-      a.body,
-      a.tagList,
-      a.createdAt,
-      a.updatedAt,
-      a.favoritesCount,
-      if(fav.userId is null, 0, 1) as favorited,
-      u.username,
-      u.bio,
-      u.image,
-      if(fol.followerId is null, 0, 1) as following
-    from curr_articles as a
-    join curr_users as u
-      using(userId)
-    left join map_followers as fol
-      on a.userId = fol.userId
-        and fol.followerId = ${currentUserId}
-    left join map_favorites as fav
-      on a.articleId = fav.articleId
-        and a.userId = ${currentUserId}
-    where a.slug = ?
-    ;`;
-    const { rows } = await this.mysql.query(sql, slug);
-    return (rows as DbArticle[])[0];
+    const db = await this.mysql.getKysely<Database>();
+
+    return db
+      .selectFrom('curr_articles as a')
+      .innerJoin('curr_users as u', 'a.userId', 'u.userId')
+      .leftJoin('map_followers as fol', (jb) =>
+        jb.onRef('a.userId', '=', 'fol.userId').on('fol.followerId', '=', currentUserId)
+      )
+      .leftJoin('map_favorites as fav', (jb) =>
+        jb.onRef('a.articleId', '=', 'fav.articleId').on('a.userId', '=', currentUserId)
+      )
+      .select([
+        'a.slug',
+        'a.title',
+        'a.description',
+        'a.body',
+        'a.tagList',
+        'a.createdAt',
+        'a.updatedAt',
+        'a.favoritesCount',
+        sql`if(fav.userId is null, 0, 1)`.as('favorited'),
+        'u.username',
+        'u.bio',
+        'u.image',
+        sql`if(fol.followerId is null, 0, 1)`.as('following'),
+      ])
+      .where('a.slug', '=', slug)
+      .executeTakeFirst() as unknown as DbArticle;
   }
 
   async getArticlesByFeed(currentUserId: number, offset: number, perPage: number) {
-    const sql = `
-    select
-    SQL_CALC_FOUND_ROWS
-      a.slug,
-      a.title,
-      a.description,
-      a.body,
-      a.tagList,
-      a.createdAt,
-      a.updatedAt,
-      a.favoritesCount,
-      if(fav.userId is null, 0, 1) as favorited,
-      u.username,
-      u.bio,
-      u.image,
-      1 as following
-    from curr_articles as a
-    join curr_users as u
-      using(userId)
-    join map_followers as fol
-      on a.userId = fol.userId
-    left join map_favorites as fav
-      on a.articleId = fav.articleId
-        and a.userId = ${currentUserId}
-    where fol.followerId = ${currentUserId}
-    order by a.articleId desc
-    limit ${offset}, ${perPage}
-    ;`;
-    const { result, foundRows } = await this.mysql.queryWithFoundRows(sql);
-    return { dbArticles: result.rows as DbArticle[], foundRows };
+    const db = await this.mysql.getKysely<Database>();
+
+    const baseQuery = db
+      .selectFrom('curr_articles as a')
+      .innerJoin('curr_users as u', 'a.userId', 'u.userId')
+      .innerJoin('map_followers as fol', 'a.userId', 'fol.userId')
+      .leftJoin('map_favorites as fav', (jb) =>
+        jb.onRef('a.articleId', '=', 'fav.articleId').on('a.userId', '=', currentUserId)
+      )
+      .where('fol.followerId', '=', currentUserId)
+      .orderBy('a.articleId', 'desc')
+      .offset(offset)
+      .limit(perPage);
+
+    const result1 = await baseQuery
+      .select([
+        'a.slug',
+        'a.title',
+        'a.description',
+        'a.body',
+        'a.tagList',
+        'a.createdAt',
+        'a.updatedAt',
+        'a.favoritesCount',
+        sql`if(fav.userId is null, 0, 1)`.as('favorited'),
+        'u.username',
+        'u.bio',
+        'u.image',
+        sql`1`.as('following'),
+      ])
+      .execute();
+
+    const result2 = await baseQuery
+      .select(db.fn.count('a.articleId' as any).as('foundRows'))
+      .executeTakeFirst();
+
+    return { dbArticles: result1 as unknown as DbArticle[], foundRows: Number(result2?.foundRows) };
   }
 
   async getArticles(currentUserId: number, params: ArticlesSelectParams) {
-    const select = `
-    select
-    SQL_CALC_FOUND_ROWS
-      a.slug,
-      a.title,
-      a.description,
-      a.body,
-      a.tagList,
-      a.createdAt,
-      a.updatedAt,
-      a.favoritesCount,
-      if(fav.userId is null, 0, 1) as favorited,
-      u.username,
-      u.bio,
-      u.image,
-      if(fol.followerId is null, 0, 1) as following
-    from curr_articles as a
-    join curr_users as u
-      using(userId)
-    left join map_followers as fol
-      on a.userId = fol.userId
-        and fol.followerId = ${currentUserId}
-    left join map_favorites as fav
-      on a.articleId = fav.articleId
-        and a.userId = ${currentUserId}
-    `;
+    const db = await this.mysql.getKysely<Database>();
 
-    let join = '';
-    const aWhere: string[] = [];
-    const dbParams: (string | number)[] = [];
+    const query1 = db
+      .selectFrom('curr_articles as a')
+      .innerJoin('curr_users as u', 'a.userId', 'u.userId')
+      .leftJoin('map_followers as fol', (jb) =>
+        jb.onRef('a.userId', '=', 'fol.userId').on('fol.followerId', '=', currentUserId)
+      )
+      .leftJoin('map_favorites as fav', (jb) =>
+        jb.onRef('a.articleId', '=', 'fav.articleId').on('a.userId', '=', currentUserId)
+      )
+      .select([
+        'a.slug',
+        'a.title',
+        'a.description',
+        'a.body',
+        'a.tagList',
+        'a.createdAt',
+        'a.updatedAt',
+        'a.favoritesCount',
+        sql`if(fav.userId is null, 0, 1)`.as('favorited'),
+        'u.username',
+        'u.bio',
+        'u.image',
+        sql`if(fol.followerId is null, 0, 1)`.as('following'),
+      ])
+      .$if(Boolean(params.tag), (eb) =>
+        eb
+          .innerJoin('map_articles_tags as at', 'a.articleId', 'at.articleId')
+          .innerJoin('dict_tags as t', 'at.tagId', 't.tagId')
+          .where('t.tagName', '=', params.tag)
+      )
+      .$if(Boolean(params.author), (eb) => eb.where('u.username', '=', params.author))
+      .$if(Boolean(params.favorited), (eb) =>
+        eb
+          .innerJoin('map_favorites as fav2', 'a.articleId', 'fav2.articleId')
+          .innerJoin('curr_users as u2', 'fav2.userId', 'u2.userId')
+          .where('u2.username', '=', params.favorited)
+      )
+      .withPlugin({
+        transformQuery(args) {
+          return args.node;
+        },
+        async transformResult(args) {
+          return args.result;
+        },
+      })
+      .orderBy('a.articleId', 'desc')
+      .offset(params.offset)
+      .limit(params.limit);
 
-    if (params.tag) {
-      join += `
-      join map_articles_tags as at
-        on a.articleId = at.articleId
-      join dict_tags as t
-        using(tagId)`;
-
-      aWhere.push(`t.tagName = ?`);
-      dbParams.push(params.tag);
-    }
-
-    if (params.author) {
-      aWhere.push(`u.username = ?`);
-      dbParams.push(params.author);
-    }
-
-    if (params.favorited) {
-      join += `
-      join map_favorites as fav2
-        on a.articleId = fav2.articleId
-      join curr_users as u2
-        on fav2.userId = u2.userId
-      `;
-
-      aWhere.push(`u2.username = ?`);
-      dbParams.push(params.favorited);
-    }
-
-    const orderAndLimit = `
-    order by a.articleId desc
-    limit ${params.offset}, ${params.limit}
-    ;`;
-
-    const where = aWhere.length ? `\nwhere ${aWhere.join(' and ')}` : '';
-    const sql1 = `${select}${join}${where}${orderAndLimit}`;
-    const { result, foundRows } = await this.mysql.queryWithFoundRows(sql1, dbParams);
-    return { dbArticles: result.rows as DbArticle[], foundRows };
+    const query2 = query1
+      .clearSelect()
+      .clearLimit()
+      .clearOffset()
+      .select(sql`count(*)`.as('foundRows'));
+    const result1 = (await query1.execute()) as unknown as DbArticle[];
+    const result2 = (await query2.executeTakeFirst());
+    return { dbArticles: result1, foundRows: Number(result2?.foundRows) };
   }
 }

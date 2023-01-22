@@ -1,6 +1,20 @@
 import { property, REQUIRED } from '@ditsmod/openapi';
+import { Generated } from 'kysely';
 
 import { AppConfigService } from '@service/app-config/config.service';
+
+export interface Database {
+  curr_users: CurrUsers
+}
+
+export interface CurrUsers {
+  userId: Generated<number>;
+  username: string;
+  email: string;
+  bio?: string;
+  image?: string;
+  password: string;
+}
 
 const config = new AppConfigService();
 
