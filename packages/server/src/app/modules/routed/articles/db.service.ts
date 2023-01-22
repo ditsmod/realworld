@@ -184,9 +184,7 @@ export class DbService {
       ])
       .execute();
 
-    const result2 = await baseQuery
-      .select(db.fn.count('a.articleId' as any).as('foundRows'))
-      .executeTakeFirst();
+    const result2 = await baseQuery.select((eb) => eb.fn.count('a.articleId').as('foundRows')).executeTakeFirst();
 
     return { dbArticles: result1 as unknown as DbArticle[], foundRows: Number(result2?.foundRows) };
   }
@@ -247,9 +245,9 @@ export class DbService {
       .clearSelect()
       .clearLimit()
       .clearOffset()
-      .select(sql`count(*)`.as('foundRows'));
+      .select((eb) => eb.fn.count('a.articleId').as('foundRows'));
     const result1 = (await query1.execute()) as unknown as DbArticle[];
-    const result2 = (await query2.executeTakeFirst());
+    const result2 = await query2.executeTakeFirst();
     return { dbArticles: result1, foundRows: Number(result2?.foundRows) };
   }
 }
