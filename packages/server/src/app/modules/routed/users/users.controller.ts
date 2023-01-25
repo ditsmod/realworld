@@ -1,8 +1,9 @@
-import { controller, CustomError, Req, Status } from '@ditsmod/core';
+import { controller, CustomError, inject, Status } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
-import { JwtService } from '@ditsmod/jwt';
+import { JwtService, JWT_PAYLOAD } from '@ditsmod/jwt';
 import { oasRoute } from '@ditsmod/openapi';
 import { Injector } from '@ditsmod/core';
+import { HTTP_BODY } from '@ditsmod/body-parser';
 
 import { BearerGuard } from '@service/auth/bearer.guard';
 import { ServerDict } from '@service/openapi-with-params/locales/current';
@@ -13,10 +14,10 @@ import { LoginFormData, PutUser, PutUserData, SignUpFormData, UserSessionData } 
 @controller()
 export class UsersController {
   constructor(
-    private req: Req,
+    @inject(HTTP_BODY) private body: any,
     private db: DbService,
     private jwtService: JwtService,
-    private injector: Injector
+    private injector: Injector,
   ) {}
 
   @oasRoute('POST', 'users', {
@@ -27,7 +28,7 @@ export class UsersController {
       .getResponse(UserSessionData, 'After registration, this data is sent to the client.', Status.CREATED),
   })
   async signUpUser() {
-    const signUpFormData = this.req.body as SignUpFormData;
+    const signUpFormData = this.body as SignUpFormData;
     const userId = await this.db.signUpUser(signUpFormData);
     const userSessionData = new UserSessionData(signUpFormData.user);
     userSessionData.user.token = await this.jwtService.signWithSecret({ userId });
@@ -42,7 +43,7 @@ export class UsersController {
       .getResponse(UserSessionData, 'After login, this data is sent to the client.'),
   })
   async signInUser() {
-    const { user } = this.req.body as LoginFormData;
+    const { user } = this.body as LoginFormData;
     const dbUser = await this.db.signInUser(user);
     if (!dbUser) {
       const dict = this.getDictionary();
@@ -63,8 +64,8 @@ export class UsersController {
       .setResponse(UserSessionData, 'Description for response content.')
       .getNotFoundResponse('User not found.'),
   })
-  async getCurrentUser() {
-    const userId = this.req.jwtPayload.userId as number;
+  async getCurrentUser(@inject(JWT_PAYLOAD) jwtPayload: any) {
+    const userId = jwtPayload.userId as number;
     const dbUser = await this.db.getCurrentUser(userId);
     if (!dbUser) {
       const dict = this.getDictionary();
@@ -86,9 +87,9 @@ export class UsersController {
       .setRequestBody(PutUserData, 'Any of this properties are required.')
       .getResponse(UserSessionData, 'Returns the User.'),
   })
-  async updateCurrentUser() {
-    const userId = this.req.jwtPayload.userId as number;
-    const putUser = this.req.body as PutUser;
+  async updateCurrentUser(@inject(JWT_PAYLOAD) jwtPayload: any) {
+    const userId = jwtPayload.userId as number;
+    const putUser = this.body as PutUser;
     const okPacket = await this.db.putCurrentUser(userId, putUser);
     if (!okPacket.numUpdatedRows) {
       const dict = this.getDictionary();
@@ -98,7 +99,7 @@ export class UsersController {
         level: 'error',
       });
     }
-    return this.getCurrentUser();
+    return this.getCurrentUser(jwtPayload);
   }
 
   /**
