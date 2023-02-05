@@ -1,25 +1,6 @@
 import { property, REQUIRED } from '@ditsmod/openapi';
-import { Generated } from 'kysely';
 
-import { MapFollowers } from '@routed/profiles/models';
-import { CurrUsers } from '@routed/users/models';
-import { Author, CurrArticles } from '../models';
-
-export interface Database {
-  curr_comments: CurrComments;
-  curr_articles: CurrArticles;
-  curr_users: CurrUsers;
-  map_followers: MapFollowers;
-}
-
-export interface CurrComments {
-  commentId: Generated<number>;
-  userId: number;
-  articleId: number;
-  createdAt: number;
-  updatedAt?: number;
-  body: string;
-}
+import { Author } from '../models';
 
 export class Comment {
   @property()

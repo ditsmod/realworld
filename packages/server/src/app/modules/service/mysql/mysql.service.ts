@@ -1,49 +1,120 @@
-import { createPool, Pool } from 'mysql2';
+import { createPool, Pool, PoolConnection, MysqlError, OkPacket, FieldInfo } from 'mysql';
 import { injectable } from '@ditsmod/core';
-import { LogLevel, Status, CustomError } from '@ditsmod/core';
-import { Kysely, MysqlDialect } from 'kysely';
+import { AnyObj, LogLevel, Status, CustomError } from '@ditsmod/core';
+import { DictService } from '@ditsmod/i18n';
 
+import { ServerDict } from '@service/openapi-with-params/locales/current';
 import { MySqlConfigService } from './mysql-config.service';
 
 @injectable()
 export class MysqlService {
-  #pools: { [database: string]: Pool } = {};
-  #kyselys: { [database: string]: Kysely<any> } = {};
+  private pools: { [database: string]: Pool } = {};
+  private dict: ServerDict;
 
-  constructor(private config: MySqlConfigService) {}
+  constructor(private config: MySqlConfigService, private dictService: DictService) {}
 
-  protected async getPool(dbName?: string) {
-    const config = { ...this.config };
-    const database = (dbName || config.database) as string;
-    config.database = database;
-    if (!this.#pools[database]) {
-      this.#pools[database] = createPool(config);
+  getConnection(dbName?: string): Promise<PoolConnection> {
+    if (!this.dict) {
+      this.dict = this.dictService.getDictionary(ServerDict);
     }
-    return this.#pools[database];
+    return new Promise((resolve, reject) => {
+      const config = { ...this.config };
+      const database = (dbName || config.database) as string;
+      config.database = database;
+      if (!this.pools[database]) {
+        this.pools[database] = createPool(config);
+      }
+
+      this.pools[database].getConnection((err, connection) => {
+        if (err) {
+          this.handleErr(this.dict.mysqlConnect, err, reject);
+        } else {
+          resolve(connection);
+        }
+      });
+    });
   }
 
-  async getKysely<T extends object = any>(dbName?: string): Promise<Kysely<T>> {
-    const pool = await this.getPool(dbName);
-    const database = (dbName || this.config.database) as string;
-
-    if (!this.#kyselys[database]) {
-      this.#kyselys[database] = new Kysely({ dialect: new MysqlDialect({ pool }) });
-    }
-    return this.#kyselys[database];
+  async query<T = AnyObj>(
+    sql: string,
+    params?: any,
+    dbName?: string
+  ): Promise<{ rows: T[] | [T[], OkPacket] | OkPacket; fieldInfo?: FieldInfo[] }> {
+    const connection = await this.getConnection(dbName);
+    return new Promise((resolve, reject) => {
+      connection.query(sql, params, (err, rows, fieldInfo) => {
+        connection.release();
+        if (err) {
+          this.handleErr(this.dict.mysqlQuery, err, reject);
+        } else {
+          resolve({ rows, fieldInfo });
+        }
+      });
+    });
   }
 
-  protected async handleErr(msg1: string, err: NodeJS.ErrnoException, reject: (...args: any[]) => void) {
+  async startTransaction(dbName?: string) {
+    const connection = await this.getConnection(dbName);
+    connection.beginTransaction();
+    return connection;
+  }
+
+  queryInTransaction<T = AnyObj>(
+    connection: PoolConnection,
+    sql: string,
+    params?: any
+  ): Promise<{ rows: T[] | [T[], OkPacket] | OkPacket; fieldInfo?: FieldInfo[] }> {
+    return new Promise((resolve, reject) => {
+      connection.query(sql, params, (err, rows, fieldInfo) => {
+        if (err) {
+          connection.rollback();
+          connection.release();
+          this.handleErr(this.dict.mysqlQuery, err, reject);
+        } else {
+          resolve({ rows, fieldInfo });
+        }
+      });
+    });
+  }
+
+  commit(connection: PoolConnection): Promise<void> {
+    return new Promise((resolve, reject) => {
+      connection.commit((err) => {
+        if (err) {
+          connection.rollback();
+          this.handleErr(this.dict.errMysqlCommit, err, reject);
+        } else {
+          resolve();
+        }
+        connection.release();
+      });
+    });
+  }
+
+  /**
+   * If your select used `SQL_CALC_FOUND_ROWS`, you can use this method to get results for
+   * this select and select with `found_rows()` function.
+   */
+  async queryWithFoundRows(sql1: string, params?: any) {
+    const poolConnection = await this.startTransaction();
+    const result = await this.queryInTransaction(poolConnection, sql1, params);
+    const sql2 = `select found_rows() as foundRows;`;
+    const result2 = await this.queryInTransaction(poolConnection, sql2);
+    this.commit(poolConnection);
+    const foundRows = (result2.rows as { foundRows: number }[])[0].foundRows;
+    return { result, foundRows };
+  }
+
+  protected handleErr(msg1: string, err: MysqlError, reject: (...args: any[]) => void) {
     let level: LogLevel;
-
-    // @todo Investigate what codes can be here.
-    if (err.code == 'unknown') {
+    if (err.fatal) {
       level = 'fatal';
     } else {
       level = 'error';
     }
     let status: number = Status.INTERNAL_SERVER_ERROR;
-    if (!isNaN(parseFloat(err.message || ''))) {
-      const [rawMsg, rawStatus] = err.message!.split(',');
+    if (!isNaN(parseFloat(err.sqlMessage || ''))) {
+      const [rawMsg, rawStatus] = err.sqlMessage!.split(',');
       msg1 = rawMsg || msg1;
       status = +rawStatus || status;
     }

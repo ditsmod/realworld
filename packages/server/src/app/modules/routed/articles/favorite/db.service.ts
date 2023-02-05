@@ -1,48 +1,37 @@
+import { OkPacket } from 'mysql';
 import { injectable } from '@ditsmod/core';
-import { sql } from 'kysely';
 
 import { MysqlService } from '@service/mysql/mysql.service';
-import { Database } from '../models';
 
 @injectable()
 export class DbService {
   constructor(private mysql: MysqlService) {}
 
   async setArticleFaforite(userId: number, slug: string) {
-    const db = await this.mysql.getKysely<Database>();
-
-    await db
-      .insertInto('map_favorites')
-      .columns(['articleId', 'userId'])
-      .expression((eb) =>
-        eb
-          .selectFrom('curr_articles')
-          .select(['articleId', sql`${userId}`.as('userId')])
-          .where('slug', '=', slug)
-      )
-      .executeTakeFirst();
-
-    await db
-      .updateTable('curr_articles')
-      .set({ favoritesCount: sql`favoritesCount + 1` })
-      .where('slug', '=', slug)
-      .executeTakeFirst();
+    const sql1 = `insert ignore into map_favorites(articleId, userId)
+    select articleId, ${userId} as userId
+    from curr_articles
+    where slug = ?`;
+    await this.mysql.query(sql1, slug);
+    
+    const sql2 = `update curr_articles
+    set favoritesCount = favoritesCount + 1
+    where slug = ?`;
+    await this.mysql.query(sql2, slug);
   }
 
   async deleteArticleFaforite(userId: number, slug: string) {
-    const db = await this.mysql.getKysely<Database>();
-
-    await db
-      .deleteFrom('f' as any)
-      .using('map_favorites as f')
-      .innerJoin('curr_articles as a', (jb) => jb.onRef('f.articleId', '=', 'a.articleId').on('f.userId', '=', userId))
-      .where('a.slug', '=', slug)
-      .executeTakeFirst();
-
-    await db
-      .updateTable('curr_articles')
-      .set({ favoritesCount: sql`favoritesCount - 1` })
-      .where('slug', '=', slug)
-      .executeTakeFirst();
+    const sql1 = `delete f
+    from map_favorites as f
+    join curr_articles as a
+      on f.articleId = a.articleId
+        and f.userId = ${userId}
+    where a.slug = ?`;
+    await this.mysql.query(sql1, slug);
+    
+    const sql2 = `update curr_articles
+    set favoritesCount = favoritesCount - 1
+    where slug = ?`;
+    await this.mysql.query(sql2, slug);
   }
 }

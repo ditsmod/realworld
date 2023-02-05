@@ -1,50 +1,8 @@
 import { property, REQUIRED } from '@ditsmod/openapi';
-import { Generated } from 'kysely';
 
 import { AppConfigService } from '@service/app-config/config.service';
-import { CurrUsers } from '@routed/users/models';
-import { MapFollowers } from '@routed/profiles/models';
 
 const config = new AppConfigService();
-
-export interface Database {
-  curr_users: CurrUsers;
-  curr_articles: CurrArticles;
-  dict_tags: DictTags;
-  map_articles_tags: MapArticlesTags;
-  map_followers: MapFollowers;
-  map_favorites: MapFavorites;
-}
-
-export interface MapArticlesTags {
-  articleId: number;
-  tagId: number;
-}
-
-export interface MapFavorites {
-  articleId: number;
-  userId: number;
-}
-
-export interface CurrArticles {
-  articleId: Generated<number>;
-  userId: number;
-  body: string;
-  slug: string;
-  title: string;
-  description: string;
-  tagList?: string;
-  createdAt?: number;
-  updatedAt?: number;
-  favoritesCount?: number;
-}
-
-export interface DictTags {
-  tagId: Generated<number>;
-  tagName: string;
-  creatorId: number;
-  createdAt?: number;
-}
 
 export class Author {
   @property()

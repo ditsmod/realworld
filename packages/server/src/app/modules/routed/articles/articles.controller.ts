@@ -1,14 +1,4 @@
-import {
-  controller,
-  pickProperties,
-  Status,
-  CustomError,
-  Req,
-  inject,
-  PATH_PARAMS,
-  QUERY_PARAMS,
-  optional,
-} from '@ditsmod/core';
+import { controller, pickProperties, Status, CustomError, Req } from '@ditsmod/core';
 import { oasRoute } from '@ditsmod/openapi';
 import { DictService } from '@ditsmod/i18n';
 import { Injector } from '@ditsmod/core';
@@ -24,12 +14,15 @@ import { ServerDict } from '@service/openapi-with-params/locales/current';
 import { Article, ArticleItem, ArticlePostData, ArticlePutData, Articles, Author } from './models';
 import { DbService } from './db.service';
 import { ArticlesSelectParams, DbArticle } from './types';
-import { JWT_PAYLOAD } from '@ditsmod/jwt';
-import { HTTP_BODY } from '@ditsmod/body-parser';
 
 @controller()
 export class ArticlesController {
-  constructor(private req: Req, private authService: AuthService, private utils: UtilService, private db: DbService) {}
+  constructor(
+    private req: Req,
+    private authService: AuthService,
+    private utils: UtilService,
+    private db: DbService
+  ) {}
 
   @oasRoute('GET', '', {
     ...new OasOperationObject()
@@ -37,7 +30,8 @@ export class ArticlesController {
       .setResponse(Articles, 'Description for response content.')
       .getNotFoundResponse('The article not found.'),
   })
-  async getLastArticles(config: AppConfigService, @optional() @inject(QUERY_PARAMS) queryParams: any = {}) {
+  async getLastArticles(config: AppConfigService) {
+    const { queryParams } = this.req;
     const articlesSelectParams: ArticlesSelectParams = {
       tag: queryParams.tag || '',
       author: queryParams.author || '',
@@ -61,22 +55,19 @@ export class ArticlesController {
       .setUnauthorizedResponse()
       .getNotFoundResponse('The article not found.'),
   })
-  async getArticle(
-    config: AppConfigService,
-    @inject(PATH_PARAMS) pathParams: any,
-    @optional() @inject(QUERY_PARAMS) queryParams: any = {}
-  ) {
+  async getArticle(config: AppConfigService) {
     // This need only because parameter `:slug` conflict with parameter `feed`.
-    if (pathParams.slug == 'feed') {
-      return this.fead(config, queryParams);
+    if (this.req.pathParams.slug == 'feed') {
+      return this.fead(config);
     } else {
-      return this.getArticleBySlug(pathParams);
+      return this.getArticleBySlug();
     }
   }
 
-  private async fead(config: AppConfigService, queryParams: any) {
+  private async fead(config: AppConfigService) {
     const currentUserId = await this.authService.getCurrentUserId();
     if (currentUserId) {
+      const { queryParams } = this.req;
       const offset: number = queryParams.offset || 0;
       const limit: number = queryParams.limit || config.perPage;
       const { dbArticles, foundRows } = await this.db.getArticlesByFeed(currentUserId, offset, limit);
@@ -89,9 +80,9 @@ export class ArticlesController {
     }
   }
 
-  async getArticleBySlug(pathParams: any, slug?: string) {
+  async getArticleBySlug(slug?: string) {
     const currentUserId = await this.authService.getCurrentUserId();
-    slug = slug || pathParams.slug;
+    slug = slug || this.req.pathParams.slug;
     const dbArticle = await this.db.getArticleBySlug(slug!, currentUserId);
     if (!dbArticle) {
       this.utils.throw404Error('slug', 'The article not found.');
@@ -107,13 +98,9 @@ export class ArticlesController {
       .setRequestBody(ArticlePostData, 'Description for requestBody.')
       .getResponse(ArticleItem, 'Description for response content.', Status.CREATED),
   })
-  async postArticles(
-    injector: Injector,
-    @inject(JWT_PAYLOAD) jwtPayload: any,
-    @inject(HTTP_BODY) body: ArticlePostData
-  ) {
-    const userId = jwtPayload.userId as number;
-    const { article: articlePostData } = body;
+  async postArticles(injector: Injector) {
+    const userId = this.req.jwtPayload.userId as number;
+    const { article: articlePostData } = this.req.body as ArticlePostData;
     const slug = this.getSlug(articlePostData.title);
 
     const slugExists = await this.db.getArticleBySlug(slug!, 0);
@@ -125,10 +112,10 @@ export class ArticlesController {
       });
     }
 
-    const insertResult = await this.db.postArticle(userId, slug, articlePostData);
+    const okPacket = await this.db.postArticle(userId, slug, articlePostData);
     const currentUserId = await this.authService.getCurrentUserId();
-    const dbArticle = await this.db.getArticleById(Number(insertResult.insertId), currentUserId);
-    const article = this.transformToArticleItem(dbArticle!);
+    const dbArticle = await this.db.getArticleById(okPacket.insertId, currentUserId);
+    const article = this.transformToArticleItem(dbArticle);
     const articleItem = new ArticleItem();
     articleItem.article = article;
     return articleItem;
@@ -162,34 +149,32 @@ export class ArticlesController {
       .setRequestBody(ArticlePutData, 'Description for requestBody.')
       .getResponse(ArticleItem, 'Description for response content.'),
   })
-  async putArticlesSlug(@inject(PATH_PARAMS) pathParams: any, @inject(HTTP_BODY) articlePutData: ArticlePutData) {
+  async putArticlesSlug() {
     const hasPermissions = await this.authService.hasPermissions([Permission.canEditAnyPost]);
     const currentUserId = await this.authService.getCurrentUserId();
-    const oldSlug = pathParams.slug as string;
+    const oldSlug = this.req.pathParams.slug as string;
+    const articlePutData = this.req.body as ArticlePutData;
     const newSlug = this.getSlug(articlePutData.article.title) || oldSlug;
-    const updateResult = await this.db.putArticle(
-      currentUserId,
-      hasPermissions,
-      oldSlug,
-      newSlug,
-      articlePutData.article
-    );
-    if (!updateResult.numUpdatedRows) {
+    const okPacket = await this.db.putArticle(currentUserId, hasPermissions, oldSlug, newSlug, articlePutData.article);
+    if (!okPacket.affectedRows) {
       this.utils.throw403Error('permissions', `You don't have permission to change this article.`);
     }
 
-    return this.getArticleBySlug(pathParams, newSlug);
+    return this.getArticleBySlug(newSlug);
   }
 
   @oasRoute('DELETE', ':slug', [BearerGuard], {
-    ...new OasOperationObject().setRequiredParams('path', Params, 'slug').setUnprocessableEnryResponse().getResponse(),
+    ...new OasOperationObject()
+      .setRequiredParams('path', Params, 'slug')
+      .setUnprocessableEnryResponse()
+      .getResponse(),
   })
-  async delArticlesSlug(@inject(PATH_PARAMS) pathParams: any) {
+  async delArticlesSlug() {
     const hasPermissions = await this.authService.hasPermissions([Permission.canDeleteAnyPost]);
     const currentUserId = await this.authService.getCurrentUserId();
-    const slug = pathParams.slug as string;
+    const slug = this.req.pathParams.slug as string;
     const okPacket = await this.db.deleteArticle(currentUserId, hasPermissions, slug);
-    if (!okPacket.numDeletedRows) {
+    if (!okPacket.affectedRows) {
       this.utils.throw403Error('permissions', `You don't have permission to delete this article.`);
     }
 
