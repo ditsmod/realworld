@@ -11,7 +11,7 @@ export class MySqlConfigService implements ConnectionOptions {
   database = MYSQL_DATABASE;
   typeCast: boolean | ((field: any, next: () => void) => any) = (field, next) => {
     if (field.type == 'JSON') {
-      return JSON.parse(`${field.string()}` || '');
+      return JSON.parse(`${field.string('utf8')}` || '');
     }
     return next();
   };
