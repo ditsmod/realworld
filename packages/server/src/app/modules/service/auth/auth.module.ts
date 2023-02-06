@@ -13,6 +13,6 @@ const jwtModuleWithParams = JwtModule.withParams({ secret: process.env.JWT_SECRE
   imports: [jwtModuleWithParams],
   providersPerMod: [ModuleConfigService],
   providersPerReq: [BearerGuard, CryptoService, AuthService, PermissionsGuard],
-  exports: [BearerGuard, CryptoService, AuthService, PermissionsGuard]
+  exports: [BearerGuard, CryptoService, AuthService, PermissionsGuard, jwtModuleWithParams],
 })
 export class AuthModule {}

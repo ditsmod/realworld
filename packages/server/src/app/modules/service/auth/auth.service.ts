@@ -1,12 +1,12 @@
-import { Req } from '@ditsmod/core';
 import { injectable, Injector } from '@ditsmod/core';
+import { JWT_PAYLOAD } from '@ditsmod/jwt';
 
 import { Permission } from '@shared';
 import { BearerGuard } from './bearer.guard';
 
 @injectable()
 export class AuthService {
-  constructor(private injector: Injector, private req: Req) {}
+  constructor(private injector: Injector) {}
 
   /**
    * Returns userId or 0 (zero) if a user dose not have valid JWT.
@@ -14,7 +14,8 @@ export class AuthService {
   async getCurrentUserId(): Promise<number> {
     const guard = this.injector.get(BearerGuard) as BearerGuard; // Lazy load auth.
     await guard.canActivate();
-    return this.req.jwtPayload?.userId || 0;
+    const jwtPayload = this.injector.get(JWT_PAYLOAD);
+    return jwtPayload?.userId || 0;
   }
 
   async hasPermissions(needPermissions?: Permission[]) {
@@ -22,7 +23,8 @@ export class AuthService {
     if (!userId) {
       return false;
     }
-    const userPermissions = this.req.jwtPayload?.permissions as Permission[];
+    const jwtPayload = this.injector.get(JWT_PAYLOAD);
+    const userPermissions = jwtPayload?.permissions as Permission[];
     return Boolean(needPermissions?.every((permission) => userPermissions?.includes(permission)));
   }
 }
