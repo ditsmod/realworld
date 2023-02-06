@@ -3,10 +3,11 @@ import { injectable } from '@ditsmod/core';
 
 import { MysqlService } from '@service/mysql/mysql.service';
 import { DbComment } from './types';
+import { Tables } from './models';
 
 @injectable()
 export class DbService {
-  constructor(private mysql: MysqlService) {}
+  constructor(private mysql: MysqlService<Tables>) {}
 
   async postComment(userId: number, slug: string, body: string) {
     const sql = `

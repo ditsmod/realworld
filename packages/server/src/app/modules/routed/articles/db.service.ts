@@ -3,11 +3,11 @@ import { injectable } from '@ditsmod/core';
 
 import { MysqlService } from '@service/mysql/mysql.service';
 import { ArticlesSelectParams, DbArticle } from './types';
-import { ArticlePost, ArticlePut } from './models';
+import { ArticlePost, ArticlePut, Tables } from './models';
 
 @injectable()
 export class DbService {
-  constructor(private mysql: MysqlService) {}
+  constructor(private mysql: MysqlService<Tables>) {}
 
   async postArticle(userId: number, slug: string, { title, description, body, tagList }: ArticlePost) {
     const sql = `

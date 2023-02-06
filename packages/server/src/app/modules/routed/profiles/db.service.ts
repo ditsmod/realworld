@@ -1,12 +1,12 @@
 import { injectable } from '@ditsmod/core';
 
 import { MysqlService } from '@service/mysql/mysql.service';
-import { Profile } from './models';
+import { Profile, Tables } from './models';
 import { OkPacket } from 'mysql2';
 
 @injectable()
 export class DbService {
-  constructor(private mysql: MysqlService) {}
+  constructor(private mysql: MysqlService<Tables>) {}
 
   async getProfile(currentUserId: number, targetUserName: string) {
     const sql = `

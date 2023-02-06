@@ -7,22 +7,25 @@ import { MysqlService } from '@service/mysql/mysql.service';
 import { ServerDict } from '@service/openapi-with-params/locales/current';
 import { CryptoService } from '@service/auth/crypto.service';
 import { DbUser, EmailOrUsername } from './types';
-import { LoginData, PutUser, SignUpFormData, UserSession } from './models';
+import { Tables, LoginData, PutUser, SignUpFormData, UserSession } from './models';
 
 @injectable()
 export class DbService {
-  constructor(private mysql: MysqlService, private dictService: DictService, private cryptoService: CryptoService) {}
+  constructor(
+    private mysql: MysqlService<Tables>,
+    private dictService: DictService,
+    private cryptoService: CryptoService
+  ) {}
 
   /**
    * Returns inserted user ID or throw an error about user exists.
    */
   async signUpUser(signUpFormData: SignUpFormData): Promise<number> {
-    const { email, username, password } = signUpFormData.user;
+    const { email, username, password: rawPassword } = signUpFormData.user;
     await this.checkUserExists({ email, username });
-    const params: any[] = [email, username, this.cryptoService.getCryptedPassword(password)];
-    const sql = `insert into curr_users set email = ?, username = ?, password = ?;`;
-    const { rows } = await this.mysql.query(sql, params);
-    return (rows as OkPacket).insertId;
+    const password = this.cryptoService.getCryptedPassword(rawPassword);
+    const okPacket = await this.mysql.insertFromSet('curr_users', { email, username, password });
+    return okPacket.insertId;
   }
 
   async checkUserExists({ email, username }: EmailOrUsername) {

@@ -1,11 +1,11 @@
-import { OkPacket } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 
 import { MysqlService } from '@service/mysql/mysql.service';
+import { Tables } from '../models';
 
 @injectable()
 export class DbService {
-  constructor(private mysql: MysqlService) {}
+  constructor(private mysql: MysqlService<Tables>) {}
 
   async setArticleFaforite(userId: number, slug: string) {
     const sql1 = `insert ignore into map_favorites(articleId, userId)

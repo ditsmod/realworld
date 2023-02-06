@@ -1,13 +1,14 @@
-import { createPool, Pool, PoolConnection } from 'mysql2';
+import { createPool, Pool, PoolConnection, OkPacket, escape } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 import { AnyObj, LogLevel, Status, CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
+import { MysqlInsertBuilder } from '@ditsmod/sqb';
 
 import { ServerDict } from '@service/openapi-with-params/locales/current';
 import { MySqlConfigService } from './mysql-config.service';
 
 @injectable()
-export class MysqlService {
+export class MysqlService<Tables extends object> {
   private pools: { [database: string]: Pool } = {};
   private dict: ServerDict;
 
@@ -33,6 +34,18 @@ export class MysqlService {
         }
       });
     });
+  }
+
+  async insertFromSet<K extends keyof Tables>(table: K, obj: Tables[K], ignore?: boolean) {
+    for (const prop in obj) {
+      (obj as any)[prop] = escape(obj[prop]);
+    }
+    const query = new MysqlInsertBuilder()
+      .insertFromSet(table as string, obj as object)
+      .$if(ignore, (b) => b.ignore())
+      .toString();
+
+    return this.query(query) as Promise<OkPacket>;
   }
 
   async query<T = AnyObj>(sql: string, params?: any, dbName?: string): Promise<any> {
