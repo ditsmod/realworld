@@ -2,7 +2,7 @@ import { injectable } from '@ditsmod/core';
 
 import { MysqlService } from '@service/mysql/mysql.service';
 import { Profile } from './models';
-import { OkPacket } from 'mysql';
+import { OkPacket } from 'mysql2';
 
 @injectable()
 export class DbService {

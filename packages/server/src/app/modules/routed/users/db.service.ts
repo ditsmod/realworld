@@ -1,4 +1,4 @@
-import { OkPacket } from 'mysql';
+import { OkPacket } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 import { CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';

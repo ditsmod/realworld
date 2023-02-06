@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { config } from 'dotenv';
-import { PoolConnection } from 'mysql';
+import { PoolConnection } from 'mysql2';
 import { describe, it, expect }  from '@jest/globals';
 
 config({ path: path.resolve(__dirname + '../../../../../../.env') });
