@@ -1,7 +1,8 @@
-import { OkPacket } from 'mysql2';
+import { escape, OkPacket } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 import { CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
+import { MySqlSelectBuilder } from '@ditsmod/sqb';
 
 import { MysqlService } from '@service/mysql/mysql.service';
 import { ServerDict } from '@service/openapi-with-params/locales/current';
@@ -29,8 +30,12 @@ export class DbService {
   }
 
   async checkUserExists({ email, username }: EmailOrUsername) {
-    const sql = `select 1 as userExists from curr_users where email = ? or username = ?;`;
-    const { rows } = await this.mysql.query(sql, [email, username]);
+    const { rows } = await this.mysql
+      .select('1 as userExists')
+      .from('curr_users')
+      .where((eb) => eb.isTrue('email', '=', escape(email)).and('username', '=', escape(username)))
+      .$run<Promise<any>>();
+
     if ((rows as any[]).length) {
       const dict = this.dictService.getDictionary(ServerDict);
       throw new CustomError({

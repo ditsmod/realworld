@@ -2,7 +2,7 @@ import { createPool, Pool, PoolConnection, OkPacket, escape } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 import { AnyObj, LogLevel, Status, CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
-import { MysqlInsertBuilder } from '@ditsmod/sqb';
+import { MysqlInsertBuilder, MySqlSelectBuilder } from '@ditsmod/sqb';
 
 import { ServerDict } from '@service/openapi-with-params/locales/current';
 import { MySqlConfigService } from './mysql-config.service';
@@ -46,6 +46,10 @@ export class MysqlService<Tables extends object> {
       .toString();
 
     return this.query(query) as Promise<OkPacket>;
+  }
+
+  select(...fields: [string, ...string[]]) {
+    return new MySqlSelectBuilder<Tables>().$setRun((query, ...args) => this.query(query, args)).select(...fields);
   }
 
   async query<T = AnyObj>(sql: string, params?: any, dbName?: string): Promise<any> {
