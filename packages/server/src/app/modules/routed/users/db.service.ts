@@ -25,18 +25,18 @@ export class DbService {
     const { email, username, password: rawPassword } = signUpFormData.user;
     await this.checkUserExists({ email, username });
     const password = this.cryptoService.getCryptedPassword(rawPassword);
-    const okPacket = await this.mysql.insertFromSet('curr_users', { email, username, password });
+    const okPacket = await this.mysql.insertFromSet('curr_users', { email, username, password }).$run<OkPacket>();
     return okPacket.insertId;
   }
 
   async checkUserExists({ email, username }: EmailOrUsername) {
-    const { rows } = await this.mysql
+    const result = await this.mysql
       .select('1 as userExists')
       .from('curr_users')
       .where((eb) => eb.isTrue('email', '=', escape(email)).and('username', '=', escape(username)))
-      .$run<Promise<any>>();
+      .$run<{ userExists: 1 }[]>();
 
-    if ((rows as any[]).length) {
+    if (result.length) {
       const dict = this.dictService.getDictionary(ServerDict);
       throw new CustomError({
         msg1: dict.usernameOrEmailAlreadyExists('email-or-username'),

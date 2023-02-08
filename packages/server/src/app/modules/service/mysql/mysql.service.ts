@@ -1,4 +1,4 @@
-import { createPool, Pool, PoolConnection, OkPacket, escape } from 'mysql2';
+import { createPool, Pool, PoolConnection, escape } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 import { AnyObj, LogLevel, Status, CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
@@ -36,31 +36,43 @@ export class MysqlService<Tables extends object> {
     });
   }
 
-  async insertFromSet<K extends keyof Tables>(table: K, obj: Tables[K], ignore?: boolean) {
+  insertFromSet<K extends keyof Tables>(table: K, obj: Tables[K]) {
     for (const prop in obj) {
       (obj as any)[prop] = escape(obj[prop]);
     }
-    const query = new MysqlInsertBuilder()
-      .insertFromSet(table as string, obj as object)
-      .$if(ignore, (b) => b.ignore())
-      .toString();
 
-    return this.query(query) as Promise<OkPacket>;
+    return new MysqlInsertBuilder<Tables>()
+      .$setRun((query, ...args) => this.newQuery(query, args))
+      .insertFromSet(table as string, obj as object);
   }
 
   select(...fields: [string, ...string[]]) {
-    return new MySqlSelectBuilder<Tables>().$setRun((query, ...args) => this.query(query, args)).select(...fields);
+    return new MySqlSelectBuilder<Tables>().$setRun((query, ...args) => this.newQuery(query, args)).select(...fields);
   }
 
-  async query<T = AnyObj>(sql: string, params?: any, dbName?: string): Promise<any> {
+  async newQuery(sql: string, params?: any, dbName?: string) {
     const connection = await this.getConnection(dbName);
     return new Promise((resolve, reject) => {
-      connection.query(sql, params, (err, rows, fieldInfo) => {
+      connection.query(sql, params, (err, rows) => {
         connection.release();
         if (err) {
           this.handleErr(this.dict.mysqlQuery, err, reject);
         } else {
-          resolve({ rows, fieldInfo });
+          resolve(rows);
+        }
+      });
+    });
+  }
+
+  async query(sql: string, params?: any, dbName?: string): Promise<any> {
+    const connection = await this.getConnection(dbName);
+    return new Promise((resolve, reject) => {
+      connection.query(sql, params, (err, rows, fieldPacket) => {
+        connection.release();
+        if (err) {
+          this.handleErr(this.dict.mysqlQuery, err, reject);
+        } else {
+          resolve({ rows, fieldPacket });
         }
       });
     });
@@ -68,19 +80,19 @@ export class MysqlService<Tables extends object> {
 
   async startTransaction(dbName?: string) {
     const connection = await this.getConnection(dbName);
-    connection.beginTransaction((error) => null);
+    connection.beginTransaction(() => null);
     return connection;
   }
 
   queryInTransaction<T = AnyObj>(connection: PoolConnection, sql: string, params?: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      connection.query(sql, params, (err, rows, fieldInfo) => {
+      connection.query(sql, params, (err, rows, fieldPacket) => {
         if (err) {
-          connection.rollback((error) => null);
+          connection.rollback(() => null);
           connection.release();
           this.handleErr(this.dict.mysqlQuery, err, reject);
         } else {
-          resolve({ rows, fieldInfo });
+          resolve({ rows, fieldPacket });
         }
       });
     });
@@ -90,7 +102,7 @@ export class MysqlService<Tables extends object> {
     return new Promise((resolve, reject) => {
       connection.commit((err) => {
         if (err) {
-          connection.rollback((error) => null);
+          connection.rollback(() => null);
           this.handleErr(this.dict.errMysqlCommit, err, reject);
         } else {
           resolve();
