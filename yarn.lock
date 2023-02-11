@@ -393,6 +393,11 @@
   resolved "https://registry.yarnpkg.com/@ditsmod/router/-/router-2.5.0.tgz#f4a43f8f4adedecc346b769cfe6f3692cd3160d0"
   integrity sha512-52V9rtmlNVN29vYAGtiuacj7zkZuYML02dicDfbgU4VTv1ZNj6lCnQPBJ93C/j57JXUQB+OKATmEHAaCB2kafw==
 
+"@ditsmod/sqb@^2.0.0-alpha.0":
+  version "2.0.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@ditsmod/sqb/-/sqb-2.0.0-alpha.0.tgz#58551044486ae0f0f2a96aadab82cd6c88d83c94"
+  integrity sha512-7V0acrZcP9Wmbngh6X2/SOW3FhlGeihoBas22OaSM8pIc8mc5zxWWXuO+uL/7weO/bOuLwaG2ryk+oTzZ5802g==
+
 "@eslint/eslintrc@^1.4.1":
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-1.4.1.tgz#af58772019a2d271b7e2d4c23ff4ddcba3ccfb3e"

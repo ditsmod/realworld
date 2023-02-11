@@ -37,17 +37,17 @@ export class MysqlService<Tables extends object> {
   }
 
   insertFromSet<K extends keyof Tables>(table: K, obj: Tables[K]) {
-    for (const prop in obj) {
-      (obj as any)[prop] = escape(obj[prop]);
-    }
-
     return new MysqlInsertBuilder<Tables>()
+      .$setEscape(escape)
       .$setRun((query, ...args) => this.newQuery(query, args))
       .insertFromSet(table as string, obj as object);
   }
 
   select(...fields: [string, ...string[]]) {
-    return new MySqlSelectBuilder<Tables>().$setRun((query, ...args) => this.newQuery(query, args)).select(...fields);
+    return new MySqlSelectBuilder<Tables>()
+      .$setEscape(escape)
+      .$setRun((query, ...args) => this.newQuery(query, args))
+      .select(...fields);
   }
 
   async newQuery(sql: string, params?: any, dbName?: string) {

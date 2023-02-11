@@ -26,6 +26,7 @@
     "@ditsmod/openapi-validation": "^2.8.1",
     "@ditsmod/return": "^2.3.1",
     "@ditsmod/router": "^2.5.0",
+    "@ditsmod/sqb": "^2.0.0-alpha.0",
     "@ts-stack/chain-error": "^1.2.0",
     "@ts-stack/cookies": "^1.0.3",
     "@ts-stack/openapi-spec": "^3.1.4",

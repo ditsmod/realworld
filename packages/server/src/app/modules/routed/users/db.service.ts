@@ -2,7 +2,6 @@ import { escape, OkPacket } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 import { CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
-import { MySqlSelectBuilder } from '@ditsmod/sqb';
 
 import { MysqlService } from '@service/mysql/mysql.service';
 import { ServerDict } from '@service/openapi-with-params/locales/current';
@@ -33,7 +32,7 @@ export class DbService {
     const result = await this.mysql
       .select('1 as userExists')
       .from('curr_users')
-      .where((eb) => eb.isTrue('email', '=', escape(email)).and('username', '=', escape(username)))
+      .where((eb) => eb.isTrue({ email, username }))
       .$run<{ userExists: 1 }[]>();
 
     if (result.length) {
