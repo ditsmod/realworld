@@ -1,9 +1,8 @@
-import { escape, OkPacket } from 'mysql2';
-import { injectable } from '@ditsmod/core';
-import { CustomError } from '@ditsmod/core';
+import { OkPacket } from 'mysql2';
+import { injectable, CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 
-import { MysqlService } from '@service/mysql/mysql.service';
+import { InsertRunOptions, MysqlService, SelectRunOptions } from '@service/mysql/mysql.service';
 import { ServerDict } from '@service/openapi-with-params/locales/current';
 import { CryptoService } from '@service/auth/crypto.service';
 import { DbUser, EmailOrUsername } from './types';
@@ -24,8 +23,9 @@ export class DbService {
     const { email, username, password: rawPassword } = signUpFormData.user;
     await this.checkUserExists({ email, username });
     const password = this.cryptoService.getCryptedPassword(rawPassword);
-    const okPacket = await this.mysql.insertFromSet('curr_users', { email, username, password }).$run<OkPacket>();
-    return okPacket.insertId;
+    return this.mysql
+      .insertFromSet('curr_users', { email, username, password })
+      .$run<number, InsertRunOptions>({ insertId: true });
   }
 
   async checkUserExists({ email, username }: EmailOrUsername) {
@@ -33,7 +33,7 @@ export class DbService {
       .select('1 as userExists')
       .from('curr_users')
       .where((eb) => eb.isTrue({ email, username }))
-      .$run<{ userExists: 1 }[]>();
+      .$run();
 
     if (result.length) {
       const dict = this.dictService.getDictionary(ServerDict);
@@ -47,47 +47,34 @@ export class DbService {
   /**
    * Returns user ID or throw an error about user exists.
    */
-  async signInUser({ email, password }: LoginData): Promise<DbUser> {
-    const params: any[] = [email, this.cryptoService.getCryptedPassword(password)];
-    const sql = `
-    select
-      userId,
-      username,
-      email,
-      bio,
-      image
-    from curr_users
-    where email = ?
-      and password = ?;`;
-    const { rows } = await this.mysql.query(sql, params);
-    return (rows as DbUser[])[0];
+  signInUser({ email, password }: LoginData) {
+    password = this.cryptoService.getCryptedPassword(password);
+    return this.mysql
+      .select('userId', 'username', 'email', 'bio', 'image')
+      .from('curr_users')
+      .where((eb) => eb.isTrue({ email, password }))
+      .$run<DbUser, SelectRunOptions>({ first: true });
   }
 
-  async getCurrentUser(userId: number) {
-    const sql = `
-    select
-      username,
-      email,
-      bio,
-      image
-    from curr_users
-    where userId = ${userId};`;
-    const { rows } = await this.mysql.query(sql);
-    return (rows as Omit<UserSession, 'token'>[])[0];
+  getCurrentUser(userId: number) {
+    return this.mysql
+      .select('userId', 'username', 'email', 'bio', 'image')
+      .from('curr_users')
+      .where((eb) => eb.isTrue({ userId }))
+      .$run<Omit<UserSession, 'token'>, SelectRunOptions>({ first: true });
   }
 
-  async putCurrentUser(userId: number, pubUser: PutUser) {
+  putCurrentUser(userId: number, pubUser: PutUser) {
     const { email, username, password, image, bio } = pubUser;
-    const sql = `
-    update curr_users
-    set
-      email = ifnull(?, email),
-      username = ifnull(?, username),
-      password = ifnull(?, password),
-      image = ifnull(?, image),
-      bio = ifnull(?, bio)
-    where userId = ${userId};`;
-    const { rows } = await this.mysql.query(sql, [email, username, password, image, bio]);
-    return rows as OkPacket;
+    return this.mysql
+      .update('curr_users')
+      .set(`email = ifnull(?, email)`)
+      .set(`username = ifnull(?, username)`)
+      .set(`password = ifnull(?, password)`)
+      .set(`image = ifnull(?, image)`)
+      .set(`bio = ifnull(?, bio)`)
+      .where((eb) => eb.isTrue({ userId }))
+      .$run<OkPacket>({}, email, username, password, image, bio)
+      ;
   }
 }
