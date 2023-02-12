@@ -1,11 +1,21 @@
-import { createPool, Pool, PoolConnection, escape } from 'mysql2';
+import { createPool, Pool, PoolConnection, escape, OkPacket } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 import { AnyObj, LogLevel, Status, CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
-import { MysqlInsertBuilder, MySqlSelectBuilder } from '@ditsmod/sqb';
+import { MysqlInsertBuilder, MySqlSelectBuilder, MySqlUpdateBuilder, TableAndAlias } from '@ditsmod/sqb';
 
 import { ServerDict } from '@service/openapi-with-params/locales/current';
 import { MySqlConfigService } from './mysql-config.service';
+
+export interface SelectRunOptions {
+  first?: boolean;
+}
+
+export interface InsertRunOptions {
+  insertId?: boolean;
+}
+
+type SelectCallback = (selectBuilder: MySqlSelectBuilder) => MySqlSelectBuilder;
 
 @injectable()
 export class MysqlService<Tables extends object> {
@@ -39,18 +49,41 @@ export class MysqlService<Tables extends object> {
   insertFromSet<K extends keyof Tables>(table: K, obj: Tables[K]) {
     return new MysqlInsertBuilder<Tables>()
       .$setEscape(escape)
-      .$setRun((query, ...args) => this.newQuery(query, args))
+      .$setRun<any, InsertRunOptions>(async (query, opts, ...args) => {
+        const result = await this.newQuery(query, args);
+        if (opts.insertId) {
+          return (result as OkPacket).insertId;
+        } else {
+          return result;
+        }
+      })
       .insertFromSet(table as string, obj as object);
   }
 
   select(...fields: [string, ...string[]]) {
     return new MySqlSelectBuilder<Tables>()
       .$setEscape(escape)
-      .$setRun((query, ...args) => this.newQuery(query, args))
+      .$setRun<any, SelectRunOptions>(async (query, opts, ...args) => {
+        const result = await this.newQuery(query, args);
+        if (opts.first) {
+          return result[0];
+        } else {
+          return result;
+        }
+      })
       .select(...fields);
   }
 
-  async newQuery(sql: string, params?: any, dbName?: string) {
+  update(alias: string, selectCallback: SelectCallback): MySqlUpdateBuilder<Tables>;
+  update(table: TableAndAlias<keyof Tables>): MySqlUpdateBuilder<Tables>;
+  update(tableOrAlias: string | TableAndAlias<keyof Tables>, selectCallback?: SelectCallback) {
+    return new MySqlUpdateBuilder<Tables>()
+      .$setEscape(escape)
+      .$setRun<any, SelectRunOptions>((query, opts, ...args) => this.newQuery(query, args))
+      .update(tableOrAlias as string, selectCallback!);
+  }
+
+  async newQuery<T = any>(sql: string, params?: any, dbName?: string): Promise<T> {
     const connection = await this.getConnection(dbName);
     return new Promise((resolve, reject) => {
       connection.query(sql, params, (err, rows) => {
@@ -58,7 +91,7 @@ export class MysqlService<Tables extends object> {
         if (err) {
           this.handleErr(this.dict.mysqlQuery, err, reject);
         } else {
-          resolve(rows);
+          resolve(rows as T);
         }
       });
     });
