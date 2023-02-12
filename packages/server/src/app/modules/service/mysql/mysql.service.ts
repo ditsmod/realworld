@@ -57,7 +57,25 @@ export class MysqlService<Tables extends object> {
           return result;
         }
       })
-      .insertFromSet(table as string, obj as object);
+      .insertFromSet(table, obj as object);
+  }
+
+  insertFromSelect<K extends keyof Tables>(
+    table: K,
+    fields: Extract<keyof Tables[K], string>[],
+    selectCallback: (selectBuilder: MySqlSelectBuilder<Tables>) => MySqlSelectBuilder<Tables>
+  ) {
+    return new MysqlInsertBuilder<Tables>()
+      .$setEscape(escape)
+      .$setRun<any, InsertRunOptions>(async (query, opts, ...args) => {
+        const result = await this.newQuery(query, args);
+        if (opts.insertId) {
+          return (result as OkPacket).insertId;
+        } else {
+          return result;
+        }
+      })
+      .insertFromSelect(table, fields, selectCallback);
   }
 
   select(...fields: [string, ...string[]]) {
