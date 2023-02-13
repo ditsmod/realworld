@@ -2,7 +2,13 @@ import { createPool, Pool, PoolConnection, escape, OkPacket } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 import { AnyObj, LogLevel, Status, CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
-import { MysqlInsertBuilder, MySqlSelectBuilder, MySqlUpdateBuilder, TableAndAlias } from '@ditsmod/sqb';
+import {
+  MysqlInsertBuilder,
+  MySqlSelectBuilder,
+  MySqlUpdateBuilder,
+  TableAndAlias,
+  MySqlDeleteBuilder,
+} from '@ditsmod/sqb';
 
 import { ServerDict } from '@service/openapi-with-params/locales/current';
 import { MySqlConfigService } from './mysql-config.service';
@@ -18,7 +24,7 @@ export interface InsertRunOptions {
 type SelectCallback = (selectBuilder: MySqlSelectBuilder) => MySqlSelectBuilder;
 
 @injectable()
-export class MysqlService<Tables extends object> {
+export class MysqlService<Tables extends object, FromTable extends keyof Tables = keyof Tables> {
   private pools: { [database: string]: Pool } = {};
   private dict: ServerDict;
 
@@ -99,6 +105,20 @@ export class MysqlService<Tables extends object> {
       .$setEscape(escape)
       .$setRun<any, SelectRunOptions>((query, opts, ...args) => this.newQuery(query, args))
       .update(tableOrAlias as string, selectCallback!);
+  }
+
+  delete(...tables: string[]) {
+    return new MySqlDeleteBuilder<Tables>()
+      .$setEscape(escape)
+      .$setRun<any, SelectRunOptions>(async (query, opts, ...args) => {
+        const result = await this.newQuery(query, args);
+        if (opts.first) {
+          return result[0];
+        } else {
+          return result;
+        }
+      })
+      .delete(...tables);
   }
 
   async newQuery<T = any>(sql: string, params?: any, dbName?: string): Promise<T> {
