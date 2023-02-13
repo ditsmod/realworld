@@ -75,7 +75,7 @@ export class MysqlService<Tables extends object> {
           return result;
         }
       })
-      .insertFromSelect(table, fields, selectCallback);
+      .insertFromSelect(table, fields as any, selectCallback);
   }
 
   select(...fields: [string, ...string[]]) {
