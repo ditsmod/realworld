@@ -1,5 +1,5 @@
 import { inject, injectable, NodeResponse, NODE_RES, Req, Res } from '@ditsmod/core';
-import { ControllerErrorHandler, ErrorOpts, Status, Logger, isChainError } from '@ditsmod/core';
+import { HttpErrorHandler, ErrorOpts, Status, Logger, isChainError } from '@ditsmod/core';
 import { ErrorObject as OriginalErrorObject } from 'ajv';
 
 import { AnyObj } from '@shared';
@@ -7,7 +7,7 @@ import { AnyObj } from '@shared';
 type ErrorObject = OriginalErrorObject & { instancePath?: string }; // Here fixed bug with ajv def
 
 @injectable()
-export class ErrorHandler implements ControllerErrorHandler {
+export class ErrorHandler implements HttpErrorHandler {
   constructor(
     private req: Req,
     private res: Res,

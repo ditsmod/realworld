@@ -1,9 +1,9 @@
-import { ControllerErrorHandler, featureModule } from '@ditsmod/core';
+import { HttpErrorHandler, featureModule } from '@ditsmod/core';
 
 import { ErrorHandler } from './error-handler';
 
 @featureModule({
-  providersPerReq: [{ token: ControllerErrorHandler, useClass: ErrorHandler }],
-  exports: [ControllerErrorHandler],
+  providersPerReq: [{ token: HttpErrorHandler, useClass: ErrorHandler }],
+  exports: [HttpErrorHandler],
 })
 export class ErrorHandlerModule {}
