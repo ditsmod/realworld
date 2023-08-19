@@ -1,5 +1,5 @@
 import { BodyParserModule } from '@ditsmod/body-parser';
-import { ControllerErrorHandler, HttpBackend, Logger, Providers, rootModule, Status } from '@ditsmod/core';
+import { HttpErrorHandler, HttpBackend, Logger, Providers, rootModule, Status } from '@ditsmod/core';
 import { CorsOpts } from '@ditsmod/cors';
 import { AJV_OPTIONS, ValidationOptions } from '@ditsmod/openapi-validation';
 import { ReturnModule } from '@ditsmod/return';
@@ -56,7 +56,7 @@ import { UtilModule } from '@service/util/util.module';
     [Logger, LoggerModule]
   ],
   resolvedCollisionsPerReq: [
-    [ControllerErrorHandler, ErrorHandlerModule],
+    [HttpErrorHandler, ErrorHandlerModule],
     [HttpBackend, ReturnModule]
   ],
   providersPerApp: [
