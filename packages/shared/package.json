@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@ts-stack/markdown": "^1.4.0",
-    "highlight.js": "^11.7.0",
+    "highlight.js": "^11.8.0",
     "katex": "^0.13.11"
   }
 }
