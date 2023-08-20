@@ -24,7 +24,6 @@ cd my-app
 
 ```bash
 yarn install
-yarn boot # This command actually call "lerna bootstrap"
 ```
 
 3. Copy `packages/server/.env-example` to `packages/server/.env`:
