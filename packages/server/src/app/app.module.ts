@@ -1,10 +1,8 @@
 import { BodyParserModule } from '@ditsmod/body-parser';
-import { HttpErrorHandler, HttpBackend, Logger, Providers, rootModule, Status } from '@ditsmod/core';
+import { HttpErrorHandler, HttpBackend, Logger, Providers, rootModule } from '@ditsmod/core';
 import { CorsOpts } from '@ditsmod/cors';
-import { AJV_OPTIONS, ValidationOptions } from '@ditsmod/openapi-validation';
 import { ReturnModule } from '@ditsmod/return';
 import { RouterModule } from '@ditsmod/router';
-import type { Options } from 'ajv';
 
 import { ArticlesModule } from '@routed/articles/articles.module';
 import { ProfilesModule } from '@routed/profiles/profiles.module';
@@ -56,8 +54,6 @@ import { UtilModule } from '@service/util/util.module';
   ],
   providersPerApp: [
     ...new Providers()
-      .useValue<ValidationOptions>(ValidationOptions, { invalidStatus: Status.UNPROCESSABLE_ENTRY })
-      .useValue<Options>(AJV_OPTIONS, { allErrors: true, coerceTypes: true })
       .useValue<CorsOpts>(CorsOpts, { origin: '*' })
       .useLogConfig({ level: 'info' })
   ],
