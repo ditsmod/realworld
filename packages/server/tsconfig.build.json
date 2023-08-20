@@ -3,6 +3,7 @@
   "compilerOptions": {
     "noImplicitOverride": true,
     "outDir": "dist",
+    "rootDir": "src",
     "baseUrl": ".",
     "paths": {
       "@configs/*": ["./src/app/configs/*"],
@@ -16,7 +17,8 @@
       "@shared/*": ["../shared/src/*"],
     }
   },
-  "include": ["src", "tests"],
+  "include": ["src"],
+  "exclude": ["./**/*.spec.ts"],
   "files": [],
   "references": [{ "path": "../shared/tsconfig.server.json" }]
 }
