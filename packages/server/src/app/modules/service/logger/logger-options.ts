@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import { NodeResponse } from '@ditsmod/core';
-import BunyanLogger, { LoggerOptions } from 'bunyan';
+import BunyanLogger = require('bunyan');
 import { NodeRequest } from '@ts-stack/cookies';
 
 let logsDir: string = process.env.LOGS_DIR || '';
@@ -13,7 +13,7 @@ if (!logsDir) {
   }
 }
 
-export const loggerOptions: LoggerOptions = {
+export const loggerOptions: BunyanLogger.LoggerOptions = {
   name: 'logger-1',
   serializers: {
     err: BunyanLogger.stdSerializers.err,

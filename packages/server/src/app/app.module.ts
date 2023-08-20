@@ -5,7 +5,6 @@ import { AJV_OPTIONS, ValidationOptions } from '@ditsmod/openapi-validation';
 import { ReturnModule } from '@ditsmod/return';
 import { RouterModule } from '@ditsmod/router';
 import type { Options } from 'ajv';
-import * as http from 'http';
 
 import { ArticlesModule } from '@routed/articles/articles.module';
 import { ProfilesModule } from '@routed/profiles/profiles.module';
@@ -20,10 +19,6 @@ import { openapiModuleWithParams, validationModuleWithParams } from '@service/op
 import { UtilModule } from '@service/util/util.module';
 
 @rootModule({
-  httpModule: http,
-  serverOptions: {},
-  listenOptions: { port: 3000, host: 'localhost' },
-  path: 'api',
   appends: [
     UsersModule,
     { path: 'profiles', module: ProfilesModule },
