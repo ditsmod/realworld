@@ -1,7 +1,6 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "esModuleInterop": true,
     "noImplicitOverride": true,
     "outDir": "dist",
     "rootDir": "src",
@@ -20,5 +19,5 @@
   },
   "include": ["src"],
   "files": [],
-  "references": [{ "path": "../shared" }]
+  "references": [{ "path": "../shared/tsconfig.server.json" }]
 }
