@@ -54,24 +54,10 @@ yarn start-prod
 ## Postman tests
 
 To run [postman tests](https://github.com/gothinkster/realworld/blob/main/api/Conduit.postman_collection.json),
-you need to go through the four steps described above and start the web server.
+you need to go through the four steps described above.
 
 After that execute:
 
 ```bash
-yarn postman-test
-```
-
-To rerun the tests, first you need clear MySQL tables:
-
-```sql
-SET FOREIGN_KEY_CHECKS=0;
-truncate curr_articles;
-truncate curr_comments;
-truncate curr_users;
-truncate dict_tags;
-truncate map_articles_tags;
-truncate map_favorites;
-truncate map_followers;
-SET FOREIGN_KEY_CHECKS=1;
+yarn test
 ```
