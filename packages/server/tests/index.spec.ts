@@ -52,10 +52,10 @@ describe('postman tests', () => {
             delayRequest: 50,
           },
           (err, summary) => {
-            server.close(done);
             expect(err).toBeFalsy();
             expect(summary.error).toBeFalsy();
             expect(summary.run.failures.length).toBe(0);
+            server.close(done);
           },
         );
       });
