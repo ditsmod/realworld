@@ -9,7 +9,7 @@ export class SharedConfig {
   maxUserAge = 90;
   minUserName = 2;
   maxUserName = 40;
-  emailPattern = /^[^@]{1,255}@[^@]{1,255}\.[^@]{1,255}$/;
+  emailPattern = /^[\w_.-]{2,30}@[\w_.-]{3,30}$/;
   minLengthPassword = 6;
   maxLengthPassword = 20;
   minLengthUrl = 6;
