@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@ditsmod/body-parser": "^2.11.0",
-    "@ditsmod/core": "^2.44.0",
+    "@ditsmod/core": "^2.45.2",
     "@ditsmod/cors": "^2.3.1",
     "@ditsmod/i18n": "^2.7.0",
     "@ditsmod/jwt": "^2.3.0",
@@ -36,7 +36,7 @@
     "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
-    "@ditsmod/testing": "^2.2.0",
+    "@ditsmod/testing": "^2.3.0",
     "@types/bunyan": "^1.8.8",
     "@types/dotenv": "^8.2.0",
     "@types/eslint": "^8.44.2",
