@@ -7,8 +7,8 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "yarn start",
-      "name": "Run yarn start",
+      "command": "npm start",
+      "name": "Run npm start",
       "request": "launch",
       "type": "node-terminal"
     },

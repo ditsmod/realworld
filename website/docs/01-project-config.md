@@ -62,7 +62,7 @@ import { AppConfigService } from '@service/app-config/config.service';
 Коли ви запускаєте Ditsmod-застосунок у режимі розробки:
 
 ```bash
-yarn start
+npm start
 ```
 
 використовується файл `./packages/server/tsconfig.json`, у ньому аліаси вказують на директорію `src`:
@@ -90,8 +90,8 @@ yarn start
 Коли ви запускаєте Ditsmod-застосунок у продуктовому режимі:
 
 ```bash
-yarn build
-yarn start-prod
+npm run build
+npm start-prod
 ```
 
 використовується файл `./tsconfig.json`, у ньому аліаси вказують на скомпільовані файли в директорії `dist`:

@@ -13,7 +13,7 @@
     "start": "nodemon -e ts --exec ts-node -r tsconfig-paths/register src/main.ts",
     "test-postman": "APIURL=http://localhost:3000/api ./tests/run-api-tests.sh",
     "test": "jest",
-    "build": "yarn clean && tsc -b tsconfig.build.json -f",
+    "build": "npm run clean && tsc -b tsconfig.build.json -f",
     "clean": "rimraf dist ./**/*.tsbuildinfo"
   },
   "dependencies": {

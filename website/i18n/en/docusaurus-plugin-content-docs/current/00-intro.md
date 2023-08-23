@@ -20,8 +20,7 @@ git clone https://github.com/ditsmod/realworld.git
 2. Then install the dependencies and bootstrap the monorepository:
 
 ```bash
-yarn install
-yarn boot # This command actually call "lerna bootstrap"
+npm run install
 ```
 
 3. Copy `packages/server/.env-example` into `packages/server/.env`:
@@ -37,7 +36,7 @@ And fill this file.
 ## Start the web server in develop mode
 
 ```bash
-yarn start
+npm start
 ```
 
 After that, see OpenAPI docs on [http://localhost:3000/api/openapi][3]
@@ -45,33 +44,16 @@ After that, see OpenAPI docs on [http://localhost:3000/api/openapi][3]
 ## Start the web server in production mode
 
 ```bash
-yarn build
-yarn start-prod
+npm run build
+npm start-prod
 ```
 
 ## Postman tests
 
-To run [postman tests][4],
-you need to go through steps described above and start the web server.
-
-After that execute:
+To run [postman tests][4]:
 
 ```bash
-yarn postman-test
-```
-
-To rerun the tests, first you need clear MySQL tables:
-
-```sql
-SET FOREIGN_KEY_CHECKS=0;
-truncate curr_articles;
-truncate curr_comments;
-truncate curr_users;
-truncate dict_tags;
-truncate map_articles_tags;
-truncate map_favorites;
-truncate map_followers;
-SET FOREIGN_KEY_CHECKS=1;
+npm test
 ```
 
 

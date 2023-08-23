@@ -62,7 +62,7 @@ Here `@service/*` is an alias that points to modules located in `src/app/modules
 When you run a Ditsmod application in development mode:
 
 ```bash
-yarn start
+npm start
 ```
 
 the file `./packages/server/tsconfig.json` is used, in which aliases point to the directory `src`:
@@ -90,8 +90,8 @@ the file `./packages/server/tsconfig.json` is used, in which aliases point to th
 When you run the Ditsmod application in product mode:
 
 ```bash
-yarn build
-yarn start-prod
+npm run build
+npm start-prod
 ```
 
 the file `./tsconfig.json` is used, in which aliases point to the compiled files in the `dist` directory:

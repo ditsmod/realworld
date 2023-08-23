@@ -20,8 +20,7 @@ git clone https://github.com/ditsmod/realworld.git
 2. Потім встановіть залежності та зберіть монорепозиторій:
 
 ```bash
-yarn install
-yarn boot # Насправді дана команда виконує "lerna bootstrap"
+npm install
 ```
 
 3. Скопіюйте `packages/server/.env-example` у `packages/server/.env`:
@@ -37,7 +36,7 @@ cp packages/server/.env-example packages/server/.env
 ## Запуск веб-сервера у режимі розробки
 
 ```bash
-yarn start
+npm start
 ```
 
 Після цього, можете проглянути OpenAPI документацію на [http://localhost:3000/api/openapi][3]
@@ -45,33 +44,16 @@ yarn start
 ## Запуск веб-сервера у продуктовому режимі
 
 ```bash
-yarn build
-yarn start-prod
+npm run build
+npm start-prod
 ```
 
 ## Postman тести
 
-Щоб запустити [postman тести][4],
-вам потрібно пройти усі 4 кроки, описані вище, та запустити веб-сервер.
-
-Після цього можна запускати:
+Щоб запустити [postman тести][4]:
 
 ```bash
-yarn postman-test
-```
-
-Повторний запуск даних тестів потребує очищення MySQL таблиць:
-
-```sql
-SET FOREIGN_KEY_CHECKS=0;
-truncate curr_articles;
-truncate curr_comments;
-truncate curr_users;
-truncate dict_tags;
-truncate map_articles_tags;
-truncate map_favorites;
-truncate map_followers;
-SET FOREIGN_KEY_CHECKS=1;
+npm test
 ```
 
 

@@ -9,7 +9,7 @@ This codebase was created to demonstrate a fully fledged fullstack application b
 
 This monorepository includes [Ditsmod](https://ditsmod.github.io/en/) applications seed.
 
-All packages are located in `packages/*` and are serviced by [lerna](https://github.com/lerna/lerna) and [yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/).
+All packages are located in `packages/*` and are serviced by [lerna](https://github.com/lerna/lerna) and npm workspaces.
 
 From start you need:
 
@@ -23,7 +23,7 @@ cd my-app
 2. Bootstrap the project
 
 ```bash
-yarn install
+npm install
 ```
 
 3. Copy `packages/server/.env-example` to `packages/server/.env`:
@@ -39,7 +39,7 @@ And fill this file.
 ## Start the web server in develop mode
 
 ```bash
-yarn start
+npm start
 ```
 
 After that, see OpenAPI docs on [http://localhost:3000/api/openapi](http://localhost:3000/api/openapi)
@@ -47,17 +47,14 @@ After that, see OpenAPI docs on [http://localhost:3000/api/openapi](http://local
 ## Start the web server in production mode
 
 ```bash
-yarn build
-yarn start-prod
+npm run build
+npm start-prod
 ```
 
 ## Postman tests
 
-To run [postman tests](https://github.com/gothinkster/realworld/blob/main/api/Conduit.postman_collection.json),
-you need to go through the four steps described above.
-
-After that execute:
+To run [postman tests](https://github.com/gothinkster/realworld/blob/main/api/Conduit.postman_collection.json):
 
 ```bash
-yarn test
+npm test
 ```
