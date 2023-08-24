@@ -1,14 +1,4 @@
-import * as path from 'path';
-import * as dotenv from 'dotenv';
 import { createConnection } from 'mysql';
-
-const dotenvPath = path.resolve(`${__dirname}/../.env`);
-const output = dotenv.config({ path: dotenvPath });
-if (output.error) {
-  throw output.error;
-}
-
-// This imports must go after setting dotenv.
 import { TestApplication } from '@ditsmod/testing';
 import * as newman from 'newman';
 
