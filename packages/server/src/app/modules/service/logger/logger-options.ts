@@ -1,16 +1,12 @@
-import * as path from 'path';
 import * as fs from 'fs';
 import { NodeResponse } from '@ditsmod/core';
-import BunyanLogger = require('bunyan');
 import { NodeRequest } from '@ts-stack/cookies';
+import BunyanLogger = require('bunyan');
 
-let logsDir: string = process.env.LOGS_DIR || '';
+const logsDir: string = process.env.LOGS_DIR || '';
 
-if (!logsDir) {
-  logsDir = path.resolve(`${__dirname}/../../../../../logs`);
-  if (!fs.existsSync(logsDir)) {
-    throw new Error('You must set LOGS_DIR in "packages/server/.env"');
-  }
+if (!fs.existsSync(logsDir)) {
+  throw new Error('You must set LOGS_DIR in "packages/server/.env"');
 }
 
 export const loggerOptions: BunyanLogger.LoggerOptions = {
