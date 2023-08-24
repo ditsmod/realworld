@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "test": "npm run build && jest",
-    "start": "node -r tsconfig-paths/register packages/server/dist/src/main.js",
+    "start": "npm run build && node -r tsconfig-paths/register packages/server/dist/main.js",
     "start-prod": "node -r tsconfig-paths/register packages/server/dist/main.js",
     "pub": "lerna publish from-package",
     "build": "tsc -b packages",
