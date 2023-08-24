@@ -21,5 +21,5 @@ export class MySqlConfigService implements ConnectionConfig {
       return JSON.parse(`${field.string()}` || '');
     }
     return next();
-  }
+  };
 }
