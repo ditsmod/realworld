@@ -4,10 +4,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index",
-  "typings": "dist/index",
+  "types": "dist/index",
   "scripts": {
-    "test": "jest",
-    "build": "tsc -b -f"
+    "build": "tsc -b tsconfig.server.json && tsc -b tsconfig.client.json",
+    "clean": "rimraf dist/*"
   },
   "keywords": [],
   "author": "",

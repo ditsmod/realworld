@@ -4,12 +4,10 @@
     "module": "ES2015",
     "outDir": "dist/client",
     "target": "ES2015",
-    "rootDir": "src"
+    "rootDir": "src",
+    "tsBuildInfoFile": "dist/client.tsbuildinfo",
   },
   "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "src/**/*.spec.ts"
+    "src"
   ]
 }

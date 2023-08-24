@@ -7,11 +7,11 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "jest",
-    "start": "nodemon -e ts --exec ts-node -r tsconfig-paths/register packages/server/src/main.ts --project=packages/server/tsconfig.json",
+    "test": "npm run build && jest",
+    "start": "node -r tsconfig-paths/register packages/server/dist/src/main.js",
     "start-prod": "node -r tsconfig-paths/register packages/server/dist/main.js",
     "pub": "lerna publish from-package",
-    "build": "npm run clean && tsc -b -f packages",
+    "build": "tsc -b packages",
     "clean": "rimraf packages/**/dist packages/**/out-tsc* packages/**/*.tsbuildinfo"
   },
   "devDependencies": {
@@ -27,7 +27,6 @@
     "nodemon": "^3.0.1",
     "prettier": "^2.8.3",
     "rimraf": "^4.1.2",
-    "ts-jest": "^29.0.5",
     "ts-node": "^10.4.0",
     "typescript": "^4.9.5"
   }

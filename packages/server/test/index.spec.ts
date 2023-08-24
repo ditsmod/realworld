@@ -12,8 +12,9 @@ if (output.error) {
 import { TestApplication } from '@ditsmod/testing';
 import * as newman from 'newman';
 
-import { AppModule } from '../src/app/app.module';
+import { AppModule } from '@src/app/app.module';
 import { MySqlConfigService } from '@service/mysql/mysql-config.service';
+import postmanCollection = require('@postman-collection');
 
 describe('postman tests', () => {
   beforeAll((done) => {
@@ -41,7 +42,7 @@ describe('postman tests', () => {
       server.listen(port, 'localhost', () => {
         newman.run(
           {
-            collection: require('./conduit.postman-collection.json'),
+            collection: postmanCollection,
             reporters: 'cli',
             envVar: [
               { key: 'APIURL', value: `http://localhost:${port}/api` },

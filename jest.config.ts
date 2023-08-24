@@ -1,6 +1,8 @@
-module.exports = {
-  preset: 'ts-jest',
+import type { Config } from 'jest';
+
+const config: Config = {
   testEnvironment: 'node',
-  modulePathIgnorePatterns: ['<rootDir>/packages/.+/dist/'],
   projects: [ '<rootDir>/packages/*/jest.config.ts']
 };
+
+export default config;

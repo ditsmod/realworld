@@ -2,7 +2,11 @@ import * as path from 'path';
 import { config } from 'dotenv';
 import { PoolConnection } from 'mysql';
 
-config({ path: path.resolve(__dirname + '../../../../../../.env') });
+const dotenvPath = path.resolve(__dirname + '../../../../../../.env');
+const output = config({ path: dotenvPath });
+if (output.error) {
+  throw output.error;
+}
 
 import { MySqlConfigService } from './mysql-config.service';
 import { MysqlService } from './mysql.service';

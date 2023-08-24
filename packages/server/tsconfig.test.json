@@ -2,7 +2,9 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "noImplicitOverride": true,
-    "outDir": "dist",
+    "outDir": "dist-test",
+    "rootDir": "test",
+    "tsBuildInfoFile": "dist-test/test.tsbuildinfo",
     "baseUrl": ".",
     "resolveJsonModule":true,
     "paths": {
@@ -19,7 +21,10 @@
       "@shared/*": ["../shared/src/*"],
     }
   },
-  "include": ["src", "test"],
+  "include": ["test"],
   "files": ["./test/conduit.postman-collection.json"],
-  "references": [{ "path": "../shared/tsconfig.server.json" }]
+  "references": [
+    { "path": "../shared/tsconfig.server.json" },
+    { "path": "./tsconfig.build.json" }
+  ]
 }

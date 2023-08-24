@@ -1,16 +1,21 @@
-module.exports = {
-  preset: 'ts-jest',
+import type { Config } from 'jest';
+
+const config: Config = {
   testEnvironment: 'node',
-  modulePathIgnorePatterns: ['<rootDir>/dist/'],
+  modulePathIgnorePatterns: ['<rootDir>/src/', '<rootDir>/test/'],
   moduleNameMapper: {
-    '@shared': '<rootDir>/../shared/src',
-    '@classes/(.+)': '<rootDir>/src/app/classes/$1',
-    '@models/(.+)': '<rootDir>/src/app/models/$1',
-    '@service/(.+)': '<rootDir>/src/app/modules/service/$1',
-    '@routed/(.+)': '<rootDir>/src/app/modules/routed/$1',
-    '@configs/(.+)': '<rootDir>/src/app/configs/$1',
-    '@services-per-app/(.+)': '<rootDir>/src/app/services-per-app/$1',
-    '@utils/(.+)': '<rootDir>/src/app/utils/$1',
-    '@params': '<rootDir>/src/app/models/params',
+    '@postman-collection': '<rootDir>/test/conduit.postman-collection.json',
+    '@src/(.+)': '<rootDir>/dist/app/app.module',
+    '@shared': '<rootDir>/../shared/dist/server',
+    '@classes/(.+)': '<rootDir>/dist/app/classes/$1',
+    '@models/(.+)': '<rootDir>/dist/app/models/$1',
+    '@service/(.+)': '<rootDir>/dist/app/modules/service/$1',
+    '@routed/(.+)': '<rootDir>/dist/app/modules/routed/$1',
+    '@configs/(.+)': '<rootDir>/dist/app/configs/$1',
+    '@services-per-app/(.+)': '<rootDir>/dist/app/services-per-app/$1',
+    '@utils/(.+)': '<rootDir>/dist/app/utils/$1',
+    '@params': '<rootDir>/dist/app/models/params',
   },
 };
+
+export default config;

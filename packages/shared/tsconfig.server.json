@@ -5,8 +5,12 @@
     "outDir": "dist/server",
     "target": "ES2022",
     "rootDir": "src",
+    "tsBuildInfoFile": "dist/server.tsbuildinfo",
     "types": [
       "node"
     ]
-  }
+  },
+  "include": [
+    "src"
+  ]
 }

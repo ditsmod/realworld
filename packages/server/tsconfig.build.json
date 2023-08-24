@@ -4,8 +4,12 @@
     "noImplicitOverride": true,
     "outDir": "dist",
     "rootDir": "src",
+    "tsBuildInfoFile": "dist/build.tsbuildinfo",
     "baseUrl": ".",
+    "resolveJsonModule":true,
     "paths": {
+      "@postman-collection": ["./test/conduit.postman-collection.json"],
+      "@src/*": ["./src/*"],
       "@configs/*": ["./src/app/configs/*"],
       "@classes/*": ["./src/app/classes/*"],
       "@service/*": ["./src/app/modules/service/*"],
@@ -18,7 +22,6 @@
     }
   },
   "include": ["src"],
-  "exclude": ["./**/*.spec.ts"],
   "files": [],
   "references": [{ "path": "../shared/tsconfig.server.json" }]
 }
