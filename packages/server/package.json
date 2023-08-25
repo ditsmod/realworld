@@ -11,8 +11,7 @@
   },
   "scripts": {
     "start": "nodemon -e ts --exec ts-node -r tsconfig-paths/register src/main.ts",
-    "test-postman": "APIURL=http://localhost:3000/api ./tests/run-api-tests.sh",
-    "test": "npm run build && jest dist-test",
+    "test": "npm run build && jest",
     "build": "tsc -b tsconfig.build.json",
     "clean": "rimraf dist/* dist-test/*"
   },
