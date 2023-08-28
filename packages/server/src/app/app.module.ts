@@ -4,17 +4,17 @@ import { CorsOpts } from '@ditsmod/cors';
 import { ReturnModule } from '@ditsmod/return';
 import { RouterModule } from '@ditsmod/router';
 
-import { ArticlesModule } from '@routed/articles/articles.module';
-import { ProfilesModule } from '@routed/profiles/profiles.module';
-import { TagsModule } from '@routed/tags/tags.module';
-import { UsersModule } from '@routed/users/users.module';
-import { ConfigModule } from '@service/app-config/config.module';
-import { AuthModule } from '@service/auth/auth.module';
-import { ErrorHandlerModule } from '@service/error-handler/error-handler.module';
-import { LoggerModule } from '@service/logger/logger.module';
-import { MysqlModule } from '@service/mysql/mysql.module';
-import { openapiModuleWithParams, validationModuleWithParams } from '@service/openapi-with-params';
-import { UtilModule } from '@service/util/util.module';
+import { ArticlesModule } from '#routed/articles/articles.module.js';
+import { ProfilesModule } from '#routed/profiles/profiles.module.js';
+import { TagsModule } from '#routed/tags/tags.module.js';
+import { UsersModule } from '#routed/users/users.module.js';
+import { ConfigModule } from '#service/app-config/config.module.js';
+import { AuthModule } from '#service/auth/auth.module.js';
+import { ErrorHandlerModule } from '#service/error-handler/error-handler.module.js';
+import { LoggerModule } from '#service/logger/logger.module.js';
+import { MysqlModule } from '#service/mysql/mysql.module.js';
+import { openapiModuleWithParams, validationModuleWithParams } from '#service/openapi-with-params/index.js';
+import { UtilModule } from '#service/util/util.module.js';
 
 @rootModule({
   appends: [

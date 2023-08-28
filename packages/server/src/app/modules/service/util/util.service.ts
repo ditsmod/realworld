@@ -3,7 +3,7 @@ import { NodeRequest, Status, CustomError } from '@ditsmod/core';
 import { injectable } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 
-import { ServerDict } from '../openapi-with-params/locales/current/_base-en/server.dict';
+import { ServerDict } from '../openapi-with-params/locales/current/_base-en/server.dict.js';
 
 @injectable()
 export class UtilService {

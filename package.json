@@ -1,5 +1,6 @@
 {
   "private": true,
+  "type": "module",
   "name": "monorepo-starter",
   "version": "1.0.0",
   "description": "Starter for monorepositories",
@@ -7,13 +8,12 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "npm run build && jest",
+    "test": "npm run build && npm run esm-jest",
+    "esm-jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test1": "jest -c jest.config1.ts",
-    "start": "npm run build && node -r tsconfig-paths/register packages/server/dist/main.js",
-    "start-prod": "node -r tsconfig-paths/register packages/server/dist/main.js",
-    "pub": "lerna publish from-package",
+    "start": "npm run build && node -r dotenv/config packages/server/dist/main.js dotenv_config_path=packages/server/.env",
     "build": "tsc -b packages",
-    "clean": "rimraf packages/**/dist packages/**/out-tsc* packages/**/*.tsbuildinfo"
+    "clean": "rimraf packages/*/dist*"
   },
   "devDependencies": {
     "@types/eslint": "^8.21.0",
@@ -24,7 +24,6 @@
     "bunyan": "^1.8.15",
     "eslint": "^8.33.0",
     "jest": "^29.4.1",
-    "lerna": "^7.1.5",
     "nodemon": "^3.0.1",
     "prettier": "^2.8.3",
     "rimraf": "^4.1.2",

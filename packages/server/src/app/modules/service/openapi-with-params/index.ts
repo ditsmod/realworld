@@ -4,8 +4,8 @@ import { AJV_OPTIONS, ValidationModule, ValidationOptions } from '@ditsmod/opena
 import { I18nProviders } from '@ditsmod/i18n';
 import type { Options } from 'ajv';
 
-import { oasObject } from './oas-object';
-import { current } from './locales/current';
+import { oasObject } from './oas-object.js';
+import { current } from './locales/current/index.js';
 
 export const openapiModuleWithParams = OpenapiModule.withParams(oasObject, '');
 

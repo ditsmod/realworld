@@ -2,16 +2,16 @@ import { controller, inject, PATH_PARAMS, pickProperties, Req, Status } from '@d
 import { oasRoute } from '@ditsmod/openapi';
 import { HTTP_BODY } from '@ditsmod/body-parser';
 
-import { Permission } from '@shared';
-import { BearerGuard } from '@service/auth/bearer.guard';
-import { OasOperationObject } from '@utils/oas-helpers';
-import { Params } from '@models/params';
-import { AuthService } from '@service/auth/auth.service';
-import { UtilService } from '@service/util/util.service';
-import { CommentData, CommentPostData, CommentsData, Comment } from './models';
-import { DbService } from './db.service';
-import { DbComment } from './types';
-import { Author } from '../models';
+import { Permission } from '#shared/index.js';
+import { BearerGuard } from '#service/auth/bearer.guard.js';
+import { OasOperationObject } from '#utils/oas-helpers.js';
+import { Params } from '#models/params.js';
+import { AuthService } from '#service/auth/auth.service.js';
+import { UtilService } from '#service/util/util.service.js';
+import { CommentData, CommentPostData, CommentsData, Comment } from './models.js';
+import { DbService } from './db.service.js';
+import { DbComment } from './types.js';
+import { Author } from '../models.js';
 
 @controller()
 export class CommentsController {

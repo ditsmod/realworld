@@ -45,16 +45,16 @@ src
 У проекті широко використовуються аліаси для імпортів локальних файлів. Наприклад, замість такого імпорту:
 
 ```ts
-import { AppConfigService } from '../../service/app-config/config.service';
+import { AppConfigService } from '../../service/app-config/config.service.js';
 ```
 
 використовується такий:
 
 ```ts
-import { AppConfigService } from '@service/app-config/config.service';
+import { AppConfigService } from '#service/app-config/config.service.js';
 ```
 
-Тут `@service/*` - це аліас, що вказує на модулі, розташовані у `src/app/modules/service/*`. Робота даних аліасів забезпечується налаштуванням `compilerOptions.paths` у двох файлах:
+Тут `#service/*` - це аліас, що вказує на модулі, розташовані у `src/app/modules/service/*`. Робота даних аліасів забезпечується налаштуванням `compilerOptions.paths` у двох файлах:
 
 - `./packages/server/tsconfig.json`;
 - `./tsconfig.json`.
@@ -73,14 +73,14 @@ npm start
   "compilerOptions": {
     // ...
     "paths": {
-      "@classes/*": ["./src/app/classes/*"],
-      "@service/*": ["./src/app/modules/service/*"],
-      "@routed/*": ["./src/app/modules/routed/*"],
-      "@services-per-app/*": ["./src/app/services-per-app/*"],
-      "@models/*": ["./src/app/models/*"],
-      "@utils/*": ["./src/app/utils/*"],
-      "@shared": ["../shared/src"],
-      "@shared/*": ["../shared/src/*"],
+      "#classes/*": ["./src/app/classes/*"],
+      "#service/*": ["./src/app/modules/service/*"],
+      "#routed/*": ["./src/app/modules/routed/*"],
+      "#services-per-app/*": ["./src/app/services-per-app/*"],
+      "#models/*": ["./src/app/models/*"],
+      "#utils/*": ["./src/app/utils/*"],
+      "#shared": ["../shared/src"],
+      "#shared/*": ["../shared/src/*"],
     }
   },
   // ...
@@ -102,14 +102,14 @@ npm start-prod
   "compilerOptions": {
     // ...
     "paths": {
-      "@classes/*": ["./packages/server/dist/app/classes/*"],
-      "@service/*": ["./packages/server/dist/app/modules/service/*"],
-      "@routed/*": ["./packages/server/dist/app/modules/routed/*"],
-      "@services-per-app/*": ["./packages/server/dist/app/services-per-app/*"],
-      "@models/*": ["./packages/server/dist/app/models/*"],
-      "@utils/*": ["./packages/server/dist/app/utils/*"],
-      "@shared": ["./packages/shared/dist/server"],
-      "@shared/*": ["./packages/shared/dist/server/*"],
+      "#classes/*": ["./packages/server/dist/app/classes/*"],
+      "#service/*": ["./packages/server/dist/app/modules/service/*"],
+      "#routed/*": ["./packages/server/dist/app/modules/routed/*"],
+      "#services-per-app/*": ["./packages/server/dist/app/services-per-app/*"],
+      "#models/*": ["./packages/server/dist/app/models/*"],
+      "#utils/*": ["./packages/server/dist/app/utils/*"],
+      "#shared": ["./packages/shared/dist/server"],
+      "#shared/*": ["./packages/shared/dist/server/*"],
     }
   },
   // ...

@@ -1,7 +1,7 @@
 import { PoolConnection } from 'mysql';
 
-import { MySqlConfigService } from './mysql-config.service';
-import { MysqlService } from './mysql.service';
+import { MySqlConfigService } from './mysql-config.service.js';
+import { MysqlService } from './mysql.service.js';
 
 describe('MysqlService', () => {
   const dictService = {

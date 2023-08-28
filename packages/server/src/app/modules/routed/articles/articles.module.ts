@@ -2,10 +2,10 @@ import { featureModule } from '@ditsmod/core';
 import { CorsModule } from '@ditsmod/cors';
 import { OasOptions } from '@ditsmod/openapi';
 
-import { ArticlesController } from './articles.controller';
-import { CommentsModule } from './comments/comments.module';
-import { DbService } from './db.service';
-import { FavoriteModule } from './favorite/favorite.module';
+import { ArticlesController } from './articles.controller.js';
+import { CommentsModule } from './comments/comments.module.js';
+import { DbService } from './db.service.js';
+import { FavoriteModule } from './favorite/favorite.module.js';
 
 @featureModule({
   imports: [

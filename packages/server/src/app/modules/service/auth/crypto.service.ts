@@ -3,7 +3,7 @@ import { NodeResponse, NODE_RES, inject, NodeRequest, NODE_REQ } from '@ditsmod/
 import { Cookies } from '@ts-stack/cookies';
 import { injectable } from '@ditsmod/core';
 
-import { ModuleConfigService } from './config.service';
+import { ModuleConfigService } from './config.service.js';
 
 @injectable()
 export class CryptoService {

@@ -1,7 +1,7 @@
 import { Status } from '@ditsmod/core';
 
-import { UserSessionData } from '@routed/users/models';
-import { OasOperationObject } from './oas-helpers';
+import { UserSessionData } from '#routed/users/models.js';
+import { OasOperationObject } from './oas-helpers.js';
 
 describe('oas-helpers', () => {
   describe('Responses', () => {

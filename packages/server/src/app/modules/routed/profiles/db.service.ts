@@ -1,7 +1,7 @@
 import { injectable } from '@ditsmod/core';
 
-import { MysqlService } from '@service/mysql/mysql.service';
-import { Profile } from './models';
+import { MysqlService } from '#service/mysql/mysql.service.js';
+import { Profile } from './models.js';
 import { OkPacket } from 'mysql';
 
 @injectable()

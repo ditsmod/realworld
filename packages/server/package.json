@@ -1,5 +1,6 @@
 {
   "private": true,
+  "type": "module",
   "author": "Костя Третяк <ktretiak.in.ua@gmail.com>",
   "name": "server",
   "description": "Ditsmod application",
@@ -10,21 +11,34 @@
     "lib": "src"
   },
   "scripts": {
-    "start": "nodemon -e ts --exec ts-node -r tsconfig-paths/register src/main.ts",
-    "test": "npm run build && jest",
+    "start": "npm run build && node -r dotenv/config dist/main.js",
+    "esm-jest": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js",
+    "test": "tsc -b tsconfig.test.json && npm run esm-jest",
     "build": "tsc -b tsconfig.build.json",
-    "clean": "rimraf dist/* dist-test/*"
+    "clean": "rimraf dist*"
+  },
+  "imports": {
+    "#postman-collection": "./test/conduit.postman-collection.json",
+    "#services-per-app/*": "./dist/app/services-per-app/*",
+    "#src/*": "./dist/*",
+    "#configs/*": "./dist/app/configs/*",
+    "#classes/*": "./dist/app/classes/*",
+    "#service/*": "./dist/app/modules/service/*",
+    "#routed/*": "./dist/app/modules/routed/*",
+    "#models/*": "./dist/app/models/*",
+    "#utils/*": "./dist/app/utils/*",
+    "#shared/*": "shared/*"
   },
   "dependencies": {
-    "@ditsmod/body-parser": "^2.11.0",
-    "@ditsmod/core": "^2.46.0",
-    "@ditsmod/cors": "^2.3.1",
-    "@ditsmod/i18n": "^2.7.0",
-    "@ditsmod/jwt": "^2.3.0",
-    "@ditsmod/openapi": "^2.19.1",
-    "@ditsmod/openapi-validation": "^2.8.1",
-    "@ditsmod/return": "^2.3.1",
-    "@ditsmod/router": "^2.5.0",
+    "@ditsmod/body-parser": "^2.12.0-beta.2",
+    "@ditsmod/core": "^2.47.0-beta.1",
+    "@ditsmod/cors": "^2.4.0-beta.2",
+    "@ditsmod/i18n": "^2.8.0-beta.2",
+    "@ditsmod/jwt": "^2.4.0-beta.2",
+    "@ditsmod/openapi": "^2.20.0-beta.2",
+    "@ditsmod/openapi-validation": "^2.9.0-beta.3",
+    "@ditsmod/return": "^2.4.0-beta.2",
+    "@ditsmod/router": "^2.6.0-beta.2",
     "@ts-stack/chain-error": "^1.2.0",
     "@ts-stack/cookies": "^1.0.3",
     "@ts-stack/openapi-spec": "^3.1.4",
@@ -32,10 +46,10 @@
     "dotenv": "^16.3.1",
     "mysql": "^2.18.1",
     "punycode": "^2.3.0",
-    "tsconfig-paths": "^4.2.0"
+    "shared": "*"
   },
   "devDependencies": {
-    "@ditsmod/testing": "^2.3.0",
+    "@ditsmod/testing": "^2.4.0-beta.2",
     "@types/bunyan": "^1.8.8",
     "@types/dotenv": "^8.2.0",
     "@types/eslint": "^8.44.2",

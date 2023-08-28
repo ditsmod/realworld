@@ -1,6 +1,6 @@
 import { ISO639 } from '@ditsmod/i18n';
 
-import { ServerDict } from '../_base-en/server.dict';
+import { ServerDict } from '../_base-en/server.dict.js';
 
 export class ServerUkDict extends ServerDict {
   override getLng(): ISO639 {

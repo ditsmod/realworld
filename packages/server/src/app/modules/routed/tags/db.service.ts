@@ -1,7 +1,7 @@
 import { injectable } from '@ditsmod/core';
 
-import { MysqlService } from '@service/mysql/mysql.service';
-import { AppConfigService } from '@service/app-config/config.service';
+import { MysqlService } from '#service/mysql/mysql.service.js';
+import { AppConfigService } from '#service/app-config/config.service.js';
 
 @injectable()
 export class DbService {

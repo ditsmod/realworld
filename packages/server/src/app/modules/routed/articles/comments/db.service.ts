@@ -1,8 +1,8 @@
 import { OkPacket } from 'mysql';
 import { injectable } from '@ditsmod/core';
 
-import { MysqlService } from '@service/mysql/mysql.service';
-import { DbComment } from './types';
+import { MysqlService } from '#service/mysql/mysql.service.js';
+import { DbComment } from './types.js';
 
 @injectable()
 export class DbService {

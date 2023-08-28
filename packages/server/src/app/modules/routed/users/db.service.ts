@@ -3,11 +3,11 @@ import { injectable } from '@ditsmod/core';
 import { CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 
-import { MysqlService } from '@service/mysql/mysql.service';
-import { ServerDict } from '@service/openapi-with-params/locales/current';
-import { CryptoService } from '@service/auth/crypto.service';
-import { DbUser, EmailOrUsername } from './types';
-import { LoginData, PutUser, SignUpFormData, UserSession } from './models';
+import { MysqlService } from '#service/mysql/mysql.service.js';
+import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
+import { CryptoService } from '#service/auth/crypto.service.js';
+import { DbUser, EmailOrUsername } from './types.js';
+import { LoginData, PutUser, SignUpFormData, UserSession } from './models.js';
 
 @injectable()
 export class DbService {

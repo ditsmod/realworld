@@ -36,20 +36,13 @@ And fill this file.
 
 4. Then create database (for example `real_world`), grant access permissions for this database, and execute `MySQL`-dump from [packages/server/sql/dump/info.sql](./packages/server/sql/dump/info.sql).
 
-## Start the web server in develop mode
+## Start the web server
 
 ```bash
 npm start
 ```
 
 After that, see OpenAPI docs on [http://localhost:3000/api/openapi](http://localhost:3000/api/openapi)
-
-## Start the web server in production mode
-
-```bash
-npm run build
-npm start-prod
-```
 
 ## Postman tests
 

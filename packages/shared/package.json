@@ -1,10 +1,15 @@
 {
   "private": true,
+  "type": "module",
   "name": "shared",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index",
-  "types": "dist/index",
+  "main": "./dist/server/index.js",
+  "types": "./dist/server/index.d.ts",
+  "module": "./dist/server/index.js",
+  "exports": {
+    "./index.js": "./dist/server/index.js"
+  },
   "scripts": {
     "build": "tsc -b tsconfig.server.json && tsc -b tsconfig.client.json",
     "clean": "rimraf dist/*"

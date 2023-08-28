@@ -2,13 +2,13 @@ import { controller, inject, PATH_PARAMS } from '@ditsmod/core';
 import { oasRoute } from '@ditsmod/openapi';
 import { JWT_PAYLOAD } from '@ditsmod/jwt';
 
-import { Params } from '@models/params';
-import { BearerGuard } from '@service/auth/bearer.guard';
-import { OasOperationObject } from '@utils/oas-helpers';
-import { UtilService } from '@service/util/util.service';
-import { AuthService } from '@service/auth/auth.service';
-import { Profile, ProfileData } from './models';
-import { DbService } from './db.service';
+import { Params } from '#models/params.js';
+import { BearerGuard } from '#service/auth/bearer.guard.js';
+import { OasOperationObject } from '#utils/oas-helpers.js';
+import { UtilService } from '#service/util/util.service.js';
+import { AuthService } from '#service/auth/auth.service.js';
+import { Profile, ProfileData } from './models.js';
+import { DbService } from './db.service.js';
 
 @controller()
 export class ProfilesController {

@@ -1,6 +1,6 @@
 import { property } from '@ditsmod/openapi';
 
-import { AppConfigService } from '@service/app-config/config.service';
+import { AppConfigService } from '#service/app-config/config.service.js';
 
 const config = new AppConfigService();
 

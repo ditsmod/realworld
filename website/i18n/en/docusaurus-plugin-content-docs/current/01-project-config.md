@@ -45,16 +45,16 @@ The `models` directory contains only those models that do not belong to certain 
 Aliases are widely used in the project to import local files. For example, instead of importing:
 
 ```ts
-import { AppConfigService } from '../../service/app-config/config.service';
+import { AppConfigService } from '../../service/app-config/config.service.js';
 ```
 
 the following is used:
 
 ```ts
-import { AppConfigService } from '@service/app-config/config.service';
+import { AppConfigService } from '#service/app-config/config.service.js';
 ```
 
-Here `@service/*` is an alias that points to modules located in `src/app/modules/service/*`. The alias data sets by `compilerOptions.paths` in two files:
+Here `#service/*` is an alias that points to modules located in `src/app/modules/service/*`. The alias data sets by `compilerOptions.paths` in two files:
 
 - `./packages/server/tsconfig.json`;
 - `./tsconfig.json`.
@@ -73,14 +73,14 @@ the file `./packages/server/tsconfig.json` is used, in which aliases point to th
   "compilerOptions": {
     // ...
     "paths": {
-      "@classes/*": ["./src/app/classes/*"],
-      "@service/*": ["./src/app/modules/service/*"],
-      "@routed/*": ["./src/app/modules/routed/*"],
-      "@services-per-app/*": ["./src/app/services-per-app/*"],
-      "@models/*": ["./src/app/models/*"],
-      "@utils/*": ["./src/app/utils/*"],
-      "@shared": ["../shared/src"],
-      "@shared/*": ["../shared/src/*"],
+      "#classes/*": ["./src/app/classes/*"],
+      "#service/*": ["./src/app/modules/service/*"],
+      "#routed/*": ["./src/app/modules/routed/*"],
+      "#services-per-app/*": ["./src/app/services-per-app/*"],
+      "#models/*": ["./src/app/models/*"],
+      "#utils/*": ["./src/app/utils/*"],
+      "#shared": ["../shared/src"],
+      "#shared/*": ["../shared/src/*"],
     }
   },
   // ...
@@ -102,14 +102,14 @@ the file `./tsconfig.json` is used, in which aliases point to the compiled files
   "compilerOptions": {
     // ...
     "paths": {
-      "@classes/*": ["./packages/server/dist/app/classes/*"],
-      "@service/*": ["./packages/server/dist/app/modules/service/*"],
-      "@routed/*": ["./packages/server/dist/app/modules/routed/*"],
-      "@services-per-app/*": ["./packages/server/dist/app/services-per-app/*"],
-      "@models/*": ["./packages/server/dist/app/models/*"],
-      "@utils/*": ["./packages/server/dist/app/utils/*"],
-      "@shared": ["./packages/shared/dist/server"],
-      "@shared/*": ["./packages/shared/dist/server/*"],
+      "#classes/*": ["./packages/server/dist/app/classes/*"],
+      "#service/*": ["./packages/server/dist/app/modules/service/*"],
+      "#routed/*": ["./packages/server/dist/app/modules/routed/*"],
+      "#services-per-app/*": ["./packages/server/dist/app/services-per-app/*"],
+      "#models/*": ["./packages/server/dist/app/models/*"],
+      "#utils/*": ["./packages/server/dist/app/utils/*"],
+      "#shared": ["./packages/shared/dist/server"],
+      "#shared/*": ["./packages/shared/dist/server/*"],
     }
   },
   // ...

@@ -1,8 +1,8 @@
 import { injectable } from '@ditsmod/core';
 import { CanActivate, Status } from '@ditsmod/core';
 
-import { Permission } from '@shared';
-import { AuthService } from './auth.service';
+import { Permission } from '#shared/index.js';
+import { AuthService } from './auth.service.js';
 
 @injectable()
 export class PermissionsGuard implements CanActivate {

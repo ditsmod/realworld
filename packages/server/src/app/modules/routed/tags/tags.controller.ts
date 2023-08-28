@@ -1,9 +1,9 @@
 import { controller } from '@ditsmod/core';
 import { oasRoute } from '@ditsmod/openapi';
 
-import { OasOperationObject } from '@utils/oas-helpers';
-import { DbService } from './db.service';
-import { Tags } from './models';
+import { OasOperationObject } from '#utils/oas-helpers.js';
+import { DbService } from './db.service.js';
+import { Tags } from './models.js';
 
 @controller()
 export class TagsController {

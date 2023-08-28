@@ -4,8 +4,9 @@
     "module": "ES2015",
     "outDir": "dist/client",
     "target": "ES2015",
+    "moduleResolution": "node",
     "rootDir": "src",
-    "tsBuildInfoFile": "dist/client.tsbuildinfo",
+    "tsBuildInfoFile": "dist/client/client.tsbuildinfo",
   },
   "include": [
     "src"

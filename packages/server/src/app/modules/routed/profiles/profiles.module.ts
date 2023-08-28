@@ -2,8 +2,8 @@ import { featureModule } from '@ditsmod/core';
 import { CorsModule } from '@ditsmod/cors';
 import { OasOptions } from '@ditsmod/openapi';
 
-import { DbService } from './db.service';
-import { ProfilesController } from './profiles.controller';
+import { DbService } from './db.service.js';
+import { ProfilesController } from './profiles.controller.js';
 
 @featureModule({
   imports: [CorsModule],

@@ -3,8 +3,8 @@ import { injectable } from '@ditsmod/core';
 import { AnyObj, LogLevel, Status, CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 
-import { ServerDict } from '@service/openapi-with-params/locales/current';
-import { MySqlConfigService } from './mysql-config.service';
+import { ServerDict } from'#service/openapi-with-params/locales/current/index.js';
+import { MySqlConfigService } from './mysql-config.service.js';
 
 @injectable()
 export class MysqlService {

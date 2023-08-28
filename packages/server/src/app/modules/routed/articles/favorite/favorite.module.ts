@@ -2,11 +2,11 @@ import { featureModule } from '@ditsmod/core';
 import { CorsModule } from '@ditsmod/cors';
 import { getParams, OasOptions } from '@ditsmod/openapi';
 
-import { Params } from '@models/params';
-import { ArticlesController } from '../articles.controller';
-import { DbService as ArticleDbService } from '../db.service';
-import { DbService } from './db.service';
-import { FavoriteController } from './favorite.controller';
+import { Params } from '#models/params.js';
+import { ArticlesController } from '../articles.controller.js';
+import { DbService as ArticleDbService } from '../db.service.js';
+import { DbService } from './db.service.js';
+import { FavoriteController } from './favorite.controller.js';
 
 @featureModule({
   imports: [CorsModule],

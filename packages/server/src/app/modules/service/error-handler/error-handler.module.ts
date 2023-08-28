@@ -1,6 +1,6 @@
 import { HttpErrorHandler, featureModule } from '@ditsmod/core';
 
-import { ErrorHandler } from './error-handler';
+import { ErrorHandler } from './error-handler.js';
 
 @featureModule({
   providersPerReq: [{ token: HttpErrorHandler, useClass: ErrorHandler }],

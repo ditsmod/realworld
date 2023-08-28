@@ -1,9 +1,9 @@
 import { OkPacket } from 'mysql';
 import { injectable } from '@ditsmod/core';
 
-import { MysqlService } from '@service/mysql/mysql.service';
-import { ArticlesSelectParams, DbArticle } from './types';
-import { ArticlePost, ArticlePut } from './models';
+import { MysqlService } from '#service/mysql/mysql.service.js';
+import { ArticlesSelectParams, DbArticle } from './types.js';
+import { ArticlePost, ArticlePut } from './models.js';
 
 @injectable()
 export class DbService {

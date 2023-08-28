@@ -3,7 +3,7 @@ import { getContent, Parameters } from '@ditsmod/openapi';
 import { Class } from '@ditsmod/core';
 import { OperationObject, ResponseObject } from '@ts-stack/openapi-spec';
 
-import { ErrorTemplate } from '@models/errors';
+import { ErrorTemplate } from '#models/errors.js';
 
 export type Model = Class<AnyObj>;
 type RequiredParamsIn = 'query' | 'header' | 'path' | 'cookie';
