@@ -2,7 +2,7 @@ import { controller, inject, PATH_PARAMS, pickProperties, Req, Status } from '@d
 import { oasRoute } from '@ditsmod/openapi';
 import { HTTP_BODY } from '@ditsmod/body-parser';
 
-import { Permission } from '#shared/index.js';
+import { Permission } from '#shared';
 import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
 import { Params } from '#models/params.js';

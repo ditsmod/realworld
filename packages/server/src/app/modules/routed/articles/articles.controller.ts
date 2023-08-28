@@ -21,7 +21,7 @@ import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { UtilService } from '#service/util/util.service.js';
 import { AuthService } from '#service/auth/auth.service.js';
 import { AppConfigService } from '#service/app-config/config.service.js';
-import { Permission } from '#shared/index.js';
+import { Permission } from '#shared';
 import { ServerDict } from'#service/openapi-with-params/locales/current/index.js';
 import { Article, ArticleItem, ArticlePostData, ArticlePutData, Articles, Author } from './models.js';
 import { DbService } from './db.service.js';

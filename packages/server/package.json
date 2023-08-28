@@ -27,7 +27,7 @@
     "#routed/*": "./dist/app/modules/routed/*",
     "#models/*": "./dist/app/models/*",
     "#utils/*": "./dist/app/utils/*",
-    "#shared/*": "shared/*"
+    "#shared": "shared"
   },
   "dependencies": {
     "@ditsmod/body-parser": "^2.12.0-beta.2",

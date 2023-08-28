@@ -1,7 +1,7 @@
 import { injectable, Injector } from '@ditsmod/core';
 import { JWT_PAYLOAD } from '@ditsmod/jwt';
 
-import { Permission } from '#shared/index.js';
+import { Permission } from '#shared';
 import { BearerGuard } from './bearer.guard.js';
 
 @injectable()

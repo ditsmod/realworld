@@ -2,7 +2,7 @@ import { inject, injectable, NodeResponse, NODE_RES, Req, Res } from '@ditsmod/c
 import { HttpErrorHandler, ErrorOpts, Status, Logger, isChainError } from '@ditsmod/core';
 import { ErrorObject as OriginalErrorObject } from 'ajv';
 
-import { AnyObj } from '#shared/index.js';
+import { AnyObj } from '#shared';
 
 type ErrorObject = OriginalErrorObject & { instancePath?: string }; // Here fixed bug with ajv def
 

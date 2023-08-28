@@ -1,7 +1,7 @@
 import { injectable } from '@ditsmod/core';
 import { CanActivate, Status } from '@ditsmod/core';
 
-import { Permission } from '#shared/index.js';
+import { Permission } from '#shared';
 import { AuthService } from './auth.service.js';
 
 @injectable()

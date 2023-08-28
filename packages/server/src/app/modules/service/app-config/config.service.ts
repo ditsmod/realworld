@@ -1,4 +1,4 @@
-import { SharedConfig } from '#shared/index.js';
+import { SharedConfig } from '#shared';
 
 export class AppConfigService extends SharedConfig {
   /**
