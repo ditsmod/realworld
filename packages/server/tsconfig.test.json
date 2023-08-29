@@ -6,20 +6,7 @@
     "rootDir": "test",
     "tsBuildInfoFile": "dist-test/test.tsbuildinfo",
     "baseUrl": ".",
-    "resolveJsonModule":true,
-    "paths": {
-      "#postman-collection": ["./test/conduit.postman-collection.json"],
-      "#src/*": ["./src/*"],
-      "#configs/*": ["./src/app/configs/*"],
-      "#classes/*": ["./src/app/classes/*"],
-      "#service/*": ["./src/app/modules/service/*"],
-      "#routed/*": ["./src/app/modules/routed/*"],
-      "#services-per-app/*": ["./src/app/services-per-app/*"],
-      "#models/*": ["./src/app/models/*"],
-      "#utils/*": ["./src/app/utils/*"],
-      "#shared": ["../shared/src"],
-      "#shared/*": ["../shared/src/*"],
-    }
+    "resolveJsonModule":true
   },
   "include": ["test"],
   "files": ["./test/conduit.postman-collection.json"],
