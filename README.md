@@ -7,9 +7,9 @@ This codebase was created to demonstrate a fully fledged fullstack application b
 
 # Getting started
 
-This monorepository includes [Ditsmod](https://ditsmod.github.io/en/) applications seed.
+This monorepository includes [Ditsmod](https://ditsmod.github.io/en/) applications seed. Packages are in ESM format and have [native Node.js aliases](https://nodejs.org/api/packages.html#subpath-imports) starting with `#`.
 
-All packages are located in `packages/*` and are serviced by [lerna](https://github.com/lerna/lerna) and npm workspaces.
+All packages are located in `packages/*` directory.
 
 From start you need:
 
