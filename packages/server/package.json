@@ -30,7 +30,7 @@
     "#shared": "shared"
   },
   "dependencies": {
-    "@ditsmod/body-parser": "^2.12.0",
+    "@ditsmod/body-parser": "^2.12.1",
     "@ditsmod/core": "^2.47.0",
     "@ditsmod/cors": "^2.4.0",
     "@ditsmod/i18n": "^2.8.0",
