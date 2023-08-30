@@ -17,18 +17,7 @@
     "noImplicitAny": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "removeComments": false,
-    "paths": {
-      "#configs/*": ["./packages/server/dist/app/configs/*"],
-      "#classes/*": ["./packages/server/dist/app/classes/*"],
-      "#service/*": ["./packages/server/dist/app/modules/service/*"],
-      "#routed/*": ["./packages/server/dist/app/modules/routed/*"],
-      "#services-per-app/*": ["./packages/server/dist/app/services-per-app/*"],
-      "#models/*": ["./packages/server/dist/app/models/*"],
-      "#utils/*": ["./packages/server/dist/app/utils/*"],
-      "#shared": ["./packages/shared/dist/server"],
-      "#shared/*": ["./packages/shared/dist/server/*"],
-    }
+    "removeComments": false
   },
   "exclude": [ "**/node_modules/*"]
 }
