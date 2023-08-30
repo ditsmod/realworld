@@ -3,7 +3,6 @@ import {
   pickProperties,
   Status,
   CustomError,
-  Req,
   inject,
   PATH_PARAMS,
   QUERY_PARAMS,
@@ -22,14 +21,14 @@ import { UtilService } from '#service/util/util.service.js';
 import { AuthService } from '#service/auth/auth.service.js';
 import { AppConfigService } from '#service/app-config/config.service.js';
 import { Permission } from '#shared';
-import { ServerDict } from'#service/openapi-with-params/locales/current/index.js';
+import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
 import { Article, ArticleItem, ArticlePostData, ArticlePutData, Articles, Author } from './models.js';
 import { DbService } from './db.service.js';
 import { ArticlesSelectParams, DbArticle } from './types.js';
 
 @controller()
 export class ArticlesController {
-  constructor(private req: Req, private authService: AuthService, private utils: UtilService, private db: DbService) {}
+  constructor(private authService: AuthService, private utils: UtilService, private db: DbService) {}
 
   @oasRoute('GET', '', {
     ...new OasOperationObject()
