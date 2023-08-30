@@ -9,7 +9,6 @@
     "resolveJsonModule":true
   },
   "include": ["test"],
-  "files": ["./test/conduit.postman-collection.json"],
   "references": [
     { "path": "../shared/tsconfig.server.json" },
     { "path": "./tsconfig.build.json" }
