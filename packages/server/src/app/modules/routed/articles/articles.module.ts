@@ -8,9 +8,7 @@ import { DbService } from './db.service.js';
 import { FavoriteModule } from './favorite/favorite.module.js';
 
 @featureModule({
-  imports: [
-    CorsModule,
-  ],
+  imports: [CorsModule],
   appends: [
     { path: 'comments', module: CommentsModule },
     { path: 'favorite', module: FavoriteModule },
