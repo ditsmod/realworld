@@ -1,6 +1,6 @@
 import { createPool, Pool, PoolConnection, MysqlError, OkPacket, FieldInfo } from 'mysql';
 import { injectable } from '@ditsmod/core';
-import { AnyObj, LogLevel, Status, CustomError } from '@ditsmod/core';
+import { AnyObj, OutputLogLevel, Status, CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 
 import { ServerDict } from'#service/openapi-with-params/locales/current/index.js';
@@ -106,7 +106,7 @@ export class MysqlService {
   }
 
   protected handleErr(msg1: string, err: MysqlError, reject: (...args: any[]) => void) {
-    let level: LogLevel;
+    let level: OutputLogLevel;
     if (err.fatal) {
       level = 'fatal';
     } else {

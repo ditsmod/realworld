@@ -1,4 +1,4 @@
-import { Logger, LoggerConfig, LogLevel, methodFactory, MethodLogLevel } from '@ditsmod/core';
+import { Logger, LoggerConfig, InputLogLevel, OutputLogLevel, methodFactory } from '@ditsmod/core';
 import { createLogger, LogLevel as BunyanLogLevel } from 'bunyan';
 import * as BunyanLogger from 'bunyan';
 
@@ -9,19 +9,19 @@ export class PatchLogger {
     this.setLogLeveL(logger, config.level);
 
     // Logger must have `log` method.
-    (logger as unknown as Logger).log = (level: MethodLogLevel, ...args: any[]) => {
+    (logger as unknown as Logger).log = (level: InputLogLevel, ...args: any[]) => {
       const [arg1, ...rest] = args;
       (logger as unknown as Logger)[level](arg1, ...rest);
     };
 
-    // Logger must have `setLevel` method.
-    (logger as unknown as Logger).setLevel = (value: LogLevel) => {
-      this.setLogLeveL(logger, value);
+    // Logger must have `mergeConfig` method.
+    (logger as unknown as Logger).mergeConfig = (config: LoggerConfig) => {
+      this.setLogLeveL(logger, config.level);
     };
 
-    // Logger must have `getLevel` method.
-    (logger as unknown as Logger).getLevel = () => {
-      const bunyanLevels: { level: number; name: LogLevel }[] = [
+    // Logger must have `getConfig` method.
+    (logger as unknown as Logger).getConfig = () => {
+      const bunyanLevels: { level: number; name: OutputLogLevel }[] = [
         { level: 0, name: 'all' },
         { level: 10, name: 'trace' },
         { level: 20, name: 'debug' },
@@ -33,13 +33,13 @@ export class PatchLogger {
       ];
       const levelNumber = logger.level();
       const levelName = bunyanLevels.find((i) => i.level == levelNumber)?.name || config.level;
-      return levelName;
+      return { level: levelName };
     };
 
     return logger;
   }
 
-  protected setLogLeveL(logger: BunyanLogger, logLevel: LogLevel) {
+  protected setLogLeveL(logger: BunyanLogger, logLevel: OutputLogLevel) {
     if (logLevel == 'off') {
       logger.level(100);
     } else if (logLevel == 'all') {
