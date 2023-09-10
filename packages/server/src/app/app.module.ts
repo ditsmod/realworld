@@ -24,9 +24,9 @@ import { UtilModule } from '#service/util/util.module.js';
     { path: 'tags', module: TagsModule },
   ],
   imports: [
+    RouterModule,
     ReturnModule,
     LoggerModule,
-    RouterModule,
     AuthModule,
     MysqlModule,
     openapiModuleWithParams,
@@ -37,6 +37,7 @@ import { UtilModule } from '#service/util/util.module.js';
     ErrorHandlerModule,
   ],
   exports: [
+    RouterModule,
     ReturnModule,
     AuthModule,
     openapiModuleWithParams,

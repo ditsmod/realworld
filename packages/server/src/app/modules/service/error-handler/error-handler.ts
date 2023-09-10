@@ -32,7 +32,7 @@ export class ErrorHandler implements HttpErrorHandler {
         this.sendError({ [parameter]: err.message }, status);
       }
     } else {
-      this.logger.error({ err, req });
+      this.logger.log('error', { err, req });
       this.sendError({ handler: 'Internal server error' }, Status.INTERNAL_SERVER_ERROR);
     }
   }
