@@ -2,10 +2,12 @@ import { Logger, LoggerConfig, InputLogLevel, OutputLogLevel, methodFactory } fr
 import { createLogger, LogLevel as BunyanLogLevel } from 'bunyan';
 import * as BunyanLogger from 'bunyan';
 
+import { loggerOptions } from './logger-options.js';
+
 export class PatchLogger {
   @methodFactory()
   patchLogger(config: LoggerConfig) {
-    const logger = createLogger({ name: 'bunyan-test' });
+    const logger = createLogger(loggerOptions);
     this.setLogLeveL(logger, config.level);
 
     // Logger must have `log` method.

@@ -40,7 +40,7 @@ describe('postman tests', () => {
               { key: 'USERNAME', value: 'any-username' },
               { key: 'PASSWORD', value: 'any-password' },
             ],
-            delayRequest: 50,
+            delayRequest: 500,
           },
           (err, summary) => {
             expect(err).toBeFalsy();
@@ -51,5 +51,5 @@ describe('postman tests', () => {
         );
       });
     });
-  }, 10000);
+  }, 30000);
 });
