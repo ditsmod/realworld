@@ -31,15 +31,15 @@
     "#shared": "shared"
   },
   "dependencies": {
-    "@ditsmod/body-parser": "^2.12.1",
-    "@ditsmod/core": "^2.49.1",
-    "@ditsmod/cors": "^2.4.0",
-    "@ditsmod/i18n": "^2.9.0",
+    "@ditsmod/body-parser": "^2.13.0",
+    "@ditsmod/core": "^2.50.0",
+    "@ditsmod/cors": "^2.5.0",
+    "@ditsmod/i18n": "^2.10.0",
     "@ditsmod/jwt": "^2.4.0",
-    "@ditsmod/openapi": "^2.22.1",
-    "@ditsmod/openapi-validation": "^2.9.0",
-    "@ditsmod/return": "^2.4.0",
-    "@ditsmod/router": "^2.7.1",
+    "@ditsmod/openapi": "^2.23.0",
+    "@ditsmod/openapi-validation": "^2.10.0",
+    "@ditsmod/return": "^2.5.0",
+    "@ditsmod/routing": "^2.0.0",
     "@ts-stack/chain-error": "^1.2.0",
     "@ts-stack/cookies": "^1.0.3",
     "@ts-stack/openapi-spec": "^3.1.5",
@@ -49,7 +49,7 @@
     "punycode": "^2.3.0"
   },
   "devDependencies": {
-    "@ditsmod/testing": "^2.6.0",
+    "@ditsmod/testing": "^2.7.0",
     "@types/bunyan": "^1.8.8",
     "@types/mysql": "^2.15.21",
     "@types/newman": "^5.3.3",
