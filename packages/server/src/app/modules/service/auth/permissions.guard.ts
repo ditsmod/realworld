@@ -1,4 +1,4 @@
-import { injectable } from '@ditsmod/core';
+import { RequestContext, injectable } from '@ditsmod/core';
 import { CanActivate, Status } from '@ditsmod/core';
 
 import { Permission } from '#shared';
@@ -8,7 +8,7 @@ import { AuthService } from './auth.service.js';
 export class PermissionsGuard implements CanActivate {
   constructor(private authService: AuthService) {}
 
-  async canActivate(params?: Permission[]) {
+  async canActivate(ctx: RequestContext, params?: Permission[]) {
     if (await this.authService.hasPermissions(params)) {
       return true;
     } else {

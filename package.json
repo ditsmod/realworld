@@ -14,7 +14,8 @@
     "start": "npm run build && node --enable-source-maps -r dotenv/config packages/server/dist/main.js dotenv_config_path=packages/server/.env",
     "start-prod": "npm run build && node -r dotenv/config packages/server/dist/main.js dotenv_config_path=packages/server/.env",
     "build": "tsc -b packages",
-    "clean": "rimraf packages/*/dist*"
+    "clean": "rimraf packages/*/dist*",
+    "postinstall": "npm run clean"
   },
   "devDependencies": {
     "@types/eslint": "^8.44.2",
