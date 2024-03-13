@@ -21,7 +21,7 @@
   "imports": {
     "#postman-collection": "./test/conduit.postman-collection.json",
     "#services-per-app/*": "./dist/app/services-per-app/*",
-    "#src/*": "./dist/*",
+    "#app/*": "./dist/app/*",
     "#configs/*": "./dist/app/configs/*",
     "#classes/*": "./dist/app/classes/*",
     "#service/*": "./dist/app/modules/service/*",

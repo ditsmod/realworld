@@ -2,7 +2,7 @@ import { createConnection } from 'mysql';
 import { TestApplication } from '@ditsmod/testing';
 import * as newman from 'newman';
 
-import { AppModule } from '#src/app/app.module.js';
+import { AppModule } from '#app/app.module.js';
 import { MySqlConfigService } from '#service/mysql/mysql-config.service.js';
 import postmanCollection = require('#postman-collection');
 

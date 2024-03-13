@@ -7,7 +7,7 @@
     "resolveJsonModule":true,
     "paths": {
       "#postman-collection": ["./test/conduit.postman-collection.json"],
-      "#src/*": ["./src/*"],
+      "#app/*": ["./src/app/*"],
       "#configs/*": ["./src/app/configs/*"],
       "#classes/*": ["./src/app/classes/*"],
       "#service/*": ["./src/app/modules/service/*"],

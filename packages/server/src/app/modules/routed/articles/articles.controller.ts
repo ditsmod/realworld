@@ -7,10 +7,10 @@ import {
   PATH_PARAMS,
   QUERY_PARAMS,
   optional,
+  Injector,
 } from '@ditsmod/core';
 import { oasRoute } from '@ditsmod/openapi';
 import { DictService } from '@ditsmod/i18n';
-import { Injector } from '@ditsmod/core';
 import { JWT_PAYLOAD } from '@ditsmod/jwt';
 import { HTTP_BODY } from '@ditsmod/body-parser';
 
