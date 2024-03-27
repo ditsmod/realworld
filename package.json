@@ -10,7 +10,6 @@
   "scripts": {
     "test": "npm run build && npm run esm-jest",
     "esm-jest": "node --experimental-vm-modules --no-warnings=ExperimentalWarning --enable-source-maps node_modules/jest/bin/jest.js",
-    "test1": "jest -c jest.config1.ts",
     "start": "npm run build && nodemon --enable-source-maps -r dotenv/config packages/server/dist/main.js dotenv_config_path=packages/server/.env",
     "start-prod": "npm run build && node -r dotenv/config packages/server/dist/main.js dotenv_config_path=packages/server/.env",
     "build": "tsc -b packages",
