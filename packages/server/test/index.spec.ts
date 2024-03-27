@@ -29,13 +29,13 @@ describe('postman tests', () => {
       expect.assertions(3);
       const port = 3456;
 
-      server.listen(port, 'localhost', () => {
+      server.listen(port, '0.0.0.0', () => {
         newman.run(
           {
             collection: postmanCollection,
             reporters: 'cli',
             envVar: [
-              { key: 'APIURL', value: `http://localhost:${port}/api` },
+              { key: 'APIURL', value: `http://0.0.0.0:${port}/api` },
               { key: 'EMAIL', value: 'any-email@gmail.com' },
               { key: 'USERNAME', value: 'any-username' },
               { key: 'PASSWORD', value: 'any-password' },
