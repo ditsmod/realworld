@@ -1,9 +1,9 @@
-import { XOasObject } from '@ts-stack/openapi-spec';
+import { XOasObject, openapi } from '@ts-stack/openapi-spec';
 
 export const oasObject: XOasObject = {
-  openapi: '3.0.0',
+  openapi,
   // Here works the servers that are described using this OpenAPI documentation.
-  servers: [{ url: 'http://0.0.0.0:3000' }],
+  servers: [{ url: `http://${process.env.WEBHOST}:${process.env.WEBPORT}` }],
   info: { title: 'RealWorld example using the Ditsmod application', version: '1.0.0' },
   tags: [
     {
