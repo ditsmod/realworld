@@ -1,4 +1,4 @@
-import { controller, inject, PATH_PARAMS, pickProperties, Req, Status } from '@ditsmod/core';
+import { controller, inject, PATH_PARAMS, pickProperties, Status } from '@ditsmod/core';
 import { oasRoute } from '@ditsmod/openapi';
 import { HTTP_BODY } from '@ditsmod/body-parser';
 
@@ -15,7 +15,7 @@ import { Author } from '../models.js';
 
 @controller()
 export class CommentsController {
-  constructor(private req: Req, private db: DbService, private authService: AuthService) {}
+  constructor(private db: DbService, private authService: AuthService) {}
 
   @oasRoute('POST', '', [BearerGuard], {
     ...new OasOperationObject()
