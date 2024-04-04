@@ -50,6 +50,7 @@ export class UsersController {
       throw new CustomError({
         msg1: dict.badPasswordOrEmail('password-or-email'),
         status: Status.UNAUTHORIZED,
+        level: 'trace'
       });
     }
     const userSessionData = new UserSessionData(dbUser);
