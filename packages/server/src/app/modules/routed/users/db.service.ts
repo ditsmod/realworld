@@ -1,34 +1,41 @@
 import { ResultSetHeader } from 'mysql2';
-import { injectable } from '@ditsmod/core';
-import { CustomError } from '@ditsmod/core';
+import { injectable, CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 
-import { MysqlService } from '#service/mysql/mysql.service.js';
+import { InsertRunOptions, MysqlService, SelectRunOptions } from '#service/mysql/mysql.service.js';
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
 import { CryptoService } from '#service/auth/crypto.service.js';
 import { DbUser, EmailOrUsername } from './types.js';
-import { LoginData, PutUser, SignUpFormData, UserSession } from './models.js';
+import { Tables, LoginData, PutUser, SignUpFormData, UserSession } from './models.js';
 
 @injectable()
 export class DbService {
-  constructor(private mysql: MysqlService, private dictService: DictService, private cryptoService: CryptoService) {}
+  constructor(
+    private mysql: MysqlService<Tables>,
+    private dictService: DictService,
+    private cryptoService: CryptoService
+  ) {}
 
   /**
    * Returns inserted user ID or throw an error about user exists.
    */
   async signUpUser(signUpFormData: SignUpFormData): Promise<number> {
-    const { email, username, password } = signUpFormData.user;
+    const { email, username, password: rawPassword } = signUpFormData.user;
     await this.checkUserExists({ email, username });
-    const params: any[] = [email, username, this.cryptoService.getCryptedPassword(password)];
-    const sql = `insert into curr_users set email = ?, username = ?, password = ?;`;
-    const { rows } = await this.mysql.query(sql, params);
-    return (rows as ResultSetHeader).insertId;
+    const password = this.cryptoService.getCryptedPassword(rawPassword);
+    return this.mysql
+      .insertFromSet('curr_users', { email, username, password })
+      .$run<number, InsertRunOptions>({ insertId: true });
   }
 
   async checkUserExists({ email, username }: EmailOrUsername) {
-    const sql = `select 1 as userExists from curr_users where email = ? or username = ?;`;
-    const { rows } = await this.mysql.query(sql, [email, username]);
-    if ((rows as any[]).length) {
+    const result = await this.mysql
+      .select('1 as userExists')
+      .from('curr_users')
+      .where((eb) => eb.isTrue({ email, username }))
+      .$run();
+
+    if (result.length) {
       const dict = this.dictService.getDictionary(ServerDict);
       throw new CustomError({
         msg1: dict.usernameOrEmailAlreadyExists('email-or-username'),
@@ -40,47 +47,33 @@ export class DbService {
   /**
    * Returns user ID or throw an error about user exists.
    */
-  async signInUser({ email, password }: LoginData): Promise<DbUser> {
-    const params: any[] = [email, this.cryptoService.getCryptedPassword(password)];
-    const sql = `
-    select
-      userId,
-      username,
-      email,
-      bio,
-      image
-    from curr_users
-    where email = ?
-      and password = ?;`;
-    const { rows } = await this.mysql.query(sql, params);
-    return (rows as DbUser[])[0];
+  signInUser({ email, password }: LoginData) {
+    password = this.cryptoService.getCryptedPassword(password);
+    return this.mysql
+      .select('userId', 'username', 'email', 'bio', 'image')
+      .from('curr_users')
+      .where((eb) => eb.isTrue({ email, password }))
+      .$run<DbUser, SelectRunOptions>({ first: true });
   }
 
-  async getCurrentUser(userId: number) {
-    const sql = `
-    select
-      username,
-      email,
-      bio,
-      image
-    from curr_users
-    where userId = ${userId};`;
-    const { rows } = await this.mysql.query(sql);
-    return (rows as Omit<UserSession, 'token'>[])[0];
+  getCurrentUser(userId: number) {
+    return this.mysql
+      .select('userId', 'username', 'email', 'bio', 'image')
+      .from('curr_users')
+      .where((eb) => eb.isTrue({ userId }))
+      .$run<Omit<UserSession, 'token'>, SelectRunOptions>({ first: true });
   }
 
-  async putCurrentUser(userId: number, pubUser: PutUser) {
+  putCurrentUser(userId: number, pubUser: PutUser) {
     const { email, username, password, image, bio } = pubUser;
-    const sql = `
-    update curr_users
-    set
-      email = ifnull(?, email),
-      username = ifnull(?, username),
-      password = ifnull(?, password),
-      image = ifnull(?, image),
-      bio = ifnull(?, bio)
-    where userId = ${userId};`;
-    const { rows } = await this.mysql.query(sql, [email, username, password, image, bio]);
-    return rows as ResultSetHeader;
+    return this.mysql
+      .update('curr_users')
+      .set(`email = ifnull(?, email)`)
+      .set(`username = ifnull(?, username)`)
+      .set(`password = ifnull(?, password)`)
+      .set(`image = ifnull(?, image)`)
+      .set(`bio = ifnull(?, bio)`)
+      .where({ userId })
+      .$run<ResultSetHeader>({}, email, username, password, image, bio);
   }
 }

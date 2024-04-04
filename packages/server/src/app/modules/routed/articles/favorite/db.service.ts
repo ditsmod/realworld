@@ -1,37 +1,42 @@
-import { ResultSetHeader } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 
 import { MysqlService } from '#service/mysql/mysql.service.js';
+import { Tables } from '../models.js';
 
 @injectable()
 export class DbService {
-  constructor(private mysql: MysqlService) {}
+  constructor(private mysql: MysqlService<Tables>) {}
 
   async setArticleFaforite(userId: number, slug: string) {
-    const sql1 = `insert ignore into map_favorites(articleId, userId)
-    select articleId, ${userId} as userId
-    from curr_articles
-    where slug = ?`;
-    await this.mysql.query(sql1, slug);
-    
-    const sql2 = `update curr_articles
-    set favoritesCount = favoritesCount + 1
-    where slug = ?`;
-    await this.mysql.query(sql2, slug);
+    await this.mysql
+      .insertFromSelect('map_favorites', ['articleId', 'userId'], (sb) => {
+        return sb
+          .select('articleId', `${userId} as userId`)
+          .from('curr_articles')
+          .where((eb) => eb.isTrue({ slug }));
+      })
+      .ignore()
+      .$run();
+
+    await this.mysql
+      .update('curr_articles')
+      .set('favoritesCount = favoritesCount + 1')
+      .where({ slug })
+      .$run();
   }
 
   async deleteArticleFaforite(userId: number, slug: string) {
-    const sql1 = `delete f
-    from map_favorites as f
-    join curr_articles as a
-      on f.articleId = a.articleId
-        and f.userId = ${userId}
-    where a.slug = ?`;
-    await this.mysql.query(sql1, slug);
-    
-    const sql2 = `update curr_articles
-    set favoritesCount = favoritesCount - 1
-    where slug = ?`;
-    await this.mysql.query(sql2, slug);
+    await this.mysql
+      .delete('f')
+      .from('map_favorites as f')
+      .join('curr_articles as a', (jb) => jb.on('f.articleId = a.articleId').and(`f.userId = ${userId}`))
+      .where((eb) => eb.isTrue({ slug }))
+      .$run();
+
+    await this.mysql
+      .update('curr_articles')
+      .set('favoritesCount = favoritesCount - 1')
+      .where({ slug })
+      .$run();
   }
 }

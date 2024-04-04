@@ -1,53 +1,41 @@
 import { injectable } from '@ditsmod/core';
-
-import { MysqlService } from '#service/mysql/mysql.service.js';
-import { Profile } from './models.js';
 import { ResultSetHeader } from 'mysql2';
+
+import { MysqlService, SelectRunOptions } from '#service/mysql/mysql.service.js';
+import { Profile, Tables } from './models.js';
 
 @injectable()
 export class DbService {
-  constructor(private mysql: MysqlService) {}
+  constructor(private mysql: MysqlService<Tables>) {}
 
-  async getProfile(currentUserId: number, targetUserName: string) {
-    const sql = `
-    select
-      username,
-      bio,
-      image,
-      if(f.userId is null, 0, 1) as following
-    from curr_users as u
-    left join map_followers as f
-      on u.userId = f.userId
-        and f.followerId = ?
-    where u.username = ?
-    ;`;
-    const { rows } = await this.mysql.query(sql, [currentUserId, targetUserName]);
-    return (rows as Profile[])[0];
+  getProfile(currentUserId: number, targetUserName: string) {
+    return this.mysql
+      .select('username', 'bio', 'image', 'if(f.userId is null, 0, 1) as following')
+      .from('curr_users as u')
+      .leftJoin('map_followers as f', (jb) => jb.on('u.userId = f.userId').and('f.followerId = ?'))
+      .where((eb) => eb.isTrue('u.username = ?'))
+      .$run<Profile, SelectRunOptions>({ first: true }, currentUserId, targetUserName);
   }
 
-  async followUser(currentUserId: number, targetUserName: string) {
-    const sql = `
-    insert ignore into map_followers (userId, followerId)
-    select
-      userId,
-      ?
-    from curr_users as u
-    where username = ?
-    ;`;
-    const { rows } = await this.mysql.query(sql, [currentUserId, targetUserName]);
-    return (rows as ResultSetHeader);
+  followUser(currentUserId: number, targetUserName: string) {
+    return this.mysql
+      .insertFromSelect('map_followers', ['userId', 'followerId'], (sb) => {
+        return sb
+          .select('userId', '?')
+          .from('curr_users as u')
+          .where((eb) => eb.isTrue('username = ?'));
+      })
+      .ignore()
+      .$run<ResultSetHeader>({}, currentUserId, targetUserName);
   }
 
-  async unfollowUser(currentUserId: number, targetUserName: string) {
-    const sql = `
-    delete f 
-    from map_followers as f
-    join curr_users as u
-      using(userId)
-    where u.username = ?
-      and f.followerId = ?
-    ;`;
-    const { rows } = await this.mysql.query(sql, [targetUserName, currentUserId]);
-    return (rows as ResultSetHeader);
+  unfollowUser(currentUserId: number, targetUserName: string) {
+    return this.mysql
+      .delete('f')
+      .from('map_followers as f')
+      .join('curr_users as u', (jb) => jb.on('f.userId = u.userId'))
+      .where((eb) => eb.isTrue('u.username = ?').and('f.followerId = ?'))
+      .$run<ResultSetHeader>({}, targetUserName, currentUserId)
+      ;
   }
 }

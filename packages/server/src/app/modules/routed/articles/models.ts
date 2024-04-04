@@ -1,8 +1,49 @@
 import { property, REQUIRED } from '@ditsmod/openapi';
 
+import { MapFollowers } from '#routed/profiles/models.js';
+import { CurrUsers } from '#routed/users/models.js';
 import { AppConfigService } from '#service/app-config/config.service.js';
 
 const config = new AppConfigService();
+
+export interface Tables {
+  curr_users: CurrUsers;
+  curr_articles: CurrArticles;
+  dict_tags: DictTags;
+  map_articles_tags: MapArticlesTags;
+  map_followers: MapFollowers;
+  map_favorites: MapFavorites;
+}
+
+export interface MapArticlesTags {
+  articleId: number;
+  tagId: number;
+}
+
+export interface MapFavorites {
+  articleId: number;
+  userId: number;
+}
+
+export interface CurrArticles {
+  articleId?: number;
+  userId: number;
+  body: string;
+  slug: string;
+  title: string;
+  description: string;
+  tagList?: string;
+  createdAt?: number;
+  updatedAt?: number;
+  favoritesCount?: number;
+}
+
+export interface DictTags {
+  tagId?: number;
+  tagName: string;
+  creatorId: number;
+  createdAt?: number;
+}
 
 export class Author {
   @property()

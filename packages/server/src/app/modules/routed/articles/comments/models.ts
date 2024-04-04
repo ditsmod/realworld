@@ -1,6 +1,24 @@
 import { property, REQUIRED } from '@ditsmod/openapi';
 
-import { Author } from '../models.js';
+import { MapFollowers } from '#routed/profiles/models.js';
+import { CurrUsers } from '#routed/users/models.js';
+import { Author, CurrArticles } from '../models.js';
+
+export interface Tables {
+  curr_comments: CurrComments;
+  curr_articles: CurrArticles;
+  curr_users: CurrUsers;
+  map_followers: MapFollowers;
+}
+
+export interface CurrComments {
+  commentId?: number;
+  userId: number;
+  articleId: number;
+  createdAt: number;
+  updatedAt?: number;
+  body: string;
+}
 
 export class Comment {
   @property()

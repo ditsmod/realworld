@@ -1,5 +1,17 @@
 import { property } from '@ditsmod/openapi';
 
+import { CurrUsers } from '#routed/users/models.js';
+
+export interface Tables {
+  curr_users: CurrUsers;
+  map_followers: MapFollowers;
+}
+
+export interface MapFollowers {
+  userId: number;
+  followerId: number;
+}
+
 export class Profile {
   @property()
   username: string = '';

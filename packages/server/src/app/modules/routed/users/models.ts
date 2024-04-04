@@ -4,6 +4,19 @@ import { AppConfigService } from '#service/app-config/config.service.js';
 
 const config = new AppConfigService();
 
+export interface Tables {
+  curr_users: CurrUsers
+}
+
+export interface CurrUsers {
+  userId?: number;
+  username: string;
+  email: string;
+  bio?: string;
+  image?: string;
+  password: string;
+}
+
 export class LoginData {
   @property({ [REQUIRED]: true, pattern: config.emailPattern.source })
   email: string;
