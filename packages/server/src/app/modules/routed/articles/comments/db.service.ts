@@ -1,4 +1,4 @@
-import { OkPacket } from 'mysql';
+import { ResultSetHeader } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 
 import { MysqlService } from '#service/mysql/mysql.service.js';
@@ -16,7 +16,7 @@ export class DbService {
     where a.slug = ?
     ;`;
     const { rows } = await this.mysql.query(sql, [userId, body, slug]);
-    return rows as OkPacket;
+    return rows as ResultSetHeader;
   }
 
   async deleteArticle(userId: number, hasPermissions: boolean, commentId: number) {
@@ -33,7 +33,7 @@ export class DbService {
     }
 
     const { rows } = await this.mysql.query(sql, params);
-    return rows as OkPacket;
+    return rows as ResultSetHeader;
   }
 
   async getComments(currentUserId: number): Promise<DbComment[]>;

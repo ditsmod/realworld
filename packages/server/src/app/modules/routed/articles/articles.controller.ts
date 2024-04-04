@@ -187,8 +187,8 @@ export class ArticlesController {
     const hasPermissions = await this.authService.hasPermissions([Permission.canDeleteAnyPost]);
     const currentUserId = await this.authService.getCurrentUserId();
     const slug = pathParams.slug as string;
-    const okPacket = await this.db.deleteArticle(currentUserId, hasPermissions, slug);
-    if (!okPacket.affectedRows) {
+    const resultSetHeader = await this.db.deleteArticle(currentUserId, hasPermissions, slug);
+    if (!resultSetHeader.affectedRows) {
       this.utils.throw403Error('permissions', `You don't have permission to delete this article.`);
     }
 

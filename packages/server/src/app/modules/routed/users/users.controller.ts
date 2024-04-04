@@ -91,8 +91,8 @@ export class UsersController {
   async updateCurrentUser(@inject(JWT_PAYLOAD) jwtPayload: any) {
     const userId = jwtPayload.userId as number;
     const putUser = this.body as PutUser;
-    const okPacket = await this.db.putCurrentUser(userId, putUser);
-    if (!okPacket.affectedRows) {
+    const resultSetHeader = await this.db.putCurrentUser(userId, putUser);
+    if (!resultSetHeader.affectedRows) {
       const dict = this.getDictionary();
       throw new CustomError({
         msg1: dict.youHaveObsoleteToken('auth-token'),

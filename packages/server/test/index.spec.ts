@@ -1,4 +1,4 @@
-import { createConnection } from 'mysql';
+import { createConnection } from 'mysql2';
 import { TestApplication } from '@ditsmod/testing';
 import * as newman from 'newman';
 

@@ -1,4 +1,4 @@
-import { OkPacket } from 'mysql';
+import { ResultSetHeader } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 
 import { MysqlService } from '#service/mysql/mysql.service.js';
@@ -22,7 +22,7 @@ export class DbService {
     ;`;
     const tags = JSON.stringify(tagList || []);
     const { rows } = await this.mysql.query(sql, [userId, title, slug, description, body, tags]);
-    const result = rows as OkPacket;
+    const result = rows as ResultSetHeader;
     if (tagList && tagList.length) {
       await this.insertIntoDictTags(userId, tagList);
       await this.insertIntoMapArticlesTags(result.insertId, tagList);
@@ -78,7 +78,7 @@ export class DbService {
     }
 
     const { rows } = await this.mysql.query(sql, params);
-    return rows as OkPacket;
+    return rows as ResultSetHeader;
   }
 
   async deleteArticle(userId: number, hasPermissions: boolean, slug: string) {
@@ -95,7 +95,7 @@ export class DbService {
     }
 
     const { rows } = await this.mysql.query(sql, params);
-    return rows as OkPacket;
+    return rows as ResultSetHeader;
   }
 
   async getArticleById(articleId: number, currentUserId: number) {

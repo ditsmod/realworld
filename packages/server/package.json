@@ -45,13 +45,12 @@
     "@ts-stack/openapi-spec": "^3.1.5",
     "bunyan": "^1.8.15",
     "dotenv": "^16.4.5",
-    "mysql": "^2.18.1",
+    "mysql2": "^3.9.3",
     "punycode": "^2.3.1"
   },
   "devDependencies": {
     "@ditsmod/testing": "^2.8.0",
     "@types/bunyan": "^1.8.11",
-    "@types/mysql": "^2.15.26",
     "@types/newman": "^5.3.6",
     "newman": "^5.3.2"
   }

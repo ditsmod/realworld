@@ -1,4 +1,4 @@
-import { PoolConnection } from 'mysql';
+import { PoolConnection } from 'mysql2';
 
 import { MySqlConfigService } from './mysql-config.service.js';
 import { MysqlService } from './mysql.service.js';

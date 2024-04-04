@@ -1,4 +1,4 @@
-import { OkPacket } from 'mysql';
+import { ResultSetHeader } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 
 import { MysqlService } from '#service/mysql/mysql.service.js';

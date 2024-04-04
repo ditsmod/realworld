@@ -1,4 +1,4 @@
-import { OkPacket } from 'mysql';
+import { ResultSetHeader } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 import { CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
@@ -22,7 +22,7 @@ export class DbService {
     const params: any[] = [email, username, this.cryptoService.getCryptedPassword(password)];
     const sql = `insert into curr_users set email = ?, username = ?, password = ?;`;
     const { rows } = await this.mysql.query(sql, params);
-    return (rows as OkPacket).insertId;
+    return (rows as ResultSetHeader).insertId;
   }
 
   async checkUserExists({ email, username }: EmailOrUsername) {
@@ -81,6 +81,6 @@ export class DbService {
       bio = ifnull(?, bio)
     where userId = ${userId};`;
     const { rows } = await this.mysql.query(sql, [email, username, password, image, bio]);
-    return rows as OkPacket;
+    return rows as ResultSetHeader;
   }
 }

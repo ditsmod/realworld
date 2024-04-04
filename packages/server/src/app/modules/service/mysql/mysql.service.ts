@@ -1,9 +1,9 @@
-import { createPool, Pool, PoolConnection, MysqlError, OkPacket, FieldInfo } from 'mysql';
+import { createPool, Pool, PoolConnection } from 'mysql2';
 import { injectable } from '@ditsmod/core';
-import { AnyObj, OutputLogLevel, Status, CustomError } from '@ditsmod/core';
+import { AnyObj, InputLogLevel, Status, CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 
-import { ServerDict } from'#service/openapi-with-params/locales/current/index.js';
+import { ServerDict } from '../openapi-with-params/locales/current/index.js';
 import { MySqlConfigService } from './mysql-config.service.js';
 
 @injectable()
@@ -35,11 +35,7 @@ export class MysqlService {
     });
   }
 
-  async query<T = AnyObj>(
-    sql: string,
-    params?: any,
-    dbName?: string
-  ): Promise<{ rows: T[] | [T[], OkPacket] | OkPacket; fieldInfo?: FieldInfo[] }> {
+  async query<T = AnyObj>(sql: string, params?: any, dbName?: string): Promise<any> {
     const connection = await this.getConnection(dbName);
     return new Promise((resolve, reject) => {
       connection.query(sql, params, (err, rows, fieldInfo) => {
@@ -55,19 +51,15 @@ export class MysqlService {
 
   async startTransaction(dbName?: string) {
     const connection = await this.getConnection(dbName);
-    connection.beginTransaction();
+    connection.beginTransaction((error) => null);
     return connection;
   }
 
-  queryInTransaction<T = AnyObj>(
-    connection: PoolConnection,
-    sql: string,
-    params?: any
-  ): Promise<{ rows: T[] | [T[], OkPacket] | OkPacket; fieldInfo?: FieldInfo[] }> {
+  queryInTransaction<T = AnyObj>(connection: PoolConnection, sql: string, params?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       connection.query(sql, params, (err, rows, fieldInfo) => {
         if (err) {
-          connection.rollback();
+          connection.rollback((error) => null);
           connection.release();
           this.handleErr(this.dict.mysqlQuery, err, reject);
         } else {
@@ -81,7 +73,7 @@ export class MysqlService {
     return new Promise((resolve, reject) => {
       connection.commit((err) => {
         if (err) {
-          connection.rollback();
+          connection.rollback((error) => null);
           this.handleErr(this.dict.errMysqlCommit, err, reject);
         } else {
           resolve();
@@ -105,16 +97,16 @@ export class MysqlService {
     return { result, foundRows };
   }
 
-  protected handleErr(msg1: string, err: MysqlError, reject: (...args: any[]) => void) {
-    let level: OutputLogLevel;
-    if (err.fatal) {
+  protected handleErr(msg1: string, err: NodeJS.ErrnoException, reject: (...args: any[]) => void) {
+    let level: InputLogLevel;
+    if (err.code == 'fatal') {
       level = 'fatal';
     } else {
       level = 'error';
     }
     let status: number = Status.INTERNAL_SERVER_ERROR;
-    if (!isNaN(parseFloat(err.sqlMessage || ''))) {
-      const [rawMsg, rawStatus] = err.sqlMessage!.split(',');
+    if (!isNaN(parseFloat(err.message || ''))) {
+      const [rawMsg, rawStatus] = err.message!.split(',');
       msg1 = rawMsg || msg1;
       status = +rawStatus || status;
     }

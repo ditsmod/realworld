@@ -2,7 +2,7 @@ import { injectable } from '@ditsmod/core';
 
 import { MysqlService } from '#service/mysql/mysql.service.js';
 import { Profile } from './models.js';
-import { OkPacket } from 'mysql';
+import { ResultSetHeader } from 'mysql2';
 
 @injectable()
 export class DbService {
@@ -35,7 +35,7 @@ export class DbService {
     where username = ?
     ;`;
     const { rows } = await this.mysql.query(sql, [currentUserId, targetUserName]);
-    return (rows as OkPacket);
+    return (rows as ResultSetHeader);
   }
 
   async unfollowUser(currentUserId: number, targetUserName: string) {
@@ -48,6 +48,6 @@ export class DbService {
       and f.followerId = ?
     ;`;
     const { rows } = await this.mysql.query(sql, [targetUserName, currentUserId]);
-    return (rows as OkPacket);
+    return (rows as ResultSetHeader);
   }
 }
