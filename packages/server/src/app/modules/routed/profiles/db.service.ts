@@ -14,7 +14,7 @@ export class DbService {
       .from('curr_users as u')
       .leftJoin('map_followers as f', (jb) => jb.on('u.userId = f.userId').and('f.followerId = ?'))
       .where((eb) => eb.isTrue('u.username = ?'))
-      .$run<Profile, SelectRunOptions>({ first: true }, currentUserId, targetUserName);
+      .$runHook<Profile, SelectRunOptions>({ first: true }, currentUserId, targetUserName);
   }
 
   followUser(currentUserId: number, targetUserName: string) {
@@ -26,7 +26,7 @@ export class DbService {
           .where((eb) => eb.isTrue('username = ?'));
       })
       .ignore()
-      .$run<ResultSetHeader>({}, currentUserId, targetUserName);
+      .$runHook<ResultSetHeader>({}, currentUserId, targetUserName);
   }
 
   unfollowUser(currentUserId: number, targetUserName: string) {
@@ -35,7 +35,7 @@ export class DbService {
       .from('map_followers as f')
       .join('curr_users as u', (jb) => jb.on('f.userId = u.userId'))
       .where((eb) => eb.isTrue('u.username = ?').and('f.followerId = ?'))
-      .$run<ResultSetHeader>({}, targetUserName, currentUserId)
+      .$runHook<ResultSetHeader>({}, targetUserName, currentUserId)
       ;
   }
 }

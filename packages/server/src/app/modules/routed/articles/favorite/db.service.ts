@@ -16,13 +16,13 @@ export class DbService {
           .where((eb) => eb.isTrue({ slug }));
       })
       .ignore()
-      .$run();
+      .$runHook();
 
     await this.mysql
       .update('curr_articles')
       .set('favoritesCount = favoritesCount + 1')
       .where({ slug })
-      .$run();
+      .$runHook();
   }
 
   async deleteArticleFaforite(userId: number, slug: string) {
@@ -31,12 +31,12 @@ export class DbService {
       .from('map_favorites as f')
       .join('curr_articles as a', (jb) => jb.on('f.articleId = a.articleId').and(`f.userId = ${userId}`))
       .where((eb) => eb.isTrue({ slug }))
-      .$run();
+      .$runHook();
 
     await this.mysql
       .update('curr_articles')
       .set('favoritesCount = favoritesCount - 1')
       .where({ slug })
-      .$run();
+      .$runHook();
   }
 }

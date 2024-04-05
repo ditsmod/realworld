@@ -13,6 +13,6 @@ export class DbService {
       .select('tagName')
       .from('dict_tags')
       .limit(this.config.maxItemsTagsPerPage)
-      .$run<{ tagName: string }[]>();
+      .$runHook<{ tagName: string }[]>();
   }
 }

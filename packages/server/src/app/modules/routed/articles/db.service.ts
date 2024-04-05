@@ -19,7 +19,7 @@ export class DbService {
         body,
         tagList: JSON.stringify(tagList || []),
       })
-      .$run<ResultSetHeader>();
+      .$runHook<ResultSetHeader>();
 
     if (tagList && tagList.length) {
       await this.insertIntoDictTags(userId, tagList);
@@ -30,7 +30,7 @@ export class DbService {
 
   insertIntoDictTags(userId: number, tagList: string[]) {
     const values = tagList.map((tag) => [tag, userId]);
-    return this.mysql.insertFromValues('dict_tags', ['tagName', 'creatorId'], values).ignore().$run();
+    return this.mysql.insertFromValues('dict_tags', ['tagName', 'creatorId'], values).ignore().$runHook();
   }
 
   async insertIntoMapArticlesTags(articleId: number, tagList: string[]) {
@@ -43,7 +43,7 @@ export class DbService {
             .where((eb) => eb.isTrue({ tagName }));
         })
         .ignore()
-        .$run();
+        .$runHook();
     }
   }
 
@@ -70,7 +70,7 @@ export class DbService {
         // If no permissions, only owner can update the article.
         return ub.where({ userId });
       })
-      .$run<ResultSetHeader>({}, title, description, body, newSlug, oldSlug);
+      .$runHook<ResultSetHeader>({}, title, description, body, newSlug, oldSlug);
   }
 
   async deleteArticle(userId: number, hasPermissions: boolean, slug: string) {

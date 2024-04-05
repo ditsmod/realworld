@@ -25,7 +25,7 @@ export class DbService {
     const password = this.cryptoService.getCryptedPassword(rawPassword);
     return this.mysql
       .insertFromSet('curr_users', { email, username, password })
-      .$run<number, InsertRunOptions>({ insertId: true });
+      .$runHook<number, InsertRunOptions>({ insertId: true });
   }
 
   async checkUserExists({ email, username }: EmailOrUsername) {
@@ -33,7 +33,7 @@ export class DbService {
       .select('1 as userExists')
       .from('curr_users')
       .where((eb) => eb.isTrue({ email, username }))
-      .$run();
+      .$runHook();
 
     if (result.length) {
       const dict = this.dictService.getDictionary(ServerDict);
@@ -53,7 +53,7 @@ export class DbService {
       .select('userId', 'username', 'email', 'bio', 'image')
       .from('curr_users')
       .where((eb) => eb.isTrue({ email, password }))
-      .$run<DbUser, SelectRunOptions>({ first: true });
+      .$runHook<DbUser, SelectRunOptions>({ first: true });
   }
 
   getCurrentUser(userId: number) {
@@ -61,7 +61,7 @@ export class DbService {
       .select('userId', 'username', 'email', 'bio', 'image')
       .from('curr_users')
       .where((eb) => eb.isTrue({ userId }))
-      .$run<Omit<UserSession, 'token'>, SelectRunOptions>({ first: true });
+      .$runHook<Omit<UserSession, 'token'>, SelectRunOptions>({ first: true });
   }
 
   putCurrentUser(userId: number, pubUser: PutUser) {
@@ -74,6 +74,6 @@ export class DbService {
       .set(`image = ifnull(?, image)`)
       .set(`bio = ifnull(?, bio)`)
       .where({ userId })
-      .$run<ResultSetHeader>({}, email, username, password, image, bio);
+      .$runHook<ResultSetHeader>({}, email, username, password, image, bio);
   }
 }

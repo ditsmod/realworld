@@ -59,7 +59,7 @@ export class MysqlService<Tables extends object, FromTable extends keyof Tables 
   insertFromSet<K extends keyof Tables>(table: K, obj: Tables[K]) {
     return new MysqlInsertBuilder<Tables>()
       .$setEscape(escape)
-      .$setRun<any, InsertRunOptions>(async (query, opts, ...args) => {
+      .$setHook<any, InsertRunOptions>(async (query, opts, ...args) => {
         const result = await this.newQuery(query, args);
         if (opts.insertId) {
           return (result as ResultSetHeader).insertId;
@@ -77,7 +77,7 @@ export class MysqlService<Tables extends object, FromTable extends keyof Tables 
   ) {
     return new MysqlInsertBuilder<Tables>()
       .$setEscape(escape)
-      .$setRun<any, InsertRunOptions>(async (query, opts, ...args) => {
+      .$setHook<any, InsertRunOptions>(async (query, opts, ...args) => {
         const result = await this.newQuery(query, args);
         if (opts.insertId) {
           return (result as ResultSetHeader).insertId;
@@ -105,7 +105,7 @@ export class MysqlService<Tables extends object, FromTable extends keyof Tables 
   ) {
     return new MysqlInsertBuilder<Tables>()
       .$setEscape(escape)
-      .$setRun<any, InsertRunOptions>(async (query, opts, ...args) => {
+      .$setHook<any, InsertRunOptions>(async (query, opts, ...args) => {
         const result = await this.newQuery(query, args);
         if (opts.insertId) {
           return (result as ResultSetHeader).insertId;
@@ -119,7 +119,7 @@ export class MysqlService<Tables extends object, FromTable extends keyof Tables 
   select(...fields: [string, ...string[]]) {
     return new MySqlSelectBuilder<Tables>()
       .$setEscape(escape)
-      .$setRun<any, SelectRunOptions>(async (query, opts, ...args) => {
+      .$setHook<any, SelectRunOptions>(async (query, opts, ...args) => {
         const result = await this.newQuery(query, args);
         if (opts.first) {
           return result[0];
@@ -135,14 +135,14 @@ export class MysqlService<Tables extends object, FromTable extends keyof Tables 
   update(tableOrAlias: string | TableAndAlias<keyof Tables>, selectCallback?: SelectCallback) {
     return new MySqlUpdateBuilder<Tables>()
       .$setEscape(escape)
-      .$setRun<any, SelectRunOptions>((query, opts, ...args) => this.newQuery(query, args))
+      .$setHook<any, SelectRunOptions>((query, opts, ...args) => this.newQuery(query, args))
       .update(tableOrAlias as string, selectCallback!);
   }
 
   delete(...tables: string[]) {
     return new MySqlDeleteBuilder<Tables>()
       .$setEscape(escape)
-      .$setRun<any, SelectRunOptions>(async (query, opts, ...args) => {
+      .$setHook<any, SelectRunOptions>(async (query, opts, ...args) => {
         const result = await this.newQuery(query, args);
         if (opts.first) {
           return result[0];
