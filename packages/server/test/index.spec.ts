@@ -40,7 +40,7 @@ describe('postman tests', () => {
               { key: 'USERNAME', value: 'any-username' },
               { key: 'PASSWORD', value: 'any-password' },
             ],
-            delayRequest: 500,
+            delayRequest: 0,
           },
           (err, summary) => {
             expect(err).toBeFalsy();
