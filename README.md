@@ -5,7 +5,11 @@
 
 This codebase was created to demonstrate a fully fledged fullstack application built with **Ditsmod** including CRUD operations, authentication, routing, pagination, and more.
 
-# Getting started
+## Prerequisites
+
+Please make sure that Node.js >= v20.6.0 is installed on your operating system.
+
+## Getting started
 
 This monorepository includes [Ditsmod](https://ditsmod.github.io/en/) applications seed. Packages are in ESM format and have [native Node.js aliases](https://nodejs.org/api/packages.html#subpath-imports) starting with `#`.
 

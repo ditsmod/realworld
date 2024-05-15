@@ -9,9 +9,9 @@
   ],
   "scripts": {
     "test": "npm run build && npm run esm-jest",
-    "esm-jest": "node --experimental-vm-modules --no-warnings=ExperimentalWarning --enable-source-maps node_modules/jest/bin/jest.js",
-    "start": "npm run build && nodemon --enable-source-maps -r dotenv/config packages/server/dist/main.js dotenv_config_path=packages/server/.env",
-    "start-prod": "npm run build && node -r dotenv/config packages/server/dist/main.js dotenv_config_path=packages/server/.env",
+    "esm-jest": "node --env-file=packages/server/.env --experimental-vm-modules --no-warnings=ExperimentalWarning --enable-source-maps node_modules/jest/bin/jest.js",
+    "start": "npm run build && nodemon --env-file=packages/server/.env --enable-source-maps packages/server/dist/main.js",
+    "start-prod": "npm run build && node --env-file=packages/server/.env packages/server/dist/main.js",
     "build": "tsc -b packages",
     "clean": "rimraf packages/*/dist*",
     "postinstall": "npm run clean"
@@ -31,5 +31,8 @@
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^4.9.5"
+  },
+  "engines": {
+    "node": ">= 20.6.0"
   }
 }
