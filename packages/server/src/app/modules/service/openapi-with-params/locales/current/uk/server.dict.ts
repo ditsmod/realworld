@@ -17,7 +17,7 @@ export class ServerUkDict extends ServerDict {
   /**
    * Невірне ім'я користувача
    */
-  override invalidUserName = `Невірне ім'я користувача`;
+  override invalidUserName = "Невірне ім'я користувача";
   /**
    * Сторінку не знайдено
    */
@@ -39,7 +39,7 @@ export class ServerUkDict extends ServerDict {
   /**
    * Під час коміту транзакції у Mysql сталася помилка
    */
-  override errMysqlCommit = `Під час коміту транзакції у Mysql сталася помилка`;
+  override errMysqlCommit = 'Під час коміту транзакції у Mysql сталася помилка';
   /**
    * Користувача із цією адресою електронної пошти чи логіном вже зареєстрований
    */

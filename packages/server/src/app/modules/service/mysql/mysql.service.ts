@@ -92,7 +92,7 @@ export class MysqlService {
     const result = await this.queryInTransaction(poolConnection, sql1, params);
     const sql2 = 'select found_rows() as foundRows;';
     const result2 = await this.queryInTransaction(poolConnection, sql2);
-    this.commit(poolConnection);
+    await this.commit(poolConnection);
     const foundRows = (result2.rows as { foundRows: number }[])[0].foundRows;
     return { result, foundRows };
   }

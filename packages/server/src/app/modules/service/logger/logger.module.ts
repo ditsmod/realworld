@@ -1,5 +1,5 @@
 import { ConsoleLogger, Logger, featureModule, Providers } from '@ditsmod/core';
-import BunyanLogger = require('bunyan');
+import BunyanLogger from 'bunyan';
 
 import { PatchLogger } from './patch-logger.js';
 

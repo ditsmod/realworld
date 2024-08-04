@@ -4,7 +4,9 @@ import * as newman from 'newman';
 
 import { AppModule } from '#app/app.module.js';
 import { MySqlConfigService } from '#service/mysql/mysql-config.service.js';
-import postmanCollection = require('#postman-collection');
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import postmanCollection from '#postman-collection';
 
 describe('postman tests', () => {
   beforeAll((done) => {
@@ -25,6 +27,7 @@ describe('postman tests', () => {
   });
 
   it('run tests with newman', (done) => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     new TestApplication(AppModule, { path: 'api' }).getServer().then((server) => {
       expect.assertions(3);
       const port = 3456;

@@ -174,7 +174,7 @@ export class ArticlesController {
       articlePutData.article
     );
     if (!updateResult.affectedRows) {
-      this.utils.throw403Error('permissions', `You don't have permission to change this article.`);
+      this.utils.throw403Error('permissions', "`You don't have permission to change this article.");
     }
 
     return this.getArticleBySlug(pathParams, newSlug);
@@ -189,7 +189,7 @@ export class ArticlesController {
     const slug = pathParams.slug as string;
     const resultSetHeader = await this.db.deleteArticle(currentUserId, hasPermissions, slug);
     if (!resultSetHeader.affectedRows) {
-      this.utils.throw403Error('permissions', `You don't have permission to delete this article.`);
+      this.utils.throw403Error('permissions', "You don't have permission to delete this article.");
     }
 
     return { ok: 1 };

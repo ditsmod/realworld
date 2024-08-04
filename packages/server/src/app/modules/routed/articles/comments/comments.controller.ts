@@ -69,7 +69,7 @@ export class CommentsController {
     const commentId = pathParams.id as number;
     const resultSetHeader = await this.db.deleteArticle(currentUserId, hasPermissions, commentId);
     if (!resultSetHeader.affectedRows) {
-      utils.throw403Error('permissions', `You don't have permission to delete this comment.`);
+      utils.throw403Error('permissions', "You don't have permission to delete this comment.");
     }
     return { ok: 1 };
   }

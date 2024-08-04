@@ -156,7 +156,7 @@ function callback(match: string, param1: string, param2: string, param3: string)
   return 't=' + (sum || '');
 }
 
-Marked.setBlockRule(/^ *(@{3,})[ \.]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/, function (execArr) {
+Marked.setBlockRule(/^ *(@{3,})[ .]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/, function (execArr) {
   const channel = execArr![2];
   const content = execArr![3];
 

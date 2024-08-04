@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { NodeResponse } from '@ditsmod/core';
 import { NodeRequest } from '@ts-stack/cookies';
-import BunyanLogger = require('bunyan');
+import BunyanLogger from 'bunyan';
 
 const logsDir: string = process.env.LOGS_DIR || '';
 
