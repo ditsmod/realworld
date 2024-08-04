@@ -73,7 +73,7 @@ export class DbService {
 
     if (!hasPermissions) {
       // If no permissions, only owner can update the article.
-      sql += ` and userId = ?;`;
+      sql += ' and userId = ?;';
       params.push(userId);
     }
 
@@ -90,7 +90,7 @@ export class DbService {
 
     if (!hasPermissions) {
       // If no permissions, only owner can delete the article.
-      sql += ` and userId = ?;`;
+      sql += ' and userId = ?;';
       params.push(userId);
     }
 
@@ -232,12 +232,12 @@ export class DbService {
       join dict_tags as t
         using(tagId)`;
 
-      aWhere.push(`t.tagName = ?`);
+      aWhere.push('t.tagName = ?');
       dbParams.push(params.tag);
     }
 
     if (params.author) {
-      aWhere.push(`u.username = ?`);
+      aWhere.push('u.username = ?');
       dbParams.push(params.author);
     }
 
@@ -249,7 +249,7 @@ export class DbService {
         on fav2.userId = u2.userId
       `;
 
-      aWhere.push(`u2.username = ?`);
+      aWhere.push('u2.username = ?');
       dbParams.push(params.favorited);
     }
 

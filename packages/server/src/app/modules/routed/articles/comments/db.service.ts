@@ -28,7 +28,7 @@ export class DbService {
 
     if (!hasPermissions) {
       // If no permissions, only owner can delete the comment.
-      sql += ` and userId = ?;`;
+      sql += ' and userId = ?;';
       params.push(userId);
     }
 
@@ -59,7 +59,7 @@ export class DbService {
     const params = [currentUserId];
     let where = '';
     if (commentId) {
-      where = `where commentId = ?`;
+      where = 'where commentId = ?';
       params.push(commentId);
     }
     const sql = select + where;

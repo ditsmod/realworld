@@ -20,13 +20,13 @@ export class DbService {
     const { email, username, password } = signUpFormData.user;
     await this.checkUserExists({ email, username });
     const params: any[] = [email, username, this.cryptoService.getCryptedPassword(password)];
-    const sql = `insert into curr_users set email = ?, username = ?, password = ?;`;
+    const sql = 'insert into curr_users set email = ?, username = ?, password = ?;';
     const { rows } = await this.mysql.query(sql, params);
     return (rows as ResultSetHeader).insertId;
   }
 
   async checkUserExists({ email, username }: EmailOrUsername) {
-    const sql = `select 1 as userExists from curr_users where email = ? or username = ?;`;
+    const sql = 'select 1 as userExists from curr_users where email = ? or username = ?;';
     const { rows } = await this.mysql.query(sql, [email, username]);
     if ((rows as any[]).length) {
       const dict = this.dictService.getDictionary(ServerDict);

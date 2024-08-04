@@ -90,7 +90,7 @@ export class MysqlService {
   async queryWithFoundRows(sql1: string, params?: any) {
     const poolConnection = await this.startTransaction();
     const result = await this.queryInTransaction(poolConnection, sql1, params);
-    const sql2 = `select found_rows() as foundRows;`;
+    const sql2 = 'select found_rows() as foundRows;';
     const result2 = await this.queryInTransaction(poolConnection, sql2);
     this.commit(poolConnection);
     const foundRows = (result2.rows as { foundRows: number }[])[0].foundRows;

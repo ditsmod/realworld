@@ -91,7 +91,7 @@ class MyRenderer extends Renderer {
 
     // @todo See inserting more correct code than `window.location`.
     if (href.substring(0, 1) == '#') {
-      out = `<a href="` + href + `"`;
+      out = '<a href="' + href + '"';
     } else {
       out = '<a href="' + href + '"';
     }

@@ -15,7 +15,7 @@ export class ServerDict implements Dictionary {
   /**
    * Invalid user name
    */
-  invalidUserName = `Invalid user name`;
+  invalidUserName = 'Invalid user name';
   pageNotFound(paramName: string) {
     return `${paramName}: Page not found`;
   }
@@ -28,7 +28,7 @@ export class ServerDict implements Dictionary {
   /**
    * An error occurred during the Mysql transaction commit
    */
-  errMysqlCommit = `An error occurred during the Mysql transaction commit`;
+  errMysqlCommit = 'An error occurred during the Mysql transaction commit';
   /**
    * A user with this email or username is already registered
    */
