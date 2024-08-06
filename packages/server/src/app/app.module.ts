@@ -56,7 +56,7 @@ import { UtilModule } from '#service/util/util.module.js';
   providersPerApp: [
     ...new Providers()
       .useValue<CorsOpts>(CorsOpts, { origin: '*' })
-      .useLogConfig({ level: 'info' })
+      .useLogConfig({ level: 'info', showExternalLogs: false })
   ],
 })
 export class AppModule {}
