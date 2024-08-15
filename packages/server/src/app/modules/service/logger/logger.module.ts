@@ -3,13 +3,11 @@ import BunyanLogger from 'bunyan';
 
 import { PatchLogger } from './patch-logger.js';
 
-// Uncomment ".useFactory" to allow write logs to packages/server/logs
 @featureModule({
-  providersPerApp: [
-    { token: BunyanLogger, useToken: Logger },
-    ...new Providers()
-      .useClass(Logger, ConsoleLogger)
-      // .useFactory(Logger, [PatchLogger, PatchLogger.prototype.patchLogger]),
-  ],
+  providersPerApp: new Providers()
+    .useToken(BunyanLogger, Logger)
+    .useClass(Logger, ConsoleLogger)
+    .$if(false) // Set to `true` to allow write logs to packages/server/logs
+    .useFactory(Logger, [PatchLogger, PatchLogger.prototype.patchLogger]),
 })
 export class LoggerModule {}

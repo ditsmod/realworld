@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@ditsmod/body-parser": "^2.16.0",
-    "@ditsmod/core": "^2.54.0",
+    "@ditsmod/core": "^2.55.0",
     "@ditsmod/cors": "^2.6.0",
     "@ditsmod/i18n": "^2.12.2",
     "@ditsmod/jwt": "^2.4.0",
@@ -41,7 +41,7 @@
     "@ditsmod/return": "^2.6.0",
     "@ditsmod/routing": "^2.3.0",
     "@ts-stack/chain-error": "^1.2.0",
-    "@ts-stack/cookies": "^1.1.1",
+    "@ts-stack/cookies": "^1.2.2",
     "@ts-stack/openapi-spec": "^3.1.5",
     "bunyan": "^1.8.15",
     "mysql2": "^3.11.0",

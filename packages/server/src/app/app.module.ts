@@ -46,17 +46,13 @@ import { UtilModule } from '#service/util/util.module.js';
     BodyParserModule,
     ErrorHandlerModule,
   ],
-  resolvedCollisionsPerApp: [
-    [Logger, LoggerModule]
-  ],
+  resolvedCollisionsPerApp: [[Logger, LoggerModule]],
   resolvedCollisionsPerReq: [
     [HttpErrorHandler, ErrorHandlerModule],
-    [HttpBackend, ReturnModule]
+    [HttpBackend, ReturnModule],
   ],
-  providersPerApp: [
-    ...new Providers()
-      .useValue<CorsOpts>(CorsOpts, { origin: '*' })
-      .useLogConfig({ level: 'info', showExternalLogs: false })
-  ],
+  providersPerApp: new Providers()
+    .useValue<CorsOpts>(CorsOpts, { origin: '*' })
+    .useLogConfig({ level: 'info', showExternalLogs: false }),
 })
 export class AppModule {}
