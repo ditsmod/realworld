@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@ditsmod/body-parser": "^2.16.0",
-    "@ditsmod/core": "^2.55.0",
+    "@ditsmod/core": "^2.55.1",
     "@ditsmod/cors": "^2.6.0",
     "@ditsmod/i18n": "^2.12.2",
     "@ditsmod/jwt": "^2.4.0",
@@ -48,7 +48,7 @@
     "punycode": "^2.3.1"
   },
   "devDependencies": {
-    "@ditsmod/testing": "^2.10.0",
+    "@ditsmod/testing": "^2.10.1",
     "@types/bunyan": "^1.8.11",
     "@types/newman": "^5.3.6",
     "newman": "^5.3.2"
