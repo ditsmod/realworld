@@ -10,7 +10,11 @@
       "command": "npm start",
       "name": "Run npm start",
       "request": "launch",
-      "type": "node-terminal"
+      "type": "node-terminal",
+      "outFiles": [
+        "${workspaceFolder}/node_modules/@ditsmod/**/*.js",
+        "${workspaceFolder}/packages/*/src/**/*.js"
+      ],
     },
     {
       "name": "Attach by Process ID",
@@ -19,7 +23,11 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "type": "node"
+      "type": "node",
+      "outFiles": [
+        "${workspaceFolder}/node_modules/@ditsmod/**/*.js",
+        "${workspaceFolder}/packages/*/src/**/*.js"
+      ],
     },
     {
       "type": "node",
@@ -31,7 +39,11 @@
       "internalConsoleOptions": "neverOpen",
       "windows": {
         "program": "${workspaceFolder}/node_modules/jest/bin/jest",
-      }
+      },
+      "outFiles": [
+        "${workspaceFolder}/node_modules/@ditsmod/**/*.js",
+        "${workspaceFolder}/packages/*/src/**/*.js"
+      ],
     },
     {
       "type": "node",
@@ -47,7 +59,11 @@
       "internalConsoleOptions": "neverOpen",
       "windows": {
         "program": "${workspaceFolder}/node_modules/jest/bin/jest",
-      }
+      },
+      "outFiles": [
+        "${workspaceFolder}/node_modules/@ditsmod/**/*.js",
+        "${workspaceFolder}/packages/*/src/**/*.js"
+      ],
     }
   ]
 }
