@@ -44,7 +44,7 @@
     "@ts-stack/cookies": "^1.2.2",
     "@ts-stack/openapi-spec": "^3.1.5",
     "bunyan": "^1.8.15",
-    "mysql2": "^3.11.0",
+    "mysql2": "^3.11.2",
     "punycode": "^2.3.1"
   },
   "devDependencies": {
