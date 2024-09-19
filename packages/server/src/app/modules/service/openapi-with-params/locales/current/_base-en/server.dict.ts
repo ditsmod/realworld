@@ -5,13 +5,13 @@ export class ServerDict implements Dictionary {
     return 'en';
   }
   /**
-   * Database query error
-   */
-  mysqlConnect = 'Database query error';
-  /**
    * Database connect error
    */
-  mysqlQuery = 'Database connect error';
+  mysqlConnect = 'Database connect error';
+  /**
+   * Database query error
+   */
+  mysqlQuery = 'Database query error';
   /**
    * Invalid user name
    */

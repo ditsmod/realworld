@@ -7,13 +7,13 @@ export class ServerUkDict extends ServerDict {
     return 'uk';
   }
   /**
-   * Помилка запиту до бази даних
-   */
-  override mysqlConnect = 'Помилка запиту до бази даних';
-  /**
    * Помилка підключення до бази даних
    */
-  override mysqlQuery = 'Помилка підключення до бази даних';
+  override mysqlConnect = 'Помилка підключення до бази даних';
+  /**
+   * Помилка запиту до бази даних
+   */
+  override mysqlQuery = 'Помилка запиту до бази даних';
   /**
    * Невірне ім'я користувача
    */
