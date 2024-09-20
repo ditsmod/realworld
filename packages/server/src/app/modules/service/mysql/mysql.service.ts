@@ -43,7 +43,7 @@ export class MysqlService {
         return { rows, fieldPacket };
       })
       .catch((err) => {
-        return this.handleErr(this.dict.mysqlConnect, err) as any;
+        return this.handleErr(this.dict.mysqlQuery, err) as any;
       });
   }
 
@@ -60,7 +60,7 @@ export class MysqlService {
       .catch(async (err) => {
         await connection.rollback();
         connection.release();
-        return this.handleErr(this.dict.mysqlConnect, err) as any;
+        return this.handleErr(this.dict.mysqlQuery, err) as any;
       });
   }
 
@@ -70,7 +70,7 @@ export class MysqlService {
       .then(() => connection.release())
       .catch(async (err) => {
         await connection.rollback();
-        return this.handleErr(this.dict.mysqlConnect, err) as any;
+        return this.handleErr(this.dict.mysqlQuery, err) as any;
       });
   }
 
