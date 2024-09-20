@@ -1,9 +1,14 @@
-import { createPool, Pool, PoolConnection } from 'mysql2/promise';
+import { createPool, FieldPacket, Pool, PoolConnection } from 'mysql2/promise';
 import { injectable, AnyObj, InputLogLevel, Status, CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 
 import { ServerDict } from '../openapi-with-params/locales/current/index.js';
 import { MySqlConfigService } from './mysql-config.service.js';
+
+export interface QueryReturns<T> {
+  rows: T;
+  fieldPacket: FieldPacket[];
+}
 
 @injectable()
 export class MysqlService {
@@ -29,13 +34,13 @@ export class MysqlService {
     });
   }
 
-  async query<T = AnyObj>(sql: string, params?: any, dbName?: string): Promise<{ rows: T; fieldInfo: any }> {
+  async query<T = AnyObj>(sql: string, params?: any, dbName?: string): Promise<QueryReturns<T>> {
     const connection = await this.getConnection(dbName);
     return connection
       .query(sql, params)
-      .then(([rows, fieldInfo]) => {
+      .then(([rows, fieldPacket]) => {
         connection.release();
-        return { rows, fieldInfo };
+        return { rows, fieldPacket };
       })
       .catch((err) => {
         return this.handleErr(this.dict.mysqlConnect, err) as any;
@@ -48,10 +53,10 @@ export class MysqlService {
     return connection;
   }
 
-  queryInTransaction<T = AnyObj>(connection: PoolConnection, sql: string, params?: any): Promise<any> {
+  queryInTransaction<T = AnyObj>(connection: PoolConnection, sql: string, params?: any): Promise<QueryReturns<T>> {
     return connection
       .query(sql, params)
-      .then(([rows, fieldInfo]) => ({ rows, fieldInfo }))
+      .then(([rows, fieldPacket]) => ({ rows, fieldPacket }))
       .catch(async (err) => {
         await connection.rollback();
         connection.release();
