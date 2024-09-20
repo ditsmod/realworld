@@ -70,6 +70,7 @@ export class MysqlService {
       .then(() => connection.release())
       .catch(async (err) => {
         await connection.rollback();
+        connection.release();
         return this.handleErr(this.dict.mysqlQuery, err) as any;
       });
   }
