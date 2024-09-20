@@ -21,8 +21,14 @@ export class DbService {
       tagList = ?
     ;`;
     const tags = JSON.stringify(tagList || []);
-    const { rows } = await this.mysql.query(sql, [userId, title, slug, description, body, tags]);
-    const result = rows as ResultSetHeader;
+    const { rows: result } = await this.mysql.query<ResultSetHeader>(sql, [
+      userId,
+      title,
+      slug,
+      description,
+      body,
+      tags,
+    ]);
     if (tagList && tagList.length) {
       await this.insertIntoDictTags(userId, tagList);
       await this.insertIntoMapArticlesTags(result.insertId, tagList);

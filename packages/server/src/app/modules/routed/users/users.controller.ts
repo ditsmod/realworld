@@ -6,7 +6,7 @@ import { Injector } from '@ditsmod/core';
 import { HTTP_BODY } from '@ditsmod/body-parser';
 
 import { BearerGuard } from '#service/auth/bearer.guard.js';
-import { ServerDict } from'#service/openapi-with-params/locales/current/index.js';
+import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
 import { DbService } from './db.service.js';
 import { LoginFormData, PutUser, PutUserData, SignUpFormData, UserSessionData } from './models.js';
@@ -50,7 +50,7 @@ export class UsersController {
       throw new CustomError({
         msg1: dict.badPasswordOrEmail('password-or-email'),
         status: Status.UNAUTHORIZED,
-        level: 'trace'
+        level: 'trace',
       });
     }
     const userSessionData = new UserSessionData(dbUser);

@@ -1,4 +1,4 @@
-import { createConnection } from 'mysql2';
+import { createConnection } from 'mysql2/promise';
 import { TestApplication } from '@ditsmod/testing';
 import * as newman from 'newman';
 
@@ -9,10 +9,10 @@ import { MySqlConfigService } from '#service/mysql/mysql-config.service.js';
 import postmanCollection from '#postman-collection';
 
 describe('postman tests', () => {
-  beforeAll((done) => {
+  beforeAll(async () => {
     const config = new MySqlConfigService();
-    const connection = createConnection({ ...config, multipleStatements: true });
-    connection.query(`
+    const connection = await createConnection({ ...config, multipleStatements: true });
+    await connection.query(`
     SET FOREIGN_KEY_CHECKS=0;
     truncate curr_articles;
     truncate curr_comments;
@@ -21,9 +21,7 @@ describe('postman tests', () => {
     truncate map_articles_tags;
     truncate map_favorites;
     truncate map_followers;
-    SET FOREIGN_KEY_CHECKS=1;`,
-      done,
-    );
+    SET FOREIGN_KEY_CHECKS=1;`);
   });
 
   it('run tests with newman', (done) => {
@@ -50,7 +48,7 @@ describe('postman tests', () => {
             expect(summary.error).toBeFalsy();
             expect(summary.run.failures.length).toBe(0);
             server.close(done);
-          },
+          }
         );
       });
     });

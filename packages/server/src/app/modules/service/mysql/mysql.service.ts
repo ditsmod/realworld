@@ -1,4 +1,4 @@
-import { createPool, Pool, PoolConnection } from 'mysql2';
+import { createPool, Pool, PoolConnection } from 'mysql2/promise';
 import { injectable, AnyObj, InputLogLevel, Status, CustomError } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 
@@ -16,70 +16,57 @@ export class MysqlService {
     if (!this.dict) {
       this.dict = this.dictService.getDictionary(ServerDict);
     }
-    return new Promise((resolve, reject) => {
-      const config = { ...this.config };
-      const database = (dbName || config.database) as string;
-      config.database = database;
-      if (!this.pools[database]) {
-        this.pools[database] = createPool(config);
-      }
 
-      this.pools[database].getConnection((err, connection) => {
-        if (err) {
-          this.handleErr(this.dict.mysqlConnect, err, reject);
-        } else {
-          resolve(connection);
-        }
-      });
+    const config = { ...this.config };
+    const database = (dbName || config.database) as string;
+    config.database = database;
+    if (!this.pools[database]) {
+      this.pools[database] = createPool(config);
+    }
+
+    return this.pools[database].getConnection().catch((err) => {
+      return this.handleErr(this.dict.mysqlConnect, err) as any;
     });
   }
 
-  async query<T = AnyObj>(sql: string, params?: any, dbName?: string): Promise<any> {
+  async query<T = AnyObj>(sql: string, params?: any, dbName?: string): Promise<{ rows: T; fieldInfo: any }> {
     const connection = await this.getConnection(dbName);
-    return new Promise((resolve, reject) => {
-      connection.query(sql, params, (err, rows, fieldInfo) => {
+    return connection
+      .query(sql, params)
+      .then(([rows, fieldInfo]) => {
         connection.release();
-        if (err) {
-          this.handleErr(this.dict.mysqlQuery, err, reject);
-        } else {
-          resolve({ rows, fieldInfo });
-        }
+        return { rows, fieldInfo };
+      })
+      .catch((err) => {
+        return this.handleErr(this.dict.mysqlConnect, err) as any;
       });
-    });
   }
 
   async startTransaction(dbName?: string) {
     const connection = await this.getConnection(dbName);
-    connection.beginTransaction((error) => null);
+    await connection.beginTransaction();
     return connection;
   }
 
   queryInTransaction<T = AnyObj>(connection: PoolConnection, sql: string, params?: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      connection.query(sql, params, (err, rows, fieldInfo) => {
-        if (err) {
-          connection.rollback((error) => null);
-          connection.release();
-          this.handleErr(this.dict.mysqlQuery, err, reject);
-        } else {
-          resolve({ rows, fieldInfo });
-        }
+    return connection
+      .query(sql, params)
+      .then(([rows, fieldInfo]) => ({ rows, fieldInfo }))
+      .catch(async (err) => {
+        await connection.rollback();
+        connection.release();
+        return this.handleErr(this.dict.mysqlConnect, err) as any;
       });
-    });
   }
 
   commit(connection: PoolConnection): Promise<void> {
-    return new Promise((resolve, reject) => {
-      connection.commit((err) => {
-        if (err) {
-          connection.rollback((error) => null);
-          this.handleErr(this.dict.errMysqlCommit, err, reject);
-        } else {
-          resolve();
-        }
-        connection.release();
+    return connection
+      .commit()
+      .then(() => connection.release())
+      .catch(async (err) => {
+        await connection.rollback();
+        return this.handleErr(this.dict.mysqlConnect, err) as any;
       });
-    });
   }
 
   /**
@@ -96,7 +83,7 @@ export class MysqlService {
     return { result, foundRows };
   }
 
-  protected handleErr(msg1: string, err: NodeJS.ErrnoException, reject: (...args: any[]) => void) {
+  protected handleErr(msg1: string, err: NodeJS.ErrnoException) {
     let level: InputLogLevel;
     if (err.code == 'fatal') {
       level = 'fatal';
@@ -110,6 +97,6 @@ export class MysqlService {
       status = +rawStatus || status;
     }
     const detailErr = new CustomError({ msg1: msg1, level, status }, err);
-    reject(detailErr);
+    throw detailErr;
   }
 }
