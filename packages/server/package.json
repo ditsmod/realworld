@@ -32,11 +32,11 @@
   },
   "dependencies": {
     "@ditsmod/body-parser": "^2.17.1",
-    "@ditsmod/core": "^2.56.1",
+    "@ditsmod/core": "^2.57.0",
     "@ditsmod/cors": "^2.7.1",
     "@ditsmod/i18n": "^2.13.1",
     "@ditsmod/jwt": "^2.4.0",
-    "@ditsmod/openapi": "^2.25.1",
+    "@ditsmod/openapi": "^2.26.0",
     "@ditsmod/openapi-validation": "^2.12.1",
     "@ditsmod/return": "^2.6.0",
     "@ditsmod/routing": "^2.4.1",
