@@ -2,7 +2,6 @@ import { BodyParserModule } from '@ditsmod/body-parser';
 import { HttpErrorHandler, HttpBackend, Logger, Providers, rootModule } from '@ditsmod/core';
 import { CorsOpts } from '@ditsmod/cors';
 import { ReturnModule } from '@ditsmod/return';
-import { RoutingModule } from '@ditsmod/routing';
 
 import { ArticlesModule } from '#routed/articles/articles.module.js';
 import { ProfilesModule } from '#routed/profiles/profiles.module.js';
@@ -24,7 +23,6 @@ import { UtilModule } from '#service/util/util.module.js';
     { path: 'tags', module: TagsModule },
   ],
   imports: [
-    RoutingModule,
     ReturnModule,
     LoggerModule,
     AuthModule,
@@ -37,7 +35,6 @@ import { UtilModule } from '#service/util/util.module.js';
     ErrorHandlerModule,
   ],
   exports: [
-    RoutingModule,
     ReturnModule,
     AuthModule,
     openapiModuleWithParams,
