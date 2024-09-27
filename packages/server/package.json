@@ -11,11 +11,13 @@
     "lib": "src"
   },
   "scripts": {
-    "start": "npm run build && nodemon --env-file=.env --enable-source-maps dist/main.js",
+    "start": "npm run build && node --watch --env-file=.env --enable-source-maps dist/main.js",
     "start-prod": "npm run build && node --env-file=.env dist/main.js",
     "esm-jest": "node --env-file=.env --experimental-vm-modules --no-warnings=ExperimentalWarning --enable-source-maps ../../node_modules/jest/bin/jest.js",
     "test": "tsc -b tsconfig.test.json && npm run esm-jest",
     "build": "tsc -b tsconfig.build.json",
+    "watch": "npm run build -- --watch",
+    "start:dev": "concurrently -r 'npm:watch' 'npm:start'",
     "clean": "rimraf dist*"
   },
   "imports": {
