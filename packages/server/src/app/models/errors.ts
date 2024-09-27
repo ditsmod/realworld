@@ -1,4 +1,4 @@
-import { property } from '@ditsmod/openapi';
+import { property, REQUIRED } from '@ditsmod/openapi';
 
 export class ErrorField {
   @property({}, { array: String })
@@ -6,6 +6,6 @@ export class ErrorField {
 }
 
 export class ErrorTemplate {
-  @property()
+  @property({ [REQUIRED]: true })
   errors: ErrorField;
 }

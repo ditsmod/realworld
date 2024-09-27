@@ -12,7 +12,7 @@ type KeyOf<T extends Model> = Extract<keyof T['prototype'], string>;
 type KeysOf<T extends Model> = [KeyOf<T>, ...KeyOf<T>[]];
 
 /**
- * Helper to work with OpenAPI OperationObject.
+ * Helper to work with OpenAPI `OperationObject`.
  */
 export class OasOperationObject {
   private operationObject: OperationObject = { responses: {} };
