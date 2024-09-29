@@ -46,7 +46,7 @@ And fill this file.
 npm start
 ```
 
-After that, see OpenAPI docs on [http://0.0.0.0:3000/api/openapi](http://0.0.0.0:3000/api/openapi) and paste "http://0.0.0.0:3000/api/openapi.json" (or *.yaml) in the field above.
+After that, see OpenAPI docs on [http://0.0.0.0:3000/api/openapi](http://0.0.0.0:3000/api/openapi).
 
 ## Postman tests
 
