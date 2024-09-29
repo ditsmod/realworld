@@ -20,20 +20,20 @@
     "postinstall": "npm run clean"
   },
   "devDependencies": {
-    "@eslint/js": "^9.10.0",
+    "@eslint/js": "^9.11.1",
     "@types/eslint__js": "^8.42.3",
-    "@types/jest": "^29.5.12",
+    "@types/jest": "^29.5.13",
     "@types/node": "~18.11.19",
     "bunyan": "^1.8.15",
     "concurrently": "^9.0.1",
-    "eslint": "^8.57.0",
+    "eslint": "^8.57.1",
     "jest": "^29.7.0",
     "prettier": "^2.8.8",
     "rimraf": "^4.4.1",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^4.9.5",
-    "typescript-eslint": "^8.5.0"
+    "typescript-eslint": "^8.7.0"
   },
   "engines": {
     "node": ">= 20.6.0"
