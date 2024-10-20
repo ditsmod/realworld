@@ -38,7 +38,7 @@
     "@ditsmod/cors": "^2.8.0",
     "@ditsmod/i18n": "^2.13.1",
     "@ditsmod/jwt": "^2.4.0",
-    "@ditsmod/openapi": "^2.27.0",
+    "@ditsmod/openapi": "^2.27.2",
     "@ditsmod/openapi-validation": "^2.12.1",
     "@ditsmod/return": "^2.6.1",
     "@ditsmod/routing": "^2.5.1",
