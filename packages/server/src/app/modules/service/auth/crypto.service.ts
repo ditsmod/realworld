@@ -1,5 +1,5 @@
 import { createHmac, randomBytes } from 'crypto';
-import { NodeResponse, NODE_RES, inject, NodeRequest, NODE_REQ } from '@ditsmod/core';
+import { HttpResponse, HTTP_RES, inject, HttpRequest, HTTP_REQ } from '@ditsmod/core';
 import { Cookies } from '@ts-stack/cookies';
 import { injectable } from '@ditsmod/core';
 
@@ -9,8 +9,8 @@ import { ModuleConfigService } from './config.service.js';
 export class CryptoService {
   constructor(
     private config: ModuleConfigService,
-    @inject(NODE_REQ) private nodeReq: NodeRequest,
-    @inject(NODE_RES) private nodeRes: NodeResponse
+    @inject(HTTP_REQ) private nodeReq: HttpRequest,
+    @inject(HTTP_RES) private nodeRes: HttpResponse
   ) {}
   /**
    * Encrypts the password.

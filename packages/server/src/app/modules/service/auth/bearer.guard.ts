@@ -1,4 +1,4 @@
-import { CanActivate, inject, Injector, NodeRequest, NODE_REQ, Status } from '@ditsmod/core';
+import { CanActivate, inject, Injector, HttpRequest, HTTP_REQ, Status } from '@ditsmod/core';
 import { JwtService, JWT_PAYLOAD, VerifyErrors } from '@ditsmod/jwt';
 import { oasGuard } from '@ditsmod/openapi';
 
@@ -22,7 +22,7 @@ import { oasGuard } from '@ditsmod/openapi';
 export class BearerGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
-    @inject(NODE_REQ) private nodeReq: NodeRequest,
+    @inject(HTTP_REQ) private nodeReq: HttpRequest,
     private injector: Injector,
   ) {}
 

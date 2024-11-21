@@ -1,5 +1,5 @@
 import { createHash } from 'crypto';
-import { NodeRequest, Status, CustomError, injectable } from '@ditsmod/core';
+import { HttpRequest, Status, CustomError, injectable } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 
 import { ServerDict } from '../openapi-with-params/locales/current/_base-en/server.dict.js';
@@ -8,7 +8,7 @@ import { ServerDict } from '../openapi-with-params/locales/current/_base-en/serv
 export class UtilService {
   constructor(private dictService: DictService) {}
 
-  getIp(nodeReq: NodeRequest) {
+  getIp(nodeReq: HttpRequest) {
     return (nodeReq.headers['x-forwarded-for'] as string) || nodeReq.socket.remoteAddress;
   }
 
