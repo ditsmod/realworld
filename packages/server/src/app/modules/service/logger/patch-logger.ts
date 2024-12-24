@@ -1,14 +1,14 @@
-import { Logger, LoggerConfig, InputLogLevel, OutputLogLevel, methodFactory } from '@ditsmod/core';
+import { Logger, LoggerConfig, InputLogLevel, OutputLogLevel, factoryMethod } from '@ditsmod/core';
 import { createLogger, LogLevel as BunyanLogLevel } from 'bunyan';
 import * as BunyanLogger from 'bunyan';
 
 import { loggerOptions } from './logger-options.js';
 
 export class PatchLogger {
-  @methodFactory()
+  @factoryMethod()
   patchLogger(config: LoggerConfig) {
     const logger = createLogger(loggerOptions);
-    this.setLogLeveL(logger, config.level);
+    this.setLogLeveL(logger, config.level || 'info');
 
     // Logger must have `log` method.
     (logger as unknown as Logger).log = (level: InputLogLevel, ...args: any[]) => {
@@ -34,7 +34,7 @@ export class PatchLogger {
         { level: 100, name: 'off' },
       ];
       const levelNumber = logger.level();
-      const levelName = bunyanLevels.find((i) => i.level == levelNumber)?.name || config.level;
+      const levelName = bunyanLevels.find((i) => i.level == levelNumber)?.name || config.level || 'info';
       return levelName;
     };
 

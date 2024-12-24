@@ -1,7 +1,6 @@
 import { BodyParserModule } from '@ditsmod/body-parser';
 import { HttpErrorHandler, Logger, Providers, rootModule } from '@ditsmod/core';
 import { CorsOpts } from '@ditsmod/cors';
-import { ReturnModule } from '@ditsmod/return';
 
 import { ArticlesModule } from '#routed/articles/articles.module.js';
 import { ProfilesModule } from '#routed/profiles/profiles.module.js';
@@ -14,7 +13,6 @@ import { LoggerModule } from '#service/logger/logger.module.js';
 import { MysqlModule } from '#service/mysql/mysql.module.js';
 import { openapiModuleWithParams, validationModuleWithParams } from '#service/openapi-with-params/index.js';
 import { UtilModule } from '#service/util/util.module.js';
-import { HttpBackend } from '@ditsmod/routing';
 
 @rootModule({
   appends: [
@@ -24,7 +22,6 @@ import { HttpBackend } from '@ditsmod/routing';
     { path: 'tags', module: TagsModule },
   ],
   imports: [
-    ReturnModule,
     LoggerModule,
     AuthModule,
     MysqlModule,
@@ -36,7 +33,6 @@ import { HttpBackend } from '@ditsmod/routing';
     ErrorHandlerModule,
   ],
   exports: [
-    ReturnModule,
     AuthModule,
     openapiModuleWithParams,
     validationModuleWithParams,
@@ -47,7 +43,6 @@ import { HttpBackend } from '@ditsmod/routing';
   resolvedCollisionsPerApp: [[Logger, LoggerModule]],
   resolvedCollisionsPerReq: [
     [HttpErrorHandler, ErrorHandlerModule],
-    [HttpBackend, ReturnModule],
   ],
   providersPerApp: new Providers()
     .useValue<CorsOpts>(CorsOpts, { origin: '*' })

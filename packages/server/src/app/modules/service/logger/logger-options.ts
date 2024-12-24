@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { HttpRequest, HttpResponse } from '@ditsmod/core';
+import { RawRequest, RawResponse } from '@ditsmod/core';
 import BunyanLogger from 'bunyan';
 
 const logsDir: string = process.env.LOGS_DIR || '';
@@ -12,7 +12,7 @@ export const loggerOptions: BunyanLogger.LoggerOptions = {
   name: 'logger-1',
   serializers: {
     err: BunyanLogger.stdSerializers.err,
-    req: (nodeReq: HttpRequest) => {
+    req: (nodeReq: RawRequest) => {
       if (!nodeReq?.socket) {
         return nodeReq;
       }
@@ -25,7 +25,7 @@ export const loggerOptions: BunyanLogger.LoggerOptions = {
         remotePort: nodeReq.socket.remotePort,
       };
     },
-    res: (nodeRes: HttpResponse) => {
+    res: (nodeRes: RawResponse) => {
       if (!nodeRes.statusCode) {
         return nodeRes;
       }

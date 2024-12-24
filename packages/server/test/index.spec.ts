@@ -26,7 +26,7 @@ describe('postman tests', () => {
 
   it('run tests with newman', (done) => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    new TestApplication(AppModule, { path: 'api' }).getServer().then((server) => {
+    TestApplication.createTestApp(AppModule, { path: 'api' }).getServer().then((server) => {
       expect.assertions(3);
       const port = 3456;
 
