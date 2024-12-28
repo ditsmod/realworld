@@ -9,7 +9,7 @@ import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
 import { DbService } from './db.service.js';
-import { LoginFormData, PutUser, PutUserData, SignUpFormData, UserSessionData } from './models.js';
+import { LoginFormData, PutUser, PutUserData, SignUpData, SignUpFormData, UserSessionData } from './models.js';
 
 @controller()
 export class UsersController {
@@ -30,6 +30,7 @@ export class UsersController {
   async signUpUser() {
     const signUpFormData = this.body as SignUpFormData;
     const userId = await this.db.signUpUser(signUpFormData);
+    delete (signUpFormData.user as Partial<SignUpData>).password;
     const userSessionData = new UserSessionData(signUpFormData.user);
     userSessionData.user.token = await this.jwtService.signWithSecret({ userId });
     return userSessionData;

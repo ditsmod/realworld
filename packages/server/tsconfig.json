@@ -6,7 +6,6 @@
     "baseUrl": ".",
     "resolveJsonModule":true,
     "paths": {
-      "#postman-collection": ["./test/conduit.postman-collection.json"],
       "#app/*": ["./src/app/*"],
       "#configs/*": ["./src/app/configs/*"],
       "#classes/*": ["./src/app/classes/*"],
@@ -19,7 +18,6 @@
       "#shared/*": ["../shared/src/*"],
     }
   },
-  "include": ["src", "test"],
-  "files": ["./test/conduit.postman-collection.json"],
+  "include": ["src", "e2e"],
   "references": [{ "path": "../shared/tsconfig.server.json" }]
 }
