@@ -1,6 +1,6 @@
 import { BodyParserModule } from '@ditsmod/body-parser';
 import { HttpErrorHandler, Logger, Providers, rootModule } from '@ditsmod/core';
-import { CorsOpts } from '@ditsmod/cors';
+import { CorsOptions } from '@ditsmod/cors';
 
 import { ArticlesModule } from '#routed/articles/articles.module.js';
 import { ProfilesModule } from '#routed/profiles/profiles.module.js';
@@ -45,7 +45,7 @@ import { UtilModule } from '#service/util/util.module.js';
     [HttpErrorHandler, ErrorHandlerModule],
   ],
   providersPerApp: new Providers()
-    .useValue<CorsOpts>(CorsOpts, { origin: '*' })
+    .useValue<CorsOptions>(CorsOptions, { origin: '*' })
     .useLogConfig({ level: 'info', showExternalLogs: false }),
 })
 export class AppModule {}

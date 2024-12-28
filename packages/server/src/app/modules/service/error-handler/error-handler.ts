@@ -1,5 +1,5 @@
 import { inject, injectable, RawResponse, RAW_RES, Req, Res } from '@ditsmod/core';
-import { HttpErrorHandler, ErrorOpts, Status, Logger, isChainError } from '@ditsmod/core';
+import { HttpErrorHandler, ErrorInfo, Status, Logger, isChainError } from '@ditsmod/core';
 import { ErrorObject as OriginalErrorObject } from 'ajv';
 
 import { AnyObj } from '#shared';
@@ -17,7 +17,7 @@ export class ErrorHandler implements HttpErrorHandler {
 
   async handleError(err: Error) {
     const req = this.req.toString();
-    if (isChainError<ErrorOpts>(err)) {
+    if (isChainError<ErrorInfo>(err)) {
       const { level, status, args1 } = err.info;
       this.logger.log(level || 'debug', { err, req });
       if (Array.isArray(args1)) {

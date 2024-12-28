@@ -12,7 +12,7 @@ export class PermissionsGuard implements CanActivate {
     if (await this.authService.hasPermissions(params)) {
       return true;
     } else {
-      return Status.FORBIDDEN;
+      return new Response(null, { status: Status.FORBIDDEN });
     }
   }
 }
