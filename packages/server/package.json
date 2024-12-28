@@ -13,8 +13,8 @@
   "scripts": {
     "start": "npm run build && node --watch --env-file=.env --enable-source-maps dist/main.js",
     "start-prod": "npm run build && node --env-file=.env dist/main.js",
-    "esm-jest": "node --env-file=.env --experimental-vm-modules --no-warnings=ExperimentalWarning --enable-source-maps ../../node_modules/jest/bin/jest.js",
-    "test": "tsc -b tsconfig.test.json && npm run esm-jest",
+    "test": "npm run build-test && node --env-file=.env --enable-source-maps ../../node_modules/.bin/vitest",
+    "build-test": "tsc -b tsconfig.test.json",
     "build": "tsc -b tsconfig.build.json",
     "watch": "npm run build -- --watch",
     "start:dev": "concurrently -r 'npm:watch' 'npm:start'",
@@ -33,6 +33,7 @@
     "#shared": "shared"
   },
   "dependencies": {
+    "@ditsmod/authjs": "^3.0.0-alpha.2",
     "@ditsmod/body-parser": "^3.0.0-alpha.2",
     "@ditsmod/core": "^3.0.0-alpha.2",
     "@ditsmod/cors": "^3.0.0-alpha.2",

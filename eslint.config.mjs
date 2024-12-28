@@ -9,6 +9,7 @@ export default tseslint.config(
   {
     languageOptions: {
       parserOptions: {
+        projectService: true,
         project: [
           './packages/*/tsconfig.json',
         ]
@@ -44,7 +45,7 @@ export default tseslint.config(
       'website/*',
       'node_modules/*',
       'eslint.config.mjs',
-      '**/jest.config.ts',
+      '**/vitest.config.ts',
     ],
   },
 );

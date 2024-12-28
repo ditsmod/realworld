@@ -1,4 +1,5 @@
 import { Status } from '@ditsmod/core';
+import { describe, it, expect } from 'vitest';
 
 import { UserSessionData } from '#routed/users/models.js';
 import { OasOperationObject } from './oas-helpers.js';

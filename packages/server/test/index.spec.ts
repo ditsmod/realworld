@@ -1,12 +1,14 @@
 import { createConnection } from 'mysql2/promise';
 import { TestApplication } from '@ditsmod/testing';
 import * as newman from 'newman';
+import { beforeAll, describe, expect } from 'vitest';
 
 import { AppModule } from '#app/app.module.js';
 import { MySqlConfigService } from '#service/mysql/mysql-config.service.js';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import postmanCollection from '#postman-collection';
+import { it } from 'node:test';
 
 describe('postman tests', () => {
   beforeAll(async () => {
@@ -24,33 +26,35 @@ describe('postman tests', () => {
     SET FOREIGN_KEY_CHECKS=1;`);
   });
 
-  it('run tests with newman', (done) => {
+  it('run tests with newman', { timeout: 35000 }, (done) => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    TestApplication.createTestApp(AppModule, { path: 'api' }).getServer().then((server) => {
-      expect.assertions(3);
-      const port = 3456;
+    TestApplication.createTestApp(AppModule, { path: 'api' })
+      .getServer()
+      .then((server) => {
+        expect.assertions(3);
+        const port = 3456;
 
-      server.listen(port, '0.0.0.0', () => {
-        newman.run(
-          {
-            collection: postmanCollection,
-            reporters: 'cli',
-            envVar: [
-              { key: 'APIURL', value: `http://0.0.0.0:${port}/api` },
-              { key: 'EMAIL', value: 'any-email@gmail.com' },
-              { key: 'USERNAME', value: 'any-username' },
-              { key: 'PASSWORD', value: 'any-password' },
-            ],
-            delayRequest: 0,
-          },
-          (err, summary) => {
-            expect(err).toBeFalsy();
-            expect(summary.error).toBeFalsy();
-            expect(summary.run.failures.length).toBe(0);
-            server.close(done);
-          }
-        );
+        server.listen(port, '0.0.0.0', () => {
+          newman.run(
+            {
+              collection: postmanCollection,
+              reporters: 'cli',
+              envVar: [
+                { key: 'APIURL', value: `http://0.0.0.0:${port}/api` },
+                { key: 'EMAIL', value: 'any-email@gmail.com' },
+                { key: 'USERNAME', value: 'any-username' },
+                { key: 'PASSWORD', value: 'any-password' },
+              ],
+              delayRequest: 0,
+            },
+            (err, summary) => {
+              expect(err).toBeFalsy();
+              expect(summary.error).toBeFalsy();
+              expect(summary.run.failures.length).toBe(0);
+              server.close(done);
+            }
+          );
+        });
       });
-    });
-  }, 35000);
+  });
 });
