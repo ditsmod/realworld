@@ -1,4 +1,4 @@
-import { inject, injectable, RawResponse, RAW_RES, Req, Res } from '@ditsmod/core';
+import { inject, injectable, RawResponse, RAW_RES, Req, Res, RequestContext } from '@ditsmod/core';
 import { HttpErrorHandler, ErrorInfo, Status, Logger, isChainError } from '@ditsmod/core';
 import { ErrorObject as OriginalErrorObject } from 'ajv';
 
@@ -15,7 +15,7 @@ export class ErrorHandler implements HttpErrorHandler {
     @inject(RAW_RES) private nodeRes: RawResponse
   ) {}
 
-  async handleError(err: Error) {
+  async handleError(err: Error, ctx: RequestContext) {
     const req = this.req.toString();
     if (isChainError<ErrorInfo>(err)) {
       const { level, status, args1 } = err.info;
@@ -23,17 +23,20 @@ export class ErrorHandler implements HttpErrorHandler {
       if (Array.isArray(args1)) {
         // Messages from ajv validator
         const errors = this.transformArrToObj(args1);
-        this.sendError(errors, status);
+        ctx.rawRes.statusCode = status || Status.INTERNAL_SERVER_ERROR;
+        this.sendError(errors);
       } else {
         let parameter = 'parameter';
         if (args1?.parameter) {
           parameter = args1.parameter;
         }
-        this.sendError({ [parameter]: err.message }, status);
+        ctx.rawRes.statusCode = status || Status.INTERNAL_SERVER_ERROR;
+        this.sendError({ [parameter]: err.message });
       }
     } else {
       this.logger.log('error', { err, req });
-      this.sendError({ handler: 'Internal server error' }, Status.INTERNAL_SERVER_ERROR);
+      ctx.rawRes.statusCode = Status.INTERNAL_SERVER_ERROR;
+      this.sendError({ handler: 'Internal server error' });
     }
   }
 
@@ -45,10 +48,10 @@ export class ErrorHandler implements HttpErrorHandler {
     return errors;
   }
 
-  protected sendError(errors: AnyObj, status?: Status) {
+  protected sendError(errors: AnyObj) {
     if (!this.nodeRes.headersSent) {
       this.addRequestIdToHeader();
-      this.res.sendJson({ errors }, status);
+      this.res.sendJson({ errors });
     }
   }
 
