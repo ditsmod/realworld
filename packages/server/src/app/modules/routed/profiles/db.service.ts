@@ -8,7 +8,7 @@ import { ResultSetHeader } from 'mysql2';
 export class DbService {
   constructor(private mysql: MysqlService) {}
 
-  async getProfile(currentUserId: number, targetUserName: string) {
+  async getProfile(currentUserId: number, targetUserName: string): Promise<Profile | undefined> {
     const sql = `
     select
       username,
