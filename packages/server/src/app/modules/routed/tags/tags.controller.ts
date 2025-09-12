@@ -1,4 +1,4 @@
-import { controller } from '@ditsmod/core';
+import { controller } from '@ditsmod/rest';
 import { oasRoute } from '@ditsmod/openapi';
 
 import { OasOperationObject } from '#utils/oas-helpers.js';

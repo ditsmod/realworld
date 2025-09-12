@@ -1,3 +1,4 @@
+import { initRest } from '@ditsmod/rest';
 import { featureModule } from '@ditsmod/core';
 import { CorsModule } from '@ditsmod/cors';
 import { OasOptions } from '@ditsmod/openapi';
@@ -7,7 +8,7 @@ import { CommentsModule } from './comments/comments.module.js';
 import { DbService } from './db.service.js';
 import { FavoriteModule } from './favorite/favorite.module.js';
 
-@featureModule({
+@initRest({
   imports: [CorsModule],
   appends: [
     { path: 'comments', module: CommentsModule },
@@ -21,4 +22,5 @@ import { FavoriteModule } from './favorite/favorite.module.js';
     } as OasOptions,
   },
 })
+@featureModule()
 export class ArticlesModule {}

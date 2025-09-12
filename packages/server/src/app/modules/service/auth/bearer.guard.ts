@@ -1,6 +1,7 @@
-import { CanActivate, inject, Injector, RawRequest, RAW_REQ, Status } from '@ditsmod/core';
+import { inject, Injector, Status } from '@ditsmod/core';
 import { JwtService, JWT_PAYLOAD, VerifyErrors } from '@ditsmod/jwt';
 import { oasGuard } from '@ditsmod/openapi';
+import { CanActivate, RAW_REQ, RawRequest } from '@ditsmod/rest';
 
 /**
  * If user successfully passed this guard, you can use `this.req.jwtPayload`.

@@ -1,6 +1,7 @@
-import { controller, inject, PATH_PARAMS, pickProperties, Status } from '@ditsmod/core';
+import { inject, pickProperties, Status } from '@ditsmod/core';
 import { oasRoute } from '@ditsmod/openapi';
 import { HTTP_BODY } from '@ditsmod/body-parser';
+import { controller, PATH_PARAMS } from '@ditsmod/rest';
 
 import { Permission } from '#shared';
 import { BearerGuard } from '#service/auth/bearer.guard.js';

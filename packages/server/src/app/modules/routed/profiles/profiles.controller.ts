@@ -1,4 +1,4 @@
-import { controller, inject, PATH_PARAMS } from '@ditsmod/core';
+import { inject } from '@ditsmod/core';
 import { oasRoute } from '@ditsmod/openapi';
 import { JWT_PAYLOAD } from '@ditsmod/jwt';
 
@@ -9,6 +9,7 @@ import { UtilService } from '#service/util/util.service.js';
 import { AuthService } from '#service/auth/auth.service.js';
 import { Profile, ProfileData } from './models.js';
 import { DbService } from './db.service.js';
+import { controller, PATH_PARAMS } from '@ditsmod/rest';
 
 @controller()
 export class ProfilesController {

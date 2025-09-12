@@ -1,4 +1,5 @@
-import { controller, inject, PATH_PARAMS } from '@ditsmod/core';
+import { inject } from '@ditsmod/core';
+import { controller, PATH_PARAMS } from '@ditsmod/rest';
 import { oasRoute } from '@ditsmod/openapi';
 
 import { BearerGuard } from '#service/auth/bearer.guard.js';

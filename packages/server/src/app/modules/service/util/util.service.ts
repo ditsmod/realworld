@@ -1,6 +1,7 @@
 import { createHash } from 'crypto';
-import { RawRequest, Status, CustomError, injectable } from '@ditsmod/core';
+import { Status, CustomError, injectable } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
+import { RawRequest } from '@ditsmod/rest';
 
 import { ServerDict } from '../openapi-with-params/locales/current/_base-en/server.dict.js';
 

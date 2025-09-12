@@ -1,3 +1,4 @@
+import { initRest } from '@ditsmod/rest';
 import { featureModule } from '@ditsmod/core';
 import { CorsModule } from '@ditsmod/cors';
 import { getParams, OasOptions } from '@ditsmod/openapi';
@@ -8,7 +9,7 @@ import { DbService as ArticleDbService } from '../db.service.js';
 import { DbService } from './db.service.js';
 import { FavoriteController } from './favorite.controller.js';
 
-@featureModule({
+@initRest({
   imports: [CorsModule],
   controllers: [FavoriteController],
   providersPerReq: [DbService, ArticlesController, ArticleDbService],
@@ -19,4 +20,5 @@ import { FavoriteController } from './favorite.controller.js';
     } as OasOptions,
   },
 })
+@featureModule()
 export class FavoriteModule {}

@@ -1,14 +1,5 @@
-import {
-  controller,
-  pickProperties,
-  Status,
-  CustomError,
-  inject,
-  PATH_PARAMS,
-  QUERY_PARAMS,
-  optional,
-  Injector,
-} from '@ditsmod/core';
+import { pickProperties, Status, CustomError, inject, optional, Injector } from '@ditsmod/core';
+import { controller, PATH_PARAMS, QUERY_PARAMS } from '@ditsmod/rest';
 import { oasRoute } from '@ditsmod/openapi';
 import { DictService } from '@ditsmod/i18n';
 import { JWT_PAYLOAD } from '@ditsmod/jwt';

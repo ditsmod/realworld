@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { RawRequest, RawResponse } from '@ditsmod/core';
+import { RawRequest, RawResponse } from '@ditsmod/rest';
 import BunyanLogger from 'bunyan';
 
 const logsDir: string = process.env.LOGS_DIR || '';

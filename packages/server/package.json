@@ -32,15 +32,15 @@
     "#shared": "shared"
   },
   "dependencies": {
-    "@ditsmod/authjs": "^3.0.0-alpha.3",
-    "@ditsmod/body-parser": "^3.0.0-alpha.3",
-    "@ditsmod/core": "^3.0.0-alpha.3",
-    "@ditsmod/cors": "^3.0.0-alpha.3",
-    "@ditsmod/i18n": "^3.0.0-alpha.3",
-    "@ditsmod/jwt": "^3.0.0-alpha.3",
-    "@ditsmod/openapi": "^3.0.0-alpha.3",
-    "@ditsmod/openapi-validation": "^3.0.0-alpha.3",
-    "@ditsmod/routing": "^3.0.0-alpha.3",
+    "@ditsmod/authjs": "^3.0.0-alpha.5",
+    "@ditsmod/body-parser": "^3.0.0-alpha.5",
+    "@ditsmod/core": "^3.0.0-alpha.5",
+    "@ditsmod/cors": "^3.0.0-alpha.5",
+    "@ditsmod/i18n": "^3.0.0-alpha.5",
+    "@ditsmod/jwt": "^3.0.0-alpha.5",
+    "@ditsmod/openapi": "^3.0.0-alpha.5",
+    "@ditsmod/openapi-validation": "^3.0.0-alpha.5",
+    "@ditsmod/rest": "^3.0.0-alpha.5",
     "@ts-stack/chain-error": "^1.4.1",
     "@ts-stack/cookies": "^1.2.2",
     "@ts-stack/openapi-spec": "^3.1.6",
@@ -49,7 +49,7 @@
     "punycode": "^2.3.1"
   },
   "devDependencies": {
-    "@ditsmod/testing": "^3.0.0-alpha.3",
+    "@ditsmod/testing": "^3.0.0-alpha.5",
     "@types/bunyan": "^1.8.11",
     "@types/newman": "^5.3.6",
     "@types/supertest": "^6.0.3",

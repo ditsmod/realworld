@@ -1,5 +1,5 @@
-import { inject, injectable, RawResponse, RAW_RES, Req, Res, RequestContext } from '@ditsmod/core';
-import { HttpErrorHandler, ErrorInfo, Status, Logger, isChainError } from '@ditsmod/core';
+import { inject, injectable, ErrorInfo, Status, Logger, isChainError } from '@ditsmod/core';
+import { HttpErrorHandler, RawResponse, RAW_RES, Req, Res, RequestContext } from '@ditsmod/rest';
 import { ErrorObject as OriginalErrorObject } from 'ajv';
 
 import { AnyObj } from '#shared';

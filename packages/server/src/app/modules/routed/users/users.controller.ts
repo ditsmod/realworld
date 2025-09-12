@@ -1,9 +1,10 @@
-import { controller, CustomError, inject, Status } from '@ditsmod/core';
+import { CustomError, inject, Status } from '@ditsmod/core';
 import { DictService } from '@ditsmod/i18n';
 import { JwtService, JWT_PAYLOAD } from '@ditsmod/jwt';
 import { oasRoute } from '@ditsmod/openapi';
 import { Injector } from '@ditsmod/core';
 import { HTTP_BODY } from '@ditsmod/body-parser';
+import { controller } from '@ditsmod/rest';
 
 import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';

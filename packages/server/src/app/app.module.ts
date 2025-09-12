@@ -1,5 +1,5 @@
 import { BodyParserModule } from '@ditsmod/body-parser';
-import { HttpErrorHandler, Logger, Providers, rootModule } from '@ditsmod/core';
+import { Logger, Providers, rootModule } from '@ditsmod/core';
 import { CorsOptions } from '@ditsmod/cors';
 
 import { ArticlesModule } from '#routed/articles/articles.module.js';
@@ -13,8 +13,9 @@ import { LoggerModule } from '#service/logger/logger.module.js';
 import { MysqlModule } from '#service/mysql/mysql.module.js';
 import { openapiModuleWithParams, validationModuleWithParams } from '#service/openapi-with-params/index.js';
 import { UtilModule } from '#service/util/util.module.js';
+import { HttpErrorHandler, initRest } from '@ditsmod/rest';
 
-@rootModule({
+@initRest({
   appends: [
     UsersModule,
     { path: 'profiles', module: ProfilesModule },
@@ -40,12 +41,11 @@ import { UtilModule } from '#service/util/util.module.js';
     BodyParserModule,
     ErrorHandlerModule,
   ],
-  resolvedCollisionsPerApp: [[Logger, LoggerModule]],
-  resolvedCollisionsPerReq: [
-    [HttpErrorHandler, ErrorHandlerModule],
-  ],
+
+  resolvedCollisionsPerReq: [[HttpErrorHandler, ErrorHandlerModule]],
   providersPerApp: new Providers()
     .useValue<CorsOptions>(CorsOptions, { origin: '*' })
     .useLogConfig({ level: 'info', showExternalLogs: false }),
 })
+@rootModule({ resolvedCollisionsPerApp: [[Logger, LoggerModule]] })
 export class AppModule {}

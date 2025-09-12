@@ -1,4 +1,4 @@
-import { HttpServer } from '@ditsmod/core';
+import { HttpServer } from '@ditsmod/rest';
 import { TestApplication } from '@ditsmod/testing';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import request from 'supertest';

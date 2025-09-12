@@ -1,5 +1,5 @@
-import { RequestContext, injectable } from '@ditsmod/core';
-import { CanActivate, Status } from '@ditsmod/core';
+import { injectable, Status } from '@ditsmod/core';
+import { RequestContext, CanActivate } from '@ditsmod/rest';
 
 import { Permission } from '#shared';
 import { AuthService } from './auth.service.js';
