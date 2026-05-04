@@ -3,7 +3,7 @@
 > ### Ditsmod codebase containing real world examples (CRUD, auth, i18n, OpenAPI with validation, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
 
 
-This codebase was created to demonstrate a fully fledged fullstack application built with **Ditsmod** including CRUD operations, authentication, routing, pagination, and more.
+This codebase was created to demonstrate a fully fledged backend application built with **Ditsmod** including CRUD operations, authentication, routing, pagination, and more.
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ Please make sure that Node.js >= v20.6.0 is installed on your operating system.
 
 ## Getting started
 
-This monorepository includes [Ditsmod](https://ditsmod.github.io/en/) applications seed. Packages are in ESM format and have [native Node.js aliases](https://nodejs.org/api/packages.html#subpath-imports) starting with `#`.
+This monorepository includes [Ditsmod](https://ditsmod.github.io/en/) applications starter. Packages are in ESM format and have [native Node.js aliases](https://nodejs.org/api/packages.html#subpath-imports) starting with `#`.
 
 All packages are located in `packages/*` directory.
 

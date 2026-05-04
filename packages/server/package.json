@@ -32,29 +32,29 @@
     "#shared": "shared"
   },
   "dependencies": {
-    "@ditsmod/authjs": "^3.0.0-alpha.5",
-    "@ditsmod/body-parser": "^3.0.0-alpha.5",
-    "@ditsmod/core": "^3.0.0-alpha.5",
-    "@ditsmod/cors": "^3.0.0-alpha.5",
-    "@ditsmod/i18n": "^3.0.0-alpha.5",
-    "@ditsmod/jwt": "^3.0.0-alpha.5",
-    "@ditsmod/openapi": "^3.0.0-alpha.5",
-    "@ditsmod/openapi-validation": "^3.0.0-alpha.5",
-    "@ditsmod/rest": "^3.0.0-alpha.5",
-    "@ts-stack/chain-error": "^1.4.1",
+    "@ditsmod/authjs": "^3.0.0-next.7",
+    "@ditsmod/body-parser": "^3.0.0-next.7",
+    "@ditsmod/core": "^3.0.0-next.7",
+    "@ditsmod/cors": "^3.0.0-next.7",
+    "@ditsmod/i18n": "^3.0.0-next.7",
+    "@ditsmod/jwt": "^3.0.0-next.7",
+    "@ditsmod/openapi": "^3.0.0-next.7",
+    "@ditsmod/openapi-validation": "^3.0.0-next.7",
+    "@ditsmod/rest": "^3.0.0-next.7",
+    "@ts-stack/chain-error": "^1.5.1",
     "@ts-stack/cookies": "^1.2.2",
     "@ts-stack/openapi-spec": "^3.1.6",
     "bunyan": "^1.8.15",
-    "mysql2": "^3.14.3",
+    "mysql2": "^3.22.3",
     "punycode": "^2.3.1"
   },
   "devDependencies": {
-    "@ditsmod/testing": "^3.0.0-alpha.5",
+    "@ditsmod/testing": "^3.0.0-next.7",
     "@types/bunyan": "^1.8.11",
     "@types/newman": "^5.3.6",
     "@types/supertest": "^6.0.3",
     "newman": "^5.3.2",
-    "supertest": "^7.1.4"
+    "supertest": "^7.2.2"
   },
   "engines": {
     "node": ">= 20.6.0"

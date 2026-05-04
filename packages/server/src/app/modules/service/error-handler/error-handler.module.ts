@@ -1,11 +1,8 @@
-import { HttpErrorHandler, initRest } from '@ditsmod/rest';
-import { featureModule } from '@ditsmod/core';
-
+import { HttpErrorHandler, restModule } from '@ditsmod/rest';
 import { ErrorHandler } from './error-handler.js';
 
-@initRest({
+@restModule({
   providersPerReq: [{ token: HttpErrorHandler, useClass: ErrorHandler }],
   exports: [HttpErrorHandler],
 })
-@featureModule()
 export class ErrorHandlerModule {}

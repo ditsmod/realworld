@@ -1,5 +1,4 @@
-import { featureModule } from '@ditsmod/core';
-import { initRest } from '@ditsmod/rest';
+import { restModule } from '@ditsmod/rest';
 import { JwtModule } from '@ditsmod/jwt';
 import { AuthjsConfig, AuthjsModule } from '@ditsmod/authjs';
 
@@ -16,11 +15,10 @@ const authjs = AuthjsModule.withConfig({
   useFactory: [OverriddenAuthConfig, OverriddenAuthConfig.prototype.initAuthjsConfig],
 });
 
-@initRest({
+@restModule({
   imports: [jwtModuleWithParams, authjs],
   providersPerMod: [ModuleConfigService],
   providersPerReq: [BearerGuard, CryptoService, AuthService, PermissionsGuard],
   exports: [BearerGuard, CryptoService, AuthService, PermissionsGuard, jwtModuleWithParams, authjs],
 })
-@featureModule()
 export class AuthModule {}
