@@ -1,1 +1,0 @@
-GIT_USER=KostyaTretyak USE_SSH=true DEPLOYMENT_BRANCH=gh-pages npm run deploy
