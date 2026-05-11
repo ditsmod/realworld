@@ -48,9 +48,9 @@ npm start
 
 After that, see OpenAPI docs on [http://0.0.0.0:3000/api/openapi](http://0.0.0.0:3000/api/openapi).
 
-## Postman tests
+## Tests
 
-To run [postman tests](https://github.com/gothinkster/realworld/blob/main/api/Conduit.postman_collection.json):
+To run tests:
 
 ```bash
 npm test

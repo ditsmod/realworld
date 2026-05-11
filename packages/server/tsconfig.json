@@ -3,7 +3,7 @@
   "compilerOptions": {
     "noImplicitOverride": true,
     "outDir": "dist",
-    "types": ["node", "jest"],
+    "types": ["node"],
     "resolveJsonModule":true,
     "paths": {
       "#app/*": ["./src/app/*"],
