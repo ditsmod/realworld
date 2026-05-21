@@ -8,6 +8,7 @@ export default defineConfig({
       'packages/*/dist*/**/*.spec.js',
     ],
     exclude: ['**/node_modules/**'],
-    watch: false
+    setupFiles: ['reflect-metadata/lite'],
+    watch: false,
   },
 });
