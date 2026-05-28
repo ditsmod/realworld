@@ -1,6 +1,8 @@
 import { BodyParserModule } from '@ditsmod/body-parser';
 import { Logger, Providers } from '@ditsmod/core';
 import { CorsOptions } from '@ditsmod/cors';
+import { AJV_OPTIONS } from '@ditsmod/openapi-validation';
+import { HttpErrorHandler, restRootModule } from '@ditsmod/rest';
 
 import { ArticlesModule } from '#routed/articles/articles.module.js';
 import { ProfilesModule } from '#routed/profiles/profiles.module.js';
@@ -13,8 +15,6 @@ import { LoggerModule } from '#service/logger/logger.module.js';
 import { MysqlModule } from '#service/mysql/mysql.module.js';
 import { openapiModuleWithParams, validationModuleWithParams } from '#service/openapi-with-params/index.js';
 import { UtilModule } from '#service/util/util.module.js';
-import { HttpErrorHandler, restRootModule } from '@ditsmod/rest';
-import { AJV_OPTIONS } from '@ditsmod/openapi-validation';
 
 @restRootModule({
   appends: [
@@ -43,11 +43,11 @@ import { AJV_OPTIONS } from '@ditsmod/openapi-validation';
     ErrorHandlerModule,
   ],
 
-  resolvedCollisionsPerApp: [
+  resolvedCollisionPerApp: [
     [Logger, LoggerModule],
     [AJV_OPTIONS, validationModuleWithParams],
   ],
-  resolvedCollisionsPerReq: [[HttpErrorHandler, ErrorHandlerModule]],
+  resolvedCollisionPerReq: [[HttpErrorHandler, ErrorHandlerModule]],
   providersPerApp: new Providers()
     .useValue<CorsOptions>(CorsOptions, { origin: '*' })
     .useLogConfig({ level: 'info', showExternalLogs: false }),

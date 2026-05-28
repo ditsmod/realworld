@@ -1,4 +1,4 @@
-import { UserSession } from './models.js';
+import type { UserSession } from './models.js';
 
 export interface EmailOrUsername {
   email?: string;

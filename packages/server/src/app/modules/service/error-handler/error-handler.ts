@@ -1,4 +1,5 @@
-import { inject, injectable, ErrorInfo, Status, Logger, isChainError } from '@ditsmod/core';
+import { injectable, Status, Logger, ctx } from '@ditsmod/core';
+import { ErrorInfo, isChainError } from '@ditsmod/core/errors';
 import { HttpErrorHandler, RawResponse, RAW_RES, Req, Res, RequestContext } from '@ditsmod/rest';
 import { ErrorObject as OriginalErrorObject } from 'ajv';
 
@@ -12,7 +13,7 @@ export class ErrorHandler implements HttpErrorHandler {
     private req: Req,
     private res: Res,
     private logger: Logger,
-    @inject(RAW_RES) private nodeRes: RawResponse
+    @ctx(RAW_RES) private nodeRes: RawResponse
   ) {}
 
   async handleError(err: Error, ctx: RequestContext) {

@@ -1,4 +1,5 @@
-import { pickProperties, Status, CustomError, inject, optional, Injector } from '@ditsmod/core';
+import { pickProperties, Status, optional, Injector, ctx } from '@ditsmod/core';
+import { CustomError } from '@ditsmod/core/errors';
 import { controller, PATH_PARAMS, QUERY_PARAMS } from '@ditsmod/rest';
 import { oasRoute } from '@ditsmod/openapi';
 import { DictService } from '@ditsmod/i18n';
@@ -27,7 +28,7 @@ export class ArticlesController {
       .setResponse(Articles, 'Description for response content.')
       .getNotFoundResponse('The article not found.'),
   })
-  async getLastArticles(config: AppConfigService, @optional() @inject(QUERY_PARAMS) queryParams: any = {}) {
+  async getLastArticles(config: AppConfigService, @optional() @ctx(QUERY_PARAMS) queryParams: any = {}) {
     const articlesSelectParams: ArticlesSelectParams = {
       tag: queryParams.tag || '',
       author: queryParams.author || '',
@@ -53,8 +54,8 @@ export class ArticlesController {
   })
   async getArticle(
     config: AppConfigService,
-    @inject(PATH_PARAMS) pathParams: any,
-    @optional() @inject(QUERY_PARAMS) queryParams: any = {}
+    @ctx(PATH_PARAMS) pathParams: any,
+    @optional() @ctx(QUERY_PARAMS) queryParams: any = {}
   ) {
     // This need only because parameter `:slug` conflict with parameter `feed`.
     if (pathParams.slug == 'feed') {
@@ -99,8 +100,8 @@ export class ArticlesController {
   })
   async postArticles(
     injector: Injector,
-    @inject(JWT_PAYLOAD) jwtPayload: any,
-    @inject(HTTP_BODY) body: ArticlePostData
+    @ctx(JWT_PAYLOAD) jwtPayload: any,
+    @ctx(HTTP_BODY) body: ArticlePostData
   ) {
     const userId = jwtPayload.userId as number;
     const { article: articlePostData } = body;
@@ -152,7 +153,7 @@ export class ArticlesController {
       .setRequestBody(ArticlePutData, 'Description for requestBody.')
       .getResponse(ArticleItem, 'Description for response content.'),
   })
-  async putArticlesSlug(@inject(PATH_PARAMS) pathParams: any, @inject(HTTP_BODY) articlePutData: ArticlePutData) {
+  async putArticlesSlug(@ctx(PATH_PARAMS) pathParams: any, @ctx(HTTP_BODY) articlePutData: ArticlePutData) {
     const hasPermissions = await this.authService.hasPermissions([Permission.canEditAnyPost]);
     const currentUserId = await this.authService.getCurrentUserId();
     const oldSlug = pathParams.slug as string;
@@ -174,7 +175,7 @@ export class ArticlesController {
   @oasRoute('DELETE', ':slug', [BearerGuard], {
     ...new OasOperationObject().setRequiredParams('path', Params, 'slug').setUnprocessableEnryResponse().getResponse(),
   })
-  async delArticlesSlug(@inject(PATH_PARAMS) pathParams: any) {
+  async delArticlesSlug(@ctx(PATH_PARAMS) pathParams: any) {
     const hasPermissions = await this.authService.hasPermissions([Permission.canDeleteAnyPost]);
     const currentUserId = await this.authService.getCurrentUserId();
     const slug = pathParams.slug as string;

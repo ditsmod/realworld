@@ -1,5 +1,5 @@
-import { HttpServer } from '@ditsmod/rest';
-import { TestApplication } from '@ditsmod/testing';
+import type { HttpServer } from '@ditsmod/rest';
+import { TestRestApplication } from '@ditsmod/rest-testing';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import request from 'supertest';
 import { createConnection } from 'mysql2/promise';
@@ -19,7 +19,7 @@ describe('Real World', () => {
   const dateRegExp = /^\d{4,}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+(?:[+-][0-2]\d:[0-5]\d|Z)$/;
 
   beforeAll(async () => {
-    server = await TestApplication.createTestApp(AppModule, { path: 'api' }).getServer();
+    server = await TestRestApplication.createTestApp(AppModule, { path: 'api' }).getServer();
     testAgent = request(server);
 
     const config = new MySqlConfigService();

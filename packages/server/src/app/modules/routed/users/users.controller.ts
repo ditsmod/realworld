@@ -1,8 +1,8 @@
-import { CustomError, inject, Status } from '@ditsmod/core';
+import { Status, Injector, ctx } from '@ditsmod/core';
+import { CustomError } from '@ditsmod/core/errors';
 import { DictService } from '@ditsmod/i18n';
 import { JwtService, JWT_PAYLOAD } from '@ditsmod/jwt';
 import { oasRoute } from '@ditsmod/openapi';
-import { Injector } from '@ditsmod/core';
 import { HTTP_BODY } from '@ditsmod/body-parser';
 import { controller } from '@ditsmod/rest';
 
@@ -15,7 +15,7 @@ import { LoginFormData, PutUser, PutUserData, SignUpData, SignUpFormData, UserSe
 @controller()
 export class UsersController {
   constructor(
-    @inject(HTTP_BODY) private body: any,
+    @ctx(HTTP_BODY) private body: any,
     private db: DbService,
     private jwtService: JwtService,
     private injector: Injector
@@ -67,7 +67,7 @@ export class UsersController {
       .setResponse(UserSessionData, 'Description for response content.')
       .getNotFoundResponse('User not found.'),
   })
-  async getCurrentUser(@inject(JWT_PAYLOAD) jwtPayload: any) {
+  async getCurrentUser(@ctx(JWT_PAYLOAD) jwtPayload: any) {
     const userId = jwtPayload.userId as number;
     const dbUser = await this.db.getCurrentUser(userId);
     if (!dbUser) {
@@ -90,7 +90,7 @@ export class UsersController {
       .setRequestBody(PutUserData, 'Any of this properties are required.')
       .getResponse(UserSessionData, 'Returns the User.'),
   })
-  async updateCurrentUser(@inject(JWT_PAYLOAD) jwtPayload: any) {
+  async updateCurrentUser(@ctx(JWT_PAYLOAD) jwtPayload: any) {
     const userId = jwtPayload.userId as number;
     const putUser = this.body as PutUser;
     const resultSetHeader = await this.db.putCurrentUser(userId, putUser);

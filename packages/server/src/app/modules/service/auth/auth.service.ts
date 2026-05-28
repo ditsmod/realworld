@@ -1,4 +1,4 @@
-import { injectable, Injector } from '@ditsmod/core';
+import { Context, injectable, Injector } from '@ditsmod/core';
 import { JWT_PAYLOAD } from '@ditsmod/jwt';
 
 import { Permission } from '#shared';
@@ -14,7 +14,8 @@ export class AuthService {
   async getCurrentUserId(): Promise<number> {
     const guard = this.injector.get(BearerGuard) as BearerGuard; // Lazy load auth.
     await guard.canActivate();
-    const jwtPayload = this.injector.get(JWT_PAYLOAD);
+    const ctx = this.injector.get(Context);
+    const jwtPayload = ctx.get(JWT_PAYLOAD);
     return jwtPayload?.userId || 0;
   }
 
@@ -23,7 +24,8 @@ export class AuthService {
     if (!userId) {
       return false;
     }
-    const jwtPayload = this.injector.get(JWT_PAYLOAD);
+    const ctx = this.injector.get(Context);
+    const jwtPayload = ctx.get(JWT_PAYLOAD);
     const userPermissions = jwtPayload?.permissions as Permission[];
     return Boolean(needPermissions?.every((permission) => userPermissions?.includes(permission)));
   }

@@ -1,5 +1,6 @@
 import { createPool, FieldPacket, Pool, PoolConnection } from 'mysql2/promise';
-import { injectable, AnyObj, InputLogLevel, Status, CustomError } from '@ditsmod/core';
+import { injectable, AnyObj, InputLogLevel, Status } from '@ditsmod/core';
+import { CustomError } from '@ditsmod/core/errors';
 import { DictService } from '@ditsmod/i18n';
 
 import { ServerDict } from '../openapi-with-params/locales/current/index.js';

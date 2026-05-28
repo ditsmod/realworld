@@ -1,4 +1,4 @@
-import { inject, Injector, Status } from '@ditsmod/core';
+import { Status, Context } from '@ditsmod/core';
 import { JwtService, JWT_PAYLOAD, VerifyErrors } from '@ditsmod/jwt';
 import { oasGuard } from '@ditsmod/openapi';
 import { CanActivate, RAW_REQ, RawRequest } from '@ditsmod/rest';
@@ -23,12 +23,12 @@ import { CanActivate, RAW_REQ, RawRequest } from '@ditsmod/rest';
 export class BearerGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
-    @inject(RAW_REQ) private nodeReq: RawRequest,
-    private injector: Injector,
+    private ctx: Context,
   ) {}
 
   async canActivate() {
-    const authValue = this.nodeReq.headers.authorization?.split(' ');
+    const nodeReq = this.ctx.get(RAW_REQ) as RawRequest;
+    const authValue = nodeReq.headers.authorization?.split(' ');
     if (authValue?.[0] != 'Bearer' && authValue?.[0] != 'Token') {
       return false;
     }
@@ -40,7 +40,7 @@ export class BearerGuard implements CanActivate {
       .catch((err: VerifyErrors) => false as const); // Here `as const` to narrow down returned type.
 
     if (payload) {
-      this.injector.setByToken(JWT_PAYLOAD, payload);
+      this.ctx.set(JWT_PAYLOAD, payload);
       return true;
     } else {
       return false;

@@ -1,6 +1,6 @@
 import { ResultSetHeader } from 'mysql2';
 import { injectable } from '@ditsmod/core';
-import { CustomError } from '@ditsmod/core';
+import { CustomError } from '@ditsmod/core/errors';
 import { DictService } from '@ditsmod/i18n';
 
 import { MysqlService } from '#service/mysql/mysql.service.js';

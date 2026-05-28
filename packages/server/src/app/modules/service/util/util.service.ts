@@ -1,5 +1,6 @@
 import { createHash } from 'crypto';
-import { Status, CustomError, injectable } from '@ditsmod/core';
+import { Status, injectable } from '@ditsmod/core';
+import { CustomError } from '@ditsmod/core/errors';
 import { DictService } from '@ditsmod/i18n';
 import { RawRequest } from '@ditsmod/rest';
 

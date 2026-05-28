@@ -1,4 +1,4 @@
-import { inject } from '@ditsmod/core';
+import { ctx } from '@ditsmod/core';
 import { controller, PATH_PARAMS } from '@ditsmod/rest';
 import { oasRoute } from '@ditsmod/openapi';
 
@@ -15,7 +15,7 @@ export class FavoriteController {
     private db: DbService,
     private authService: AuthService,
     private articlesController: ArticlesController,
-    @inject(PATH_PARAMS) private pathParams: any
+    @ctx(PATH_PARAMS) private pathParams: any
   ) {}
 
   @oasRoute('POST', '', [BearerGuard], {

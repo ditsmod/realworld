@@ -1,4 +1,4 @@
-import { inject } from '@ditsmod/core';
+import { ctx } from '@ditsmod/core';
 import { controller, PATH_PARAMS } from '@ditsmod/rest';
 import { oasRoute } from '@ditsmod/openapi';
 import { JWT_PAYLOAD } from '@ditsmod/jwt';
@@ -17,8 +17,8 @@ export class ProfilesController {
     private db: DbService,
     private authService: AuthService,
     private util: UtilService,
-    @inject(PATH_PARAMS) private pathParams: any,
-    @inject(JWT_PAYLOAD) private jwtPayload: any
+    @ctx(PATH_PARAMS) private pathParams: any,
+    @ctx(JWT_PAYLOAD) private jwtPayload: any
   ) {}
 
   @oasRoute('GET', ':username', {

@@ -1,4 +1,4 @@
-import { inject, pickProperties, Status } from '@ditsmod/core';
+import { ctx, pickProperties, Status } from '@ditsmod/core';
 import { oasRoute } from '@ditsmod/openapi';
 import { HTTP_BODY } from '@ditsmod/body-parser';
 import { controller, PATH_PARAMS } from '@ditsmod/rest';
@@ -23,7 +23,7 @@ export class CommentsController {
       .setRequestBody(CommentPostData, 'Description for requestBody.')
       .getResponse(CommentData, 'Description for response content.', Status.CREATED),
   })
-  async postComment(@inject(HTTP_BODY) commentPostData: CommentPostData, @inject(PATH_PARAMS) pathParams: any) {
+  async postComment(@ctx(HTTP_BODY) commentPostData: CommentPostData, @ctx(PATH_PARAMS) pathParams: any) {
     const userId = await this.authService.getCurrentUserId();
     const slug = pathParams.slug as string;
     const resultSetHeader = await this.db.postComment(userId, slug, commentPostData.comment.body);
@@ -64,7 +64,7 @@ export class CommentsController {
       .setNotFoundResponse('Comment nof found.')
       .getNoContentResponse(),
   })
-  async deleteComment(utils: UtilService, @inject(PATH_PARAMS) pathParams: any) {
+  async deleteComment(utils: UtilService, @ctx(PATH_PARAMS) pathParams: any) {
     const currentUserId = await this.authService.getCurrentUserId();
     const hasPermissions = await this.authService.hasPermissions([Permission.canDeleteAnyComments]);
     const commentId = pathParams.id as number;
