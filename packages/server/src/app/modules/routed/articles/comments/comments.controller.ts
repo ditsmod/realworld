@@ -1,4 +1,4 @@
-import { ctx, pickProperties, Status } from '@ditsmod/core';
+import { ctx, pickProperties, HttpStatus } from '@ditsmod/core';
 import { oasRoute } from '@ditsmod/openapi';
 import { HTTP_BODY } from '@ditsmod/body-parser';
 import { controller, PATH_PARAMS } from '@ditsmod/rest';
@@ -21,7 +21,7 @@ export class CommentsController {
   @oasRoute('POST', '', [BearerGuard], {
     ...new OasOperationObject()
       .setRequestBody(CommentPostData, 'Description for requestBody.')
-      .getResponse(CommentData, 'Description for response content.', Status.CREATED),
+      .getResponse(CommentData, 'Description for response content.', HttpStatus.CREATED),
   })
   async postComment(@ctx(HTTP_BODY) commentPostData: CommentPostData, @ctx(PATH_PARAMS) pathParams: any) {
     const userId = await this.authService.getCurrentUserId();

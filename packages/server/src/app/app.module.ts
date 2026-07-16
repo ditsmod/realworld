@@ -1,5 +1,5 @@
 import { BodyParserModule } from '@ditsmod/body-parser';
-import { Logger, Providers } from '@ditsmod/core';
+import { Logger, LoggerConfig, ProviderBuilder } from '@ditsmod/core';
 import { CorsOptions } from '@ditsmod/cors';
 import { AJV_OPTIONS } from '@ditsmod/openapi-validation';
 import { HttpErrorHandler, restRootModule } from '@ditsmod/rest';
@@ -13,7 +13,7 @@ import { AuthModule } from '#service/auth/auth.module.js';
 import { ErrorHandlerModule } from '#service/error-handler/error-handler.module.js';
 import { LoggerModule } from '#service/logger/logger.module.js';
 import { MysqlModule } from '#service/mysql/mysql.module.js';
-import { openapiModuleWithParams, validationModuleWithParams } from '#service/openapi-with-params/index.js';
+import { openapiModuleWithOpts, validationModuleWithOpts } from '#service/openapi-with-params/index.js';
 import { UtilModule } from '#service/util/util.module.js';
 
 @restRootModule({
@@ -27,8 +27,8 @@ import { UtilModule } from '#service/util/util.module.js';
     LoggerModule,
     AuthModule,
     MysqlModule,
-    openapiModuleWithParams,
-    validationModuleWithParams,
+    openapiModuleWithOpts,
+    validationModuleWithOpts,
     ConfigModule,
     UtilModule,
     BodyParserModule,
@@ -36,20 +36,20 @@ import { UtilModule } from '#service/util/util.module.js';
   ],
   exports: [
     AuthModule,
-    openapiModuleWithParams,
-    validationModuleWithParams,
+    openapiModuleWithOpts,
+    validationModuleWithOpts,
     UtilModule,
     BodyParserModule,
     ErrorHandlerModule,
   ],
 
-  resolvedCollisionPerApp: [
+  resolvedCollisionsPerApp: [
     [Logger, LoggerModule],
-    [AJV_OPTIONS, validationModuleWithParams],
+    [AJV_OPTIONS, validationModuleWithOpts],
   ],
-  resolvedCollisionPerReq: [[HttpErrorHandler, ErrorHandlerModule]],
-  providersPerApp: new Providers()
+  resolvedCollisionsPerReq: [[HttpErrorHandler, ErrorHandlerModule]],
+  providersPerApp: new ProviderBuilder()
     .useValue<CorsOptions>(CorsOptions, { origin: '*' })
-    .useLogConfig({ level: 'info', showExternalLogs: false }),
+    .useValue(LoggerConfig, { level: 'info', showExternalLogs: false }),
 })
 export class AppModule {}

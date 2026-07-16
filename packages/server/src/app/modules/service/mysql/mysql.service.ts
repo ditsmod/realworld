@@ -1,5 +1,5 @@
 import { createPool, FieldPacket, Pool, PoolConnection } from 'mysql2/promise';
-import { injectable, AnyObj, InputLogLevel, Status } from '@ditsmod/core';
+import { injectable, AnyObj, InputLogLevel, HttpStatus } from '@ditsmod/core';
 import { CustomError } from '@ditsmod/core/errors';
 import { DictService } from '@ditsmod/i18n';
 
@@ -97,7 +97,7 @@ export class MysqlService {
     } else {
       level = 'error';
     }
-    let status: number = Status.INTERNAL_SERVER_ERROR;
+    let status: number = HttpStatus.INTERNAL_SERVER_ERROR;
     if (!isNaN(parseFloat(err.message || ''))) {
       const [rawMsg, rawStatus] = err.message!.split(',');
       msg1 = rawMsg || msg1;

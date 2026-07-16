@@ -1,7 +1,7 @@
-import { AnyObj, Status } from '@ditsmod/core';
+import { type AnyObj, HttpStatus } from '@ditsmod/core';
 import { getContent, Parameters } from '@ditsmod/openapi';
-import { Class } from '@ditsmod/core';
-import { OperationObject, ResponseObject } from '@ts-stack/openapi-spec';
+import type { Class } from '@ditsmod/core';
+import type { OperationObject, ResponseObject } from '@ts-stack/openapi-spec';
 
 import { ErrorTemplate } from '#models/errors.js';
 
@@ -52,12 +52,12 @@ export class OasOperationObject {
     return this.getResponse();
   }
 
-  setResponse(model: Model, description: string = '', status?: Status) {
-    this.operationObject.responses![status || Status.OK] = this.getJsonContent(model, description);
+  setResponse(model: Model, description: string = '', status?: HttpStatus) {
+    this.operationObject.responses![status || HttpStatus.OK] = this.getJsonContent(model, description);
     return this;
   }
 
-  getResponse(model?: Model, description: string = '', status?: Status) {
+  getResponse(model?: Model, description: string = '', status?: HttpStatus) {
     if (model) {
       this.setResponse(model, description, status);
     }
@@ -72,15 +72,15 @@ export class OasOperationObject {
 
     if (setDefaults) {
       if (parameters.length) {
-        if (!this.operationObject.responses![Status.NOT_FOUND]) {
+        if (!this.operationObject.responses![HttpStatus.NOT_FOUND]) {
           this.setNotFoundResponse();
         }
-        if (!this.operationObject.responses![Status.UNPROCESSABLE_ENTRY]) {
+        if (!this.operationObject.responses![HttpStatus.UNPROCESSABLE_ENTRY]) {
           this.setUnprocessableEnryResponse();
         }
       }
       if (this.operationObject.requestBody) {
-        if (!this.operationObject.responses![Status.UNPROCESSABLE_ENTRY]) {
+        if (!this.operationObject.responses![HttpStatus.UNPROCESSABLE_ENTRY]) {
           this.setUnprocessableEnryResponse('If requested body validation fail.');
         }
       }
@@ -92,7 +92,7 @@ export class OasOperationObject {
   }
 
   setUnprocessableEnryResponse(description: string = 'If validation fail.') {
-    this.setResponse(ErrorTemplate, description, Status.UNPROCESSABLE_ENTRY);
+    this.setResponse(ErrorTemplate, description, HttpStatus.UNPROCESSABLE_ENTRY);
     return this;
   }
 
@@ -102,7 +102,7 @@ export class OasOperationObject {
   }
 
   setNotFoundResponse(description: string = 'Not found.') {
-    this.operationObject.responses![Status.NOT_FOUND] = { description };
+    this.operationObject.responses![HttpStatus.NOT_FOUND] = { description };
     return this;
   }
 
@@ -112,7 +112,7 @@ export class OasOperationObject {
   }
 
   setNoContentResponse(description: string = 'No Content.') {
-    this.operationObject.responses![Status.NO_CONTENT] = { description };
+    this.operationObject.responses![HttpStatus.NO_CONTENT] = { description };
     return this;
   }
 
@@ -122,7 +122,7 @@ export class OasOperationObject {
   }
 
   setUnauthorizedResponse() {
-    this.operationObject.responses![Status.UNAUTHORIZED] = {
+    this.operationObject.responses![HttpStatus.UNAUTHORIZED] = {
       $ref: '#/components/responses/UnauthorizedError',
     };
     return this;

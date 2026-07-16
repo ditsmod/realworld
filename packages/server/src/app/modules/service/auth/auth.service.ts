@@ -15,7 +15,7 @@ export class AuthService {
     const guard = this.injector.get(BearerGuard) as BearerGuard; // Lazy load auth.
     await guard.canActivate();
     const ctx = this.injector.get(Context);
-    const jwtPayload = ctx.get(JWT_PAYLOAD);
+    const jwtPayload = ctx.get(JWT_PAYLOAD) as any;
     return jwtPayload?.userId || 0;
   }
 
@@ -25,7 +25,7 @@ export class AuthService {
       return false;
     }
     const ctx = this.injector.get(Context);
-    const jwtPayload = ctx.get(JWT_PAYLOAD);
+    const jwtPayload = ctx.get(JWT_PAYLOAD) as any;
     const userPermissions = jwtPayload?.permissions as Permission[];
     return Boolean(needPermissions?.every((permission) => userPermissions?.includes(permission)));
   }

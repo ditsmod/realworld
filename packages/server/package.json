@@ -17,7 +17,7 @@
     "build-test": "tsc -b tsconfig.test.json",
     "build": "tsc -b tsconfig.build.json",
     "watch": "npm run build -- --watch",
-    "start:dev": "concurrently -r 'npm:watch' 'npm:start'",
+    "start:dev": "ditsmod start src/main.ts",
     "clean": "rimraf dist*"
   },
   "imports": {
@@ -32,23 +32,23 @@
     "#shared": "shared"
   },
   "dependencies": {
-    "@ditsmod/authjs": "^3.0.0-next.12",
-    "@ditsmod/body-parser": "^3.0.0-next.12",
-    "@ditsmod/core": "^3.0.0-next.12",
-    "@ditsmod/cors": "^3.0.0-next.12",
-    "@ditsmod/i18n": "^3.0.0-next.12",
-    "@ditsmod/jwt": "^3.0.0-next.12",
-    "@ditsmod/openapi": "^3.0.0-next.12",
-    "@ditsmod/openapi-validation": "^3.0.0-next.12",
-    "@ditsmod/rest": "^3.0.0-next.12",
+    "@ditsmod/authjs": "^3.0.0-next.15",
+    "@ditsmod/body-parser": "^3.0.0-next.15",
+    "@ditsmod/core": "^3.0.0-next.15",
+    "@ditsmod/cors": "^3.0.0-next.15",
+    "@ditsmod/i18n": "^3.0.0-next.15",
+    "@ditsmod/jwt": "^3.0.0-next.15",
+    "@ditsmod/openapi": "^3.0.0-next.15",
+    "@ditsmod/openapi-validation": "^3.0.0-next.15",
+    "@ditsmod/rest": "^3.0.0-next.15",
     "@ts-stack/chain-error": "^1.5.1",
     "@ts-stack/cookies": "^1.2.2",
     "@ts-stack/openapi-spec": "^3.1.6",
     "bunyan": "^1.8.15",
-    "mysql2": "^3.22.3"
+    "mysql2": "^3.23.0"
   },
   "devDependencies": {
-    "@ditsmod/rest-testing": "^3.0.0-next.12",
+    "@ditsmod/rest-testing": "^3.0.0-next.15",
     "@types/bunyan": "^1.8.11",
     "@types/supertest": "^6.0.3",
     "supertest": "^7.2.2"

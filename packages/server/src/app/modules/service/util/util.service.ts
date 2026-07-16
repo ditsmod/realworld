@@ -1,5 +1,5 @@
 import { createHash } from 'crypto';
-import { Status, injectable } from '@ditsmod/core';
+import { HttpStatus, injectable } from '@ditsmod/core';
 import { CustomError } from '@ditsmod/core/errors';
 import { DictService } from '@ditsmod/i18n';
 import { RawRequest } from '@ditsmod/rest';
@@ -27,7 +27,7 @@ export class UtilService {
     throw new CustomError({
       msg1: message || dict.pageNotFound(paramName),
       // args1: [paramName],
-      status: Status.NOT_FOUND,
+      status: HttpStatus.NOT_FOUND,
       level: 'trace',
     });
   }
@@ -36,7 +36,7 @@ export class UtilService {
     const dict = this.dictService.getDictionary(ServerDict);
     throw new CustomError({
       msg1: message || dict.authRequired(paramName),
-      status: Status.UNAUTHORIZED,
+      status: HttpStatus.UNAUTHORIZED,
       level: 'trace',
     });
   }
@@ -45,7 +45,7 @@ export class UtilService {
     const dict = this.dictService.getDictionary(ServerDict);
     throw new CustomError({
       msg1: message || dict.forbidden(paramName),
-      status: Status.FORBIDDEN,
+      status: HttpStatus.FORBIDDEN,
       level: 'warn',
     });
   }

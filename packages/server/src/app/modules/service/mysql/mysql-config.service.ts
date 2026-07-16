@@ -1,4 +1,4 @@
-import { ConnectionOptions } from 'mysql2';
+import type { ConnectionOptions } from 'mysql2';
 
 const { MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_CHARSET } = process.env;
 

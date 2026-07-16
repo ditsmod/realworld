@@ -1,4 +1,4 @@
-import { PoolConnection } from 'mysql2/promise';
+import type { PoolConnection } from 'mysql2/promise';
 import { describe, it, expect } from 'vitest';
 
 import { MySqlConfigService } from './mysql-config.service.js';

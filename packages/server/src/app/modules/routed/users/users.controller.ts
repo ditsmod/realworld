@@ -1,4 +1,4 @@
-import { Status, Injector, ctx } from '@ditsmod/core';
+import { HttpStatus, Injector, ctx } from '@ditsmod/core';
 import { CustomError } from '@ditsmod/core/errors';
 import { DictService } from '@ditsmod/i18n';
 import { JwtService, JWT_PAYLOAD } from '@ditsmod/jwt';
@@ -26,7 +26,7 @@ export class UsersController {
     tags: ['users'],
     ...new OasOperationObject()
       .setRequestBody(SignUpFormData, 'Data that a user should send for registration.')
-      .getResponse(UserSessionData, 'After registration, this data is sent to the client.', Status.CREATED),
+      .getResponse(UserSessionData, 'After registration, this data is sent to the client.', HttpStatus.CREATED),
   })
   async signUpUser() {
     const signUpFormData = this.body as SignUpFormData;
@@ -51,7 +51,7 @@ export class UsersController {
       const dict = this.getDictionary();
       throw new CustomError({
         msg1: dict.badPasswordOrEmail('password-or-email'),
-        status: Status.UNAUTHORIZED,
+        status: HttpStatus.UNAUTHORIZED,
         level: 'trace',
       });
     }
@@ -74,7 +74,7 @@ export class UsersController {
       const dict = this.getDictionary();
       throw new CustomError({
         msg1: dict.youHaveObsoleteToken('auth-token'),
-        status: Status.UNAUTHORIZED,
+        status: HttpStatus.UNAUTHORIZED,
         level: 'error',
       });
     }
@@ -98,7 +98,7 @@ export class UsersController {
       const dict = this.getDictionary();
       throw new CustomError({
         msg1: dict.youHaveObsoleteToken('auth-token'),
-        status: Status.UNAUTHORIZED,
+        status: HttpStatus.UNAUTHORIZED,
         level: 'error',
       });
     }

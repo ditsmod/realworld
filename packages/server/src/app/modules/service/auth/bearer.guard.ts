@@ -1,4 +1,4 @@
-import { Status, Context } from '@ditsmod/core';
+import { HttpStatus, Context } from '@ditsmod/core';
 import { JwtService, JWT_PAYLOAD, VerifyErrors } from '@ditsmod/jwt';
 import { oasGuard } from '@ditsmod/openapi';
 import { CanActivate, RAW_REQ, RawRequest } from '@ditsmod/rest';
@@ -15,7 +15,7 @@ import { CanActivate, RAW_REQ, RawRequest } from '@ditsmod/rest';
       'See docs for [Bearer Authentication](https://swagger.io/docs/specification/authentication/bearer-authentication/)',
   },
   responses: {
-    [Status.UNAUTHORIZED]: {
+    [HttpStatus.UNAUTHORIZED]: {
       $ref: '#/components/responses/UnauthorizedError',
     },
   },

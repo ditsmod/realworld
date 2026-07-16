@@ -1,4 +1,4 @@
-import { injectable, Status } from '@ditsmod/core';
+import { injectable, HttpStatus } from '@ditsmod/core';
 import { RequestContext, CanActivate } from '@ditsmod/rest';
 
 import { Permission } from '#shared';
@@ -12,7 +12,7 @@ export class PermissionsGuard implements CanActivate {
     if (await this.authService.hasPermissions(params)) {
       return true;
     } else {
-      return new Response(null, { status: Status.FORBIDDEN });
+      return new Response(null, { status: HttpStatus.FORBIDDEN });
     }
   }
 }

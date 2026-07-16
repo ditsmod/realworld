@@ -9,16 +9,16 @@ import { CryptoService } from './crypto.service.js';
 import { PermissionsGuard } from './permissions.guard.js';
 import { OverriddenAuthConfig } from './authjs.config.js';
 
-const jwtModuleWithParams = JwtModule.withParams({ secret: process.env.JWT_SECRET, signOptions: { expiresIn: '1y' } });
+const jwtModuleWithOpts = JwtModule.withOpts({ secret: process.env.JWT_SECRET, signOptions: { expiresIn: '1y' } });
 const authjs = AuthjsModule.withConfig({
   token: AuthjsConfig,
   useFactory: [OverriddenAuthConfig, OverriddenAuthConfig.prototype.initAuthjsConfig],
 });
 
 @restModule({
-  imports: [jwtModuleWithParams, authjs],
+  imports: [jwtModuleWithOpts, authjs],
   providersPerMod: [ModuleConfigService],
   providersPerReq: [BearerGuard, CryptoService, AuthService, PermissionsGuard],
-  exports: [BearerGuard, CryptoService, AuthService, PermissionsGuard, jwtModuleWithParams, authjs],
+  exports: [BearerGuard, CryptoService, AuthService, PermissionsGuard, jwtModuleWithOpts, authjs],
 })
 export class AuthModule {}

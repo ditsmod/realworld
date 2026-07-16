@@ -1,7 +1,7 @@
-import { featureModule } from '@ditsmod/core';
+import { restModule } from '@ditsmod/rest';
 
 import { MySqlConfigService } from './mysql-config.service.js';
 import { MysqlService } from './mysql.service.js';
 
-@featureModule({ providersPerApp: [MysqlService, MySqlConfigService] })
+@restModule({ providersPerApp: [MysqlService, MySqlConfigService] })
 export class MysqlModule {}

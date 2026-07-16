@@ -1,4 +1,4 @@
-import { pickProperties, Status, optional, Injector, ctx } from '@ditsmod/core';
+import { pickProperties, HttpStatus, optional, Injector, ctx } from '@ditsmod/core';
 import { CustomError } from '@ditsmod/core/errors';
 import { controller, PATH_PARAMS, QUERY_PARAMS } from '@ditsmod/rest';
 import { oasRoute } from '@ditsmod/openapi';
@@ -96,7 +96,7 @@ export class ArticlesController {
   @oasRoute('POST', '', [BearerGuard], {
     ...new OasOperationObject()
       .setRequestBody(ArticlePostData, 'Description for requestBody.')
-      .getResponse(ArticleItem, 'Description for response content.', Status.CREATED),
+      .getResponse(ArticleItem, 'Description for response content.', HttpStatus.CREATED),
   })
   async postArticles(
     injector: Injector,
