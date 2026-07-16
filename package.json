@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "test": "npm run build && node --env-file=packages/server/.env --enable-source-maps node_modules/.bin/vitest",
-    "start:dev": "dm start -p packages/server",
+    "start:dev": "ditsmod start -p packages/server",
     "watch": "npm run build -- --watch",
     "start": "npm run build && node --watch --env-file=packages/server/.env --enable-source-maps packages/server/dist/main.js",
     "start-prod": "npm run build && node --env-file=packages/server/.env packages/server/dist/main.js",

@@ -39,7 +39,7 @@
     "@ditsmod/i18n": "^3.0.0-next.15",
     "@ditsmod/jwt": "^3.0.0-next.15",
     "@ditsmod/openapi": "^3.0.0-next.15",
-    "@ditsmod/openapi-validation": "^3.0.0-next.15",
+    "@ditsmod/openapi-validation": "^3.0.1-next.15",
     "@ditsmod/rest": "^3.0.0-next.15",
     "@ts-stack/chain-error": "^1.5.1",
     "@ts-stack/cookies": "^1.2.2",
