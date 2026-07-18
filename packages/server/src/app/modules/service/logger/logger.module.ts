@@ -1,10 +1,9 @@
-import { ConsoleLogger, Logger, ProviderBuilder } from '@ditsmod/core';
-import { restModule } from '@ditsmod/rest';
+import { ConsoleLogger, Logger, featureModule, ProviderBuilder } from '@ditsmod/core';
 import BunyanLogger from 'bunyan';
 
 import { PatchLogger } from './patch-logger.js';
 
-@restModule({
+@featureModule({
   providersPerApp: new ProviderBuilder()
     .useToken(BunyanLogger, Logger)
     .useClass(Logger, ConsoleLogger)

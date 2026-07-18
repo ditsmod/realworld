@@ -1,4 +1,4 @@
-import { ProviderBuilder, HttpStatus } from '@ditsmod/core';
+import { ProviderBuilder, HttpStatus, type DynamicModule } from '@ditsmod/core';
 import { OpenapiModule } from '@ditsmod/openapi';
 import { AJV_OPTIONS, ValidationModule, ValidationOptions } from '@ditsmod/openapi-validation';
 import { I18nProviders } from '@ditsmod/i18n';
@@ -14,7 +14,7 @@ openapiModuleWithOpts.providersPerApp = [
   ...new I18nProviders().i18n({ current }, { defaultLng: 'en' }),
 ];
 
-export const validationModuleWithOpts = ValidationModule.withOpts(current);
+export const validationModuleWithOpts = { module: ValidationModule } as DynamicModule;
 validationModuleWithOpts.providersPerApp = [
   ...(validationModuleWithOpts.providersPerApp || []),
   ...new ProviderBuilder()

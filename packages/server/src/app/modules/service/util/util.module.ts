@@ -1,6 +1,5 @@
-import { restModule } from '@ditsmod/rest';
-
+import { featureModule } from '@ditsmod/core';
 import { UtilService } from './util.service.js';
 
-@restModule({ providersPerApp: [UtilService] })
+@featureModule({ providersPerApp: [UtilService] })
 export class UtilModule {}

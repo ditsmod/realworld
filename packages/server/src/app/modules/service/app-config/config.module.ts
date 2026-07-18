@@ -1,8 +1,8 @@
-import { restModule } from '@ditsmod/rest';
+import { featureModule } from '@ditsmod/core';
 
 import { AppConfigService } from './config.service.js';
 
-@restModule({
+@featureModule({
   providersPerApp: [AppConfigService]
 })
 export class ConfigModule {}
