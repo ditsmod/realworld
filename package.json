@@ -19,7 +19,7 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@ditsmod/cli": "^3.0.0-next.15",
+    "@ditsmod/cli": "^3.0.0-next.16",
     "@eslint/js": "^10.0.1",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "~18.11.19",
