@@ -3,6 +3,7 @@ import { Logger, LoggerConfig, ProviderBuilder } from '@ditsmod/core';
 import { CorsOptions } from '@ditsmod/cors';
 import { AJV_OPTIONS } from '@ditsmod/openapi-validation';
 import { HttpErrorHandler, restRootModule } from '@ditsmod/rest';
+import { I18nModule } from '@ditsmod/i18n';
 
 import { ArticlesModule } from '#routed/articles/articles.module.js';
 import { ProfilesModule } from '#routed/profiles/profiles.module.js';
@@ -32,6 +33,7 @@ import { UtilModule } from '#service/util/util.module.js';
     ConfigModule,
     UtilModule,
     BodyParserModule,
+    I18nModule,
     ErrorHandlerModule,
   ],
   exports: [
@@ -40,6 +42,7 @@ import { UtilModule } from '#service/util/util.module.js';
     validationModuleWithOpts,
     UtilModule,
     BodyParserModule,
+    I18nModule,
     ErrorHandlerModule,
   ],
 
