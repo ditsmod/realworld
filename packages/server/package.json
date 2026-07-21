@@ -32,23 +32,23 @@
     "#shared": "shared"
   },
   "dependencies": {
-    "@ditsmod/authjs": "^3.0.0-next.16",
-    "@ditsmod/body-parser": "^3.0.0-next.16",
-    "@ditsmod/core": "^3.0.0-next.16",
-    "@ditsmod/cors": "^3.0.0-next.16",
-    "@ditsmod/i18n": "^3.0.0-next.16",
-    "@ditsmod/jwt": "^3.0.0-next.16",
-    "@ditsmod/openapi": "^3.0.0-next.16",
-    "@ditsmod/openapi-validation": "^3.0.0-next.16",
-    "@ditsmod/rest": "^3.0.0-next.16",
+    "@ditsmod/authjs": "^3.0.0-next.17",
+    "@ditsmod/body-parser": "^3.0.0-next.17",
+    "@ditsmod/core": "^3.0.0-next.17",
+    "@ditsmod/cors": "^3.0.0-next.17",
+    "@ditsmod/i18n": "^3.0.0-next.17",
+    "@ditsmod/jwt": "^3.0.0-next.17",
+    "@ditsmod/openapi": "^3.0.0-next.17",
+    "@ditsmod/openapi-validation": "^3.0.0-next.17",
+    "@ditsmod/rest": "^3.0.0-next.17",
     "@ts-stack/chain-error": "^1.5.1",
     "@ts-stack/cookies": "^1.2.2",
     "@ts-stack/openapi-spec": "^3.1.6",
     "bunyan": "^1.8.15",
-    "mysql2": "^3.23.0"
+    "mysql2": "^3.23.1"
   },
   "devDependencies": {
-    "@ditsmod/rest-testing": "^3.0.0-next.16",
+    "@ditsmod/rest-testing": "^3.0.0-next.17",
     "@types/bunyan": "^1.8.11",
     "@types/supertest": "^6.0.3",
     "supertest": "^7.2.2"
