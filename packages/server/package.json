@@ -41,11 +41,13 @@
     "@ditsmod/openapi": "^3.0.0-next.17",
     "@ditsmod/openapi-validation": "^3.0.0-next.17",
     "@ditsmod/rest": "^3.0.0-next.17",
+    "@ditsmod/typeorm": "^3.0.1-next.17",
     "@ts-stack/chain-error": "^1.5.1",
     "@ts-stack/cookies": "^1.2.2",
     "@ts-stack/openapi-spec": "^3.1.6",
     "bunyan": "^1.8.15",
-    "mysql2": "^3.23.1"
+    "mysql2": "^3.23.1",
+    "typeorm": "^1.0.0"
   },
   "devDependencies": {
     "@ditsmod/rest-testing": "^3.0.0-next.17",
@@ -54,6 +56,6 @@
     "supertest": "^7.2.2"
   },
   "engines": {
-    "node": ">= 20.6.0"
+    "node": ">= 24.0.0"
   }
 }

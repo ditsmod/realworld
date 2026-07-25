@@ -4,7 +4,6 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import request from 'supertest';
 import { createConnection } from 'mysql2/promise';
 
-import { MySqlConfigService } from '#service/mysql/mysql-config.service.js';
 import { AppModule } from '#app/app.module.js';
 
 describe('Real World', () => {
@@ -13,7 +12,7 @@ describe('Real World', () => {
   let slug = '';
   let token = '';
   let commentId = '';
-  const email = 'any-email@gmail.com';
+  let email = 'any-email@gmail.com';
   const username = 'any-username';
   const password = 'any-password';
   const dateRegExp = /^\d{4,}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+(?:[+-][0-2]\d:[0-5]\d|Z)$/;
@@ -22,8 +21,14 @@ describe('Real World', () => {
     server = await TestRestApplication.createTestApp(AppModule, { path: 'api' }).getServer();
     testAgent = request(server);
 
-    const config = new MySqlConfigService();
-    const connection = await createConnection({ ...config, multipleStatements: true });
+    const connection = await createConnection({
+      host: process.env.MYSQL_HOST || 'localhost',
+      port: process.env.MYSQL_PORT ? +process.env.MYSQL_PORT : 3306,
+      user: process.env.MYSQL_USER || 'root',
+      password: process.env.MYSQL_PASSWORD || '',
+      database: process.env.MYSQL_DATABASE || 'realworld',
+      multipleStatements: true,
+    });
     await connection.query(`
         SET FOREIGN_KEY_CHECKS=0;
         truncate curr_articles;
@@ -34,6 +39,7 @@ describe('Real World', () => {
         truncate map_favorites;
         truncate map_followers;
         SET FOREIGN_KEY_CHECKS=1;`);
+    await connection.end();
   });
 
   afterAll(() => {
@@ -93,7 +99,8 @@ describe('Real World', () => {
     });
 
     it('update current user', async () => {
-      const requestBody = { user: { email: 'other@i.ua' } };
+      email = 'other@i.ua';
+      const requestBody = { user: { email } };
       const { status, type, body } = await testAgent
         .put('/api/user')
         .set('Authorization', `Token ${token}`)

@@ -1,53 +1,50 @@
 import { injectable } from '@ditsmod/core';
+import { injectRepository } from '@ditsmod/typeorm';
+import { Repository } from 'typeorm';
 
-import { MysqlService } from '#service/mysql/mysql.service.js';
+import { User, Follower } from '#app/entities/index.js';
 import { Profile } from './models.js';
-import { ResultSetHeader } from 'mysql2';
 
 @injectable()
 export class DbService {
-  constructor(private mysql: MysqlService) {}
+  constructor(
+    @injectRepository(User) private userRepo: Repository<User>,
+    @injectRepository(Follower) private followerRepo: Repository<Follower>
+  ) {}
 
   async getProfile(currentUserId: number, targetUserName: string): Promise<Profile | undefined> {
-    const sql = `
-    select
-      username,
-      bio,
-      image,
-      if(f.userId is null, 0, 1) as following
-    from curr_users as u
-    left join map_followers as f
-      on u.userId = f.userId
-        and f.followerId = ?
-    where u.username = ?
-    ;`;
-    const { rows } = await this.mysql.query(sql, [currentUserId, targetUserName]);
-    return (rows as Profile[])[0];
+    const qb = this.userRepo
+      .createQueryBuilder('u')
+      .select(['u.username AS username', 'u.bio AS bio', 'u.image AS image', 'IF(f.userId IS NULL, 0, 1) AS following'])
+      .leftJoin(Follower, 'f', 'u.userId = f.userId AND f.followerId = :currentUserId', { currentUserId })
+      .where('u.username = :targetUserName', { targetUserName });
+
+    return qb.getRawOne();
   }
 
   async followUser(currentUserId: number, targetUserName: string) {
-    const sql = `
-    insert ignore into map_followers (userId, followerId)
-    select
-      userId,
-      ?
-    from curr_users as u
-    where username = ?
-    ;`;
-    const { rows } = await this.mysql.query(sql, [currentUserId, targetUserName]);
-    return (rows as ResultSetHeader);
+    const targetUser = await this.userRepo.findOneBy({ username: targetUserName });
+    if (!targetUser) return;
+
+    const existing = await this.followerRepo.findOneBy({
+      userId: targetUser.userId,
+      followerId: currentUserId,
+    });
+    if (!existing) {
+      await this.followerRepo.save({
+        userId: targetUser.userId,
+        followerId: currentUserId,
+      });
+    }
   }
 
   async unfollowUser(currentUserId: number, targetUserName: string) {
-    const sql = `
-    delete f 
-    from map_followers as f
-    join curr_users as u
-      using(userId)
-    where u.username = ?
-      and f.followerId = ?
-    ;`;
-    const { rows } = await this.mysql.query(sql, [targetUserName, currentUserId]);
-    return (rows as ResultSetHeader);
+    const targetUser = await this.userRepo.findOneBy({ username: targetUserName });
+    if (!targetUser) return;
+
+    await this.followerRepo.delete({
+      userId: targetUser.userId,
+      followerId: currentUserId,
+    });
   }
 }

@@ -4,6 +4,7 @@ import { CorsOptions } from '@ditsmod/cors';
 import { AJV_OPTIONS } from '@ditsmod/openapi-validation';
 import { HttpErrorHandler, restRootModule } from '@ditsmod/rest';
 import { I18nModule } from '@ditsmod/i18n';
+import { TypeormModule } from '@ditsmod/typeorm';
 
 import { ArticlesModule } from '#routed/articles/articles.module.js';
 import { ProfilesModule } from '#routed/profiles/profiles.module.js';
@@ -13,7 +14,6 @@ import { ConfigModule } from '#service/app-config/config.module.js';
 import { AuthModule } from '#service/auth/auth.module.js';
 import { ErrorHandlerModule } from '#service/error-handler/error-handler.module.js';
 import { LoggerModule } from '#service/logger/logger.module.js';
-import { MysqlModule } from '#service/mysql/mysql.module.js';
 import { openapiModuleWithOpts, validationModuleWithOpts } from '#service/openapi-with-params/index.js';
 import { UtilModule } from '#service/util/util.module.js';
 
@@ -27,7 +27,15 @@ import { UtilModule } from '#service/util/util.module.js';
   imports: [
     LoggerModule,
     AuthModule,
-    MysqlModule,
+    TypeormModule.forRoot({
+      type: 'mysql',
+      host: process.env.MYSQL_HOST || 'localhost',
+      port: process.env.MYSQL_PORT ? +process.env.MYSQL_PORT : 3306,
+      username: process.env.MYSQL_USER || 'root',
+      password: process.env.MYSQL_PASSWORD || '',
+      database: process.env.MYSQL_DATABASE || 'realworld',
+      synchronize: false,
+    }),
     openapiModuleWithOpts,
     validationModuleWithOpts,
     ConfigModule,

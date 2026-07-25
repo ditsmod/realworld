@@ -1,15 +1,19 @@
 import { injectable } from '@ditsmod/core';
+import { injectRepository } from '@ditsmod/typeorm';
+import { Repository } from 'typeorm';
 
-import { MysqlService } from '#service/mysql/mysql.service.js';
 import { AppConfigService } from '#service/app-config/config.service.js';
+import { Tag } from '#app/entities/index.js';
 
 @injectable()
 export class DbService {
-  constructor(private mysql: MysqlService, private config: AppConfigService) {}
+  constructor(@injectRepository(Tag) private tagRepo: Repository<Tag>, private config: AppConfigService) {}
 
   async getTags() {
-    const sql = `select tagName from dict_tags limit ${this.config.maxItemsTagsPerPage}`;
-    const { rows } = await this.mysql.query(sql);
-    return rows as { tagName: string }[];
+    const tags = await this.tagRepo.find({
+      select: { tagName: true },
+      take: this.config.maxItemsTagsPerPage,
+    });
+    return tags as { tagName: string }[];
   }
 }

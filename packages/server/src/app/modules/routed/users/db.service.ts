@@ -1,9 +1,11 @@
-import { ResultSetHeader } from 'mysql2';
+import type { ResultSetHeader } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 import { CustomError } from '@ditsmod/core/errors';
 import { DictService } from '@ditsmod/i18n';
+import { injectRepository } from '@ditsmod/typeorm';
+import { Repository } from 'typeorm';
 
-import { MysqlService } from '#service/mysql/mysql.service.js';
+import { User } from '#app/entities/index.js';
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
 import { CryptoService } from '#service/auth/crypto.service.js';
 import { DbUser, EmailOrUsername } from './types.js';
@@ -11,7 +13,11 @@ import { LoginData, PutUser, SignUpFormData, UserSession } from './models.js';
 
 @injectable()
 export class DbService {
-  constructor(private mysql: MysqlService, private dictService: DictService, private cryptoService: CryptoService) {}
+  constructor(
+    @injectRepository(User) private userRepo: Repository<User>,
+    private dictService: DictService,
+    private cryptoService: CryptoService
+  ) {}
 
   /**
    * Returns inserted user ID or throw an error about user exists.
@@ -19,16 +25,20 @@ export class DbService {
   async signUpUser(signUpFormData: SignUpFormData): Promise<number> {
     const { email, username, password } = signUpFormData.user;
     await this.checkUserExists({ email, username });
-    const params: any[] = [email, username, this.cryptoService.getCryptedPassword(password)];
-    const sql = 'insert into curr_users set email = ?, username = ?, password = ?;';
-    const { rows } = await this.mysql.query(sql, params);
-    return (rows as ResultSetHeader).insertId;
+    const user = this.userRepo.create({
+      email,
+      username,
+      password: this.cryptoService.getCryptedPassword(password),
+    });
+    const saved = await this.userRepo.save(user);
+    return saved.userId;
   }
 
   async checkUserExists({ email, username }: EmailOrUsername) {
-    const sql = 'select 1 as userExists from curr_users where email = ? or username = ?;';
-    const { rows } = await this.mysql.query(sql, [email, username]);
-    if ((rows as any[]).length) {
+    const existing = await this.userRepo.findOne({
+      where: [{ email }, { username }],
+    });
+    if (existing) {
       const dict = this.dictService.getDictionary(ServerDict);
       throw new CustomError({
         msg1: dict.usernameOrEmailAlreadyExists('email-or-username'),
@@ -41,46 +51,34 @@ export class DbService {
    * Returns user ID or throw an error about user exists.
    */
   async signInUser({ email, password }: LoginData): Promise<DbUser> {
-    const params: any[] = [email, this.cryptoService.getCryptedPassword(password)];
-    const sql = `
-    select
-      userId,
-      username,
-      email,
-      bio,
-      image
-    from curr_users
-    where email = ?
-      and password = ?;`;
-    const { rows } = await this.mysql.query(sql, params);
-    return (rows as DbUser[])[0];
+    const user = await this.userRepo.findOne({
+      select: { userId: true, username: true, email: true, bio: true, image: true },
+      where: {
+        email,
+        password: this.cryptoService.getCryptedPassword(password),
+      },
+    });
+    return user as unknown as DbUser;
   }
 
   async getCurrentUser(userId: number) {
-    const sql = `
-    select
-      username,
-      email,
-      bio,
-      image
-    from curr_users
-    where userId = ${userId};`;
-    const { rows } = await this.mysql.query(sql);
-    return (rows as Omit<UserSession, 'token'>[])[0];
+    const user = await this.userRepo.findOne({
+      select: { username: true, email: true, bio: true, image: true },
+      where: { userId },
+    });
+    return user as Omit<UserSession, 'token'>;
   }
 
   async putCurrentUser(userId: number, pubUser: PutUser) {
     const { email, username, password, image, bio } = pubUser;
-    const sql = `
-    update curr_users
-    set
-      email = ifnull(?, email),
-      username = ifnull(?, username),
-      password = ifnull(?, password),
-      image = ifnull(?, image),
-      bio = ifnull(?, bio)
-    where userId = ${userId};`;
-    const { rows } = await this.mysql.query(sql, [email, username, password, image, bio]);
-    return rows as ResultSetHeader;
+    const updateData: Partial<User> = {};
+    if (email !== undefined) updateData.email = email;
+    if (username !== undefined) updateData.username = username;
+    if (password !== undefined) updateData.password = password;
+    if (image !== undefined) updateData.image = image;
+    if (bio !== undefined) updateData.bio = bio;
+
+    const result = await this.userRepo.update(userId, updateData);
+    return { affectedRows: result.affected || 0 } as unknown as ResultSetHeader;
   }
 }

@@ -1,13 +1,13 @@
 # ![RealWorld Example App](logo.png)
 
-> ### Ditsmod codebase containing real world examples (CRUD, auth, i18n, OpenAPI with validation, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
+> ### Ditsmod codebase containing real world examples (CRUD with @ditsmod/typeorm, auth, i18n, OpenAPI with validation, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
 
 
-This codebase was created to demonstrate a fully fledged backend application built with **Ditsmod** including CRUD operations, authentication, routing, pagination, and more.
+This codebase was created to demonstrate a fully fledged backend application built with **Ditsmod** including CRUD operations with TypeORM (`@ditsmod/typeorm`), authentication, routing, pagination, and more.
 
 ## Prerequisites
 
-Please make sure that Node.js >= v20.6.0 is installed on your operating system.
+Please make sure that Node.js >= v24.0.0 is installed on your operating system.
 
 ## Getting started
 
@@ -38,7 +38,7 @@ cp packages/server/.env-example packages/server/.env
 
 And fill this file.
 
-4. Then create database (for example `real_world`), grant access permissions for this database, and execute `MySQL`-dump from [packages/server/sql/dump/info.sql](./packages/server/sql/dump/info.sql).
+4. Then create database (for example `realworld`), grant access permissions for this database, and execute `MySQL`-dump from [packages/server/sql/dump/info.sql](./packages/server/sql/dump/info.sql).
 
 ## Start the web server
 

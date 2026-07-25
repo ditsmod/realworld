@@ -1,74 +1,66 @@
-import { ResultSetHeader } from 'mysql2';
+import type { ResultSetHeader } from 'mysql2';
 import { injectable } from '@ditsmod/core';
+import { injectRepository } from '@ditsmod/typeorm';
+import { Repository } from 'typeorm';
 
-import { MysqlService } from '#service/mysql/mysql.service.js';
+import { Comment, Article, User, Follower } from '#app/entities/index.js';
 import { DbComment } from './types.js';
 
 @injectable()
 export class DbService {
-  constructor(private mysql: MysqlService) {}
+  constructor(
+    @injectRepository(Comment) private commentRepo: Repository<Comment>,
+    @injectRepository(Article) private articleRepo: Repository<Article>
+  ) {}
 
   async postComment(userId: number, slug: string, body: string) {
-    const sql = `
-    insert into curr_comments(userId, body, articleId)
-    select ? as userId, ? as body, articleId
-    from curr_articles as a
-    where a.slug = ?
-    ;`;
-    const { rows } = await this.mysql.query(sql, [userId, body, slug]);
-    return rows as ResultSetHeader;
+    const article = await this.articleRepo.findOneBy({ slug });
+    if (!article) {
+      throw new Error('Article not found');
+    }
+    const comment = this.commentRepo.create({
+      userId,
+      articleId: article.articleId,
+      body,
+      createdAt: Math.floor(Date.now() / 1000),
+    });
+    const saved = await this.commentRepo.save(comment);
+    return { insertId: saved.commentId } as ResultSetHeader;
   }
 
   async deleteArticle(userId: number, hasPermissions: boolean, commentId: number) {
-    let sql = `
-    delete from curr_comments
-    where commentId = ?`;
-
-    const params: (string | number | undefined)[] = [commentId];
-
+    let result;
     if (!hasPermissions) {
-      // If no permissions, only owner can delete the comment.
-      sql += ' and userId = ?;';
-      params.push(userId);
+      result = await this.commentRepo.delete({ commentId, userId });
+    } else {
+      result = await this.commentRepo.delete({ commentId });
     }
-
-    const { rows } = await this.mysql.query(sql, params);
-    return rows as ResultSetHeader;
+    return { affectedRows: result.affected || 0 } as unknown as ResultSetHeader;
   }
 
   async getComments(currentUserId: number): Promise<DbComment[]>;
   async getComments(currentUserId: number, commentId: number): Promise<DbComment>;
   async getComments(currentUserId: number, commentId?: number) {
-    const select = `
-    select
-      c.commentId,
-      c.createdAt,
-      c.updatedAt,
-      c.body,
-      u.username,
-      u.bio,
-      u.image,
-      if(f.userId is null, 0, 1) as following
-    from curr_comments as c
-    join curr_users as u
-      using(userId)
-    left join map_followers as f
-      on c.userId = f.userId
-        and f.followerId = ?
-    `;
-    const params = [currentUserId];
-    let where = '';
-    if (commentId) {
-      where = 'where commentId = ?';
-      params.push(commentId);
-    }
-    const sql = select + where;
-    const { rows } = await this.mysql.query(sql, params);
+    const qb = this.commentRepo
+      .createQueryBuilder('c')
+      .select([
+        'c.commentId AS commentId',
+        'c.createdAt AS createdAt',
+        'c.updatedAt AS updatedAt',
+        'c.body AS body',
+        'u.username AS username',
+        'u.bio AS bio',
+        'u.image AS image',
+        'IF(f.userId IS NULL, 0, 1) AS following',
+      ])
+      .innerJoin(User, 'u', 'u.userId = c.userId')
+      .leftJoin(Follower, 'f', 'c.userId = f.userId AND f.followerId = :currentUserId', { currentUserId });
 
     if (commentId) {
-      return (rows as DbComment[])[0];
+      qb.where('c.commentId = :commentId', { commentId });
+      return qb.getRawOne();
     } else {
-      return rows as DbComment[];
+      return qb.getRawMany();
     }
   }
 }

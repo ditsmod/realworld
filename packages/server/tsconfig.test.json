@@ -6,7 +6,7 @@
     "rootDir": "e2e",
     "tsBuildInfoFile": "dist-e2e/e2e.tsbuildinfo",
     "baseUrl": ".",
-    "resolveJsonModule":true
+    "resolveJsonModule": true,
   },
   "include": ["e2e"],
   "references": [

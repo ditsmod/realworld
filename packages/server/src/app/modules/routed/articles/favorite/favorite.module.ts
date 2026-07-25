@@ -1,7 +1,9 @@
 import { restModule } from '@ditsmod/rest';
 import { CorsModule } from '@ditsmod/cors';
 import { getParams, OasOptions } from '@ditsmod/openapi';
+import { TypeormModule } from '@ditsmod/typeorm';
 
+import { Article, ArticleTag, Favorite, Tag } from '#app/entities/index.js';
 import { Params } from '#models/params.js';
 import { ArticlesController } from '../articles.controller.js';
 import { DbService as ArticleDbService } from '../db.service.js';
@@ -9,7 +11,7 @@ import { DbService } from './db.service.js';
 import { FavoriteController } from './favorite.controller.js';
 
 @restModule({
-  imports: [CorsModule],
+  imports: [CorsModule, TypeormModule.forFeature([Favorite, Article, Tag, ArticleTag])],
   controllers: [FavoriteController],
   providersPerReq: [DbService, ArticlesController, ArticleDbService],
   extensionsMeta: {

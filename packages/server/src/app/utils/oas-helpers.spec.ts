@@ -7,13 +7,17 @@ import { OasOperationObject } from './oas-helpers.js';
 describe('oas-helpers', () => {
   describe('Responses', () => {
     it('should returns entered data', () => {
-      const operationObject = new OasOperationObject().getResponse(UserSessionData, 'After registration, this data is sent to the client.', HttpStatus.CREATED);
+      const operationObject = new OasOperationObject().getResponse(
+        UserSessionData,
+        'After registration, this data is sent to the client.',
+        HttpStatus.CREATED
+      );
       const expectedOjb = {
         responses: {
           [HttpStatus.CREATED]: {
-            description: 'After registration, this data is sent to the client.'
-          }
-        }
+            description: 'After registration, this data is sent to the client.',
+          },
+        },
       };
       expect(operationObject).toMatchObject(expectedOjb);
     });

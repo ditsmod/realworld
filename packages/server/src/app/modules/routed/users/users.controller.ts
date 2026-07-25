@@ -92,7 +92,7 @@ export class UsersController {
   })
   async updateCurrentUser(@ctx(JWT_PAYLOAD) jwtPayload: any) {
     const userId = jwtPayload.userId as number;
-    const putUser = this.body as PutUser;
+    const putUser = (this.body as PutUserData)?.user || (this.body as PutUser);
     const resultSetHeader = await this.db.putCurrentUser(userId, putUser);
     if (!resultSetHeader.affectedRows) {
       const dict = this.getDictionary();

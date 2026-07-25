@@ -98,11 +98,7 @@ export class ArticlesController {
       .setRequestBody(ArticlePostData, 'Description for requestBody.')
       .getResponse(ArticleItem, 'Description for response content.', HttpStatus.CREATED),
   })
-  async postArticles(
-    injector: Injector,
-    @ctx(JWT_PAYLOAD) jwtPayload: any,
-    @ctx(HTTP_BODY) body: ArticlePostData
-  ) {
+  async postArticles(injector: Injector, @ctx(JWT_PAYLOAD) jwtPayload: any, @ctx(HTTP_BODY) body: ArticlePostData) {
     const userId = jwtPayload.userId as number;
     const { article: articlePostData } = body;
     const slug = this.getSlug(articlePostData.title);
@@ -130,7 +126,7 @@ export class ArticlesController {
     dbArticle.updatedAt = dbArticle.updatedAt * 1000;
 
     const author = pickProperties(new Author(), dbArticle as Omit<DbArticle, 'following'>);
-    author.following = dbArticle.following ? true : false;
+    author.following = Number(dbArticle.following) === 1;
 
     const article = pickProperties(
       new Article(),
@@ -139,7 +135,7 @@ export class ArticlesController {
     article.author = author;
     article.createdAt = new Date(article.createdAt).toISOString();
     article.updatedAt = new Date(article.updatedAt).toISOString();
-    article.favorited = dbArticle.favorited ? true : false;
+    article.favorited = Number(dbArticle.favorited) === 1;
     return article;
   }
 

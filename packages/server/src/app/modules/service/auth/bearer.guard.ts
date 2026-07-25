@@ -21,10 +21,7 @@ import { CanActivate, RAW_REQ, RawRequest } from '@ditsmod/rest';
   },
 })
 export class BearerGuard implements CanActivate {
-  constructor(
-    private jwtService: JwtService,
-    private ctx: Context,
-  ) {}
+  constructor(private jwtService: JwtService, private ctx: Context) {}
 
   async canActivate() {
     const nodeReq = this.ctx.get(RAW_REQ) as RawRequest;

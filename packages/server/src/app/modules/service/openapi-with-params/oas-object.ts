@@ -1,4 +1,4 @@
-import type { XOasObject} from '@ts-stack/openapi-spec';
+import type { XOasObject } from '@ts-stack/openapi-spec';
 import { openapi } from '@ts-stack/openapi-spec';
 
 export const oasObject: XOasObject = {
