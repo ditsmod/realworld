@@ -5,8 +5,8 @@ import { controller, PATH_PARAMS } from '@ditsmod/rest';
 
 import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
-import { Params } from '#dto/params.dto.js';
-import { CommentData, CommentPostData, CommentsData } from './comments.dto.js';
+import { ParamsDto } from '#dto/params.dto.js';
+import { CommentDataDto, CommentPostDataDto, CommentsDto } from './comments.dto.js';
 import { CommentsService } from './comments.service.js';
 
 @controller()
@@ -15,15 +15,15 @@ export class CommentsController {
 
   @oasRoute('POST', '', [BearerGuard], {
     ...new OasOperationObject()
-      .setRequestBody(CommentPostData, 'Description for requestBody.')
-      .getResponse(CommentData, 'Description for response content.', HttpStatus.CREATED),
+      .setRequestBody(CommentPostDataDto, 'Description for requestBody.')
+      .getResponse(CommentDataDto, 'Description for response content.', HttpStatus.CREATED),
   })
-  async postComment(@ctx(HTTP_BODY) commentPostData: CommentPostData, @ctx(PATH_PARAMS) pathParams: any) {
+  async postComment(@ctx(HTTP_BODY) commentPostData: CommentPostDataDto, @ctx(PATH_PARAMS) pathParams: any) {
     return this.commentsService.postComment(pathParams.slug as string, commentPostData.comment.body);
   }
 
   @oasRoute('GET', '', {
-    ...new OasOperationObject().getResponse(CommentsData, 'Description for response content.'),
+    ...new OasOperationObject().getResponse(CommentsDto, 'Description for response content.'),
   })
   async getComments() {
     return this.commentsService.getComments();
@@ -31,7 +31,7 @@ export class CommentsController {
 
   @oasRoute('DELETE', ':id', [BearerGuard], {
     ...new OasOperationObject()
-      .setRequiredParams('path', Params, 'id')
+      .setRequiredParams('path', ParamsDto, 'id')
       .setNotFoundResponse('Comment nof found.')
       .getNoContentResponse(),
   })

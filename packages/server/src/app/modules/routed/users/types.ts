@@ -1,8 +1,10 @@
-import type { UserSession } from './users.dto.js';
+import type { UserSessionDto } from './users.dto.js';
 
 export interface EmailOrUsername {
   email?: string;
   username?: string;
 }
 
-export type DbUser = Omit<UserSession, 'token'> & { userId: number };
+export interface DbUser extends Omit<UserSessionDto, 'token'> {
+  userId: number;
+}

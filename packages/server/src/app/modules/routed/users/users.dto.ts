@@ -4,29 +4,29 @@ import { AppConfigService } from '#service/app-config/config.service.js';
 
 const config = new AppConfigService();
 
-export class LoginData {
+export class LoginDto {
   @property({ [REQUIRED]: true, pattern: config.emailPattern.source })
   email: string;
   @property({ [REQUIRED]: true, minLength: config.minLengthPassword, maxLength: config.maxLengthPassword })
   password: string;
 }
 
-export class SignUpData extends LoginData {
+export class SignUpDto extends LoginDto {
   @property({ [REQUIRED]: true })
   username: string;
 }
 
-export class LoginFormData {
+export class LoginFormDto {
   @property({ [REQUIRED]: true })
-  user: LoginData;
+  user: LoginDto;
 }
 
-export class SignUpFormData {
+export class SignUpFormDto {
   @property({ [REQUIRED]: true })
-  user: SignUpData;
+  user: SignUpDto;
 }
 
-export class UserSession {
+export class UserSessionDto {
   @property({ pattern: config.emailPattern.source })
   email: string = '';
   @property()
@@ -39,22 +39,22 @@ export class UserSession {
   image: string = '';
 }
 
-export class UserSessionData {
-  constructor(userSession?: Partial<UserSession>) {
-    this.user = { ...new UserSession(), ...(userSession || {}) };
+export class UserSessionDataDto {
+  constructor(userSession?: Partial<UserSessionDto>) {
+    this.user = { ...new UserSessionDto(), ...(userSession || {}) };
     delete (this.user as any).userId;
   }
 
   @property()
-  user: UserSession;
+  user: UserSessionDto;
 }
 
-export class PutUser extends UserSession {
+export class PutUserDto extends UserSessionDto {
   @property({ minLength: config.minLengthPassword, maxLength: config.maxLengthPassword })
   password: string = '';
 }
 
-export class PutUserData {
+export class PutUserDataDto {
   @property()
-  user: PutUser;
+  user: PutUserDto;
 }

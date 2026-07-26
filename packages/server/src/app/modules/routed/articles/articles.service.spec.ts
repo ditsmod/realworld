@@ -7,7 +7,7 @@ import type { UtilService } from '#service/util/util.service.js';
 import type { AppConfigService } from '#service/app-config/config.service.js';
 import { ArticlesService } from './articles.service.js';
 import type { DbService } from './db.service.js';
-import { ArticleItem, Articles } from './articles.dto.js';
+import { ArticleItemDto, ArticlesDto } from './articles.dto.js';
 import type { DbArticle } from './types.js';
 
 describe('ArticlesService', () => {
@@ -104,7 +104,7 @@ describe('ArticlesService', () => {
   });
 
   describe('getLastArticles', () => {
-    it('should return Articles object with mapped article items', async () => {
+    it('should return ArticlesDto object with mapped article items', async () => {
       dbMock.getArticles.mockResolvedValue({
         dbArticles: [{ ...mockDbArticle }],
         foundRows: 1,
@@ -119,7 +119,7 @@ describe('ArticlesService', () => {
         offset: 0,
         limit: 10,
       });
-      expect(result).toBeInstanceOf(Articles);
+      expect(result).toBeInstanceOf(ArticlesDto);
       expect(result.articlesCount).toBe(1);
       expect(result.articles[0].slug).toBe('hello-world');
     });
@@ -132,7 +132,7 @@ describe('ArticlesService', () => {
         foundRows: 1,
       });
 
-      const result = (await articlesService.getFeed({ offset: 0, limit: 5 })) as Articles;
+      const result = (await articlesService.getFeed({ offset: 0, limit: 5 })) as ArticlesDto;
 
       expect(dbMock.getArticlesByFeed).toHaveBeenCalledWith(1, 0, 5);
       expect(result.articlesCount).toBe(1);
@@ -146,20 +146,22 @@ describe('ArticlesService', () => {
   });
 
   describe('getArticleBySlug', () => {
-    it('should return ArticleItem when article is found', async () => {
+    it('should return ArticleItemDto when article is found', async () => {
       dbMock.getArticleBySlug.mockResolvedValue({ ...mockDbArticle });
 
       const result = await articlesService.getArticleBySlug('hello-world');
 
       expect(dbMock.getArticleBySlug).toHaveBeenCalledWith('hello-world', 1);
-      expect(result).toBeInstanceOf(ArticleItem);
+      expect(result).toBeInstanceOf(ArticleItemDto);
       expect(result.article.title).toBe('Hello World');
     });
 
     it('should throw 404 error when article is not found', async () => {
       dbMock.getArticleBySlug.mockResolvedValue(null);
 
-      await expect(articlesService.getArticleBySlug('missing')).rejects.toThrow('404: The article not found.');
+      await expect(articlesService.getArticleBySlug('missing')).rejects.toThrow(
+        '404: The article not found.'
+      );
     });
   });
 
@@ -177,7 +179,7 @@ describe('ArticlesService', () => {
       ).rejects.toThrow(CustomError);
     });
 
-    it('should insert article and return created ArticleItem when slug is unique', async () => {
+    it('should insert article and return created ArticleItemDto when slug is unique', async () => {
       dbMock.getArticleBySlug.mockResolvedValueOnce(null).mockResolvedValueOnce({ ...mockDbArticle });
       dbMock.postArticle.mockResolvedValue({ insertId: 1 });
       dbMock.getArticleById.mockResolvedValue({ ...mockDbArticle });
@@ -192,7 +194,7 @@ describe('ArticlesService', () => {
       const result = await articlesService.postArticle(1, articleData);
 
       expect(dbMock.postArticle).toHaveBeenCalledWith(1, 'new-article-title', articleData);
-      expect(result).toBeInstanceOf(ArticleItem);
+      expect(result).toBeInstanceOf(ArticleItemDto);
     });
   });
 
@@ -212,9 +214,9 @@ describe('ArticlesService', () => {
     it('should throw 403 error when affectedRows is 0', async () => {
       dbMock.putArticle.mockResolvedValue({ affectedRows: 0 });
 
-      await expect(articlesService.putArticle('hello-world', { title: 'No Permission' } as any)).rejects.toThrow(
-        /403:/
-      );
+      await expect(
+        articlesService.putArticle('hello-world', { title: 'No Permission' } as any)
+      ).rejects.toThrow(/403:/);
     });
   });
 

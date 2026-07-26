@@ -1,4 +1,3 @@
-import { ResultSetHeader } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 import { injectRepository } from '@ditsmod/typeorm';
 import { Repository } from 'typeorm';
@@ -12,57 +11,187 @@ import {
   FollowerEntity,
 } from '#app/entities/index.js';
 import { ArticlesSelectParams, DbArticle } from './types.js';
-import { ArticlePost, ArticlePut } from './articles.dto.js';
+import { ArticlePostDto, ArticlePutDto } from './articles.dto.js';
 
 @injectable()
 export class DbService {
   constructor(
     @injectRepository(ArticleEntity) private articleRepo: Repository<ArticleEntity>,
     @injectRepository(TagEntity) private tagRepo: Repository<TagEntity>,
-    @injectRepository(ArticleTagEntity) private articleTagRepo: Repository<ArticleTagEntity>
+    @injectRepository(ArticleTagEntity) private articleTagRepo: Repository<ArticleTagEntity>,
+    @injectRepository(UserEntity) private userRepo: Repository<UserEntity>,
+    @injectRepository(FavoriteEntity) private favoriteRepo: Repository<FavoriteEntity>,
+    @injectRepository(FollowerEntity) private followerRepo: Repository<FollowerEntity>
   ) {}
 
-  async postArticle(userId: number, slug: string, { title, description, body, tagList }: ArticlePost) {
-    const article = this.articleRepo.create({
+  async getArticles(currentUserId: number, params: ArticlesSelectParams) {
+    const qb = this.articleRepo
+      .createQueryBuilder('a')
+      .select([
+        'a.articleId AS articleId',
+        'a.slug AS slug',
+        'a.title AS title',
+        'a.description AS description',
+        'a.body AS body',
+        'a.createdAt AS createdAt',
+        'a.updatedAt AS updatedAt',
+        'u.username AS username',
+        'u.bio AS bio',
+        'u.image AS image',
+        'IF(f.userId IS NULL, 0, 1) AS favorited',
+        'IF(fl.userId IS NULL, 0, 1) AS following',
+      ])
+      .addSelect((subQuery) => {
+        return subQuery.select('COUNT(*)', 'count').from(FavoriteEntity, 'fav').where('fav.articleId = a.articleId');
+      }, 'favoritesCount')
+      .innerJoin(UserEntity, 'u', 'a.userId = u.userId')
+      .leftJoin(FavoriteEntity, 'f', 'a.articleId = f.articleId AND f.userId = :currentUserId', { currentUserId })
+      .leftJoin(FollowerEntity, 'fl', 'u.userId = fl.userId AND fl.followerId = :currentUserId', { currentUserId });
+
+    if (params.tag) {
+      qb.innerJoin(ArticleTagEntity, 'at', 'a.articleId = at.articleId').innerJoin(
+        TagEntity,
+        't',
+        'at.tagId = t.tagId AND t.tagName = :tag',
+        { tag: params.tag }
+      );
+    }
+    if (params.author) {
+      qb.andWhere('u.username = :author', { author: params.author });
+    }
+    if (params.favorited) {
+      qb.innerJoin(FavoriteEntity, 'favFilter', 'a.articleId = favFilter.articleId').innerJoin(
+        UserEntity,
+        'favUser',
+        'favFilter.userId = favUser.userId AND favUser.username = :favorited',
+        { favorited: params.favorited }
+      );
+    }
+
+    const foundRows = await qb.getCount();
+    const rawArticles = await qb
+      .orderBy('a.createdAt', 'DESC')
+      .offset(Number(params.offset))
+      .limit(Number(params.limit))
+      .getRawMany();
+
+    const dbArticles = await this.attachTagsToArticles(rawArticles);
+    return { dbArticles, foundRows };
+  }
+
+  async getArticlesByFeed(currentUserId: number, offset: number, limit: number) {
+    const qb = this.articleRepo
+      .createQueryBuilder('a')
+      .select([
+        'a.articleId AS articleId',
+        'a.slug AS slug',
+        'a.title AS title',
+        'a.description AS description',
+        'a.body AS body',
+        'a.createdAt AS createdAt',
+        'a.updatedAt AS updatedAt',
+        'u.username AS username',
+        'u.bio AS bio',
+        'u.image AS image',
+        'IF(f.userId IS NULL, 0, 1) AS favorited',
+        '1 AS following',
+      ])
+      .addSelect((subQuery) => {
+        return subQuery.select('COUNT(*)', 'count').from(FavoriteEntity, 'fav').where('fav.articleId = a.articleId');
+      }, 'favoritesCount')
+      .innerJoin(UserEntity, 'u', 'a.userId = u.userId')
+      .innerJoin(FollowerEntity, 'fl', 'u.userId = fl.userId AND fl.followerId = :currentUserId', { currentUserId })
+      .leftJoin(FavoriteEntity, 'f', 'a.articleId = f.articleId AND f.userId = :currentUserId', { currentUserId });
+
+    const foundRows = await qb.getCount();
+    const rawArticles = await qb
+      .orderBy('a.createdAt', 'DESC')
+      .offset(Number(offset))
+      .limit(Number(limit))
+      .getRawMany();
+
+    const dbArticles = await this.attachTagsToArticles(rawArticles);
+    return { dbArticles, foundRows };
+  }
+
+  async getArticleBySlug(slug: string, currentUserId: number): Promise<DbArticle | undefined> {
+    const qb = this.articleRepo
+      .createQueryBuilder('a')
+      .select([
+        'a.articleId AS articleId',
+        'a.slug AS slug',
+        'a.title AS title',
+        'a.description AS description',
+        'a.body AS body',
+        'a.createdAt AS createdAt',
+        'a.updatedAt AS updatedAt',
+        'u.username AS username',
+        'u.bio AS bio',
+        'u.image AS image',
+        'IF(f.userId IS NULL, 0, 1) AS favorited',
+        'IF(fl.userId IS NULL, 0, 1) AS following',
+      ])
+      .addSelect((subQuery) => {
+        return subQuery.select('COUNT(*)', 'count').from(FavoriteEntity, 'fav').where('fav.articleId = a.articleId');
+      }, 'favoritesCount')
+      .innerJoin(UserEntity, 'u', 'a.userId = u.userId')
+      .leftJoin(FavoriteEntity, 'f', 'a.articleId = f.articleId AND f.userId = :currentUserId', { currentUserId })
+      .leftJoin(FollowerEntity, 'fl', 'u.userId = fl.userId AND fl.followerId = :currentUserId', { currentUserId })
+      .where('a.slug = :slug', { slug });
+
+    const raw = await qb.getRawOne();
+    if (!raw) return undefined;
+    const [article] = await this.attachTagsToArticles([raw]);
+    return article;
+  }
+
+  async getArticleById(articleId: number, currentUserId: number): Promise<DbArticle | undefined> {
+    const qb = this.articleRepo
+      .createQueryBuilder('a')
+      .select([
+        'a.articleId AS articleId',
+        'a.slug AS slug',
+        'a.title AS title',
+        'a.description AS description',
+        'a.body AS body',
+        'a.createdAt AS createdAt',
+        'a.updatedAt AS updatedAt',
+        'u.username AS username',
+        'u.bio AS bio',
+        'u.image AS image',
+        'IF(f.userId IS NULL, 0, 1) AS favorited',
+        'IF(fl.userId IS NULL, 0, 1) AS following',
+      ])
+      .addSelect((subQuery) => {
+        return subQuery.select('COUNT(*)', 'count').from(FavoriteEntity, 'fav').where('fav.articleId = a.articleId');
+      }, 'favoritesCount')
+      .innerJoin(UserEntity, 'u', 'a.userId = u.userId')
+      .leftJoin(FavoriteEntity, 'f', 'a.articleId = f.articleId AND f.userId = :currentUserId', { currentUserId })
+      .leftJoin(FollowerEntity, 'fl', 'u.userId = fl.userId AND fl.followerId = :currentUserId', { currentUserId })
+      .where('a.articleId = :articleId', { articleId });
+
+    const raw = await qb.getRawOne();
+    if (!raw) return undefined;
+    const [article] = await this.attachTagsToArticles([raw]);
+    return article;
+  }
+
+  async postArticle(userId: number, slug: string, articlePost: ArticlePostDto) {
+    const now = Math.floor(Date.now() / 1000);
+    const newArticle = await this.articleRepo.save({
       userId,
-      title,
       slug,
-      description,
-      body,
-      tagList: tagList || [],
-      createdAt: Math.floor(Date.now() / 1000),
+      title: articlePost.title,
+      description: articlePost.description,
+      body: articlePost.body,
+      createdAt: now,
+      updatedAt: now,
     });
-    const saved = await this.articleRepo.save(article);
-    if (tagList && tagList.length) {
-      await this.insertIntoDictTags(userId, tagList);
-      await this.insertIntoMapArticlesTags(saved.articleId, tagList);
-    }
-    return { insertId: saved.articleId } as ResultSetHeader;
-  }
 
-  async insertIntoDictTags(userId: number, tagList: string[]) {
-    for (const tagName of tagList) {
-      const existing = await this.tagRepo.findOneBy({ tagName });
-      if (!existing) {
-        await this.tagRepo.save({
-          tagName,
-          creatorId: userId,
-          createdAt: Math.floor(Date.now() / 1000),
-        });
-      }
+    if (articlePost.tagList?.length) {
+      await this.saveTags(newArticle.articleId, userId, articlePost.tagList);
     }
-  }
-
-  async insertIntoMapArticlesTags(articleId: number, tagList: string[]) {
-    for (const tagName of tagList) {
-      const tag = await this.tagRepo.findOneBy({ tagName });
-      if (tag) {
-        const existing = await this.articleTagRepo.findOneBy({ articleId, tagId: tag.tagId });
-        if (!existing) {
-          await this.articleTagRepo.save({ articleId, tagId: tag.tagId });
-        }
-      }
-    }
+    return { insertId: newArticle.articleId };
   }
 
   async putArticle(
@@ -70,157 +199,68 @@ export class DbService {
     hasPermissions: boolean,
     oldSlug: string,
     newSlug: string,
-    { title, description, body }: ArticlePut
+    articlePut: ArticlePutDto
   ) {
-    const updateData: Partial<ArticleEntity> = {};
-    if (title !== undefined) updateData.title = title;
-    if (description !== undefined) updateData.description = description;
-    if (body !== undefined) updateData.body = body;
-    if (newSlug !== undefined) updateData.slug = newSlug;
+    const article = await this.articleRepo.findOneBy({ slug: oldSlug });
+    if (!article) return { affectedRows: 0 };
+    if (!hasPermissions && article.userId !== userId) return { affectedRows: 0 };
 
-    const where: any = { slug: oldSlug };
-    if (!hasPermissions) {
-      where.userId = userId;
+    const updateData: Partial<ArticleEntity> = {
+      updatedAt: Math.floor(Date.now() / 1000),
+    };
+    if (articlePut.title !== undefined) {
+      updateData.title = articlePut.title;
+      updateData.slug = newSlug;
     }
+    if (articlePut.description !== undefined) updateData.description = articlePut.description;
+    if (articlePut.body !== undefined) updateData.body = articlePut.body;
 
-    const result = await this.articleRepo.update(where, updateData);
-    return { affectedRows: result.affected || 0 } as ResultSetHeader;
+    await this.articleRepo.update(article.articleId, updateData);
+    return { affectedRows: 1 };
   }
 
   async deleteArticle(userId: number, hasPermissions: boolean, slug: string) {
-    let result;
-    if (!hasPermissions) {
-      result = await this.articleRepo.delete({ slug, userId });
-    } else {
-      result = await this.articleRepo.delete({ slug });
-    }
-    return { affectedRows: result.affected || 0 } as ResultSetHeader;
+    const article = await this.articleRepo.findOneBy({ slug });
+    if (!article) return { affectedRows: 0 };
+    if (!hasPermissions && article.userId !== userId) return { affectedRows: 0 };
+
+    await this.articleRepo.delete(article.articleId);
+    return { affectedRows: 1 };
   }
 
-  protected parseTagList(article: DbArticle) {
-    if (article && typeof article.tagList === 'string') {
-      try {
-        article.tagList = JSON.parse(article.tagList);
-      } catch {
-        // ignore parse error
+  private async saveTags(articleId: number, userId: number, tagList: string[]) {
+    const now = Math.floor(Date.now() / 1000);
+    for (const tagName of tagList) {
+      let tag = await this.tagRepo.findOneBy({ tagName });
+      if (!tag) {
+        tag = await this.tagRepo.save({ tagName, createdAt: now, creatorId: userId });
       }
+      await this.articleTagRepo.save({ articleId, tagId: tag.tagId });
     }
-    return article;
   }
 
-  private getArticleQueryBuilder(currentUserId: number) {
-    return this.articleRepo
-      .createQueryBuilder('a')
-      .select([
-        'a.slug AS slug',
-        'a.title AS title',
-        'a.description AS description',
-        'a.body AS body',
-        'a.tagList AS tagList',
-        'a.createdAt AS createdAt',
-        'a.updatedAt AS updatedAt',
-        'a.favoritesCount AS favoritesCount',
-        'IF(fav.userId IS NULL, 0, 1) AS favorited',
-        'u.username AS username',
-        'u.bio AS bio',
-        'u.image AS image',
-        'IF(fol.followerId IS NULL, 0, 1) AS following',
-      ])
-      .innerJoin(UserEntity, 'u', 'u.userId = a.userId')
-      .leftJoin(FollowerEntity, 'fol', 'a.userId = fol.userId AND fol.followerId = :currentUserId', { currentUserId })
-      .leftJoin(FavoriteEntity, 'fav', 'a.articleId = fav.articleId AND fav.userId = :currentUserId', {
-        currentUserId,
-      });
-  }
+  private async attachTagsToArticles(rawArticles: any[]): Promise<DbArticle[]> {
+    if (!rawArticles.length) return [];
+    const articleIds = rawArticles.map((a) => a.articleId);
 
-  async getArticleById(articleId: number, currentUserId: number) {
-    const raw = await this.getArticleQueryBuilder(currentUserId)
-      .where('a.articleId = :articleId', { articleId })
-      .getRawOne();
-    return this.parseTagList(raw);
-  }
+    const tagsRaw = await this.tagRepo
+      .createQueryBuilder('t')
+      .select(['at.articleId AS articleId', 't.tagName AS tagName'])
+      .innerJoin(ArticleTagEntity, 'at', 't.tagId = at.tagId')
+      .where('at.articleId IN (:...articleIds)', { articleIds })
+      .orderBy('t.tagName', 'DESC')
+      .getRawMany();
 
-  async getArticleBySlug(slug: string, currentUserId: number) {
-    const raw = await this.getArticleQueryBuilder(currentUserId).where('a.slug = :slug', { slug }).getRawOne();
-    return this.parseTagList(raw);
-  }
-
-  async getArticlesByFeed(currentUserId: number, offset: number, perPage: number) {
-    const qb = this.articleRepo
-      .createQueryBuilder('a')
-      .select([
-        'a.slug AS slug',
-        'a.title AS title',
-        'a.description AS description',
-        'a.body AS body',
-        'a.tagList AS tagList',
-        'a.createdAt AS createdAt',
-        'a.updatedAt AS updatedAt',
-        'a.favoritesCount AS favoritesCount',
-        'IF(fav.userId IS NULL, 0, 1) AS favorited',
-        'u.username AS username',
-        'u.bio AS bio',
-        'u.image AS image',
-        '1 AS following',
-      ])
-      .innerJoin(UserEntity, 'u', 'u.userId = a.userId')
-      .innerJoin(FollowerEntity, 'fol', 'a.userId = fol.userId AND fol.followerId = :currentUserId', { currentUserId })
-      .leftJoin(FavoriteEntity, 'fav', 'a.articleId = fav.articleId AND fav.userId = :currentUserId', { currentUserId })
-      .orderBy('a.articleId', 'DESC')
-      .offset(offset)
-      .limit(perPage);
-
-    const [rows, foundRows] = await Promise.all([qb.getRawMany(), qb.getCount()]);
-
-    const dbArticles = rows.map((art) => this.parseTagList(art));
-    return { dbArticles, foundRows };
-  }
-
-  async getArticles(currentUserId: number, params: ArticlesSelectParams) {
-    const qb = this.articleRepo
-      .createQueryBuilder('a')
-      .select([
-        'a.slug AS slug',
-        'a.title AS title',
-        'a.description AS description',
-        'a.body AS body',
-        'a.tagList AS tagList',
-        'a.createdAt AS createdAt',
-        'a.updatedAt AS updatedAt',
-        'a.favoritesCount AS favoritesCount',
-        'IF(fav.userId IS NULL, 0, 1) AS favorited',
-        'u.username AS username',
-        'u.bio AS bio',
-        'u.image AS image',
-        'IF(fol.followerId IS NULL, 0, 1) AS following',
-      ])
-      .innerJoin(UserEntity, 'u', 'u.userId = a.userId')
-      .leftJoin(FollowerEntity, 'fol', 'a.userId = fol.userId AND fol.followerId = :currentUserId', { currentUserId })
-      .leftJoin(FavoriteEntity, 'fav', 'a.articleId = fav.articleId AND fav.userId = :currentUserId', {
-        currentUserId,
-      });
-
-    if (params.tag) {
-      qb.innerJoin(ArticleTagEntity, 'at', 'a.articleId = at.articleId')
-        .innerJoin(TagEntity, 't', 't.tagId = at.tagId')
-        .andWhere('t.tagName = :tag', { tag: params.tag });
+    const tagsMap = new Map<number, string[]>();
+    for (const t of tagsRaw) {
+      const list = tagsMap.get(t.articleId) || [];
+      list.push(t.tagName);
+      tagsMap.set(t.articleId, list);
     }
 
-    if (params.author) {
-      qb.andWhere('u.username = :author', { author: params.author });
-    }
-
-    if (params.favorited) {
-      qb.innerJoin(FavoriteEntity, 'fav2', 'a.articleId = fav2.articleId')
-        .innerJoin(UserEntity, 'u2', 'fav2.userId = u2.userId')
-        .andWhere('u2.username = :favorited', { favorited: params.favorited });
-    }
-
-    qb.orderBy('a.articleId', 'DESC').offset(params.offset).limit(params.limit);
-
-    const [rows, foundRows] = await Promise.all([qb.getRawMany(), qb.getCount()]);
-
-    const dbArticles = rows.map((art) => this.parseTagList(art));
-    return { dbArticles, foundRows };
+    return rawArticles.map((a) => ({
+      ...a,
+      tagList: tagsMap.get(a.articleId) || [],
+    }));
   }
 }

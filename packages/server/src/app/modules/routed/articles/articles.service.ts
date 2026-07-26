@@ -7,7 +7,7 @@ import { UtilService } from '#service/util/util.service.js';
 import { AppConfigService } from '#service/app-config/config.service.js';
 import { Permission } from '#shared';
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
-import { Article, ArticleItem, ArticlePostData, ArticlePutData, Articles, Author } from './articles.dto.js';
+import { ArticleDto, ArticleItemDto, ArticlePostDataDto, ArticlePutDataDto, ArticlesDto, AuthorDto } from './articles.dto.js';
 import { DbService } from './db.service.js';
 import { ArticlesSelectParams, DbArticle } from './types.js';
 
@@ -31,7 +31,7 @@ export class ArticlesService {
     };
     const userId = await this.authService.getCurrentUserId();
     const { dbArticles, foundRows } = await this.db.getArticles(userId, articlesSelectParams);
-    const articles = new Articles();
+    const articles = new ArticlesDto();
     articles.articles = dbArticles.map((dbArticle) => this.transformToArticleItem(dbArticle));
     articles.articlesCount = foundRows;
     return articles;
@@ -43,7 +43,7 @@ export class ArticlesService {
       const offset: number = queryParams.offset || 0;
       const limit: number = queryParams.limit || this.config.perPage;
       const { dbArticles, foundRows } = await this.db.getArticlesByFeed(currentUserId, offset, limit);
-      const articles = new Articles();
+      const articles = new ArticlesDto();
       articles.articles = dbArticles.map((dbArticle) => this.transformToArticleItem(dbArticle));
       articles.articlesCount = foundRows;
       return articles;
@@ -58,13 +58,13 @@ export class ArticlesService {
     if (!dbArticle) {
       this.utils.throw404Error('slug', 'The article not found.');
     }
-    const article = this.transformToArticleItem(dbArticle);
-    const articleItem = new ArticleItem();
+    const article = this.transformToArticleItem(dbArticle!);
+    const articleItem = new ArticleItemDto();
     articleItem.article = article;
     return articleItem;
   }
 
-  async postArticle(userId: number, articlePostData: ArticlePostData['article']) {
+  async postArticle(userId: number, articlePostData: ArticlePostDataDto['article']) {
     const slug = this.getSlug(articlePostData.title);
 
     const slugExists = await this.db.getArticleBySlug(slug, 0);
@@ -80,12 +80,12 @@ export class ArticlesService {
     const currentUserId = await this.authService.getCurrentUserId();
     const dbArticle = await this.db.getArticleById(Number(insertResult.insertId), currentUserId);
     const article = this.transformToArticleItem(dbArticle!);
-    const articleItem = new ArticleItem();
+    const articleItem = new ArticleItemDto();
     articleItem.article = article;
     return articleItem;
   }
 
-  async putArticle(oldSlug: string, articlePutData: ArticlePutData['article']) {
+  async putArticle(oldSlug: string, articlePutData: ArticlePutDataDto['article']) {
     const hasPermissions = await this.authService.hasPermissions([Permission.canEditAnyPost]);
     const currentUserId = await this.authService.getCurrentUserId();
     const newSlug = this.getSlug(articlePutData.title) || oldSlug;
@@ -108,21 +108,22 @@ export class ArticlesService {
     return { ok: 1 };
   }
 
-  transformToArticleItem(dbArticle: DbArticle): Article {
+  transformToArticleItem(dbArticle: DbArticle): ArticleDto {
     dbArticle.createdAt = dbArticle.createdAt * 1000;
     dbArticle.updatedAt = dbArticle.updatedAt * 1000;
 
-    const author = pickProperties(new Author(), dbArticle as Omit<DbArticle, 'following'>);
+    const author = pickProperties(new AuthorDto(), dbArticle as Omit<DbArticle, 'following'>);
     author.following = Number(dbArticle.following) === 1;
 
     const article = pickProperties(
-      new Article(),
+      new ArticleDto(),
       dbArticle as Omit<DbArticle, 'favorited' | 'createdAt' | 'updatedAt'>
     );
     article.author = author;
     article.createdAt = new Date(article.createdAt).toISOString();
     article.updatedAt = new Date(article.updatedAt).toISOString();
     article.favorited = Number(dbArticle.favorited) === 1;
+    article.favoritesCount = Number(dbArticle.favoritesCount);
     return article;
   }
 

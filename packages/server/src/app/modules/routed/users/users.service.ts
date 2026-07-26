@@ -5,21 +5,25 @@ import { JwtService } from '@ditsmod/jwt';
 
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
 import { DbService } from './db.service.js';
-import { LoginFormData, PutUser, SignUpData, SignUpFormData, UserSessionData } from './users.dto.js';
+import { LoginFormDto, PutUserDto, SignUpDto, SignUpFormDto, UserSessionDataDto } from './users.dto.js';
 
 @injectable()
 export class UsersService {
-  constructor(private db: DbService, private jwtService: JwtService, private injector: Injector) {}
+  constructor(
+    private db: DbService,
+    private jwtService: JwtService,
+    private injector: Injector
+  ) {}
 
-  async signUpUser(signUpFormData: SignUpFormData) {
+  async signUpUser(signUpFormData: SignUpFormDto) {
     const userId = await this.db.signUpUser(signUpFormData);
-    delete (signUpFormData.user as Partial<SignUpData>).password;
-    const userSessionData = new UserSessionData(signUpFormData.user);
+    delete (signUpFormData.user as Partial<SignUpDto>).password;
+    const userSessionData = new UserSessionDataDto(signUpFormData.user);
     userSessionData.user.token = await this.jwtService.signWithSecret({ userId });
     return userSessionData;
   }
 
-  async signInUser(loginFormData: LoginFormData) {
+  async signInUser(loginFormData: LoginFormDto) {
     const { user } = loginFormData;
     const dbUser = await this.db.signInUser(user);
     if (!dbUser) {
@@ -30,7 +34,7 @@ export class UsersService {
         level: 'trace',
       });
     }
-    const userSessionData = new UserSessionData(dbUser);
+    const userSessionData = new UserSessionDataDto(dbUser);
     userSessionData.user.token = await this.jwtService.signWithSecret({ userId: dbUser.userId });
     return userSessionData;
   }
@@ -45,12 +49,12 @@ export class UsersService {
         level: 'error',
       });
     }
-    const userSessionData = new UserSessionData(dbUser);
+    const userSessionData = new UserSessionDataDto(dbUser);
     userSessionData.user.token = await this.jwtService.signWithSecret({ userId });
     return userSessionData;
   }
 
-  async updateCurrentUser(userId: number, putUser: PutUser) {
+  async updateCurrentUser(userId: number, putUser: PutUserDto) {
     const resultSetHeader = await this.db.putCurrentUser(userId, putUser);
     if (!resultSetHeader.affectedRows) {
       const dict = this.getDictionary();

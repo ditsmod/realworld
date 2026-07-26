@@ -1,13 +1,11 @@
-import type { Injector } from '@ditsmod/core';
-import { HttpStatus } from '@ditsmod/core';
 import { CustomError } from '@ditsmod/core/errors';
-import { DictService } from '@ditsmod/i18n';
+import type { Injector } from '@ditsmod/core';
 import type { JwtService } from '@ditsmod/jwt';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 import type { DbService } from './db.service.js';
-import type { SignUpFormData, LoginFormData } from './users.dto.js';
-import { UserSessionData, PutUser } from './users.dto.js';
+import type { SignUpFormDto, LoginFormDto } from './users.dto.js';
+import { UserSessionDataDto, PutUserDto } from './users.dto.js';
 import { UsersService } from './users.service.js';
 
 describe('UsersService', () => {
@@ -50,7 +48,7 @@ describe('UsersService', () => {
   describe('signUpUser', () => {
     it('should register user, strip password, and return user session data with token', async () => {
       dbServiceMock.signUpUser.mockResolvedValue(123);
-      const signUpFormData: SignUpFormData = {
+      const signUpFormData: SignUpFormDto = {
         user: {
           username: 'john',
           email: 'john@example.com',
@@ -63,7 +61,7 @@ describe('UsersService', () => {
       expect(dbServiceMock.signUpUser).toHaveBeenCalledWith(signUpFormData);
       expect(signUpFormData.user.password).toBeUndefined();
       expect(jwtServiceMock.signWithSecret).toHaveBeenCalledWith({ userId: 123 });
-      expect(result).toBeInstanceOf(UserSessionData);
+      expect(result).toBeInstanceOf(UserSessionDataDto);
       expect(result.user.token).toBe('fake-jwt-token');
     });
   });
@@ -77,7 +75,7 @@ describe('UsersService', () => {
         bio: 'bio text',
         image: 'http://image.png',
       });
-      const loginFormData: LoginFormData = {
+      const loginFormData: LoginFormDto = {
         user: { email: 'john@example.com', password: 'secretpassword' },
       };
 
@@ -91,7 +89,7 @@ describe('UsersService', () => {
 
     it('should throw CustomError when user is not found', async () => {
       dbServiceMock.signInUser.mockResolvedValue(null);
-      const loginFormData: LoginFormData = {
+      const loginFormData: LoginFormDto = {
         user: { email: 'wrong@example.com', password: 'wrong' },
       };
 
@@ -131,7 +129,7 @@ describe('UsersService', () => {
         email: 'john@example.com',
       });
 
-      const putUser: PutUser = { ...new PutUser(), username: 'updated' };
+      const putUser: PutUserDto = { ...new PutUserDto(), username: 'updated' };
       const result = await usersService.updateCurrentUser(123, putUser);
 
       expect(dbServiceMock.putCurrentUser).toHaveBeenCalledWith(123, putUser);
@@ -141,7 +139,7 @@ describe('UsersService', () => {
     it('should throw CustomError when affectedRows is 0', async () => {
       dbServiceMock.putCurrentUser.mockResolvedValue({ affectedRows: 0 });
 
-      const putUser: PutUser = { ...new PutUser(), username: 'test' };
+      const putUser: PutUserDto = { ...new PutUserDto(), username: 'test' };
       await expect(usersService.updateCurrentUser(123, putUser)).rejects.toThrow(CustomError);
     });
   });

@@ -4,10 +4,10 @@ import { oasRoute } from '@ditsmod/openapi';
 import { JWT_PAYLOAD } from '@ditsmod/jwt';
 import { HTTP_BODY } from '@ditsmod/body-parser';
 
-import { Params } from '#dto/params.dto.js';
+import { ParamsDto } from '#dto/params.dto.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
 import { BearerGuard } from '#service/auth/bearer.guard.js';
-import { ArticleItem, ArticlePostData, ArticlePutData, Articles } from './articles.dto.js';
+import { ArticleItemDto, ArticlePostDataDto, ArticlePutDataDto, ArticlesDto } from './articles.dto.js';
 import { ArticlesService } from './articles.service.js';
 
 @controller()
@@ -16,8 +16,8 @@ export class ArticlesController {
 
   @oasRoute('GET', '', {
     ...new OasOperationObject()
-      .setOptionalParams('query', Params, 'tag', 'author', 'favorited', 'limit', 'offset')
-      .setResponse(Articles, 'Description for response content.')
+      .setOptionalParams('query', ParamsDto, 'tag', 'author', 'favorited', 'limit', 'offset')
+      .setResponse(ArticlesDto, 'Description for response content.')
       .getNotFoundResponse('The article not found.'),
   })
   async getLastArticles(@optional() @ctx(QUERY_PARAMS) queryParams: any = {}) {
@@ -26,9 +26,9 @@ export class ArticlesController {
 
   @oasRoute('GET', ':slug', {
     ...new OasOperationObject()
-      .setRequiredParams('path', Params, 'slug')
-      .setOptionalParams('query', Params, 'tag', 'author', 'limit', 'offset')
-      .setResponse(ArticleItem, 'Description for response content.')
+      .setRequiredParams('path', ParamsDto, 'slug')
+      .setOptionalParams('query', ParamsDto, 'tag', 'author', 'limit', 'offset')
+      .setResponse(ArticleItemDto, 'Description for response content.')
       .setUnauthorizedResponse()
       .getNotFoundResponse('The article not found.'),
   })
@@ -42,25 +42,25 @@ export class ArticlesController {
 
   @oasRoute('POST', '', [BearerGuard], {
     ...new OasOperationObject()
-      .setRequestBody(ArticlePostData, 'Description for requestBody.')
-      .getResponse(ArticleItem, 'Description for response content.', HttpStatus.CREATED),
+      .setRequestBody(ArticlePostDataDto, 'Description for requestBody.')
+      .getResponse(ArticleItemDto, 'Description for response content.', HttpStatus.CREATED),
   })
-  async postArticles(@ctx(JWT_PAYLOAD) jwtPayload: any, @ctx(HTTP_BODY) body: ArticlePostData) {
+  async postArticles(@ctx(JWT_PAYLOAD) jwtPayload: any, @ctx(HTTP_BODY) body: ArticlePostDataDto) {
     return this.articlesService.postArticle(jwtPayload.userId as number, body.article);
   }
 
   @oasRoute('PUT', ':slug', [BearerGuard], {
     ...new OasOperationObject()
-      .setRequiredParams('path', Params, 'slug')
-      .setRequestBody(ArticlePutData, 'Description for requestBody.')
-      .getResponse(ArticleItem, 'Description for response content.'),
+      .setRequiredParams('path', ParamsDto, 'slug')
+      .setRequestBody(ArticlePutDataDto, 'Description for requestBody.')
+      .getResponse(ArticleItemDto, 'Description for response content.'),
   })
-  async putArticlesSlug(@ctx(PATH_PARAMS) pathParams: any, @ctx(HTTP_BODY) articlePutData: ArticlePutData) {
+  async putArticlesSlug(@ctx(PATH_PARAMS) pathParams: any, @ctx(HTTP_BODY) articlePutData: ArticlePutDataDto) {
     return this.articlesService.putArticle(pathParams.slug as string, articlePutData.article);
   }
 
   @oasRoute('DELETE', ':slug', [BearerGuard], {
-    ...new OasOperationObject().setRequiredParams('path', Params, 'slug').setUnprocessableEnryResponse().getResponse(),
+    ...new OasOperationObject().setRequiredParams('path', ParamsDto, 'slug').setUnprocessableEnryResponse().getResponse(),
   })
   async delArticlesSlug(@ctx(PATH_PARAMS) pathParams: any) {
     return this.articlesService.deleteArticle(pathParams.slug as string);

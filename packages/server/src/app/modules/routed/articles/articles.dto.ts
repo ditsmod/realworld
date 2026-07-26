@@ -4,7 +4,7 @@ import { AppConfigService } from '#service/app-config/config.service.js';
 
 const config = new AppConfigService();
 
-export class Author {
+export class AuthorDto {
   @property()
   username: string = '';
   @property()
@@ -15,7 +15,7 @@ export class Author {
   following: boolean = false;
 }
 
-export class Article {
+export class ArticleDto {
   @property()
   slug: string = '';
   @property({ minLength: config.minLengthArticleTitle, maxLength: config.maxLengthArticleTitle })
@@ -35,28 +35,42 @@ export class Article {
   @property()
   favoritesCount: number = 0;
   @property()
-  author: Author = new Author();
+  author: AuthorDto = new AuthorDto();
 }
 
-export class Articles {
-  @property({ [REQUIRED]: true }, { array: Article })
-  articles: Article[] = [];
+export class ArticlesDto {
+  @property({ [REQUIRED]: true }, { array: ArticleDto })
+  articles: ArticleDto[] = [];
   @property()
   articlesCount: number = 0;
 }
 
-export class ArticleItem {
+export class ArticleItemDto {
   @property()
-  article: Article = new Article();
+  article: ArticleDto = new ArticleDto();
 }
 
-export class ArticlePost {
+export class ArticlePutDto {
+  @property()
+  title?: string = '';
+  @property()
+  description?: string = '';
+  @property()
+  body?: string = '';
+}
+
+export class ArticlePutDataDto {
+  @property()
+  article: ArticlePutDto;
+}
+
+export class ArticlePostDto extends ArticlePutDto {
   @property({ [REQUIRED]: true })
-  title: string = '';
+  override title: string = '';
   @property({ [REQUIRED]: true })
-  description: string = '';
+  override description: string = '';
   @property({ [REQUIRED]: true })
-  body: string = '';
+  override body: string = '';
   @property(
     {
       type: 'array',
@@ -68,21 +82,7 @@ export class ArticlePost {
   tagList?: string[] = [];
 }
 
-export class ArticlePostData {
+export class ArticlePostDataDto {
   @property({ [REQUIRED]: true })
-  article: ArticlePost;
-}
-
-export class ArticlePut {
-  @property()
-  title?: string = '';
-  @property()
-  description?: string = '';
-  @property()
-  body?: string = '';
-}
-
-export class ArticlePutData {
-  @property()
-  article: ArticlePut;
+  article: ArticlePostDto;
 }

@@ -9,7 +9,7 @@ import { UserEntity } from '#app/entities/index.js';
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
 import { CryptoService } from '#service/auth/crypto.service.js';
 import { DbUser, EmailOrUsername } from './types.js';
-import { LoginData, PutUser, SignUpFormData, UserSession } from './users.dto.js';
+import { LoginDto, PutUserDto, SignUpFormDto, UserSessionDto } from './users.dto.js';
 
 @injectable()
 export class DbService {
@@ -22,7 +22,7 @@ export class DbService {
   /**
    * Returns inserted user ID or throw an error about user exists.
    */
-  async signUpUser(signUpFormData: SignUpFormData): Promise<number> {
+  async signUpUser(signUpFormData: SignUpFormDto): Promise<number> {
     const { email, username, password } = signUpFormData.user;
     await this.checkUserExists({ email, username });
     const user = this.userRepo.create({
@@ -50,7 +50,7 @@ export class DbService {
   /**
    * Returns user ID or throw an error about user exists.
    */
-  async signInUser({ email, password }: LoginData): Promise<DbUser> {
+  async signInUser({ email, password }: LoginDto): Promise<DbUser> {
     const user = await this.userRepo.findOne({
       select: { userId: true, username: true, email: true, bio: true, image: true },
       where: {
@@ -66,10 +66,10 @@ export class DbService {
       select: { username: true, email: true, bio: true, image: true },
       where: { userId },
     });
-    return user as Omit<UserSession, 'token'>;
+    return user as Omit<UserSessionDto, 'token'>;
   }
 
-  async putCurrentUser(userId: number, pubUser: PutUser) {
+  async putCurrentUser(userId: number, pubUser: PutUserDto) {
     const { email, username, password, image, bio } = pubUser;
     const updateData: Partial<UserEntity> = {};
     if (email !== undefined) updateData.email = email;

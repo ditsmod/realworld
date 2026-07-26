@@ -1,8 +1,8 @@
 import { property, REQUIRED } from '@ditsmod/openapi';
 
-import { Author } from '../articles.dto.js';
+import { AuthorDto } from '../articles.dto.js';
 
-export class Comment {
+export class CommentDto {
   @property()
   id: number = 0;
   @property()
@@ -12,25 +12,25 @@ export class Comment {
   @property()
   body: string = '';
   @property()
-  author: Author = new Author();
+  author: AuthorDto = new AuthorDto();
 }
 
-export class CommentData {
+export class CommentDataDto {
   @property()
-  comment: Comment;
+  comment: CommentDto;
 }
 
-export class CommentsData {
-  @property({}, { array: Comment })
-  comments: Comment[] = [new Comment()];
+export class CommentsDto {
+  @property({}, { array: CommentDto })
+  comments: CommentDto[] = [new CommentDto()];
 }
 
-export class CommentPost {
+export class CommentPostDto {
   @property({ [REQUIRED]: true })
   body: string;
 }
 
-export class CommentPostData {
+export class CommentPostDataDto {
   @property({ [REQUIRED]: true })
-  comment: CommentPost;
+  comment: CommentPostDto;
 }

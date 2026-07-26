@@ -6,40 +6,43 @@ import { controller } from '@ditsmod/rest';
 
 import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
-import { LoginFormData, PutUser, PutUserData, SignUpFormData, UserSessionData } from './users.dto.js';
+import { LoginFormDto, PutUserDto, PutUserDataDto, SignUpFormDto, UserSessionDataDto } from './users.dto.js';
 import { UsersService } from './users.service.js';
 
 @controller()
 export class UsersController {
-  constructor(@ctx(HTTP_BODY) private body: any, private usersService: UsersService) {}
+  constructor(
+    @ctx(HTTP_BODY) private body: any,
+    private usersService: UsersService
+  ) {}
 
   @oasRoute('POST', 'users', {
     description: 'User registration.',
     tags: ['users'],
     ...new OasOperationObject()
-      .setRequestBody(SignUpFormData, 'Data that a user should send for registration.')
-      .getResponse(UserSessionData, 'After registration, this data is sent to the client.', HttpStatus.CREATED),
+      .setRequestBody(SignUpFormDto, 'Data that a user should send for registration.')
+      .getResponse(UserSessionDataDto, 'After registration, this data is sent to the client.', HttpStatus.CREATED),
   })
   async signUpUser() {
-    return this.usersService.signUpUser(this.body as SignUpFormData);
+    return this.usersService.signUpUser(this.body as SignUpFormDto);
   }
 
   @oasRoute('POST', 'users/login', {
     description: 'User login.',
     tags: ['users'],
     ...new OasOperationObject()
-      .setRequestBody(LoginFormData, 'Data that a user should send for loggining.')
-      .getResponse(UserSessionData, 'After login, this data is sent to the client.'),
+      .setRequestBody(LoginFormDto, 'Data that a user should send for loggining.')
+      .getResponse(UserSessionDataDto, 'After login, this data is sent to the client.'),
   })
   async signInUser() {
-    return this.usersService.signInUser(this.body as LoginFormData);
+    return this.usersService.signInUser(this.body as LoginFormDto);
   }
 
   @oasRoute('GET', 'user', [BearerGuard], {
     description: 'Info about current user.',
     tags: ['user'],
     ...new OasOperationObject()
-      .setResponse(UserSessionData, 'Description for response content.')
+      .setResponse(UserSessionDataDto, 'Description for response content.')
       .getNotFoundResponse('User not found.'),
   })
   async getCurrentUser(@ctx(JWT_PAYLOAD) jwtPayload: any) {
@@ -50,12 +53,12 @@ export class UsersController {
     description: 'Update current user.',
     tags: ['user'],
     ...new OasOperationObject()
-      .setRequestBody(PutUserData, 'Any of this properties are required.')
-      .getResponse(UserSessionData, 'Returns the User.'),
+      .setRequestBody(PutUserDataDto, 'Any of this properties are required.')
+      .getResponse(UserSessionDataDto, 'Returns the User.'),
   })
   async updateCurrentUser(@ctx(JWT_PAYLOAD) jwtPayload: any) {
     const userId = jwtPayload.userId as number;
-    const putUser = (this.body as PutUserData)?.user || (this.body as PutUser);
+    const putUser = (this.body as PutUserDataDto)?.user || (this.body as PutUserDto);
     return this.usersService.updateCurrentUser(userId, putUser);
   }
 }

@@ -3,10 +3,10 @@ import { pickProperties, injectable } from '@ditsmod/core';
 import { Permission } from '#shared';
 import { AuthService } from '#service/auth/auth.service.js';
 import { UtilService } from '#service/util/util.service.js';
-import { CommentData, CommentsData, Comment } from './comments.dto.js';
+import { CommentDataDto, CommentsDto, CommentDto } from './comments.dto.js';
 import { DbService } from './db.service.js';
 import { DbComment } from './types.js';
-import { Author } from '../articles.dto.js';
+import { AuthorDto } from '../articles.dto.js';
 
 @injectable()
 export class CommentsService {
@@ -21,7 +21,7 @@ export class CommentsService {
     const resultSetHeader = await this.db.postComment(userId, slug, body);
     const commentId = Number(resultSetHeader.insertId);
     const dbComment = await this.db.getComments(userId, commentId);
-    const commentData = new CommentData();
+    const commentData = new CommentDataDto();
     commentData.comment = this.transformToComment(dbComment);
     return commentData;
   }
@@ -29,7 +29,7 @@ export class CommentsService {
   async getComments() {
     const currentUserId = await this.authService.getCurrentUserId();
     const dbComments = await this.db.getComments(currentUserId);
-    const commentsData = new CommentsData();
+    const commentsData = new CommentsDto();
     commentsData.comments = dbComments.map((dbComment) => this.transformToComment(dbComment));
     return commentsData;
   }
@@ -44,14 +44,14 @@ export class CommentsService {
     return { ok: 1 };
   }
 
-  protected transformToComment(dbComment: DbComment): Comment {
+  protected transformToComment(dbComment: DbComment): CommentDto {
     dbComment.createdAt = dbComment.createdAt * 1000;
     dbComment.updatedAt = dbComment.updatedAt * 1000;
-    const commentData = pickProperties(new Comment(), dbComment as Omit<DbComment, 'createdAt' | 'updatedAt'>);
+    const commentData = pickProperties(new CommentDto(), dbComment as Omit<DbComment, 'createdAt' | 'updatedAt'>);
     commentData.id = dbComment.commentId;
     commentData.createdAt = new Date(commentData.createdAt).toISOString();
     commentData.updatedAt = new Date(commentData.updatedAt).toISOString();
-    const author = pickProperties(new Author(), dbComment as Omit<DbComment, 'following'>);
+    const author = pickProperties(new AuthorDto(), dbComment as Omit<DbComment, 'following'>);
     author.following = author.following ? true : false;
     commentData.author = author;
     return commentData;

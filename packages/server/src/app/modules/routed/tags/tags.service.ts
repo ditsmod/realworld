@@ -1,7 +1,7 @@
 import { injectable } from '@ditsmod/core';
 
 import { DbService } from './db.service.js';
-import { Tags } from './tags.dto.js';
+import { TagsDto } from './tags.dto.js';
 
 @injectable()
 export class TagsService {
@@ -9,7 +9,7 @@ export class TagsService {
 
   async getTags() {
     const dbTags = await this.db.getTags();
-    const tags = new Tags();
+    const tags = new TagsDto();
     tags.tags = dbTags.map((t) => t.tagName);
     return tags;
   }

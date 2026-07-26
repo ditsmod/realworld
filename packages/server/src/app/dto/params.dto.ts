@@ -4,7 +4,7 @@ import { AppConfigService } from '#service/app-config/config.service.js';
 
 const config = new AppConfigService();
 
-export class Params {
+export class ParamsDto {
   @property({
     minLength: config.minUserName,
     maxLength: config.maxUserName,

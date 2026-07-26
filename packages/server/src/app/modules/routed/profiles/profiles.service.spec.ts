@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import type { AuthService } from '#service/auth/auth.service.js';
 import type { UtilService } from '#service/util/util.service.js';
 import type { DbService } from './db.service.js';
-import { ProfileData } from './profiles.dto.js';
+import { ProfileDataDto } from './profiles.dto.js';
 import { ProfilesService } from './profiles.service.js';
 
 describe('ProfilesService', () => {
@@ -38,7 +38,7 @@ describe('ProfilesService', () => {
   });
 
   describe('getProfileOfTargetUser', () => {
-    it('should return ProfileData when profile exists', async () => {
+    it('should return ProfileDataDto when profile exists', async () => {
       dbMock.getProfile.mockResolvedValue({
         username: 'celeb',
         bio: 'famous',
@@ -50,7 +50,7 @@ describe('ProfilesService', () => {
 
       expect(dbMock.getProfile).toHaveBeenCalledWith(1, 'celeb');
       expect(utilMock.convertToBool).toHaveBeenCalledWith(1);
-      expect(result).toBeInstanceOf(ProfileData);
+      expect(result).toBeInstanceOf(ProfileDataDto);
       expect(result.profile.username).toBe('celeb');
       expect(result.profile.following).toBe(true);
     });

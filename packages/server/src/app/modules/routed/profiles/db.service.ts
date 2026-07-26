@@ -3,7 +3,7 @@ import { injectRepository } from '@ditsmod/typeorm';
 import { Repository } from 'typeorm';
 
 import { UserEntity, FollowerEntity } from '#app/entities/index.js';
-import { Profile } from './profiles.dto.js';
+import { ProfileDto } from './profiles.dto.js';
 
 @injectable()
 export class DbService {
@@ -12,7 +12,7 @@ export class DbService {
     @injectRepository(FollowerEntity) private followerRepo: Repository<FollowerEntity>
   ) {}
 
-  async getProfile(currentUserId: number, targetUserName: string): Promise<Profile | undefined> {
+  async getProfile(currentUserId: number, targetUserName: string): Promise<ProfileDto | undefined> {
     const qb = this.userRepo
       .createQueryBuilder('u')
       .select(['u.username AS username', 'u.bio AS bio', 'u.image AS image', 'IF(f.userId IS NULL, 0, 1) AS following'])

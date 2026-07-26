@@ -1,11 +1,11 @@
 import { property, REQUIRED } from '@ditsmod/openapi';
 
-export class ErrorField {
+export class ErrorFieldDto {
   @property({}, { array: String })
   someProperty: string[];
 }
 
-export class ErrorTemplate {
+export class ErrorTemplateDto {
   @property({ [REQUIRED]: true })
-  errors: ErrorField;
+  errors: ErrorFieldDto;
 }

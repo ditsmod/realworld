@@ -3,7 +3,7 @@ import { getContent, Parameters } from '@ditsmod/openapi';
 import type { Class } from '@ditsmod/core';
 import type { OperationObject, ResponseObject } from '@ts-stack/openapi-spec';
 
-import { ErrorTemplate } from '#dto/errors.dto.js';
+import { ErrorTemplateDto } from '#dto/errors.dto.js';
 
 export type Model = Class<AnyObj>;
 type RequiredParamsIn = 'query' | 'header' | 'path' | 'cookie';
@@ -92,7 +92,7 @@ export class OasOperationObject {
   }
 
   setUnprocessableEnryResponse(description: string = 'If validation fail.') {
-    this.setResponse(ErrorTemplate, description, HttpStatus.UNPROCESSABLE_ENTRY);
+    this.setResponse(ErrorTemplateDto, description, HttpStatus.UNPROCESSABLE_ENTRY);
     return this;
   }
 

@@ -3,11 +3,15 @@ import { injectable } from '@ditsmod/core';
 import { UtilService } from '#service/util/util.service.js';
 import { AuthService } from '#service/auth/auth.service.js';
 import { DbService } from './db.service.js';
-import { Profile, ProfileData } from './profiles.dto.js';
+import { ProfileDto, ProfileDataDto } from './profiles.dto.js';
 
 @injectable()
 export class ProfilesService {
-  constructor(private db: DbService, private authService: AuthService, private util: UtilService) {}
+  constructor(
+    private db: DbService,
+    private authService: AuthService,
+    private util: UtilService
+  ) {}
 
   async getProfileOfTargetUser(targetUserName: string, currentUserId?: number) {
     currentUserId = currentUserId || (await this.authService.getCurrentUserId());
@@ -16,8 +20,8 @@ export class ProfilesService {
       this.util.throw404Error('username', 'A profile with the specified username was not found.');
     }
     profile!.following = this.util.convertToBool(profile!.following);
-    const profileData = new ProfileData();
-    profileData.profile = profile! as Profile;
+    const profileData = new ProfileDataDto();
+    profileData.profile = profile! as ProfileDto;
     return profileData;
   }
 

@@ -3,10 +3,10 @@ import { controller, PATH_PARAMS } from '@ditsmod/rest';
 import { oasRoute } from '@ditsmod/openapi';
 import { JWT_PAYLOAD } from '@ditsmod/jwt';
 
-import { Params } from '#dto/params.dto.js';
+import { ParamsDto } from '#dto/params.dto.js';
 import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
-import { ProfileData } from './profiles.dto.js';
+import { ProfileDataDto } from './profiles.dto.js';
 import { ProfilesService } from './profiles.service.js';
 
 @controller()
@@ -20,9 +20,9 @@ export class ProfilesController {
   @oasRoute('GET', ':username', {
     description: 'Returns a profile for target user.',
     ...new OasOperationObject()
-      .setRequiredParams('path', Params, 'username')
+      .setRequiredParams('path', ParamsDto, 'username')
       .setNotFoundResponse('A profile with the specified username was not found.')
-      .getResponse(ProfileData, 'Show profile for target username.'),
+      .getResponse(ProfileDataDto, 'Show profile for target username.'),
   })
   async sendProfileOfTargetUser() {
     return this.profilesService.getProfileOfTargetUser(this.pathParams.username as string);
@@ -30,9 +30,9 @@ export class ProfilesController {
 
   @oasRoute('POST', ':username/follow', [BearerGuard], {
     ...new OasOperationObject()
-      .setRequiredParams('path', Params, 'username')
+      .setRequiredParams('path', ParamsDto, 'username')
       .setNotFoundResponse('A profile with the specified username was not found.')
-      .getResponse(ProfileData, 'Description for response content.'),
+      .getResponse(ProfileDataDto, 'Description for response content.'),
   })
   async followUser() {
     return this.profilesService.followUser(this.pathParams.username as string, this.jwtPayload?.userId);
@@ -40,7 +40,7 @@ export class ProfilesController {
 
   @oasRoute('DELETE', ':username/follow', [BearerGuard], {
     ...new OasOperationObject()
-      .setRequiredParams('path', Params, 'username')
+      .setRequiredParams('path', ParamsDto, 'username')
       .setNoContentResponse()
       .getNotFoundResponse('A profile with the specified username was not found.'),
   })

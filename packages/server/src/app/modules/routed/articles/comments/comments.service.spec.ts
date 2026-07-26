@@ -4,7 +4,7 @@ import type { AuthService } from '#service/auth/auth.service.js';
 import type { UtilService } from '#service/util/util.service.js';
 import { CommentsService } from './comments.service.js';
 import type { DbService } from './db.service.js';
-import { CommentData, CommentsData } from './comments.dto.js';
+import { CommentDataDto, CommentsDto } from './comments.dto.js';
 
 describe('CommentsService', () => {
   let commentsService: CommentsService;
@@ -50,7 +50,7 @@ describe('CommentsService', () => {
   });
 
   describe('postComment', () => {
-    it('should post comment to DB and return CommentData DTO', async () => {
+    it('should post comment to DB and return CommentDataDto', async () => {
       dbMock.postComment.mockResolvedValue({ insertId: 10 });
       dbMock.getComments.mockResolvedValue({ ...mockDbComment });
 
@@ -58,20 +58,20 @@ describe('CommentsService', () => {
 
       expect(dbMock.postComment).toHaveBeenCalledWith(1, 'hello-world', 'Great article!');
       expect(dbMock.getComments).toHaveBeenCalledWith(1, 10);
-      expect(result).toBeInstanceOf(CommentData);
+      expect(result).toBeInstanceOf(CommentDataDto);
       expect(result.comment.id).toBe(10);
       expect(result.comment.body).toBe('Great article!');
     });
   });
 
   describe('getComments', () => {
-    it('should return CommentsData with mapped comments', async () => {
+    it('should return CommentsDto with mapped comments', async () => {
       dbMock.getComments.mockResolvedValue([{ ...mockDbComment }]);
 
       const result = await commentsService.getComments();
 
       expect(dbMock.getComments).toHaveBeenCalledWith(1);
-      expect(result).toBeInstanceOf(CommentsData);
+      expect(result).toBeInstanceOf(CommentsDto);
       expect(result.comments.length).toBe(1);
       expect(result.comments[0].id).toBe(10);
     });

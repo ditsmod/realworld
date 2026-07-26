@@ -4,7 +4,7 @@ import { oasRoute } from '@ditsmod/openapi';
 
 import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
-import { ArticleItem } from '../articles.dto.js';
+import { ArticleItemDto } from '../articles.dto.js';
 import { FavoriteService } from './favorite.service.js';
 
 @controller()
@@ -16,7 +16,7 @@ export class FavoriteController {
 
   @oasRoute('POST', '', [BearerGuard], {
     ...new OasOperationObject()
-      .setResponse(ArticleItem, 'Description for response content.')
+      .setResponse(ArticleItemDto, 'Description for response content.')
       .getUnprocessableEnryResponse(),
   })
   async postFavorite() {
