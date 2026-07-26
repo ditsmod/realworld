@@ -1,7 +1,7 @@
 import { HttpStatus } from '@ditsmod/core';
 import { describe, it, expect } from 'vitest';
 
-import { UserSessionData } from '#routed/users/models.js';
+import { UserSessionData } from '#routed/users/users.dto.js';
 import { OasOperationObject } from './oas-helpers.js';
 
 describe('oas-helpers', () => {

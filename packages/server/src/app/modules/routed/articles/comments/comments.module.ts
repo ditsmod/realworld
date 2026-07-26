@@ -4,7 +4,7 @@ import { getParams, OasOptions } from '@ditsmod/openapi';
 import { TypeormModule } from '@ditsmod/typeorm';
 
 import { CommentEntity, ArticleEntity, UserEntity, FollowerEntity } from '#app/entities/index.js';
-import { Params } from '#models/params.js';
+import { Params } from '#dto/params.dto.js';
 import { CommentsController } from './comments.controller.js';
 import { CommentsService } from './comments.service.js';
 import { DbService } from './db.service.js';

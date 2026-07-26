@@ -9,7 +9,7 @@ import { UserEntity } from '#app/entities/index.js';
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
 import { CryptoService } from '#service/auth/crypto.service.js';
 import { DbUser, EmailOrUsername } from './types.js';
-import { LoginData, PutUser, SignUpFormData, UserSession } from './models.js';
+import { LoginData, PutUser, SignUpFormData, UserSession } from './users.dto.js';
 
 @injectable()
 export class DbService {

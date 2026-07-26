@@ -4,7 +4,7 @@ import { getParams, OasOptions } from '@ditsmod/openapi';
 import { TypeormModule } from '@ditsmod/typeorm';
 
 import { ArticleEntity, ArticleTagEntity, FavoriteEntity, TagEntity } from '#app/entities/index.js';
-import { Params } from '#models/params.js';
+import { Params } from '#dto/params.dto.js';
 import { ArticlesService } from '../articles.service.js';
 import { DbService as ArticleDbService } from '../db.service.js';
 import { DbService } from './db.service.js';

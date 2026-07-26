@@ -3,10 +3,10 @@ import { pickProperties, injectable } from '@ditsmod/core';
 import { Permission } from '#shared';
 import { AuthService } from '#service/auth/auth.service.js';
 import { UtilService } from '#service/util/util.service.js';
-import { CommentData, CommentsData, Comment } from './models.js';
+import { CommentData, CommentsData, Comment } from './comments.dto.js';
 import { DbService } from './db.service.js';
 import { DbComment } from './types.js';
-import { Author } from '../models.js';
+import { Author } from '../articles.dto.js';
 
 @injectable()
 export class CommentsService {

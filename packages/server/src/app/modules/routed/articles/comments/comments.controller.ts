@@ -5,8 +5,8 @@ import { controller, PATH_PARAMS } from '@ditsmod/rest';
 
 import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
-import { Params } from '#models/params.js';
-import { CommentData, CommentPostData, CommentsData } from './models.js';
+import { Params } from '#dto/params.dto.js';
+import { CommentData, CommentPostData, CommentsData } from './comments.dto.js';
 import { CommentsService } from './comments.service.js';
 
 @controller()

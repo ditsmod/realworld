@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import type { AuthService } from '#service/auth/auth.service.js';
 import type { UtilService } from '#service/util/util.service.js';
 import type { DbService } from './db.service.js';
-import { ProfileData } from './models.js';
+import { ProfileData } from './profiles.dto.js';
 import { ProfilesService } from './profiles.service.js';
 
 describe('ProfilesService', () => {

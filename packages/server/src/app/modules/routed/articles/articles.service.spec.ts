@@ -7,7 +7,7 @@ import type { UtilService } from '#service/util/util.service.js';
 import type { AppConfigService } from '#service/app-config/config.service.js';
 import { ArticlesService } from './articles.service.js';
 import type { DbService } from './db.service.js';
-import { ArticleItem, Articles } from './models.js';
+import { ArticleItem, Articles } from './articles.dto.js';
 import type { DbArticle } from './types.js';
 
 describe('ArticlesService', () => {

@@ -4,7 +4,7 @@ import { oasRoute } from '@ditsmod/openapi';
 
 import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
-import { ArticleItem } from '../models.js';
+import { ArticleItem } from '../articles.dto.js';
 import { FavoriteService } from './favorite.service.js';
 
 @controller()

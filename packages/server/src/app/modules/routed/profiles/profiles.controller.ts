@@ -3,10 +3,10 @@ import { controller, PATH_PARAMS } from '@ditsmod/rest';
 import { oasRoute } from '@ditsmod/openapi';
 import { JWT_PAYLOAD } from '@ditsmod/jwt';
 
-import { Params } from '#models/params.js';
+import { Params } from '#dto/params.dto.js';
 import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
-import { ProfileData } from './models.js';
+import { ProfileData } from './profiles.dto.js';
 import { ProfilesService } from './profiles.service.js';
 
 @controller()

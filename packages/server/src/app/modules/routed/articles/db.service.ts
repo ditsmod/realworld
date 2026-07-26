@@ -12,7 +12,7 @@ import {
   FollowerEntity,
 } from '#app/entities/index.js';
 import { ArticlesSelectParams, DbArticle } from './types.js';
-import { ArticlePost, ArticlePut } from './models.js';
+import { ArticlePost, ArticlePut } from './articles.dto.js';
 
 @injectable()
 export class DbService {

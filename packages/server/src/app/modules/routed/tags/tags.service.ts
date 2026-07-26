@@ -1,7 +1,7 @@
 import { injectable } from '@ditsmod/core';
 
 import { DbService } from './db.service.js';
-import { Tags } from './models.js';
+import { Tags } from './tags.dto.js';
 
 @injectable()
 export class TagsService {

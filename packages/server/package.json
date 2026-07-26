@@ -27,7 +27,7 @@
     "#classes/*": "./dist/app/classes/*",
     "#service/*": "./dist/app/modules/service/*",
     "#routed/*": "./dist/app/modules/routed/*",
-    "#models/*": "./dist/app/models/*",
+    "#dto/*": "./dist/app/dto/*",
     "#utils/*": "./dist/app/utils/*",
     "#shared": "shared"
   },

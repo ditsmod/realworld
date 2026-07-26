@@ -6,7 +6,7 @@ import { controller } from '@ditsmod/rest';
 
 import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
-import { LoginFormData, PutUser, PutUserData, SignUpFormData, UserSessionData } from './models.js';
+import { LoginFormData, PutUser, PutUserData, SignUpFormData, UserSessionData } from './users.dto.js';
 import { UsersService } from './users.service.js';
 
 @controller()

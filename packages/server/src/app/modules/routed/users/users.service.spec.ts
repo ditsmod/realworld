@@ -6,8 +6,8 @@ import type { JwtService } from '@ditsmod/jwt';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 import type { DbService } from './db.service.js';
-import type { SignUpFormData, LoginFormData} from './models.js';
-import { UserSessionData, PutUser } from './models.js';
+import type { SignUpFormData, LoginFormData } from './users.dto.js';
+import { UserSessionData, PutUser } from './users.dto.js';
 import { UsersService } from './users.service.js';
 
 describe('UsersService', () => {

@@ -4,7 +4,7 @@ import type { AuthService } from '#service/auth/auth.service.js';
 import type { UtilService } from '#service/util/util.service.js';
 import { CommentsService } from './comments.service.js';
 import type { DbService } from './db.service.js';
-import { CommentData, CommentsData } from './models.js';
+import { CommentData, CommentsData } from './comments.dto.js';
 
 describe('CommentsService', () => {
   let commentsService: CommentsService;

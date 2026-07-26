@@ -3,7 +3,7 @@ import { injectable } from '@ditsmod/core';
 import { UtilService } from '#service/util/util.service.js';
 import { AuthService } from '#service/auth/auth.service.js';
 import { DbService } from './db.service.js';
-import { Profile, ProfileData } from './models.js';
+import { Profile, ProfileData } from './profiles.dto.js';
 
 @injectable()
 export class ProfilesService {

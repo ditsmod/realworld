@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 import type { DbService } from './db.service.js';
-import { Tags } from './models.js';
+import { Tags } from './tags.dto.js';
 import { TagsService } from './tags.service.js';
 
 describe('TagsService', () => {

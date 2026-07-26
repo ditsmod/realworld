@@ -2,7 +2,7 @@ import { controller } from '@ditsmod/rest';
 import { oasRoute } from '@ditsmod/openapi';
 
 import { OasOperationObject } from '#utils/oas-helpers.js';
-import { Tags } from './models.js';
+import { Tags } from './tags.dto.js';
 import { TagsService } from './tags.service.js';
 
 @controller()

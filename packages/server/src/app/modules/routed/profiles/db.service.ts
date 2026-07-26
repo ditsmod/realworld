@@ -3,7 +3,7 @@ import { injectRepository } from '@ditsmod/typeorm';
 import { Repository } from 'typeorm';
 
 import { UserEntity, FollowerEntity } from '#app/entities/index.js';
-import { Profile } from './models.js';
+import { Profile } from './profiles.dto.js';
 
 @injectable()
 export class DbService {

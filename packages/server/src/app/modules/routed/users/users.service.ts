@@ -5,7 +5,7 @@ import { JwtService } from '@ditsmod/jwt';
 
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
 import { DbService } from './db.service.js';
-import { LoginFormData, PutUser, SignUpData, SignUpFormData, UserSessionData } from './models.js';
+import { LoginFormData, PutUser, SignUpData, SignUpFormData, UserSessionData } from './users.dto.js';
 
 @injectable()
 export class UsersService {

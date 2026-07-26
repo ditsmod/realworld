@@ -1,6 +1,6 @@
 import { property, REQUIRED } from '@ditsmod/openapi';
 
-import { Author } from '../models.js';
+import { Author } from '../articles.dto.js';
 
 export class Comment {
   @property()

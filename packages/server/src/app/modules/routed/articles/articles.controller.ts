@@ -4,10 +4,10 @@ import { oasRoute } from '@ditsmod/openapi';
 import { JWT_PAYLOAD } from '@ditsmod/jwt';
 import { HTTP_BODY } from '@ditsmod/body-parser';
 
-import { Params } from '#models/params.js';
+import { Params } from '#dto/params.dto.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
 import { BearerGuard } from '#service/auth/bearer.guard.js';
-import { ArticleItem, ArticlePostData, ArticlePutData, Articles } from './models.js';
+import { ArticleItem, ArticlePostData, ArticlePutData, Articles } from './articles.dto.js';
 import { ArticlesService } from './articles.service.js';
 
 @controller()
