@@ -3,11 +3,11 @@ import { injectRepository } from '@ditsmod/typeorm';
 import { Repository } from 'typeorm';
 
 import { AppConfigService } from '#service/app-config/config.service.js';
-import { Tag } from '#app/entities/index.js';
+import { TagEntity } from '#app/entities/index.js';
 
 @injectable()
 export class DbService {
-  constructor(@injectRepository(Tag) private tagRepo: Repository<Tag>, private config: AppConfigService) {}
+  constructor(@injectRepository(TagEntity) private tagRepo: Repository<TagEntity>, private config: AppConfigService) {}
 
   async getTags() {
     const tags = await this.tagRepo.find({

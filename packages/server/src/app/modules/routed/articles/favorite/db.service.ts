@@ -2,13 +2,13 @@ import { injectable } from '@ditsmod/core';
 import { injectRepository, injectDataSource } from '@ditsmod/typeorm';
 import { Repository, DataSource } from 'typeorm';
 
-import { Favorite, Article } from '#app/entities/index.js';
+import { FavoriteEntity, ArticleEntity } from '#app/entities/index.js';
 
 @injectable()
 export class DbService {
   constructor(
-    @injectRepository(Favorite) private favoriteRepo: Repository<Favorite>,
-    @injectRepository(Article) private articleRepo: Repository<Article>,
+    @injectRepository(FavoriteEntity) private favoriteRepo: Repository<FavoriteEntity>,
+    @injectRepository(ArticleEntity) private articleRepo: Repository<ArticleEntity>,
     @injectDataSource() private dataSource: DataSource
   ) {}
 

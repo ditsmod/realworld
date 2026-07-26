@@ -1,7 +1,7 @@
 import { Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('map_favorites')
-export class Favorite {
+export class FavoriteEntity {
   @PrimaryColumn({ type: 'int', unsigned: true })
   articleId: number;
 

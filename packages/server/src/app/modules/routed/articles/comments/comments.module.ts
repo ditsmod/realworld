@@ -3,13 +3,13 @@ import { restModule } from '@ditsmod/rest';
 import { getParams, OasOptions } from '@ditsmod/openapi';
 import { TypeormModule } from '@ditsmod/typeorm';
 
-import { Comment, Article, User, Follower } from '#app/entities/index.js';
+import { CommentEntity, ArticleEntity, UserEntity, FollowerEntity } from '#app/entities/index.js';
 import { Params } from '#models/params.js';
 import { CommentsController } from './comments.controller.js';
 import { DbService } from './db.service.js';
 
 @restModule({
-  imports: [CorsModule, TypeormModule.forFeature([Comment, Article, User, Follower])],
+  imports: [CorsModule, TypeormModule.forFeature([CommentEntity, ArticleEntity, UserEntity, FollowerEntity])],
   controllers: [CommentsController],
   providersPerReq: [DbService],
   extensionsMeta: {

@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('dict_tags')
-export class Tag {
+export class TagEntity {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
   tagId: number;
 

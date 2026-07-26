@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('curr_articles')
-export class Article {
+export class ArticleEntity {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
   articleId: number;
 

@@ -1,7 +1,7 @@
 import { Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('map_followers')
-export class Follower {
+export class FollowerEntity {
   @PrimaryColumn({ type: 'int', unsigned: true })
   userId: number;
 

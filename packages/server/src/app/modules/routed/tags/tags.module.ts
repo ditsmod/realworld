@@ -3,12 +3,12 @@ import { OasOptions } from '@ditsmod/openapi';
 import { restModule } from '@ditsmod/rest';
 import { TypeormModule } from '@ditsmod/typeorm';
 
-import { Tag } from '#app/entities/index.js';
+import { TagEntity } from '#app/entities/index.js';
 import { DbService } from './db.service.js';
 import { TagsController } from './tags.controller.js';
 
 @restModule({
-  imports: [CorsModule, TypeormModule.forFeature([Tag])],
+  imports: [CorsModule, TypeormModule.forFeature([TagEntity])],
   controllers: [TagsController],
   providersPerReq: [DbService],
   extensionsMeta: {

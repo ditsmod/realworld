@@ -2,21 +2,21 @@ import { injectable } from '@ditsmod/core';
 import { injectRepository } from '@ditsmod/typeorm';
 import { Repository } from 'typeorm';
 
-import { User, Follower } from '#app/entities/index.js';
+import { UserEntity, FollowerEntity } from '#app/entities/index.js';
 import { Profile } from './models.js';
 
 @injectable()
 export class DbService {
   constructor(
-    @injectRepository(User) private userRepo: Repository<User>,
-    @injectRepository(Follower) private followerRepo: Repository<Follower>
+    @injectRepository(UserEntity) private userRepo: Repository<UserEntity>,
+    @injectRepository(FollowerEntity) private followerRepo: Repository<FollowerEntity>
   ) {}
 
   async getProfile(currentUserId: number, targetUserName: string): Promise<Profile | undefined> {
     const qb = this.userRepo
       .createQueryBuilder('u')
       .select(['u.username AS username', 'u.bio AS bio', 'u.image AS image', 'IF(f.userId IS NULL, 0, 1) AS following'])
-      .leftJoin(Follower, 'f', 'u.userId = f.userId AND f.followerId = :currentUserId', { currentUserId })
+      .leftJoin(FollowerEntity, 'f', 'u.userId = f.userId AND f.followerId = :currentUserId', { currentUserId })
       .where('u.username = :targetUserName', { targetUserName });
 
     return qb.getRawOne();

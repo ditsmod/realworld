@@ -3,14 +3,24 @@ import { CorsModule } from '@ditsmod/cors';
 import { OasOptions } from '@ditsmod/openapi';
 import { TypeormModule } from '@ditsmod/typeorm';
 
-import { Article, Tag, ArticleTag, User, Favorite, Follower } from '#app/entities/index.js';
+import {
+  ArticleEntity,
+  TagEntity,
+  ArticleTagEntity,
+  UserEntity,
+  FavoriteEntity,
+  FollowerEntity,
+} from '#app/entities/index.js';
 import { ArticlesController } from './articles.controller.js';
 import { CommentsModule } from './comments/comments.module.js';
 import { DbService } from './db.service.js';
 import { FavoriteModule } from './favorite/favorite.module.js';
 
 @restModule({
-  imports: [CorsModule, TypeormModule.forFeature([Article, Tag, ArticleTag, User, Favorite, Follower])],
+  imports: [
+    CorsModule,
+    TypeormModule.forFeature([ArticleEntity, TagEntity, ArticleTagEntity, UserEntity, FavoriteEntity, FollowerEntity]),
+  ],
   appends: [
     { path: 'comments', module: CommentsModule },
     { path: 'favorite', module: FavoriteModule },

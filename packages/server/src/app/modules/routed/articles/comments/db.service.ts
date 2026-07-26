@@ -3,14 +3,14 @@ import { injectable } from '@ditsmod/core';
 import { injectRepository } from '@ditsmod/typeorm';
 import { Repository } from 'typeorm';
 
-import { Comment, Article, User, Follower } from '#app/entities/index.js';
+import { CommentEntity, ArticleEntity, UserEntity, FollowerEntity } from '#app/entities/index.js';
 import { DbComment } from './types.js';
 
 @injectable()
 export class DbService {
   constructor(
-    @injectRepository(Comment) private commentRepo: Repository<Comment>,
-    @injectRepository(Article) private articleRepo: Repository<Article>
+    @injectRepository(CommentEntity) private commentRepo: Repository<CommentEntity>,
+    @injectRepository(ArticleEntity) private articleRepo: Repository<ArticleEntity>
   ) {}
 
   async postComment(userId: number, slug: string, body: string) {
@@ -53,8 +53,8 @@ export class DbService {
         'u.image AS image',
         'IF(f.userId IS NULL, 0, 1) AS following',
       ])
-      .innerJoin(User, 'u', 'u.userId = c.userId')
-      .leftJoin(Follower, 'f', 'c.userId = f.userId AND f.followerId = :currentUserId', { currentUserId });
+      .innerJoin(UserEntity, 'u', 'u.userId = c.userId')
+      .leftJoin(FollowerEntity, 'f', 'c.userId = f.userId AND f.followerId = :currentUserId', { currentUserId });
 
     if (commentId) {
       qb.where('c.commentId = :commentId', { commentId });

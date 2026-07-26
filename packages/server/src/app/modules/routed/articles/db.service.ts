@@ -3,16 +3,23 @@ import { injectable } from '@ditsmod/core';
 import { injectRepository } from '@ditsmod/typeorm';
 import { Repository } from 'typeorm';
 
-import { Article, Tag, ArticleTag, User, Favorite, Follower } from '#app/entities/index.js';
+import {
+  ArticleEntity,
+  TagEntity,
+  ArticleTagEntity,
+  UserEntity,
+  FavoriteEntity,
+  FollowerEntity,
+} from '#app/entities/index.js';
 import { ArticlesSelectParams, DbArticle } from './types.js';
 import { ArticlePost, ArticlePut } from './models.js';
 
 @injectable()
 export class DbService {
   constructor(
-    @injectRepository(Article) private articleRepo: Repository<Article>,
-    @injectRepository(Tag) private tagRepo: Repository<Tag>,
-    @injectRepository(ArticleTag) private articleTagRepo: Repository<ArticleTag>
+    @injectRepository(ArticleEntity) private articleRepo: Repository<ArticleEntity>,
+    @injectRepository(TagEntity) private tagRepo: Repository<TagEntity>,
+    @injectRepository(ArticleTagEntity) private articleTagRepo: Repository<ArticleTagEntity>
   ) {}
 
   async postArticle(userId: number, slug: string, { title, description, body, tagList }: ArticlePost) {
@@ -65,7 +72,7 @@ export class DbService {
     newSlug: string,
     { title, description, body }: ArticlePut
   ) {
-    const updateData: Partial<Article> = {};
+    const updateData: Partial<ArticleEntity> = {};
     if (title !== undefined) updateData.title = title;
     if (description !== undefined) updateData.description = description;
     if (body !== undefined) updateData.body = body;
@@ -119,9 +126,11 @@ export class DbService {
         'u.image AS image',
         'IF(fol.followerId IS NULL, 0, 1) AS following',
       ])
-      .innerJoin(User, 'u', 'u.userId = a.userId')
-      .leftJoin(Follower, 'fol', 'a.userId = fol.userId AND fol.followerId = :currentUserId', { currentUserId })
-      .leftJoin(Favorite, 'fav', 'a.articleId = fav.articleId AND fav.userId = :currentUserId', { currentUserId });
+      .innerJoin(UserEntity, 'u', 'u.userId = a.userId')
+      .leftJoin(FollowerEntity, 'fol', 'a.userId = fol.userId AND fol.followerId = :currentUserId', { currentUserId })
+      .leftJoin(FavoriteEntity, 'fav', 'a.articleId = fav.articleId AND fav.userId = :currentUserId', {
+        currentUserId,
+      });
   }
 
   async getArticleById(articleId: number, currentUserId: number) {
@@ -154,9 +163,9 @@ export class DbService {
         'u.image AS image',
         '1 AS following',
       ])
-      .innerJoin(User, 'u', 'u.userId = a.userId')
-      .innerJoin(Follower, 'fol', 'a.userId = fol.userId AND fol.followerId = :currentUserId', { currentUserId })
-      .leftJoin(Favorite, 'fav', 'a.articleId = fav.articleId AND fav.userId = :currentUserId', { currentUserId })
+      .innerJoin(UserEntity, 'u', 'u.userId = a.userId')
+      .innerJoin(FollowerEntity, 'fol', 'a.userId = fol.userId AND fol.followerId = :currentUserId', { currentUserId })
+      .leftJoin(FavoriteEntity, 'fav', 'a.articleId = fav.articleId AND fav.userId = :currentUserId', { currentUserId })
       .orderBy('a.articleId', 'DESC')
       .offset(offset)
       .limit(perPage);
@@ -185,13 +194,15 @@ export class DbService {
         'u.image AS image',
         'IF(fol.followerId IS NULL, 0, 1) AS following',
       ])
-      .innerJoin(User, 'u', 'u.userId = a.userId')
-      .leftJoin(Follower, 'fol', 'a.userId = fol.userId AND fol.followerId = :currentUserId', { currentUserId })
-      .leftJoin(Favorite, 'fav', 'a.articleId = fav.articleId AND fav.userId = :currentUserId', { currentUserId });
+      .innerJoin(UserEntity, 'u', 'u.userId = a.userId')
+      .leftJoin(FollowerEntity, 'fol', 'a.userId = fol.userId AND fol.followerId = :currentUserId', { currentUserId })
+      .leftJoin(FavoriteEntity, 'fav', 'a.articleId = fav.articleId AND fav.userId = :currentUserId', {
+        currentUserId,
+      });
 
     if (params.tag) {
-      qb.innerJoin(ArticleTag, 'at', 'a.articleId = at.articleId')
-        .innerJoin(Tag, 't', 't.tagId = at.tagId')
+      qb.innerJoin(ArticleTagEntity, 'at', 'a.articleId = at.articleId')
+        .innerJoin(TagEntity, 't', 't.tagId = at.tagId')
         .andWhere('t.tagName = :tag', { tag: params.tag });
     }
 
@@ -200,8 +211,8 @@ export class DbService {
     }
 
     if (params.favorited) {
-      qb.innerJoin(Favorite, 'fav2', 'a.articleId = fav2.articleId')
-        .innerJoin(User, 'u2', 'fav2.userId = u2.userId')
+      qb.innerJoin(FavoriteEntity, 'fav2', 'a.articleId = fav2.articleId')
+        .innerJoin(UserEntity, 'u2', 'fav2.userId = u2.userId')
         .andWhere('u2.username = :favorited', { favorited: params.favorited });
     }
 

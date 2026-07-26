@@ -5,7 +5,7 @@ import { DictService } from '@ditsmod/i18n';
 import { injectRepository } from '@ditsmod/typeorm';
 import { Repository } from 'typeorm';
 
-import { User } from '#app/entities/index.js';
+import { UserEntity } from '#app/entities/index.js';
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
 import { CryptoService } from '#service/auth/crypto.service.js';
 import { DbUser, EmailOrUsername } from './types.js';
@@ -14,7 +14,7 @@ import { LoginData, PutUser, SignUpFormData, UserSession } from './models.js';
 @injectable()
 export class DbService {
   constructor(
-    @injectRepository(User) private userRepo: Repository<User>,
+    @injectRepository(UserEntity) private userRepo: Repository<UserEntity>,
     private dictService: DictService,
     private cryptoService: CryptoService
   ) {}
@@ -71,7 +71,7 @@ export class DbService {
 
   async putCurrentUser(userId: number, pubUser: PutUser) {
     const { email, username, password, image, bio } = pubUser;
-    const updateData: Partial<User> = {};
+    const updateData: Partial<UserEntity> = {};
     if (email !== undefined) updateData.email = email;
     if (username !== undefined) updateData.username = username;
     if (password !== undefined) updateData.password = password;
