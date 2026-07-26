@@ -5,15 +5,16 @@ import { TypeormModule } from '@ditsmod/typeorm';
 
 import { ArticleEntity, ArticleTagEntity, FavoriteEntity, TagEntity } from '#app/entities/index.js';
 import { Params } from '#models/params.js';
-import { ArticlesController } from '../articles.controller.js';
+import { ArticlesService } from '../articles.service.js';
 import { DbService as ArticleDbService } from '../db.service.js';
 import { DbService } from './db.service.js';
 import { FavoriteController } from './favorite.controller.js';
+import { FavoriteService } from './favorite.service.js';
 
 @restModule({
   imports: [CorsModule, TypeormModule.forFeature([FavoriteEntity, ArticleEntity, TagEntity, ArticleTagEntity])],
   controllers: [FavoriteController],
-  providersPerReq: [DbService, ArticlesController, ArticleDbService],
+  providersPerReq: [DbService, FavoriteService, ArticlesService, ArticleDbService],
   extensionsMeta: {
     oasOptions: {
       tags: ['favorite'],

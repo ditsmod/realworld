@@ -6,17 +6,13 @@ import { JWT_PAYLOAD } from '@ditsmod/jwt';
 import { Params } from '#models/params.js';
 import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
-import { UtilService } from '#service/util/util.service.js';
-import { AuthService } from '#service/auth/auth.service.js';
-import { Profile, ProfileData } from './models.js';
-import { DbService } from './db.service.js';
+import { ProfileData } from './models.js';
+import { ProfilesService } from './profiles.service.js';
 
 @controller()
 export class ProfilesController {
   constructor(
-    private db: DbService,
-    private authService: AuthService,
-    private util: UtilService,
+    private profilesService: ProfilesService,
     @ctx(PATH_PARAMS) private pathParams: any,
     @ctx(JWT_PAYLOAD) private jwtPayload: any
   ) {}
@@ -29,21 +25,7 @@ export class ProfilesController {
       .getResponse(ProfileData, 'Show profile for target username.'),
   })
   async sendProfileOfTargetUser() {
-    const currentUserId = await this.authService.getCurrentUserId();
-    return this.getProfileOfTargetUser(currentUserId);
-  }
-
-  private async getProfileOfTargetUser(currentUserId?: number) {
-    const targetUserName = this.pathParams.username as string;
-    currentUserId = currentUserId || (await this.authService.getCurrentUserId());
-    const profile = await this.db.getProfile(currentUserId!, targetUserName);
-    if (!profile) {
-      this.util.throw404Error('username', 'A profile with the specified username was not found.');
-    }
-    profile!.following = this.util.convertToBool(profile!.following);
-    const profileData = new ProfileData();
-    profileData.profile = profile! as Profile;
-    return profileData;
+    return this.profilesService.getProfileOfTargetUser(this.pathParams.username as string);
   }
 
   @oasRoute('POST', ':username/follow', [BearerGuard], {
@@ -53,10 +35,7 @@ export class ProfilesController {
       .getResponse(ProfileData, 'Description for response content.'),
   })
   async followUser() {
-    const currentUserId = this.jwtPayload?.userId;
-    const targetUserName = this.pathParams.username as string;
-    await this.db.followUser(currentUserId, targetUserName);
-    return this.getProfileOfTargetUser(currentUserId);
+    return this.profilesService.followUser(this.pathParams.username as string, this.jwtPayload?.userId);
   }
 
   @oasRoute('DELETE', ':username/follow', [BearerGuard], {
@@ -66,9 +45,6 @@ export class ProfilesController {
       .getNotFoundResponse('A profile with the specified username was not found.'),
   })
   async deleteFollowUser() {
-    const currentUserId = this.jwtPayload?.userId;
-    const targetUserName = this.pathParams.username as string;
-    await this.db.unfollowUser(currentUserId, targetUserName);
-    return this.getProfileOfTargetUser(currentUserId);
+    return this.profilesService.unfollowUser(this.pathParams.username as string, this.jwtPayload?.userId);
   }
 }

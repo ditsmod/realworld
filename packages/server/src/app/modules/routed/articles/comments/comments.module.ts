@@ -6,12 +6,13 @@ import { TypeormModule } from '@ditsmod/typeorm';
 import { CommentEntity, ArticleEntity, UserEntity, FollowerEntity } from '#app/entities/index.js';
 import { Params } from '#models/params.js';
 import { CommentsController } from './comments.controller.js';
+import { CommentsService } from './comments.service.js';
 import { DbService } from './db.service.js';
 
 @restModule({
   imports: [CorsModule, TypeormModule.forFeature([CommentEntity, ArticleEntity, UserEntity, FollowerEntity])],
   controllers: [CommentsController],
-  providersPerReq: [DbService],
+  providersPerReq: [DbService, CommentsService],
   extensionsMeta: {
     oasOptions: {
       tags: ['comments'],

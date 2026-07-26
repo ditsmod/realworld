@@ -12,6 +12,7 @@ import {
   FollowerEntity,
 } from '#app/entities/index.js';
 import { ArticlesController } from './articles.controller.js';
+import { ArticlesService } from './articles.service.js';
 import { CommentsModule } from './comments/comments.module.js';
 import { DbService } from './db.service.js';
 import { FavoriteModule } from './favorite/favorite.module.js';
@@ -26,7 +27,7 @@ import { FavoriteModule } from './favorite/favorite.module.js';
     { path: 'favorite', module: FavoriteModule },
   ],
   controllers: [ArticlesController],
-  providersPerReq: [DbService],
+  providersPerReq: [DbService, ArticlesService],
   extensionsMeta: {
     oasOptions: {
       tags: ['articles'],

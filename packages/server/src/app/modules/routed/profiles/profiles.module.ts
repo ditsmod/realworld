@@ -6,11 +6,12 @@ import { TypeormModule } from '@ditsmod/typeorm';
 import { UserEntity, FollowerEntity } from '#app/entities/index.js';
 import { DbService } from './db.service.js';
 import { ProfilesController } from './profiles.controller.js';
+import { ProfilesService } from './profiles.service.js';
 
 @restModule({
   imports: [CorsModule, TypeormModule.forFeature([UserEntity, FollowerEntity])],
   controllers: [ProfilesController],
-  providersPerReq: [DbService],
+  providersPerReq: [DbService, ProfilesService],
   extensionsMeta: { oasOptions: { tags: ['profiles'] } as OasOptions },
 })
 export class ProfilesModule {}

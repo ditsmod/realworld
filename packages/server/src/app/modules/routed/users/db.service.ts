@@ -58,7 +58,7 @@ export class DbService {
         password: this.cryptoService.getCryptedPassword(password),
       },
     });
-    return user as unknown as DbUser;
+    return user as DbUser;
   }
 
   async getCurrentUser(userId: number) {

@@ -6,11 +6,12 @@ import { TypeormModule } from '@ditsmod/typeorm';
 import { TagEntity } from '#app/entities/index.js';
 import { DbService } from './db.service.js';
 import { TagsController } from './tags.controller.js';
+import { TagsService } from './tags.service.js';
 
 @restModule({
   imports: [CorsModule, TypeormModule.forFeature([TagEntity])],
   controllers: [TagsController],
-  providersPerReq: [DbService],
+  providersPerReq: [DbService, TagsService],
   extensionsMeta: {
     oasOptions: {
       tags: ['tags'],
