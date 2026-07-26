@@ -4,9 +4,10 @@
     "noImplicitOverride": true,
     "outDir": "dist",
     "types": ["node"],
-    "resolveJsonModule":true,
+    "resolveJsonModule": true,
     "paths": {
       "#app/*": ["./src/app/*"],
+      "#entities": ["./src/app/entities/index.js"],
       "#configs/*": ["./src/app/configs/*"],
       "#classes/*": ["./src/app/classes/*"],
       "#service/*": ["./src/app/modules/service/*"],
@@ -15,7 +16,7 @@
       "#dto/*": ["./src/app/dto/*"],
       "#utils/*": ["./src/app/utils/*"],
       "#shared": ["../shared/src"],
-      "#shared/*": ["../shared/src/*"],
+      "#shared/*": ["../shared/src/*"]
     }
   },
   "include": ["src", "e2e"],

@@ -2,7 +2,7 @@ import { restModule } from '@ditsmod/rest';
 import { CorsModule } from '@ditsmod/cors';
 import { TypeormModule } from '@ditsmod/typeorm';
 
-import { UserEntity } from '#app/entities/index.js';
+import { UserEntity } from '#entities';
 import { DbService } from './db.service.js';
 import { UsersController } from './users.controller.js';
 import { UsersService } from './users.service.js';

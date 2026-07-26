@@ -2,14 +2,7 @@ import { injectable } from '@ditsmod/core';
 import { injectRepository } from '@ditsmod/typeorm';
 import { Repository } from 'typeorm';
 
-import {
-  ArticleEntity,
-  TagEntity,
-  ArticleTagEntity,
-  UserEntity,
-  FavoriteEntity,
-  FollowerEntity,
-} from '#app/entities/index.js';
+import { ArticleEntity, TagEntity, ArticleTagEntity, UserEntity, FavoriteEntity, FollowerEntity } from '#entities';
 import { ArticlesSelectParams, DbArticle } from './types.js';
 import { ArticlePostDto, ArticlePutDto } from './articles.dto.js';
 

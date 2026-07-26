@@ -3,7 +3,7 @@ import { OasOptions } from '@ditsmod/openapi';
 import { restModule } from '@ditsmod/rest';
 import { TypeormModule } from '@ditsmod/typeorm';
 
-import { TagEntity } from '#app/entities/index.js';
+import { TagEntity } from '#entities';
 import { DbService } from './db.service.js';
 import { TagsController } from './tags.controller.js';
 import { TagsService } from './tags.service.js';

@@ -3,7 +3,7 @@ import { restModule } from '@ditsmod/rest';
 import { getParams, OasOptions } from '@ditsmod/openapi';
 import { TypeormModule } from '@ditsmod/typeorm';
 
-import { CommentEntity, ArticleEntity, UserEntity, FollowerEntity } from '#app/entities/index.js';
+import { CommentEntity, ArticleEntity, UserEntity, FollowerEntity } from '#entities';
 import { ParamsDto } from '#dto/params.dto.js';
 import { CommentsController } from './comments.controller.js';
 import { CommentsService } from './comments.service.js';

@@ -3,7 +3,7 @@ import { OasOptions } from '@ditsmod/openapi';
 import { restModule } from '@ditsmod/rest';
 import { TypeormModule } from '@ditsmod/typeorm';
 
-import { UserEntity, FollowerEntity } from '#app/entities/index.js';
+import { UserEntity, FollowerEntity } from '#entities';
 import { DbService } from './db.service.js';
 import { ProfilesController } from './profiles.controller.js';
 import { ProfilesService } from './profiles.service.js';

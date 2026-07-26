@@ -28,6 +28,7 @@
     "#service/*": "./dist/app/modules/service/*",
     "#routed/*": "./dist/app/modules/routed/*",
     "#dto/*": "./dist/app/dto/*",
+    "#entities": "./dist/app/entities/index.js",
     "#utils/*": "./dist/app/utils/*",
     "#shared": "shared"
   },

@@ -3,7 +3,7 @@ import { injectable } from '@ditsmod/core';
 import { injectRepository } from '@ditsmod/typeorm';
 import { Repository } from 'typeorm';
 
-import { CommentEntity, ArticleEntity, UserEntity, FollowerEntity } from '#app/entities/index.js';
+import { CommentEntity, ArticleEntity, UserEntity, FollowerEntity } from '#entities';
 import { DbComment } from './types.js';
 
 @injectable()

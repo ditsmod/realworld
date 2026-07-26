@@ -2,7 +2,7 @@ import { injectable } from '@ditsmod/core';
 import { injectRepository } from '@ditsmod/typeorm';
 import { Repository } from 'typeorm';
 
-import { UserEntity, FollowerEntity } from '#app/entities/index.js';
+import { UserEntity, FollowerEntity } from '#entities';
 import { ProfileDto } from './profiles.dto.js';
 
 @injectable()

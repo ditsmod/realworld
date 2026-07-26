@@ -3,7 +3,7 @@ import { CorsModule } from '@ditsmod/cors';
 import { getParams, OasOptions } from '@ditsmod/openapi';
 import { TypeormModule } from '@ditsmod/typeorm';
 
-import { ArticleEntity, ArticleTagEntity, FavoriteEntity, TagEntity, UserEntity, FollowerEntity } from '#app/entities/index.js';
+import { ArticleEntity, ArticleTagEntity, FavoriteEntity, TagEntity, UserEntity, FollowerEntity } from '#entities';
 import { ParamsDto } from '#dto/params.dto.js';
 import { ArticlesService } from '../articles.service.js';
 import { DbService as ArticleDbService } from '../db.service.js';

@@ -2,7 +2,7 @@ import { injectable } from '@ditsmod/core';
 import { injectRepository, injectDataSource } from '@ditsmod/typeorm';
 import { Repository, DataSource } from 'typeorm';
 
-import { FavoriteEntity, ArticleEntity } from '#app/entities/index.js';
+import { FavoriteEntity, ArticleEntity } from '#entities';
 
 @injectable()
 export class DbService {

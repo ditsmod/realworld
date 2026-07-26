@@ -5,7 +5,7 @@ import { DictService } from '@ditsmod/i18n';
 import { injectRepository } from '@ditsmod/typeorm';
 import { Repository } from 'typeorm';
 
-import { UserEntity } from '#app/entities/index.js';
+import { UserEntity } from '#entities';
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
 import { CryptoService } from '#service/auth/crypto.service.js';
 import { DbUser, EmailOrUsername } from './types.js';

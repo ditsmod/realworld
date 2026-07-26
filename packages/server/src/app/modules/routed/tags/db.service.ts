@@ -3,7 +3,7 @@ import { injectRepository } from '@ditsmod/typeorm';
 import { Repository } from 'typeorm';
 
 import { AppConfigService } from '#service/app-config/config.service.js';
-import { TagEntity } from '#app/entities/index.js';
+import { TagEntity } from '#entities';
 
 @injectable()
 export class DbService {
