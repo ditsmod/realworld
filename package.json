@@ -19,12 +19,12 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@ditsmod/cli": "^3.0.0-next.16",
+    "@ditsmod/cli": "^3.0.0-next.18",
     "@eslint/js": "^10.0.1",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "~18.11.19",
     "bunyan": "^1.8.15",
-    "eslint": "^10.7.0",
+    "eslint": "^10.8.0",
     "prettier": "^2.8.8",
     "rimraf": "^4.4.1",
     "typescript": "^5.9.3",
