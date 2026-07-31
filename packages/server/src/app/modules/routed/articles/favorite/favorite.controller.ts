@@ -9,24 +9,21 @@ import { FavoriteService } from './favorite.service.js';
 
 @controller()
 export class FavoriteController {
-  constructor(
-    private favoriteService: FavoriteService,
-    @ctx(PATH_PARAMS) private pathParams: any
-  ) {}
+  constructor(private favoriteService: FavoriteService) {}
 
   @oasRoute('POST', '', [BearerGuard], {
     ...new OasOperationObject()
       .setResponse(ArticleItemDto, 'Description for response content.')
-      .getUnprocessableEnryResponse(),
+      .getUnprocessableEntityResponse(),
   })
-  async postFavorite() {
-    return this.favoriteService.favoriteArticle(this.pathParams.slug as string);
+  async postFavorite(@ctx(PATH_PARAMS) pathParams: Record<'slug', string>) {
+    return this.favoriteService.favoriteArticle(pathParams.slug);
   }
 
   @oasRoute('DELETE', '', [BearerGuard], {
-    ...new OasOperationObject().setNotFoundResponse().setNoContentResponse().getUnprocessableEnryResponse(),
+    ...new OasOperationObject().setNotFoundResponse().setNoContentResponse().getUnprocessableEntityResponse(),
   })
-  async Unfavorite() {
-    return this.favoriteService.unfavoriteArticle(this.pathParams.slug as string);
+  async unfavorite(@ctx(PATH_PARAMS) pathParams: Record<'slug', string>) {
+    return this.favoriteService.unfavoriteArticle(pathParams.slug);
   }
 }

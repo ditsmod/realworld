@@ -21,7 +21,7 @@ export class ArticlesService {
     private injector: Injector
   ) {}
 
-  async getLastArticles(queryParams: any = {}) {
+  async getLastArticles(queryParams: Partial<ArticlesSelectParams> = {}) {
     const articlesSelectParams: ArticlesSelectParams = {
       tag: queryParams.tag || '',
       author: queryParams.author || '',
@@ -37,7 +37,7 @@ export class ArticlesService {
     return articles;
   }
 
-  async getFeed(queryParams: any = {}) {
+  async getFeed(queryParams: Partial<ArticlesSelectParams> = {}) {
     const currentUserId = await this.authService.getCurrentUserId();
     if (currentUserId) {
       const offset: number = queryParams.offset || 0;

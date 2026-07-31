@@ -1,4 +1,3 @@
-import type { ResultSetHeader } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 import { injectRepository } from '@ditsmod/typeorm';
 import { Repository } from 'typeorm';
@@ -25,17 +24,17 @@ export class DbService {
       createdAt: Math.floor(Date.now() / 1000),
     });
     const saved = await this.commentRepo.save(comment);
-    return { insertId: saved.commentId } as ResultSetHeader;
+    return { insertId: saved.commentId };
   }
 
-  async deleteArticle(userId: number, hasPermissions: boolean, commentId: number) {
+  async deleteComment(userId: number, hasPermissions: boolean, commentId: number) {
     let result;
     if (!hasPermissions) {
       result = await this.commentRepo.delete({ commentId, userId });
     } else {
       result = await this.commentRepo.delete({ commentId });
     }
-    return { affectedRows: result.affected || 0 } as unknown as ResultSetHeader;
+    return { affectedRows: result.affected || 0 };
   }
 
   async getComments(currentUserId: number): Promise<DbComment[]>;

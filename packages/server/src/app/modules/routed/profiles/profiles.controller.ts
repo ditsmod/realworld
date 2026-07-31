@@ -4,18 +4,14 @@ import { oasRoute } from '@ditsmod/openapi';
 import { JWT_PAYLOAD } from '@ditsmod/jwt';
 
 import { ParamsDto } from '#dto/params.dto.js';
-import { BearerGuard } from '#service/auth/bearer.guard.js';
+import { BearerGuard, type JwtAuthPayload } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
 import { ProfileDataDto } from './profiles.dto.js';
 import { ProfilesService } from './profiles.service.js';
 
 @controller()
 export class ProfilesController {
-  constructor(
-    private profilesService: ProfilesService,
-    @ctx(PATH_PARAMS) private pathParams: any,
-    @ctx(JWT_PAYLOAD) private jwtPayload: any
-  ) {}
+  constructor(private profilesService: ProfilesService) {}
 
   @oasRoute('GET', ':username', {
     description: 'Returns a profile for target user.',
@@ -24,8 +20,8 @@ export class ProfilesController {
       .setNotFoundResponse('A profile with the specified username was not found.')
       .getResponse(ProfileDataDto, 'Show profile for target username.'),
   })
-  async sendProfileOfTargetUser() {
-    return this.profilesService.getProfileOfTargetUser(this.pathParams.username as string);
+  async sendProfileOfTargetUser(@ctx(PATH_PARAMS) pathParams: Record<'username', string>) {
+    return this.profilesService.getProfileOfTargetUser(pathParams.username);
   }
 
   @oasRoute('POST', ':username/follow', [BearerGuard], {
@@ -34,8 +30,11 @@ export class ProfilesController {
       .setNotFoundResponse('A profile with the specified username was not found.')
       .getResponse(ProfileDataDto, 'Description for response content.'),
   })
-  async followUser() {
-    return this.profilesService.followUser(this.pathParams.username as string, this.jwtPayload?.userId);
+  async followUser(
+    @ctx(PATH_PARAMS) pathParams: Record<'username', string>,
+    @ctx(JWT_PAYLOAD) jwtPayload: JwtAuthPayload
+  ) {
+    return this.profilesService.followUser(pathParams.username, jwtPayload.userId);
   }
 
   @oasRoute('DELETE', ':username/follow', [BearerGuard], {
@@ -44,7 +43,10 @@ export class ProfilesController {
       .setNoContentResponse()
       .getNotFoundResponse('A profile with the specified username was not found.'),
   })
-  async deleteFollowUser() {
-    return this.profilesService.unfollowUser(this.pathParams.username as string, this.jwtPayload?.userId);
+  async deleteFollowUser(
+    @ctx(PATH_PARAMS) pathParams: Record<'username', string>,
+    @ctx(JWT_PAYLOAD) jwtPayload: JwtAuthPayload
+  ) {
+    return this.profilesService.unfollowUser(pathParams.username, jwtPayload.userId);
   }
 }

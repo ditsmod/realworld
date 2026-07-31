@@ -4,17 +4,14 @@ import { oasRoute } from '@ditsmod/openapi';
 import { HTTP_BODY } from '@ditsmod/body-parser';
 import { controller } from '@ditsmod/rest';
 
-import { BearerGuard } from '#service/auth/bearer.guard.js';
+import { BearerGuard, type JwtAuthPayload } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
 import { LoginFormDto, PutUserDto, PutUserDataDto, SignUpFormDto, UserSessionDataDto } from './users.dto.js';
 import { UsersService } from './users.service.js';
 
 @controller()
 export class UsersController {
-  constructor(
-    @ctx(HTTP_BODY) private body: any,
-    private usersService: UsersService
-  ) {}
+  constructor(private usersService: UsersService) {}
 
   @oasRoute('POST', 'users', {
     description: 'User registration.',
@@ -23,8 +20,8 @@ export class UsersController {
       .setRequestBody(SignUpFormDto, 'Data that a user should send for registration.')
       .getResponse(UserSessionDataDto, 'After registration, this data is sent to the client.', HttpStatus.CREATED),
   })
-  async signUpUser() {
-    return this.usersService.signUpUser(this.body as SignUpFormDto);
+  async signUpUser(@ctx(HTTP_BODY) body: SignUpFormDto) {
+    return this.usersService.signUpUser(body);
   }
 
   @oasRoute('POST', 'users/login', {
@@ -34,8 +31,8 @@ export class UsersController {
       .setRequestBody(LoginFormDto, 'Data that a user should send for loggining.')
       .getResponse(UserSessionDataDto, 'After login, this data is sent to the client.'),
   })
-  async signInUser() {
-    return this.usersService.signInUser(this.body as LoginFormDto);
+  async signInUser(@ctx(HTTP_BODY) body: LoginFormDto) {
+    return this.usersService.signInUser(body);
   }
 
   @oasRoute('GET', 'user', [BearerGuard], {
@@ -45,8 +42,8 @@ export class UsersController {
       .setResponse(UserSessionDataDto, 'Description for response content.')
       .getNotFoundResponse('User not found.'),
   })
-  async getCurrentUser(@ctx(JWT_PAYLOAD) jwtPayload: any) {
-    return this.usersService.getCurrentUser(jwtPayload.userId as number);
+  async getCurrentUser(@ctx(JWT_PAYLOAD) jwtPayload: JwtAuthPayload) {
+    return this.usersService.getCurrentUser(jwtPayload.userId);
   }
 
   @oasRoute('PUT', 'user', [BearerGuard], {
@@ -56,9 +53,12 @@ export class UsersController {
       .setRequestBody(PutUserDataDto, 'Any of this properties are required.')
       .getResponse(UserSessionDataDto, 'Returns the User.'),
   })
-  async updateCurrentUser(@ctx(JWT_PAYLOAD) jwtPayload: any) {
-    const userId = jwtPayload.userId as number;
-    const putUser = (this.body as PutUserDataDto)?.user || (this.body as PutUserDto);
+  async updateCurrentUser(
+    @ctx(JWT_PAYLOAD) jwtPayload: JwtAuthPayload,
+    @ctx(HTTP_BODY) body: PutUserDataDto | PutUserDto
+  ) {
+    const userId = jwtPayload.userId;
+    const putUser = (body as PutUserDataDto)?.user || (body as PutUserDto);
     return this.usersService.updateCurrentUser(userId, putUser);
   }
 }

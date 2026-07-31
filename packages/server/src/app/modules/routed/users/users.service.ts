@@ -55,8 +55,8 @@ export class UsersService {
   }
 
   async updateCurrentUser(userId: number, putUser: PutUserDto) {
-    const resultSetHeader = await this.db.putCurrentUser(userId, putUser);
-    if (!resultSetHeader.affectedRows) {
+    const result = await this.db.putCurrentUser(userId, putUser);
+    if (!result.affectedRows) {
       const dict = this.getDictionary();
       throw new CustomError({
         msg1: dict.youHaveObsoleteToken('auth-token'),

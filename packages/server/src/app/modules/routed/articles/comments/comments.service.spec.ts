@@ -28,7 +28,7 @@ describe('CommentsService', () => {
     dbMock = {
       postComment: vi.fn(),
       getComments: vi.fn(),
-      deleteArticle: vi.fn(),
+      deleteComment: vi.fn(),
     };
 
     authServiceMock = {
@@ -79,16 +79,16 @@ describe('CommentsService', () => {
 
   describe('deleteComment', () => {
     it('should delete comment and return { ok: 1 } when user has permission and comment exists', async () => {
-      dbMock.deleteArticle.mockResolvedValue({ affectedRows: 1 });
+      dbMock.deleteComment.mockResolvedValue({ affectedRows: 1 });
 
       const result = await commentsService.deleteComment(10);
 
-      expect(dbMock.deleteArticle).toHaveBeenCalledWith(1, true, 10);
+      expect(dbMock.deleteComment).toHaveBeenCalledWith(1, true, 10);
       expect(result).toEqual({ ok: 1 });
     });
 
     it('should throw 403 error when affectedRows is 0', async () => {
-      dbMock.deleteArticle.mockResolvedValue({ affectedRows: 0 });
+      dbMock.deleteComment.mockResolvedValue({ affectedRows: 0 });
 
       await expect(commentsService.deleteComment(10)).rejects.toThrow(/403:/);
     });

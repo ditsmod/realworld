@@ -76,12 +76,12 @@ export class OasOperationObject {
           this.setNotFoundResponse();
         }
         if (!this.operationObject.responses![HttpStatus.UNPROCESSABLE_ENTRY]) {
-          this.setUnprocessableEnryResponse();
+          this.setUnprocessableEntityResponse();
         }
       }
       if (this.operationObject.requestBody) {
         if (!this.operationObject.responses![HttpStatus.UNPROCESSABLE_ENTRY]) {
-          this.setUnprocessableEnryResponse('If requested body validation fail.');
+          this.setUnprocessableEntityResponse('If requested body validation fail.');
         }
       }
     }
@@ -91,13 +91,13 @@ export class OasOperationObject {
     return { content: getContent({ mediaType: 'application/json', model }), description };
   }
 
-  setUnprocessableEnryResponse(description: string = 'If validation fail.') {
+  setUnprocessableEntityResponse(description: string = 'If validation fail.') {
     this.setResponse(ErrorTemplateDto, description, HttpStatus.UNPROCESSABLE_ENTRY);
     return this;
   }
 
-  getUnprocessableEnryResponse(description?: string) {
-    this.setUnprocessableEnryResponse(description);
+  getUnprocessableEntityResponse(description?: string) {
+    this.setUnprocessableEntityResponse(description);
     return this.getResponse();
   }
 

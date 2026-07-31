@@ -18,8 +18,11 @@ export class CommentsController {
       .setRequestBody(CommentPostDataDto, 'Description for requestBody.')
       .getResponse(CommentDataDto, 'Description for response content.', HttpStatus.CREATED),
   })
-  async postComment(@ctx(HTTP_BODY) commentPostData: CommentPostDataDto, @ctx(PATH_PARAMS) pathParams: any) {
-    return this.commentsService.postComment(pathParams.slug as string, commentPostData.comment.body);
+  async postComment(
+    @ctx(HTTP_BODY) commentPostData: CommentPostDataDto,
+    @ctx(PATH_PARAMS) pathParams: Record<'slug', string>
+  ) {
+    return this.commentsService.postComment(pathParams.slug, commentPostData.comment.body);
   }
 
   @oasRoute('GET', '', {
@@ -32,10 +35,10 @@ export class CommentsController {
   @oasRoute('DELETE', ':id', [BearerGuard], {
     ...new OasOperationObject()
       .setRequiredParams('path', ParamsDto, 'id')
-      .setNotFoundResponse('Comment nof found.')
+      .setNotFoundResponse('Comment not found.')
       .getNoContentResponse(),
   })
-  async deleteComment(@ctx(PATH_PARAMS) pathParams: any) {
-    return this.commentsService.deleteComment(pathParams.id as number);
+  async deleteComment(@ctx(PATH_PARAMS) pathParams: Record<'id', number>) {
+    return this.commentsService.deleteComment(pathParams.id);
   }
 }

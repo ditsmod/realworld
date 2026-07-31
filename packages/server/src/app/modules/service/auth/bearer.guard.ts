@@ -3,8 +3,12 @@ import { JwtService, JWT_PAYLOAD, VerifyErrors } from '@ditsmod/jwt';
 import { oasGuard } from '@ditsmod/openapi';
 import { CanActivate, RAW_REQ, RawRequest } from '@ditsmod/rest';
 
+export interface JwtAuthPayload {
+  userId: number;
+}
+
 /**
- * If user successfully passed this guard, you can use `this.req.jwtPayload`.
+ * If a user successfully passes this guard, you can inject their token payload in controllers using `@ctx(JWT_PAYLOAD) jwtPayload: JwtAuthPayload`.
  */
 @oasGuard({
   securitySchemeObject: {

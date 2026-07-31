@@ -1,4 +1,3 @@
-import type { ResultSetHeader } from 'mysql2';
 import { injectable } from '@ditsmod/core';
 import { CustomError } from '@ditsmod/core/errors';
 import { DictService } from '@ditsmod/i18n';
@@ -79,6 +78,6 @@ export class DbService {
     if (bio !== undefined) updateData.bio = bio;
 
     const result = await this.userRepo.update(userId, updateData);
-    return { affectedRows: result.affected || 0 } as unknown as ResultSetHeader;
+    return { affectedRows: result.affected || 0 };
   }
 }
