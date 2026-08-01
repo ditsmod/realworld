@@ -159,9 +159,7 @@ describe('ArticlesService', () => {
     it('should throw 404 error when article is not found', async () => {
       dbMock.getArticleBySlug.mockResolvedValue(null);
 
-      await expect(articlesService.getArticleBySlug('missing')).rejects.toThrow(
-        '404: The article not found.'
-      );
+      await expect(articlesService.getArticleBySlug('missing')).rejects.toThrow('404: The article not found.');
     });
   });
 
@@ -214,9 +212,9 @@ describe('ArticlesService', () => {
     it('should throw 403 error when affectedRows is 0', async () => {
       dbMock.putArticle.mockResolvedValue({ affectedRows: 0 });
 
-      await expect(
-        articlesService.putArticle('hello-world', { title: 'No Permission' } as any)
-      ).rejects.toThrow(/403:/);
+      await expect(articlesService.putArticle('hello-world', { title: 'No Permission' } as any)).rejects.toThrow(
+        /403:/
+      );
     });
   });
 

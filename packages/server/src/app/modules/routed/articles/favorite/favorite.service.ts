@@ -6,11 +6,7 @@ import { DbService } from './db.service.js';
 
 @injectable()
 export class FavoriteService {
-  constructor(
-    private db: DbService,
-    private authService: AuthService,
-    private articlesService: ArticlesService
-  ) {}
+  constructor(private db: DbService, private authService: AuthService, private articlesService: ArticlesService) {}
 
   async favoriteArticle(slug: string) {
     const userId = await this.authService.getCurrentUserId();

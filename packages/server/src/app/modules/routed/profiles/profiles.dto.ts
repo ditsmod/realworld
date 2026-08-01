@@ -1,6 +1,6 @@
 import { property } from '@ditsmod/openapi';
 
-export class ProfileDto {
+export class ProfileItemDto {
   @property()
   username: string = '';
   @property()
@@ -11,7 +11,7 @@ export class ProfileDto {
   following: boolean = false;
 }
 
-export class ProfileDataDto {
+export class ProfileDto {
   @property()
-  profile: ProfileDto = new ProfileDto();
+  profile: ProfileItemDto = new ProfileItemDto();
 }

@@ -1,14 +1,14 @@
 import { HttpStatus } from '@ditsmod/core';
 import { describe, it, expect } from 'vitest';
 
-import { UserSessionDataDto } from '#routed/users/users.dto.js';
+import { UserSessionDto } from '#routed/users/users.dto.js';
 import { OasOperationObject } from './oas-helpers.js';
 
 describe('oas-helpers', () => {
   describe('Responses', () => {
     it('should returns entered data', () => {
       const operationObject = new OasOperationObject().getResponse(
-        UserSessionDataDto,
+        UserSessionDto,
         'After registration, this data is sent to the client.',
         HttpStatus.CREATED
       );

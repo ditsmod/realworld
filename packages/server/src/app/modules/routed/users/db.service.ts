@@ -8,7 +8,7 @@ import { UserEntity } from '#entities';
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
 import { CryptoService } from '#service/auth/crypto.service.js';
 import { DbUser, EmailOrUsername } from './types.js';
-import { LoginDto, PutUserDto, SignUpFormDto, UserSessionDto } from './users.dto.js';
+import { LoginDto, PutUserItemDto, SignUpFormDto, UserSessionItemDto } from './users.dto.js';
 
 @injectable()
 export class DbService {
@@ -65,10 +65,10 @@ export class DbService {
       select: { username: true, email: true, bio: true, image: true },
       where: { userId },
     });
-    return user as Omit<UserSessionDto, 'token'>;
+    return user as Omit<UserSessionItemDto, 'token'>;
   }
 
-  async putCurrentUser(userId: number, pubUser: PutUserDto) {
+  async putCurrentUser(userId: number, pubUser: PutUserItemDto) {
     const { email, username, password, image, bio } = pubUser;
     const updateData: Partial<UserEntity> = {};
     if (email !== undefined) updateData.email = email;

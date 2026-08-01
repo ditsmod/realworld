@@ -7,7 +7,7 @@ import { HTTP_BODY } from '@ditsmod/body-parser';
 import { ParamsDto } from '#dto/params.dto.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
 import { BearerGuard, type JwtAuthPayload } from '#service/auth/bearer.guard.js';
-import { ArticleItemDto, ArticlePostDataDto, ArticlePutDataDto, ArticlesDto } from './articles.dto.js';
+import { ArticleItemDto, ArticlePostDto, ArticlePutDto, ArticlesDto } from './articles.dto.js';
 import { ArticlesService } from './articles.service.js';
 import type { ArticlesSelectParams } from './types.js';
 
@@ -46,28 +46,31 @@ export class ArticlesController {
 
   @oasRoute('POST', '', [BearerGuard], {
     ...new OasOperationObject()
-      .setRequestBody(ArticlePostDataDto, 'Description for requestBody.')
+      .setRequestBody(ArticlePostDto, 'Description for requestBody.')
       .getResponse(ArticleItemDto, 'Description for response content.', HttpStatus.CREATED),
   })
-  async postArticles(@ctx(JWT_PAYLOAD) jwtPayload: JwtAuthPayload, @ctx(HTTP_BODY) body: ArticlePostDataDto) {
+  async postArticles(@ctx(JWT_PAYLOAD) jwtPayload: JwtAuthPayload, @ctx(HTTP_BODY) body: ArticlePostDto) {
     return this.articlesService.postArticle(jwtPayload.userId, body.article);
   }
 
   @oasRoute('PUT', ':slug', [BearerGuard], {
     ...new OasOperationObject()
       .setRequiredParams('path', ParamsDto, 'slug')
-      .setRequestBody(ArticlePutDataDto, 'Description for requestBody.')
+      .setRequestBody(ArticlePutDto, 'Description for requestBody.')
       .getResponse(ArticleItemDto, 'Description for response content.'),
   })
   async putArticlesSlug(
     @ctx(PATH_PARAMS) pathParams: Record<'slug', string>,
-    @ctx(HTTP_BODY) articlePutData: ArticlePutDataDto
+    @ctx(HTTP_BODY) articlePutData: ArticlePutDto
   ) {
     return this.articlesService.putArticle(pathParams.slug, articlePutData.article);
   }
 
   @oasRoute('DELETE', ':slug', [BearerGuard], {
-    ...new OasOperationObject().setRequiredParams('path', ParamsDto, 'slug').setUnprocessableEntityResponse().getResponse(),
+    ...new OasOperationObject()
+      .setRequiredParams('path', ParamsDto, 'slug')
+      .setUnprocessableEntityResponse()
+      .getResponse(),
   })
   async delArticlesSlug(@ctx(PATH_PARAMS) pathParams: Record<'slug', string>) {
     return this.articlesService.deleteArticle(pathParams.slug);

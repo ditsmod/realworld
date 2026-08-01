@@ -73,7 +73,7 @@ class MyRenderer extends Renderer {
 
   override link(href: string, title: string, text: string) {
     if (this.options.sanitize) {
-      let prot = '';
+      let prot;
       try {
         prot = decodeURIComponent(href)
           .replace(/[^\w:]/g, '')

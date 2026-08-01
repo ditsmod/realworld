@@ -26,7 +26,7 @@ export class SignUpFormDto {
   user: SignUpDto;
 }
 
-export class UserSessionDto {
+export class UserSessionItemDto {
   @property({ pattern: config.emailPattern.source })
   email: string = '';
   @property()
@@ -39,22 +39,22 @@ export class UserSessionDto {
   image: string = '';
 }
 
-export class UserSessionDataDto {
-  constructor(userSession?: Partial<UserSessionDto>) {
-    this.user = { ...new UserSessionDto(), ...(userSession || {}) };
+export class UserSessionDto {
+  constructor(userSession?: Partial<UserSessionItemDto>) {
+    this.user = { ...new UserSessionItemDto(), ...(userSession || {}) };
     delete (this.user as any).userId;
   }
 
   @property()
-  user: UserSessionDto;
+  user: UserSessionItemDto;
 }
 
-export class PutUserDto extends UserSessionDto {
+export class PutUserItemDto extends UserSessionItemDto {
   @property({ minLength: config.minLengthPassword, maxLength: config.maxLengthPassword })
   password: string = '';
 }
 
-export class PutUserDataDto {
+export class PutUserDto {
   @property()
-  user: PutUserDto;
+  user: PutUserItemDto;
 }

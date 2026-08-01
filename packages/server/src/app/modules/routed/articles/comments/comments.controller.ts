@@ -6,7 +6,7 @@ import { controller, PATH_PARAMS } from '@ditsmod/rest';
 import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
 import { ParamsDto } from '#dto/params.dto.js';
-import { CommentDataDto, CommentPostDataDto, CommentsDto } from './comments.dto.js';
+import { CommentDto, CommentPostDto, CommentsDto } from './comments.dto.js';
 import { CommentsService } from './comments.service.js';
 
 @controller()
@@ -15,11 +15,11 @@ export class CommentsController {
 
   @oasRoute('POST', '', [BearerGuard], {
     ...new OasOperationObject()
-      .setRequestBody(CommentPostDataDto, 'Description for requestBody.')
-      .getResponse(CommentDataDto, 'Description for response content.', HttpStatus.CREATED),
+      .setRequestBody(CommentPostDto, 'Description for requestBody.')
+      .getResponse(CommentDto, 'Description for response content.', HttpStatus.CREATED),
   })
   async postComment(
-    @ctx(HTTP_BODY) commentPostData: CommentPostDataDto,
+    @ctx(HTTP_BODY) commentPostData: CommentPostDto,
     @ctx(PATH_PARAMS) pathParams: Record<'slug', string>
   ) {
     return this.commentsService.postComment(pathParams.slug, commentPostData.comment.body);

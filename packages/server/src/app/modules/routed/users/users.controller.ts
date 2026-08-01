@@ -6,7 +6,7 @@ import { controller } from '@ditsmod/rest';
 
 import { BearerGuard, type JwtAuthPayload } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
-import { LoginFormDto, PutUserDto, PutUserDataDto, SignUpFormDto, UserSessionDataDto } from './users.dto.js';
+import { LoginFormDto, PutUserItemDto, PutUserDto, SignUpFormDto, UserSessionDto } from './users.dto.js';
 import { UsersService } from './users.service.js';
 
 @controller()
@@ -18,7 +18,7 @@ export class UsersController {
     tags: ['users'],
     ...new OasOperationObject()
       .setRequestBody(SignUpFormDto, 'Data that a user should send for registration.')
-      .getResponse(UserSessionDataDto, 'After registration, this data is sent to the client.', HttpStatus.CREATED),
+      .getResponse(UserSessionDto, 'After registration, this data is sent to the client.', HttpStatus.CREATED),
   })
   async signUpUser(@ctx(HTTP_BODY) body: SignUpFormDto) {
     return this.usersService.signUpUser(body);
@@ -29,7 +29,7 @@ export class UsersController {
     tags: ['users'],
     ...new OasOperationObject()
       .setRequestBody(LoginFormDto, 'Data that a user should send for loggining.')
-      .getResponse(UserSessionDataDto, 'After login, this data is sent to the client.'),
+      .getResponse(UserSessionDto, 'After login, this data is sent to the client.'),
   })
   async signInUser(@ctx(HTTP_BODY) body: LoginFormDto) {
     return this.usersService.signInUser(body);
@@ -39,7 +39,7 @@ export class UsersController {
     description: 'Info about current user.',
     tags: ['user'],
     ...new OasOperationObject()
-      .setResponse(UserSessionDataDto, 'Description for response content.')
+      .setResponse(UserSessionDto, 'Description for response content.')
       .getNotFoundResponse('User not found.'),
   })
   async getCurrentUser(@ctx(JWT_PAYLOAD) jwtPayload: JwtAuthPayload) {
@@ -50,15 +50,15 @@ export class UsersController {
     description: 'Update current user.',
     tags: ['user'],
     ...new OasOperationObject()
-      .setRequestBody(PutUserDataDto, 'Any of this properties are required.')
-      .getResponse(UserSessionDataDto, 'Returns the User.'),
+      .setRequestBody(PutUserDto, 'Any of this properties are required.')
+      .getResponse(UserSessionDto, 'Returns the User.'),
   })
   async updateCurrentUser(
     @ctx(JWT_PAYLOAD) jwtPayload: JwtAuthPayload,
-    @ctx(HTTP_BODY) body: PutUserDataDto | PutUserDto
+    @ctx(HTTP_BODY) body: PutUserDto | PutUserItemDto
   ) {
     const userId = jwtPayload.userId;
-    const putUser = (body as PutUserDataDto)?.user || (body as PutUserDto);
+    const putUser = (body as PutUserDto)?.user || (body as PutUserItemDto);
     return this.usersService.updateCurrentUser(userId, putUser);
   }
 }

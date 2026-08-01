@@ -50,7 +50,7 @@ export class ArticleItemDto {
   article: ArticleDto = new ArticleDto();
 }
 
-export class ArticlePutDto {
+export class ArticlePutItemDto {
   @property()
   title?: string = '';
   @property()
@@ -59,12 +59,12 @@ export class ArticlePutDto {
   body?: string = '';
 }
 
-export class ArticlePutDataDto {
+export class ArticlePutDto {
   @property()
-  article: ArticlePutDto;
+  article: ArticlePutItemDto;
 }
 
-export class ArticlePostDto extends ArticlePutDto {
+export class ArticlePostItemDto extends ArticlePutItemDto {
   @property({ [REQUIRED]: true })
   override title: string = '';
   @property({ [REQUIRED]: true })
@@ -82,7 +82,7 @@ export class ArticlePostDto extends ArticlePutDto {
   tagList?: string[] = [];
 }
 
-export class ArticlePostDataDto {
+export class ArticlePostDto {
   @property({ [REQUIRED]: true })
-  article: ArticlePostDto;
+  article: ArticlePostItemDto;
 }

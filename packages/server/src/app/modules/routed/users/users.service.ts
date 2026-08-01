@@ -5,20 +5,16 @@ import { JwtService } from '@ditsmod/jwt';
 
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
 import { DbService } from './db.service.js';
-import { LoginFormDto, PutUserDto, SignUpDto, SignUpFormDto, UserSessionDataDto } from './users.dto.js';
+import { LoginFormDto, PutUserItemDto, SignUpDto, SignUpFormDto, UserSessionDto } from './users.dto.js';
 
 @injectable()
 export class UsersService {
-  constructor(
-    private db: DbService,
-    private jwtService: JwtService,
-    private injector: Injector
-  ) {}
+  constructor(private db: DbService, private jwtService: JwtService, private injector: Injector) {}
 
   async signUpUser(signUpFormData: SignUpFormDto) {
     const userId = await this.db.signUpUser(signUpFormData);
     delete (signUpFormData.user as Partial<SignUpDto>).password;
-    const userSessionData = new UserSessionDataDto(signUpFormData.user);
+    const userSessionData = new UserSessionDto(signUpFormData.user);
     userSessionData.user.token = await this.jwtService.signWithSecret({ userId });
     return userSessionData;
   }
@@ -34,7 +30,7 @@ export class UsersService {
         level: 'trace',
       });
     }
-    const userSessionData = new UserSessionDataDto(dbUser);
+    const userSessionData = new UserSessionDto(dbUser);
     userSessionData.user.token = await this.jwtService.signWithSecret({ userId: dbUser.userId });
     return userSessionData;
   }
@@ -49,12 +45,12 @@ export class UsersService {
         level: 'error',
       });
     }
-    const userSessionData = new UserSessionDataDto(dbUser);
+    const userSessionData = new UserSessionDto(dbUser);
     userSessionData.user.token = await this.jwtService.signWithSecret({ userId });
     return userSessionData;
   }
 
-  async updateCurrentUser(userId: number, putUser: PutUserDto) {
+  async updateCurrentUser(userId: number, putUser: PutUserItemDto) {
     const result = await this.db.putCurrentUser(userId, putUser);
     if (!result.affectedRows) {
       const dict = this.getDictionary();

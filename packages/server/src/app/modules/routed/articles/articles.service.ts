@@ -7,7 +7,7 @@ import { UtilService } from '#service/util/util.service.js';
 import { AppConfigService } from '#service/app-config/config.service.js';
 import { Permission } from '#shared';
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
-import { ArticleDto, ArticleItemDto, ArticlePostDataDto, ArticlePutDataDto, ArticlesDto, AuthorDto } from './articles.dto.js';
+import { ArticleDto, ArticleItemDto, ArticlePostDto, ArticlePutDto, ArticlesDto, AuthorDto } from './articles.dto.js';
 import { DbService } from './db.service.js';
 import { ArticlesSelectParams, DbArticle } from './types.js';
 
@@ -64,7 +64,7 @@ export class ArticlesService {
     return articleItem;
   }
 
-  async postArticle(userId: number, articlePostData: ArticlePostDataDto['article']) {
+  async postArticle(userId: number, articlePostData: ArticlePostDto['article']) {
     const slug = this.getSlug(articlePostData.title);
 
     const slugExists = await this.db.getArticleBySlug(slug, 0);
@@ -85,7 +85,7 @@ export class ArticlesService {
     return articleItem;
   }
 
-  async putArticle(oldSlug: string, articlePutData: ArticlePutDataDto['article']) {
+  async putArticle(oldSlug: string, articlePutData: ArticlePutDto['article']) {
     const hasPermissions = await this.authService.hasPermissions([Permission.canEditAnyPost]);
     const currentUserId = await this.authService.getCurrentUserId();
     const newSlug = this.getSlug(articlePutData.title) || oldSlug;

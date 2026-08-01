@@ -4,11 +4,9 @@ export default defineConfig({
   test: {
     passWithNoTests: true,
     clearMocks: true,
-    include: [
-      'dist*/**/*.spec.js',
-    ],
+    include: ['dist*/**/*.spec.js'],
     exclude: ['**/node_modules/**'],
     setupFiles: ['reflect-metadata/lite'],
-    watch: true
+    watch: true,
   },
 });

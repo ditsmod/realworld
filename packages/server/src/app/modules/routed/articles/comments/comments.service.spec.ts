@@ -4,7 +4,7 @@ import type { AuthService } from '#service/auth/auth.service.js';
 import type { UtilService } from '#service/util/util.service.js';
 import { CommentsService } from './comments.service.js';
 import type { DbService } from './db.service.js';
-import { CommentDataDto, CommentsDto } from './comments.dto.js';
+import { CommentDto, CommentsDto } from './comments.dto.js';
 
 describe('CommentsService', () => {
   let commentsService: CommentsService;
@@ -50,7 +50,7 @@ describe('CommentsService', () => {
   });
 
   describe('postComment', () => {
-    it('should post comment to DB and return CommentDataDto', async () => {
+    it('should post comment to DB and return CommentDto', async () => {
       dbMock.postComment.mockResolvedValue({ insertId: 10 });
       dbMock.getComments.mockResolvedValue({ ...mockDbComment });
 
@@ -58,7 +58,7 @@ describe('CommentsService', () => {
 
       expect(dbMock.postComment).toHaveBeenCalledWith(1, 'hello-world', 'Great article!');
       expect(dbMock.getComments).toHaveBeenCalledWith(1, 10);
-      expect(result).toBeInstanceOf(CommentDataDto);
+      expect(result).toBeInstanceOf(CommentDto);
       expect(result.comment.id).toBe(10);
       expect(result.comment.body).toBe('Great article!');
     });

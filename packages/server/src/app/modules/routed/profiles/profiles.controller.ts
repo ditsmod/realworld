@@ -6,7 +6,7 @@ import { JWT_PAYLOAD } from '@ditsmod/jwt';
 import { ParamsDto } from '#dto/params.dto.js';
 import { BearerGuard, type JwtAuthPayload } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';
-import { ProfileDataDto } from './profiles.dto.js';
+import { ProfileDto } from './profiles.dto.js';
 import { ProfilesService } from './profiles.service.js';
 
 @controller()
@@ -18,7 +18,7 @@ export class ProfilesController {
     ...new OasOperationObject()
       .setRequiredParams('path', ParamsDto, 'username')
       .setNotFoundResponse('A profile with the specified username was not found.')
-      .getResponse(ProfileDataDto, 'Show profile for target username.'),
+      .getResponse(ProfileDto, 'Show profile for target username.'),
   })
   async sendProfileOfTargetUser(@ctx(PATH_PARAMS) pathParams: Record<'username', string>) {
     return this.profilesService.getProfileOfTargetUser(pathParams.username);
@@ -28,7 +28,7 @@ export class ProfilesController {
     ...new OasOperationObject()
       .setRequiredParams('path', ParamsDto, 'username')
       .setNotFoundResponse('A profile with the specified username was not found.')
-      .getResponse(ProfileDataDto, 'Description for response content.'),
+      .getResponse(ProfileDto, 'Description for response content.'),
   })
   async followUser(
     @ctx(PATH_PARAMS) pathParams: Record<'username', string>,

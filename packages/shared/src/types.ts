@@ -1,7 +1,7 @@
 /**
  * It is just `{ [key: string | number | symbol]: any }` an object interface.
  */
- export interface AnyObj {
+export interface AnyObj {
   [key: string | number | symbol]: any;
 }
 

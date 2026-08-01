@@ -5,7 +5,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 import type { DbService } from './db.service.js';
 import type { SignUpFormDto, LoginFormDto } from './users.dto.js';
-import { UserSessionDataDto, PutUserDto } from './users.dto.js';
+import { UserSessionDto, PutUserItemDto } from './users.dto.js';
 import { UsersService } from './users.service.js';
 
 describe('UsersService', () => {
@@ -61,7 +61,7 @@ describe('UsersService', () => {
       expect(dbServiceMock.signUpUser).toHaveBeenCalledWith(signUpFormData);
       expect(signUpFormData.user.password).toBeUndefined();
       expect(jwtServiceMock.signWithSecret).toHaveBeenCalledWith({ userId: 123 });
-      expect(result).toBeInstanceOf(UserSessionDataDto);
+      expect(result).toBeInstanceOf(UserSessionDto);
       expect(result.user.token).toBe('fake-jwt-token');
     });
   });
@@ -129,7 +129,7 @@ describe('UsersService', () => {
         email: 'john@example.com',
       });
 
-      const putUser: PutUserDto = { ...new PutUserDto(), username: 'updated' };
+      const putUser: PutUserItemDto = { ...new PutUserItemDto(), username: 'updated' };
       const result = await usersService.updateCurrentUser(123, putUser);
 
       expect(dbServiceMock.putCurrentUser).toHaveBeenCalledWith(123, putUser);
@@ -139,7 +139,7 @@ describe('UsersService', () => {
     it('should throw CustomError when affectedRows is 0', async () => {
       dbServiceMock.putCurrentUser.mockResolvedValue({ affectedRows: 0 });
 
-      const putUser: PutUserDto = { ...new PutUserDto(), username: 'test' };
+      const putUser: PutUserItemDto = { ...new PutUserItemDto(), username: 'test' };
       await expect(usersService.updateCurrentUser(123, putUser)).rejects.toThrow(CustomError);
     });
   });

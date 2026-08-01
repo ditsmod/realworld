@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import { ArticleEntity, TagEntity, ArticleTagEntity, UserEntity, FavoriteEntity, FollowerEntity } from '#entities';
 import { ArticlesSelectParams, DbArticle } from './types.js';
-import { ArticlePostDto, ArticlePutDto } from './articles.dto.js';
+import { ArticlePostItemDto, ArticlePutItemDto } from './articles.dto.js';
 
 @injectable()
 export class DbService {
@@ -169,7 +169,7 @@ export class DbService {
     return article;
   }
 
-  async postArticle(userId: number, slug: string, articlePost: ArticlePostDto) {
+  async postArticle(userId: number, slug: string, articlePost: ArticlePostItemDto) {
     const now = Math.floor(Date.now() / 1000);
     const newArticle = await this.articleRepo.save({
       userId,
@@ -192,7 +192,7 @@ export class DbService {
     hasPermissions: boolean,
     oldSlug: string,
     newSlug: string,
-    articlePut: ArticlePutDto
+    articlePut: ArticlePutItemDto
   ) {
     const article = await this.articleRepo.findOneBy({ slug: oldSlug });
     if (!article) return { affectedRows: 0 };
