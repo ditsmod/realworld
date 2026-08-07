@@ -1,4 +1,4 @@
-import { pickProperties, injectable } from '@ditsmod/core';
+import { pickProperties, injectable } from '@holu/core';
 
 import { Permission } from '#shared';
 import { AuthService } from '#service/auth/auth.service.js';

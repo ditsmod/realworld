@@ -1,7 +1,7 @@
-import { ctx } from '@ditsmod/core';
-import { controller, PATH_PARAMS } from '@ditsmod/rest';
-import { oasRoute } from '@ditsmod/openapi';
-import { JWT_PAYLOAD } from '@ditsmod/jwt';
+import { ctx } from '@holu/core';
+import { controller, PATH_PARAMS } from '@holu/rest';
+import { oasRoute } from '@holu/openapi';
+import { JWT_PAYLOAD } from '@holu/jwt';
 
 import { ParamsDto } from '#dto/params.dto.js';
 import { BearerGuard, type JwtAuthPayload } from '#service/auth/bearer.guard.js';

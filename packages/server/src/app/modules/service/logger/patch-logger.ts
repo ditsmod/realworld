@@ -1,4 +1,4 @@
-import { Logger, LoggerConfig, InputLogLevel, OutputLogLevel, factoryMethod } from '@ditsmod/core';
+import { Logger, LoggerConfig, InputLogLevel, OutputLogLevel, factoryMethod } from '@holu/core';
 import { createLogger, LogLevel as BunyanLogLevel } from 'bunyan';
 import * as BunyanLogger from 'bunyan';
 

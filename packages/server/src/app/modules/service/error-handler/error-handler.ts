@@ -1,6 +1,6 @@
-import { injectable, HttpStatus, Logger, ctx } from '@ditsmod/core';
-import { ErrorInfo, isChainError } from '@ditsmod/core/errors';
-import { HttpErrorHandler, RawResponse, RAW_RES, RequestContext } from '@ditsmod/rest';
+import { injectable, HttpStatus, Logger, ctx } from '@holu/core';
+import { ErrorInfo, isChainError } from '@holu/core/errors';
+import { HttpErrorHandler, RawResponse, RAW_RES, RequestContext } from '@holu/rest';
 import { ErrorObject as OriginalErrorObject } from 'ajv';
 
 import { AnyObj } from '#shared';

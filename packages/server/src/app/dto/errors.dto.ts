@@ -1,4 +1,4 @@
-import { property, REQUIRED } from '@ditsmod/openapi';
+import { property, REQUIRED } from '@holu/openapi';
 
 export class ErrorFieldDto {
   @property({}, { array: String })

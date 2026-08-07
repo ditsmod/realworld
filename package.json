@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "test": "npm run build && node --env-file=packages/server/.env --enable-source-maps node_modules/.bin/vitest",
-    "start:dev": "ditsmod start -p packages/server",
+    "start:dev": "holu start -p packages/server",
     "watch": "npm run build -- --watch",
     "start": "npm run build && node --watch --env-file=packages/server/.env --enable-source-maps packages/server/dist/main.js",
     "start-prod": "npm run build && node --env-file=packages/server/.env packages/server/dist/main.js",
@@ -19,7 +19,7 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@ditsmod/cli": "^3.0.0-next.18",
+    "@holu/cli": "^0.1.1",
     "@eslint/js": "^10.0.1",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "~18.11.19",

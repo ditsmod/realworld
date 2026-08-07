@@ -1,4 +1,4 @@
-import { ConsoleLogger, Logger, featureModule, ProviderBuilder } from '@ditsmod/core';
+import { ConsoleLogger, Logger, featureModule, ProviderBuilder } from '@holu/core';
 import BunyanLogger from 'bunyan';
 
 import { PatchLogger } from './patch-logger.js';

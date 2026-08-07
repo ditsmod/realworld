@@ -1,4 +1,4 @@
-import type { Dictionary, ISO639 } from '@ditsmod/i18n';
+import type { Dictionary, ISO639 } from '@holu/i18n';
 
 export class ServerDict implements Dictionary {
   getLng(): ISO639 {

@@ -5,7 +5,7 @@ export const oasObject: XOasObject = {
   openapi,
   // Here works the servers that are described using this OpenAPI documentation.
   servers: [{ url: `http://${process.env.WEBHOST}:${process.env.WEBPORT}` }],
-  info: { title: 'RealWorld example using the Ditsmod application', version: '1.0.0' },
+  info: { title: 'RealWorld example using the Holu application', version: '1.0.0' },
   tags: [
     {
       name: 'users',
@@ -33,7 +33,7 @@ export const oasObject: XOasObject = {
       description:
         'Routes that used `@route()` decorator. If you want to change this description, ' +
         '[use tags](https://swagger.io/docs/specification/grouping-operations-with-tags/) ' +
-        'for `@oasRoute()` imported from @ditsmod/openapi.',
+        'for `@oasRoute()` imported from @holu/openapi.',
     },
   ],
   components: {

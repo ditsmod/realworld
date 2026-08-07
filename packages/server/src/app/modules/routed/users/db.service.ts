@@ -1,7 +1,7 @@
-import { injectable } from '@ditsmod/core';
-import { CustomError } from '@ditsmod/core/errors';
-import { DictService } from '@ditsmod/i18n';
-import { injectRepository } from '@ditsmod/typeorm';
+import { injectable } from '@holu/core';
+import { CustomError } from '@holu/core/errors';
+import { DictService } from '@holu/i18n';
+import { injectRepository } from '@holu/typeorm';
 import { Repository } from 'typeorm';
 
 import { UserEntity } from '#entities';

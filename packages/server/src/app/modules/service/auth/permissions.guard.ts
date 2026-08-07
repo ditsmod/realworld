@@ -1,5 +1,5 @@
-import { injectable, HttpStatus } from '@ditsmod/core';
-import { RequestContext, CanActivate } from '@ditsmod/rest';
+import { injectable, HttpStatus } from '@holu/core';
+import { RequestContext, CanActivate } from '@holu/rest';
 
 import { Permission } from '#shared';
 import { AuthService } from './auth.service.js';

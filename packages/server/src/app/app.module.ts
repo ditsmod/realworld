@@ -1,10 +1,10 @@
-import { BodyParserModule } from '@ditsmod/body-parser';
-import { Logger, LoggerConfig, ProviderBuilder } from '@ditsmod/core';
-import { CorsOptions } from '@ditsmod/cors';
-import { AJV_OPTIONS } from '@ditsmod/openapi-validation';
-import { HttpErrorHandler, restRootModule } from '@ditsmod/rest';
-import { I18nModule } from '@ditsmod/i18n';
-import { TypeormModule } from '@ditsmod/typeorm';
+import { BodyParserModule } from '@holu/body-parser';
+import { Logger, LoggerConfig, ProviderBuilder } from '@holu/core';
+import { CorsOptions } from '@holu/cors';
+import { AJV_OPTIONS } from '@holu/openapi-validation';
+import { HttpErrorHandler, restRootModule } from '@holu/rest';
+import { I18nModule } from '@holu/i18n';
+import { TypeormModule } from '@holu/typeorm';
 
 import { ArticlesModule } from '#routed/articles/articles.module.js';
 import { ProfilesModule } from '#routed/profiles/profiles.module.js';

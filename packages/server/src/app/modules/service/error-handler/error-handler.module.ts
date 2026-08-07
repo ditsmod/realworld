@@ -1,4 +1,4 @@
-import { HttpErrorHandler, restModule } from '@ditsmod/rest';
+import { HttpErrorHandler, restModule } from '@holu/rest';
 import { ErrorHandler } from './error-handler.js';
 
 @restModule({

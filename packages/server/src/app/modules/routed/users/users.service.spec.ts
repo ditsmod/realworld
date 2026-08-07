@@ -1,6 +1,6 @@
-import { CustomError } from '@ditsmod/core/errors';
-import type { Injector } from '@ditsmod/core';
-import type { JwtService } from '@ditsmod/jwt';
+import { CustomError } from '@holu/core/errors';
+import type { Injector } from '@holu/core';
+import type { JwtService } from '@holu/jwt';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 import type { DbService } from './db.service.js';

@@ -1,5 +1,5 @@
-import type { Injector } from '@ditsmod/core';
-import { CustomError } from '@ditsmod/core/errors';
+import type { Injector } from '@holu/core';
+import { CustomError } from '@holu/core/errors';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 import type { AuthService } from '#service/auth/auth.service.js';

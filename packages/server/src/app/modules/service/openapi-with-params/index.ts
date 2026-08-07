@@ -1,7 +1,7 @@
-import { ProviderBuilder, HttpStatus, type DynamicModule } from '@ditsmod/core';
-import { OpenapiModule } from '@ditsmod/openapi';
-import { AJV_OPTIONS, ValidationModule, ValidationOptions } from '@ditsmod/openapi-validation';
-import { I18nProviders } from '@ditsmod/i18n';
+import { ProviderBuilder, HttpStatus, type DynamicModule } from '@holu/core';
+import { OpenapiModule } from '@holu/openapi';
+import { AJV_OPTIONS, ValidationModule, ValidationOptions } from '@holu/openapi-validation';
+import { I18nProviders } from '@holu/i18n';
 import type { Options } from 'ajv';
 
 import { oasObject } from './oas-object.js';

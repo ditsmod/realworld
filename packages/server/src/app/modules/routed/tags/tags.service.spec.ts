@@ -18,13 +18,13 @@ describe('TagsService', () => {
 
   describe('getTags', () => {
     it('should return TagsDto with list of tag names', async () => {
-      dbMock.getTags.mockResolvedValue([{ tagName: 'react' }, { tagName: 'ditsmod' }]);
+      dbMock.getTags.mockResolvedValue([{ tagName: 'react' }, { tagName: 'holu' }]);
 
       const result = await tagsService.getTags();
 
       expect(dbMock.getTags).toHaveBeenCalled();
       expect(result).toBeInstanceOf(TagsDto);
-      expect(result.tags).toEqual(['react', 'ditsmod']);
+      expect(result.tags).toEqual(['react', 'holu']);
     });
   });
 });

@@ -1,7 +1,7 @@
 import { createHmac, randomBytes } from 'crypto';
-import { RawResponse, RAW_RES, RawRequest, RAW_REQ } from '@ditsmod/rest';
+import { RawResponse, RAW_RES, RawRequest, RAW_REQ } from '@holu/rest';
 import { Cookies } from '@ts-stack/cookies';
-import { ctx, injectable } from '@ditsmod/core';
+import { ctx, injectable } from '@holu/core';
 
 import { ModuleConfigService } from './config.service.js';
 

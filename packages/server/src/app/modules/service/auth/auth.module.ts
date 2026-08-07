@@ -1,6 +1,6 @@
-import { restModule } from '@ditsmod/rest';
-import { JwtModule } from '@ditsmod/jwt';
-import { AuthjsConfig, AuthjsModule } from '@ditsmod/authjs';
+import { restModule } from '@holu/rest';
+import { JwtModule } from '@holu/jwt';
+import { AuthjsConfig, AuthjsModule } from '@holu/authjs';
 
 import { AuthService } from './auth.service.js';
 import { BearerGuard } from './bearer.guard.js';

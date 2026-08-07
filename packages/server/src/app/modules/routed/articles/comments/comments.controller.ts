@@ -1,7 +1,7 @@
-import { ctx, HttpStatus } from '@ditsmod/core';
-import { oasRoute } from '@ditsmod/openapi';
-import { HTTP_BODY } from '@ditsmod/body-parser';
-import { controller, PATH_PARAMS } from '@ditsmod/rest';
+import { ctx, HttpStatus } from '@holu/core';
+import { oasRoute } from '@holu/openapi';
+import { HTTP_BODY } from '@holu/body-parser';
+import { controller, PATH_PARAMS } from '@holu/rest';
 
 import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';

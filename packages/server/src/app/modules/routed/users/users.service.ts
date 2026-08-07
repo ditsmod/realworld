@@ -1,7 +1,7 @@
-import { HttpStatus, injectable, Injector } from '@ditsmod/core';
-import { CustomError } from '@ditsmod/core/errors';
-import { DictService } from '@ditsmod/i18n';
-import { JwtService } from '@ditsmod/jwt';
+import { HttpStatus, injectable, Injector } from '@holu/core';
+import { CustomError } from '@holu/core/errors';
+import { DictService } from '@holu/i18n';
+import { JwtService } from '@holu/jwt';
 
 import { ServerDict } from '#service/openapi-with-params/locales/current/index.js';
 import { DbService } from './db.service.js';

@@ -1,5 +1,5 @@
-import { Context, injectable, Injector } from '@ditsmod/core';
-import { JWT_PAYLOAD } from '@ditsmod/jwt';
+import { Context, injectable, Injector } from '@holu/core';
+import { JWT_PAYLOAD } from '@holu/jwt';
 
 import { Permission } from '#shared';
 import { BearerGuard } from './bearer.guard.js';

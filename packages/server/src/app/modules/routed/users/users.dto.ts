@@ -1,4 +1,4 @@
-import { property, REQUIRED } from '@ditsmod/openapi';
+import { property, REQUIRED } from '@holu/openapi';
 
 import { AppConfigService } from '#service/app-config/config.service.js';
 

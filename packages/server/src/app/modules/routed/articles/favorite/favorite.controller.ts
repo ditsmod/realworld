@@ -1,6 +1,6 @@
-import { ctx } from '@ditsmod/core';
-import { controller, PATH_PARAMS } from '@ditsmod/rest';
-import { oasRoute } from '@ditsmod/openapi';
+import { ctx } from '@holu/core';
+import { controller, PATH_PARAMS } from '@holu/rest';
+import { oasRoute } from '@holu/openapi';
 
 import { BearerGuard } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';

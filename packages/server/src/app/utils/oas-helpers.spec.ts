@@ -1,4 +1,4 @@
-import { HttpStatus } from '@ditsmod/core';
+import { HttpStatus } from '@holu/core';
 import { describe, it, expect } from 'vitest';
 
 import { UserSessionDto } from '#routed/users/users.dto.js';

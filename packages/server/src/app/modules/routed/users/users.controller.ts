@@ -1,8 +1,8 @@
-import { HttpStatus, ctx } from '@ditsmod/core';
-import { JWT_PAYLOAD } from '@ditsmod/jwt';
-import { oasRoute } from '@ditsmod/openapi';
-import { HTTP_BODY } from '@ditsmod/body-parser';
-import { controller } from '@ditsmod/rest';
+import { HttpStatus, ctx } from '@holu/core';
+import { JWT_PAYLOAD } from '@holu/jwt';
+import { oasRoute } from '@holu/openapi';
+import { HTTP_BODY } from '@holu/body-parser';
+import { controller } from '@holu/rest';
 
 import { BearerGuard, type JwtAuthPayload } from '#service/auth/bearer.guard.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';

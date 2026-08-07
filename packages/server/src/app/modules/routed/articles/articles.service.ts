@@ -1,6 +1,6 @@
-import { pickProperties, injectable, Injector } from '@ditsmod/core';
-import { CustomError } from '@ditsmod/core/errors';
-import { DictService } from '@ditsmod/i18n';
+import { pickProperties, injectable, Injector } from '@holu/core';
+import { CustomError } from '@holu/core/errors';
+import { DictService } from '@holu/i18n';
 
 import { AuthService } from '#service/auth/auth.service.js';
 import { UtilService } from '#service/util/util.service.js';

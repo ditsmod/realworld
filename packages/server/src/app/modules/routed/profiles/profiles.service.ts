@@ -1,4 +1,4 @@
-import { injectable } from '@ditsmod/core';
+import { injectable } from '@holu/core';
 
 import { UtilService } from '#service/util/util.service.js';
 import { AuthService } from '#service/auth/auth.service.js';

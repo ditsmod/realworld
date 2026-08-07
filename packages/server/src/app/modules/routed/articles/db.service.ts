@@ -1,5 +1,5 @@
-import { injectable } from '@ditsmod/core';
-import { injectRepository } from '@ditsmod/typeorm';
+import { injectable } from '@holu/core';
+import { injectRepository } from '@holu/typeorm';
 import { Repository } from 'typeorm';
 
 import { ArticleEntity, TagEntity, ArticleTagEntity, UserEntity, FavoriteEntity, FollowerEntity } from '#entities';

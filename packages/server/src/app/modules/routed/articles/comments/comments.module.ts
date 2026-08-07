@@ -1,7 +1,7 @@
-import { CorsModule } from '@ditsmod/cors';
-import { restModule } from '@ditsmod/rest';
-import { getParams, OasOptions } from '@ditsmod/openapi';
-import { TypeormModule } from '@ditsmod/typeorm';
+import { CorsModule } from '@holu/cors';
+import { restModule } from '@holu/rest';
+import { getParams, OasOptions } from '@holu/openapi';
+import { TypeormModule } from '@holu/typeorm';
 
 import { CommentEntity, ArticleEntity, UserEntity, FollowerEntity } from '#entities';
 import { ParamsDto } from '#dto/params.dto.js';

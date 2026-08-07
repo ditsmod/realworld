@@ -1,4 +1,4 @@
-import { property, REQUIRED } from '@ditsmod/openapi';
+import { property, REQUIRED } from '@holu/openapi';
 
 import { AuthorDto } from '../articles.dto.js';
 

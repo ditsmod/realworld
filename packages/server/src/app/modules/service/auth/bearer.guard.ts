@@ -1,7 +1,7 @@
-import { HttpStatus, Context } from '@ditsmod/core';
-import { JwtService, JWT_PAYLOAD, VerifyErrors } from '@ditsmod/jwt';
-import { oasGuard } from '@ditsmod/openapi';
-import { CanActivate, RAW_REQ, RawRequest } from '@ditsmod/rest';
+import { HttpStatus, Context } from '@holu/core';
+import { JwtService, JWT_PAYLOAD, VerifyErrors } from '@holu/jwt';
+import { oasGuard } from '@holu/openapi';
+import { CanActivate, RAW_REQ, RawRequest } from '@holu/rest';
 
 export interface JwtAuthPayload {
   userId: number;

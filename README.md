@@ -1,9 +1,9 @@
 # ![RealWorld Example App](logo.png)
 
-> ### Ditsmod codebase containing real world examples (CRUD with @ditsmod/typeorm, auth, i18n, OpenAPI with validation, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
+> ### Holu codebase containing real world examples (CRUD with @holu/typeorm, auth, i18n, OpenAPI with validation, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
 
 
-This codebase was created to demonstrate a fully fledged backend application built with **Ditsmod** including CRUD operations with TypeORM (`@ditsmod/typeorm`), authentication, routing, pagination, and more.
+This codebase was created to demonstrate a fully fledged backend application built with **Holu** including CRUD operations with TypeORM (`@holu/typeorm`), authentication, routing, pagination, and more.
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ Please make sure that Node.js >= v24.0.0 is installed on your operating system.
 
 ## Getting started
 
-This monorepository includes [Ditsmod](https://ditsmod.github.io/en/) applications starter. Packages are in ESM format and have [native Node.js aliases](https://nodejs.org/api/packages.html#subpath-imports) starting with `#`.
+This monorepository includes [Holu](https://holujs.github.io/en/) applications starter. Packages are in ESM format and have [native Node.js aliases](https://nodejs.org/api/packages.html#subpath-imports) starting with `#`.
 
 All packages are located in `packages/*` directory.
 
@@ -20,7 +20,7 @@ From start you need:
 1. Clone the project
 
 ```bash
-git clone https://github.com/ditsmod/realworld.git my-app
+git clone https://github.com/holu/realworld.git my-app
 cd my-app
 ```
 

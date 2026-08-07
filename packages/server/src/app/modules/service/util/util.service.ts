@@ -1,8 +1,8 @@
 import { createHash } from 'crypto';
-import { HttpStatus, injectable } from '@ditsmod/core';
-import { CustomError } from '@ditsmod/core/errors';
-import { DictService } from '@ditsmod/i18n';
-import { RawRequest } from '@ditsmod/rest';
+import { HttpStatus, injectable } from '@holu/core';
+import { CustomError } from '@holu/core/errors';
+import { DictService } from '@holu/i18n';
+import { RawRequest } from '@holu/rest';
 
 import { ServerDict } from '../openapi-with-params/locales/current/_base-en/server.dict.js';
 

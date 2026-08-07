@@ -1,6 +1,6 @@
-import { type AnyObj, HttpStatus } from '@ditsmod/core';
-import { getContent, Parameters } from '@ditsmod/openapi';
-import type { Class } from '@ditsmod/core';
+import { type AnyObj, HttpStatus } from '@holu/core';
+import { getContent, Parameters } from '@holu/openapi';
+import type { Class } from '@holu/core';
 import type { OperationObject, ResponseObject } from '@ts-stack/openapi-spec';
 
 import { ErrorTemplateDto } from '#dto/errors.dto.js';

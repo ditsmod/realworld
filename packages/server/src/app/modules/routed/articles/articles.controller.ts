@@ -1,8 +1,8 @@
-import { HttpStatus, optional, ctx } from '@ditsmod/core';
-import { controller, PATH_PARAMS, QUERY_PARAMS } from '@ditsmod/rest';
-import { oasRoute } from '@ditsmod/openapi';
-import { JWT_PAYLOAD } from '@ditsmod/jwt';
-import { HTTP_BODY } from '@ditsmod/body-parser';
+import { HttpStatus, optional, ctx } from '@holu/core';
+import { controller, PATH_PARAMS, QUERY_PARAMS } from '@holu/rest';
+import { oasRoute } from '@holu/openapi';
+import { JWT_PAYLOAD } from '@holu/jwt';
+import { HTTP_BODY } from '@holu/body-parser';
 
 import { ParamsDto } from '#dto/params.dto.js';
 import { OasOperationObject } from '#utils/oas-helpers.js';

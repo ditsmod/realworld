@@ -12,7 +12,7 @@
       "request": "launch",
       "type": "node-terminal",
       "outFiles": [
-        "${workspaceFolder}/node_modules/@ditsmod/**/*.js",
+        "${workspaceFolder}/node_modules/@holu/**/*.js",
         "${workspaceFolder}/packages/*/src/**/*.js"
       ],
     },
@@ -25,7 +25,7 @@
       ],
       "type": "node",
       "outFiles": [
-        "${workspaceFolder}/node_modules/@ditsmod/**/*.js",
+        "${workspaceFolder}/node_modules/@holu/**/*.js",
         "${workspaceFolder}/packages/*/src/**/*.js"
       ],
     },
@@ -41,7 +41,7 @@
         "program": "${workspaceFolder}/node_modules/jest/bin/jest",
       },
       "outFiles": [
-        "${workspaceFolder}/node_modules/@ditsmod/**/*.js",
+        "${workspaceFolder}/node_modules/@holu/**/*.js",
         "${workspaceFolder}/packages/*/src/**/*.js"
       ],
     },
@@ -61,7 +61,7 @@
         "program": "${workspaceFolder}/node_modules/jest/bin/jest",
       },
       "outFiles": [
-        "${workspaceFolder}/node_modules/@ditsmod/**/*.js",
+        "${workspaceFolder}/node_modules/@holu/**/*.js",
         "${workspaceFolder}/packages/*/src/**/*.js"
       ],
     }

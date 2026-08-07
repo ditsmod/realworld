@@ -1,5 +1,5 @@
-import { controller } from '@ditsmod/rest';
-import { oasRoute } from '@ditsmod/openapi';
+import { controller } from '@holu/rest';
+import { oasRoute } from '@holu/openapi';
 
 import { OasOperationObject } from '#utils/oas-helpers.js';
 import { TagsDto } from './tags.dto.js';
