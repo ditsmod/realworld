@@ -20,7 +20,7 @@ From start you need:
 1. Clone the project
 
 ```bash
-git clone https://github.com/holu/realworld.git my-app
+git clone https://github.com/holujs/realworld.git my-app
 cd my-app
 ```
 
